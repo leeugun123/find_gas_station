@@ -398,8 +398,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 Log.d( TAG, "onMapClick :");
             }
-        });
-    }
+    });
+}
 
     final LocationCallback locationCallback = new LocationCallback() {
 
@@ -561,7 +561,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-    //여기 코드는 보지 않아도 된다. GPS 요청 코드이다.
+    //여기 코드는 보지 않아 된다. G도PS 요청 코드이다.
     /*
      * ActivityCompat.requestPermissions를 사용한 퍼미션 요청의 결과를 리턴받는 메소드입니다.
      */

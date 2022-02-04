@@ -28,7 +28,7 @@ public class setting_Activity extends AppCompatActivity {
 
 
     private Button close;
-    //private Button apply;
+    //private Button apply
 
     private Spinner spinner;
     private Spinner distance_spinner;
@@ -64,10 +64,7 @@ public class setting_Activity extends AppCompatActivity {
        stringCategory.add("실내 등유");
        stringCategory.add("자동차 부탄");
 
-
-        spinner = findViewById(R.id.spinner);
-
-
+       spinner = findViewById(R.id.spinner);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
             this,R.layout.support_simple_spinner_dropdown_item,stringCategory);
@@ -89,11 +86,12 @@ public class setting_Activity extends AppCompatActivity {
             spinner.setSelection(4);
         }
 
+
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                               @Override
                                               public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                                                   ((TextView)adapterView.getChildAt(0)).setTextColor(Color.BLACK);
-
 
 
                                                   if(i == 0){
@@ -193,10 +191,10 @@ public class setting_Activity extends AppCompatActivity {
         sort_spinner.setAdapter(adapter2);
 
         if(oil_intel_setting.equals("1")){
-            sort_spinner.setSelection(0);
+            sort_spinner.setSelection(1);
         }
         else
-            sort_spinner.setSelection(1);
+            sort_spinner.setSelection(0);
 
         sort_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
