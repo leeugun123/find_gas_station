@@ -48,6 +48,7 @@ public class setting_Activity extends AppCompatActivity {
         oil_intel_setting[2] = prior_intent.getStringExtra("oil_name");//기름종류
 
 
+
         close = findViewById(R.id.go_back);
         close.setOnClickListener(new View.OnClickListener() {
             @Override
