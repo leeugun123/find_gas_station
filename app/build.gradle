@@ -6,9 +6,9 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "org.techtown.find_gas_station"
+        applicationId "com.roid.androidApp"
         minSdk 21
-        targetSdk 27
+        targetSdk 30
         versionCode 1
         versionName "1.0"
 
