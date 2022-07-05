@@ -17,8 +17,8 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
-            android:name=".setting_Activity"
-            android:exported="false" />
+            android:name=".set.setting_Activity"
+            android:exported="true" />
         <activity
             android:name=".Splash"
             android:exported="true">

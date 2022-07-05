@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station;
+package org.techtown.find_gas_station.GPS;
 
 import android.Manifest;
 import android.app.Service;
@@ -12,11 +12,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-
-import java.util.List;
 
 public class GpsTracker extends Service implements LocationListener {
 

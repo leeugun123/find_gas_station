@@ -1,15 +1,10 @@
 package org.techtown.find_gas_station;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,21 +16,15 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.telephony.CarrierConfigManager;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -53,27 +42,21 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.api.LogDescriptor;
-import com.google.firebase.firestore.GeoPoint;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.techtown.find_gas_station.MyRecyclerAdapter.UserListRecyclerClickListener;
+import org.techtown.find_gas_station.GPS.GeoTrans;
+import org.techtown.find_gas_station.GPS.GeoTransPoint;
+import org.techtown.find_gas_station.GPS.GpsTracker;
+import org.techtown.find_gas_station.set.setting_Activity;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 //좌표계 변환 문제 KATEC -> 위도,경도
 
@@ -194,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @SuppressLint("ResourceType")
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),setting_Activity.class);
+                Intent intent = new Intent(getApplicationContext(), setting_Activity.class);
                 intent.putExtra("oil_rad",oil_intel[0]);
                 intent.putExtra("oil_sort",oil_intel[1]);
                 intent.putExtra("oil_name",oil_intel[2]);

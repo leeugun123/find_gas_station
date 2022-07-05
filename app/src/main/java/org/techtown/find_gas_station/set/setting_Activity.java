@@ -1,11 +1,6 @@
-package org.techtown.find_gas_station;
-
-import static android.content.ContentValues.TAG;
-
-import androidx.appcompat.app.AppCompatActivity;
+package org.techtown.find_gas_station.set;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -19,13 +14,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import org.techtown.find_gas_station.MainActivity;
+import org.techtown.find_gas_station.R;
+
 import java.util.ArrayList;
 
 public class setting_Activity extends AppCompatActivity {
 
-
     public static final int SETTING_REQUEST_CODE_OK = 31;
-
 
     private Button close;
     //private Button apply
@@ -55,18 +53,18 @@ public class setting_Activity extends AppCompatActivity {
             }
         });
 
-       ArrayList<String> stringCategory = new ArrayList<String>();
+        ArrayList<String> stringCategory = new ArrayList<String>();
 
-       stringCategory.add("휘발유");
-       stringCategory.add("경유");
-       stringCategory.add("고급 휘발유");
-       stringCategory.add("실내 등유");
-       stringCategory.add("자동차 부탄");
+        stringCategory.add("휘발유");
+        stringCategory.add("경유");
+        stringCategory.add("고급 휘발유");
+        stringCategory.add("실내 등유");
+        stringCategory.add("자동차 부탄");
 
-       spinner = findViewById(R.id.spinner);
+        spinner = findViewById(R.id.spinner);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-            this,R.layout.support_simple_spinner_dropdown_item,stringCategory);
+                this,R.layout.support_simple_spinner_dropdown_item,stringCategory);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         if(oil_intel_setting[2].equals("B027")){
@@ -88,35 +86,35 @@ public class setting_Activity extends AppCompatActivity {
 
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                              @Override
-                                              public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                                                  ((TextView)adapterView.getChildAt(0)).setTextColor(Color.BLACK);
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                ((TextView)adapterView.getChildAt(0)).setTextColor(Color.BLACK);
 
 
-                                                  if(i == 0){
-                                                      oil_intel_setting[2] = "B027";
-                                                  }
-                                                  else if(i == 1){
-                                                      oil_intel_setting[2] = "D047";
-                                                  }
-                                                  else if(i == 2){
-                                                      oil_intel_setting[2] = "B034";
-                                                  }
-                                                  else if(i == 3){
-                                                      oil_intel_setting[2] = "C004";
-                                                  }
-                                                  else{
-                                                      oil_intel_setting[2] = "K015";
-                                                  }
-                                                  apply();
+                if(i == 0){
+                    oil_intel_setting[2] = "B027";
+                }
+                else if(i == 1){
+                    oil_intel_setting[2] = "D047";
+                }
+                else if(i == 2){
+                    oil_intel_setting[2] = "B034";
+                }
+                else if(i == 3){
+                    oil_intel_setting[2] = "C004";
+                }
+                else{
+                    oil_intel_setting[2] = "K015";
+                }
+                apply();
 
-                                              }
+            }
 
-                                              @Override
-                                              public void onNothingSelected(AdapterView<?> adapterView) {
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
-                                              }
-                                          });
+            }
+        });
 
         ArrayList<String> distance_string = new ArrayList<String>();
 
