@@ -3,34 +3,33 @@ package org.techtown.find_gas_station.set;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import org.techtown.find_gas_station.MainActivity;
 import org.techtown.find_gas_station.R;
-
 import java.util.ArrayList;
+import java.util.List;
 
 public class setting_Activity extends AppCompatActivity {
+
+    RoomDB database;
+    List<Set> dataList = new ArrayList<>();
 
     public static final int SETTING_REQUEST_CODE_OK = 31;
 
     private Button close;
     //private Button apply
 
-    private Spinner spinner;
-    private Spinner distance_spinner;
-    private Spinner sort_spinner;
+    private Spinner spinner;//기름 스피너
+
+    private Spinner distance_spinner;//반경 스피너
+
+    private Spinner sort_spinner;//정렬 스피너
 
     String[] oil_intel_setting = new String[3];
 
@@ -44,6 +43,7 @@ public class setting_Activity extends AppCompatActivity {
         oil_intel_setting[0] = prior_intent.getStringExtra("oil_rad");//반경범위
         oil_intel_setting[1] = prior_intent.getStringExtra("oil_sort");//정렬기준
         oil_intel_setting[2] = prior_intent.getStringExtra("oil_name");//기름종류
+        //이전 액티비티의 Intent를 가져옴
 
         close = findViewById(R.id.go_back);
         close.setOnClickListener(new View.OnClickListener() {
@@ -51,8 +51,10 @@ public class setting_Activity extends AppCompatActivity {
             public void onClick(View view) {
                 finish();
             }
-        });
+        });//닫기 버튼
 
+
+        //1. 기름 종류 설정
         ArrayList<String> stringCategory = new ArrayList<String>();
 
         stringCategory.add("휘발유");
@@ -82,7 +84,7 @@ public class setting_Activity extends AppCompatActivity {
         else{
             spinner.setSelection(4);
         }
-
+        //자신이 설정했던 spinner를 가져옴
 
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -114,8 +116,12 @@ public class setting_Activity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
+
         });
 
+
+
+        //2. 반경 설정
         ArrayList<String> distance_string = new ArrayList<String>();
 
         distance_string.add("1km");
@@ -137,16 +143,13 @@ public class setting_Activity extends AppCompatActivity {
         }
         else{
             distance_spinner.setSelection(2);
-        }
-
+        }//이전 액티비티에서 설정한 Intent 가져오기
 
         distance_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                 ((TextView)adapterView.getChildAt(0)).setTextColor(Color.BLACK);
-
-
 
                 if(i == 0){
                     oil_intel_setting[0] = "1000";
@@ -169,6 +172,7 @@ public class setting_Activity extends AppCompatActivity {
         });
 
 
+        //3. 정렬 기준 설정
         ArrayList<String> sort_string = new ArrayList<String>();
 
         sort_string.add("가격순");
@@ -216,7 +220,9 @@ public class setting_Activity extends AppCompatActivity {
 
     }
 
-    public void apply(){
+
+    public void apply() {
+
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         //intent 삽입 및 전달
         intent.putExtra("oil_rad_reply", oil_intel_setting[0]);
@@ -226,4 +232,6 @@ public class setting_Activity extends AppCompatActivity {
         setResult(SETTING_REQUEST_CODE_OK, intent);
 
     }
+
+
 }
