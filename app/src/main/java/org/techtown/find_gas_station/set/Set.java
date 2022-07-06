@@ -24,13 +24,16 @@ public class Set implements Serializable
     @ColumnInfo(name = "oil_sort")
     private String oil_sort; // 정렬기준
 
-    public int getId(){
-        return id;
+    public Set(){
+
     }
 
-    public void setId(int id){
-        this.id = id;
+    public Set(String oil_name,String oil_rad, String oil_sort){
+        this.oil_name = oil_name;
+        this.oil_rad = oil_rad;
+        this.oil_sort = oil_sort;
     }
+
 
     public String getOil_name(){
         return oil_name;
@@ -56,4 +59,11 @@ public class Set implements Serializable
         this.oil_sort = oil_sort;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

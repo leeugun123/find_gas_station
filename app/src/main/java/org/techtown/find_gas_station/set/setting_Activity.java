@@ -18,7 +18,7 @@ import java.util.List;
 public class setting_Activity extends AppCompatActivity {
 
     RoomDB database;
-    List<Set> dataList = new ArrayList<>();
+    Set set = new Set();
 
     public static final int SETTING_REQUEST_CODE_OK = 31;
 
@@ -38,11 +38,14 @@ public class setting_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
 
-        Intent prior_intent = getIntent();
+        database = RoomDB.getInstance(this);
 
-        oil_intel_setting[0] = prior_intent.getStringExtra("oil_rad");//반경범위
-        oil_intel_setting[1] = prior_intent.getStringExtra("oil_sort");//정렬기준
-        oil_intel_setting[2] = prior_intent.getStringExtra("oil_name");//기름종류
+        set = database.setDao().getAll();
+        //데이터 가져오기
+
+        oil_intel_setting[0] = set.getOil_rad();//반경범위
+        oil_intel_setting[1] = set.getOil_sort();//정렬기준
+        oil_intel_setting[2] = set.getOil_name();//기름종류
         //이전 액티비티의 Intent를 가져옴
 
         close = findViewById(R.id.go_back);
@@ -223,13 +226,25 @@ public class setting_Activity extends AppCompatActivity {
 
     public void apply() {
 
+        /*
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         //intent 삽입 및 전달
         intent.putExtra("oil_rad_reply", oil_intel_setting[0]);
         intent.putExtra("oil_sort_reply", oil_intel_setting[1]);
         intent.putExtra("oil_name_reply", oil_intel_setting[2]);
+        */
 
-        setResult(SETTING_REQUEST_CODE_OK, intent);
+
+        database = RoomDB.getInstance(this);
+
+        Set set = new Set(oil_intel_setting[2],oil_intel_setting[0],oil_intel_setting[1]);
+
+        database.setDao().update(set);
+        //데이터 가져오기
+
+
+
+        finish();
 
     }
 

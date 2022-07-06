@@ -49,6 +49,8 @@ import org.json.JSONObject;
 import org.techtown.find_gas_station.GPS.GeoTrans;
 import org.techtown.find_gas_station.GPS.GeoTransPoint;
 import org.techtown.find_gas_station.GPS.GpsTracker;
+import org.techtown.find_gas_station.set.RoomDB;
+import org.techtown.find_gas_station.set.Set;
 import org.techtown.find_gas_station.set.setting_Activity;
 
 import java.io.BufferedReader;
@@ -57,6 +59,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 //좌표계 변환 문제 KATEC -> 위도,경도
 
@@ -119,6 +122,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private View mLayout;  // Snackbar 사용하기 위해서는 View가 필요합니다.
     // (참고로 Toast에서는 Context가 필요했습니다.)
 
+
+    RoomDB database;
+    Set set = new Set();
+    //Room DB 변수 추가
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,7 +147,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         mLayout = findViewById(R.id.layout_main);
-
 
 
         reset = findViewById(R.id.reset);//새로고침 버튼
@@ -168,25 +175,47 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         Red = BitmapFactory.decodeResource(getResources(),R.drawable.red_marker);
 
-        oil_intel[0] = "1000";
-        oil_intel[1] = "1";
-        oil_intel[2] = "B027";
+        //초기 설정 DB로부터 가져오기
+        database = RoomDB.getInstance(this);
+
+        set = database.setDao().getAll();
+
+        if(set.getOil_rad().isEmpty()){
+            oil_intel[0] = "1000";
+        }//빈 데이터인 경우
+        else
+            oil_intel[0] = set.getOil_rad();
+        //반경
+
+        if(set.getOil_sort().isEmpty()){
+            oil_intel[1] = "1";
+        }
+        else
+            oil_intel[1] = set.getOil_sort();
+        //정렬 기준
+
+        if(set.getOil_name().isEmpty()){
+            oil_intel[2] = "B027";
+        }
+        else
+            oil_intel[2] = set.getOil_name();
+        //기름 종류
 
         Setting = findViewById(R.id.setting);
         Setting.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceType")
             @Override
             public void onClick(View view) {
+
                 Intent intent = new Intent(getApplicationContext(), setting_Activity.class);
-                intent.putExtra("oil_rad",oil_intel[0]);
-                intent.putExtra("oil_sort",oil_intel[1]);
-                intent.putExtra("oil_name",oil_intel[2]);
-                startActivityForResult(intent,SETTING_REQUEST_CODE);
+                startActivity(intent);
+
             }//프래그먼트 전환s
 
         });//메뉴 버튼 생성
 
         array_first = findViewById(R.id.array_first);
+
         if(oil_intel[1].equals("1")){
             array_first.setText("가격순");
         }
@@ -544,7 +573,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-    //여기 코드는 보지 않아 된다. G도PS 요청 코드이다.
+    //여기 코드는 보지 않아 된다. GPS 요청 코드이다.
     /*
      * ActivityCompat.requestPermissions를 사용한 퍼미션 요청의 결과를 리턴받는 메소드입니다.
      */
@@ -674,22 +703,41 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == SETTING_REQUEST_CODE){
-            if(resultCode == SETTING_REQUEST_CODE_OK){
 
-                oil_intel[0] = data.getStringExtra("oil_rad_reply");
-                oil_intel[1] = data.getStringExtra("oil_sort_reply");
-                oil_intel[2] = data.getStringExtra("oil_name_reply");
+        database = RoomDB.getInstance(this);
 
-                if(oil_intel[1].equals("1")){
-                    array_first.setText("가격순");
-                }
-                else
-                    array_first.setText("거리순");
+        set = database.setDao().getAll();
 
-                init_reset();
-            }
+        if(set.getOil_rad().isEmpty()){
+            oil_intel[0] = "1000";
+        }//빈 데이터인 경우
+        else
+            oil_intel[0] = set.getOil_rad();
+        //반경
+
+        if(set.getOil_sort().isEmpty()){
+            oil_intel[1] = "1";
         }
+        else
+            oil_intel[1] = set.getOil_sort();
+        //정렬 기준
+
+        if(set.getOil_name().isEmpty()){
+            oil_intel[2] = "B027";
+        }
+        else
+            oil_intel[2] = set.getOil_name();
+
+
+        if(oil_intel[1].equals("1")){
+            array_first.setText("가격순");
+        }
+        else
+            array_first.setText("거리순");
+
+
+        init_reset();
+
 
         switch (requestCode) {
 
@@ -734,6 +782,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         }
     }
+
+    //recycerView를 클릭하면 그 위치로 view가 이동함
 
 
     @Override

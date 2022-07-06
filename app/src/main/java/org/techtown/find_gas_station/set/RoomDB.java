@@ -6,7 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = (Set.class), version = 1,exportSchema = true)
+@Database(entities = {Set.class}, version = 1,exportSchema = true)
 public abstract class RoomDB extends RoomDatabase {
 
     private static RoomDB database;
@@ -22,6 +22,7 @@ public abstract class RoomDB extends RoomDatabase {
                     .fallbackToDestructiveMigration()
                     .build();
         }
+
         return database;
 
     }
