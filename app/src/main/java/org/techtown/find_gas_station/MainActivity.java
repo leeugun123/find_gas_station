@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -51,6 +52,7 @@ import org.techtown.find_gas_station.GPS.GeoTransPoint;
 import org.techtown.find_gas_station.GPS.GpsTracker;
 import org.techtown.find_gas_station.set.RoomDB;
 import org.techtown.find_gas_station.set.Set;
+import org.techtown.find_gas_station.set.SetDao;
 import org.techtown.find_gas_station.set.setting_Activity;
 
 import java.io.BufferedReader;
@@ -117,14 +119,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private Button reset;
 
-    String[] oil_intel = new String[3];
+    String[] oil_intel = {"1000","1","B027"};
 
     private View mLayout;  // Snackbar 사용하기 위해서는 View가 필요합니다.
     // (참고로 Toast에서는 Context가 필요했습니다.)
 
 
-    RoomDB database;
-    Set set = new Set();
+
     //Room DB 변수 추가
 
     @Override
@@ -176,30 +177,39 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Red = BitmapFactory.decodeResource(getResources(),R.drawable.red_marker);
 
         //초기 설정 DB로부터 가져오기
-        database = RoomDB.getInstance(this);
 
-        set = database.setDao().getAll();
 
-        if(set.getOil_rad().isEmpty()){
-            oil_intel[0] = "1000";
-        }//빈 데이터인 경우
-        else
-            oil_intel[0] = set.getOil_rad();
-        //반경
+        Thread th = new Thread(new Runnable() {
+            @Override
+            public void run() {
 
-        if(set.getOil_sort().isEmpty()){
-            oil_intel[1] = "1";
-        }
-        else
-            oil_intel[1] = set.getOil_sort();
-        //정렬 기준
+                RoomDB db = RoomDB.getAppDatabase(getApplicationContext());
 
-        if(set.getOil_name().isEmpty()){
-            oil_intel[2] = "B027";
-        }
-        else
-            oil_intel[2] = set.getOil_name();
-        //기름 종류
+                Set set = db.setDao().getAll();
+
+                if(set.getOil_rad().equals("") && set.getOil_sort().equals("") && set.getOil_name().equals("")) {
+                    db.setDao().insert(new Set("B027","1000","1"));
+                }
+
+                db.setDao().insert(new Set("B027","3000","2"));
+
+                oil_intel[0] = set.getOil_rad();
+                //반경
+                oil_intel[1] = set.getOil_sort();
+                //정렬 기준
+                oil_intel[2] = set.getOil_name();
+                //기름 종류
+
+                setup_reset();
+
+                Log.e("TAG","실행이 됩니다.");
+
+            }
+        });
+        //여기 자체가 비동기구현으로 하면 실행이 되지 않음.
+
+        //Log.e("TAG","실행이 됩니다.");
+
 
         Setting = findViewById(R.id.setting);
         Setting.setOnClickListener(new View.OnClickListener() {
@@ -216,11 +226,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         array_first = findViewById(R.id.array_first);
 
+
         if(oil_intel[1].equals("1")){
             array_first.setText("가격순");
         }
         else
             array_first.setText("거리순");
+
+
+
 
         setup_reset();
 
@@ -704,36 +718,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onActivityResult(requestCode, resultCode, data);
 
 
-        database = RoomDB.getInstance(this);
+        Thread th = new Thread(new Runnable() {
+            @Override
+            public void run() {
 
-        set = database.setDao().getAll();
+                RoomDB db = RoomDB.getAppDatabase(getApplicationContext());
 
-        if(set.getOil_rad().isEmpty()){
-            oil_intel[0] = "1000";
-        }//빈 데이터인 경우
-        else
-            oil_intel[0] = set.getOil_rad();
-        //반경
-
-        if(set.getOil_sort().isEmpty()){
-            oil_intel[1] = "1";
-        }
-        else
-            oil_intel[1] = set.getOil_sort();
-        //정렬 기준
-
-        if(set.getOil_name().isEmpty()){
-            oil_intel[2] = "B027";
-        }
-        else
-            oil_intel[2] = set.getOil_name();
+                Set set = db.setDao().getAll();
 
 
-        if(oil_intel[1].equals("1")){
-            array_first.setText("가격순");
-        }
-        else
-            array_first.setText("거리순");
+                oil_intel[0] = set.getOil_rad();
+                //반경
+                oil_intel[1] = set.getOil_sort();
+                //정렬 기준
+                oil_intel[2] = set.getOil_name();
+
+            }
+        });
+
+
 
 
         init_reset();

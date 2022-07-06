@@ -15,7 +15,7 @@ import java.util.List;
 @Dao
 public interface SetDao {
 
-    @Query("SELECT * FROM set")
+    @Query("SELECT * FROM set_table")
     Set getAll();
 
     @Insert
@@ -26,6 +26,8 @@ public interface SetDao {
 
     @Update
     void update(Set set);
+
+
 
 
 }

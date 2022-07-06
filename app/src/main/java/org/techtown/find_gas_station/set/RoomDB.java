@@ -9,24 +9,24 @@ import androidx.room.RoomDatabase;
 @Database(entities = {Set.class}, version = 1,exportSchema = true)
 public abstract class RoomDB extends RoomDatabase {
 
-    private static RoomDB database;
-
-    private static String DATABASE_NAME = "oil_database";
-
-    public synchronized static RoomDB getInstance(Context context){
-
-        if (database == null)
-        {
-            database = Room.databaseBuilder(context.getApplicationContext(), RoomDB.class, DATABASE_NAME)
-                    .allowMainThreadQueries()
-                    .fallbackToDestructiveMigration()
-                    .build();
-        }
-
-        return database;
-
-    }
+    private static RoomDB INSTANCE;
 
     public abstract SetDao setDao();
+
+    //디비객체생성 가져오기
+    public static RoomDB getAppDatabase(Context context){
+        if(INSTANCE == null){
+            INSTANCE = Room.databaseBuilder(context, RoomDB.class , "RoomDB-db")
+                    .build();
+
+        }
+        return  INSTANCE;
+    }
+
+
+    //디비객체제거
+    public static void destroyInstance() {
+        INSTANCE = null;
+    }
 
 }

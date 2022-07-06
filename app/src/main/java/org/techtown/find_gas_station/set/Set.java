@@ -8,21 +8,20 @@ import androidx.room.PrimaryKey;
 import java.io.Serializable;
 
 //setData
-@Entity
-public class Set implements Serializable
-{
+@Entity(tableName = "set_table")
+public class Set {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
 
     @ColumnInfo(name = "oil_name")
-    private String oil_name; // 기름 종류
+    private String oil_name = ""; // 기름 종류
 
     @ColumnInfo(name = "oil_rad")
-    private String oil_rad; // 반경 범위
+    private String oil_rad = ""; // 반경 범위
 
     @ColumnInfo(name = "oil_sort")
-    private String oil_sort; // 정렬기준
+    private String oil_sort = ""; // 정렬기준
 
     public Set(){
 
@@ -66,4 +65,6 @@ public class Set implements Serializable
     public void setId(int id) {
         this.id = id;
     }
+
+
 }

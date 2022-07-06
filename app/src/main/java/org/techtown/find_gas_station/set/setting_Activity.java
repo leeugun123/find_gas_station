@@ -38,7 +38,7 @@ public class setting_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
 
-        database = RoomDB.getInstance(this);
+        database = RoomDB.getAppDatabase(this);
 
         set = database.setDao().getAll();
         //데이터 가져오기
@@ -235,7 +235,7 @@ public class setting_Activity extends AppCompatActivity {
         */
 
 
-        database = RoomDB.getInstance(this);
+        database = RoomDB.getAppDatabase(this);
 
         Set set = new Set(oil_intel_setting[2],oil_intel_setting[0],oil_intel_setting[1]);
 
