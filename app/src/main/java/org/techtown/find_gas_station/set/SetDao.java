@@ -12,16 +12,17 @@ import java.util.List;
 @Dao
 public interface SetDao {
 
+    @Query("SELECT * FROM Set")
+    List<Set> getAll();
+
     @Insert
-    void insert(Set mainData);
+    void insert(Set set);
 
     @Delete
-    void delete(Set mainData);
+    void delete(Set set);
 
     @Update
     void update(Set set);
 
-    //@Query("SELECT * FROM Set")
-    List<Set> getAll();
 
 }

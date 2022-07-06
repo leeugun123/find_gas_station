@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey;
 import java.io.Serializable;
 
 //setData
-@Entity(tableName = "table_name")
+@Entity
 public class Set implements Serializable
 {
 
