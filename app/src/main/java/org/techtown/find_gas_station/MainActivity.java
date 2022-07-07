@@ -21,6 +21,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -119,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private Button reset;
 
-    String[] oil_intel = {"1000","1","B027"};
+    String[] oil_intel = new String[3];
 
     private View mLayout;  // Snackbar 사용하기 위해서는 View가 필요합니다.
     // (참고로 Toast에서는 Context가 필요했습니다.)
@@ -136,6 +137,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//화면이 꺼지지 않도록 유지
 
         setContentView(R.layout.activity_main);
+
+
 
         moil_list = new ArrayList<>();
 
@@ -176,40 +179,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         Red = BitmapFactory.decodeResource(getResources(),R.drawable.red_marker);
 
-        //초기 설정 DB로부터 가져오기
-
-
-        Thread th = new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                RoomDB db = RoomDB.getAppDatabase(getApplicationContext());
-
-                Set set = db.setDao().getAll();
-
-                if(set.getOil_rad().equals("") && set.getOil_sort().equals("") && set.getOil_name().equals("")) {
-                    db.setDao().insert(new Set("B027","1000","1"));
-                }
-
-                db.setDao().insert(new Set("B027","3000","2"));
-
-                oil_intel[0] = set.getOil_rad();
-                //반경
-                oil_intel[1] = set.getOil_sort();
-                //정렬 기준
-                oil_intel[2] = set.getOil_name();
-                //기름 종류
-
-                setup_reset();
-
-                Log.e("TAG","실행이 됩니다.");
-
-            }
-        });
-        //여기 자체가 비동기구현으로 하면 실행이 되지 않음.
-
-        //Log.e("TAG","실행이 됩니다.");
-
 
         Setting = findViewById(R.id.setting);
         Setting.setOnClickListener(new View.OnClickListener() {
@@ -224,34 +193,52 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         });//메뉴 버튼 생성
 
-        array_first = findViewById(R.id.array_first);
-
-
-        if(oil_intel[1].equals("1")){
-            array_first.setText("가격순");
-        }
-        else
-            array_first.setText("거리순");
-
-
-
-
-        setup_reset();
-
-
-
-    }
-
-
-    public void setup_reset(){
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+
+
+                RoomDB db = Room.databaseBuilder(getApplicationContext(),
+                        RoomDB.class,"RoomDB-db").allowMainThreadQueries().build();
+                //싱글톤 패턴을 사용하지 않고 무조건 강제 실행
+                //나중에 문제가 생길 수 있음
+
+                Set set = db.setDao().getAll();
+                //db로부터 전체 setting 데이터 가져오기
+
+                //db.setDao().delete();
+
+                db.setDao().update(new Set("B027","1000","1"));
+
+
+                oil_intel[0] = set.getOil_rad();
+                //반경
+                oil_intel[1] = set.getOil_sort();
+                //정렬 기준
+                oil_intel[2] = set.getOil_name();
+                //기름 종류
+
                 init_reset();
+
+                Log.e("TAG","실행이 됩니다.");
+
+                array_first = findViewById(R.id.array_first);
+
+                if(oil_intel[1].equals("1")){
+                    array_first.setText("가격순");
+                }
+                else
+                    array_first.setText("거리순");
+
+
             }
         },100);
+
+        //Handler를 이용하지 않으면 googleMap 오류가 생기므로 핸들러 처리
+
     }
+
 
     public void init_reset(){
 
@@ -350,6 +337,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             //Marker 이미지 표시
             markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
             storeMarkers.add(mMap.addMarker(markerOptions));//stroe Marker를 지도위에 다시 띄운다.
+
         }
 
     }
@@ -438,7 +426,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
     };
-
 
 
     //시작 위치 업데이트
