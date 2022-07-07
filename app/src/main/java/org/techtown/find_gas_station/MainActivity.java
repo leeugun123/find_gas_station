@@ -11,6 +11,7 @@ import androidx.room.Room;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -100,6 +101,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     Bitmap Red;
 
+    public static final int REQUEST_CODE = 100;
+
     //private String API_KEY = "F211129251";
     private static final String TAG = "googlemap_example";
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
@@ -186,8 +189,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(getApplicationContext(), setting_Activity.class);
-                startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(),setting_Activity.class);
+                startActivityForResult(intent,REQUEST_CODE);
 
             }//프래그먼트 전환s
 
@@ -198,19 +201,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void run() {
 
-
-                RoomDB db = Room.databaseBuilder(getApplicationContext(),
-                        RoomDB.class,"RoomDB-db").allowMainThreadQueries().build();
                 //싱글톤 패턴을 사용하지 않고 무조건 강제 실행
                 //나중에 문제가 생길 수 있음
+                RoomDB db = Room.databaseBuilder(getApplicationContext(),
+                        RoomDB.class,"RoomDB-db").allowMainThreadQueries().build();
+
+                //db.setDao().deleteAll();//데이터 전체 삭제
+
+                if(db.setDao().getAll().getOil_name().equals("")){
+                    db.setDao().insert(new Set("B027","1000","1"));
+                }
 
                 Set set = db.setDao().getAll();
-                //db로부터 전체 setting 데이터 가져오기
-
-                //db.setDao().delete();
-
-                db.setDao().update(new Set("B027","1000","1"));
-
 
                 oil_intel[0] = set.getOil_rad();
                 //반경
@@ -504,6 +506,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.moveCamera(cameraUpdate);
     }//앱이 시작할때 자기 위치로 이동 시켜주는 메소드
 
+
+
     public void getData(float latitude,float Longtitude){
         x_pos.clear();
         y_pos.clear();
@@ -640,9 +644,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-
-
-
     //여기부터는 GPS 활성화를 위한 메소드들
     private void showDialogForLocationServiceSetting() {
 
@@ -705,44 +706,52 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onActivityResult(requestCode, resultCode, data);
 
 
-        Thread th = new Thread(new Runnable() {
-            @Override
-            public void run() {
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
 
-                RoomDB db = RoomDB.getAppDatabase(getApplicationContext());
+                Log.e("TAG","실행이 됩니다.");
+
+
+                RoomDB db = Room.databaseBuilder(getApplicationContext(),
+                        RoomDB.class,"RoomDB-db").allowMainThreadQueries().build();
 
                 Set set = db.setDao().getAll();
 
-
                 oil_intel[0] = set.getOil_rad();
                 //반경
+
                 oil_intel[1] = set.getOil_sort();
                 //정렬 기준
+
                 oil_intel[2] = set.getOil_name();
 
-            }
-        });
-
-
-
-
-        init_reset();
-
-
-        switch (requestCode) {
-
-            case GPS_ENABLE_REQUEST_CODE:
-
-                //사용자가 GPS 활성 시켰는지 검사
-                if (checkLocationServicesStatus()) {
-                    if (checkLocationServicesStatus()) {
-                        Log.d(TAG, "onActivityResult : GPS 활성화 되있음");
-                        needRequest = true;
-                        return;
-                    }
+                if(oil_intel[1].equals("1")){
+                    array_first.setText("가격순");
                 }
-                break;
+                else
+                    array_first.setText("거리순");
+
+                init_reset();
+
+                switch (requestCode) {
+
+                    case GPS_ENABLE_REQUEST_CODE:
+
+                        //사용자가 GPS 활성 시켰는지 검사
+                        if (checkLocationServicesStatus()) {
+                            if (checkLocationServicesStatus()) {
+                                Log.d(TAG, "onActivityResult : GPS 활성화 되있음");
+                                needRequest = true;
+                                return;
+                            }
+                        }
+                        break;
+                }
+
+            }
+
         }
+
     }
 
     @Override

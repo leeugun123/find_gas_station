@@ -21,8 +21,8 @@ public interface SetDao {
     @Insert
     void insert(Set set);
 
-    @Delete
-    void delete(Set set);
+    @Query("DELETE FROM set_table")
+    void deleteAll();
 
     @Update
     void update(Set set);

@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
+
 import org.techtown.find_gas_station.MainActivity;
 import org.techtown.find_gas_station.R;
 import java.util.ArrayList;
@@ -17,13 +19,8 @@ import java.util.List;
 
 public class setting_Activity extends AppCompatActivity {
 
-    RoomDB database;
-    Set set = new Set();
-
-    public static final int SETTING_REQUEST_CODE_OK = 31;
 
     private Button close;
-    //private Button apply
 
     private Spinner spinner;//기름 스피너
 
@@ -38,9 +35,12 @@ public class setting_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
 
-        database = RoomDB.getAppDatabase(this);
 
-        set = database.setDao().getAll();
+        RoomDB db = Room.databaseBuilder(getApplicationContext(),
+                RoomDB.class,"RoomDB-db").allowMainThreadQueries().build();
+
+        Set set = db.setDao().getAll();
+
         //데이터 가져오기
 
         oil_intel_setting[0] = set.getOil_rad();//반경범위
@@ -111,7 +111,12 @@ public class setting_Activity extends AppCompatActivity {
                 else{
                     oil_intel_setting[2] = "K015";
                 }
-                apply();
+
+                db.setDao().deleteAll();
+                db.setDao().insert(new Set(oil_intel_setting[2],oil_intel_setting[0],oil_intel_setting[1]));
+
+                Intent intent = new Intent();
+                setResult(RESULT_OK,intent);
 
             }
 
@@ -164,7 +169,11 @@ public class setting_Activity extends AppCompatActivity {
                     oil_intel_setting[0] = "5000";
                 }//5km
 
-                apply();
+                db.setDao().deleteAll();
+                db.setDao().insert(new Set(oil_intel_setting[2],oil_intel_setting[0],oil_intel_setting[1]));
+
+                Intent intent = new Intent();
+                setResult(RESULT_OK,intent);
 
             }
 
@@ -211,7 +220,13 @@ public class setting_Activity extends AppCompatActivity {
                 else{
                     oil_intel_setting[1] = "2";//거리순
                 }
-                apply();
+
+                db.setDao().deleteAll();//데이터 전체 삭제
+                db.setDao().insert(new Set(oil_intel_setting[2],oil_intel_setting[0],oil_intel_setting[1]));
+                //새로 추가
+
+                Intent intent = new Intent();
+                setResult(RESULT_OK,intent);
 
             }
 
@@ -224,29 +239,6 @@ public class setting_Activity extends AppCompatActivity {
     }
 
 
-    public void apply() {
-
-        /*
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        //intent 삽입 및 전달
-        intent.putExtra("oil_rad_reply", oil_intel_setting[0]);
-        intent.putExtra("oil_sort_reply", oil_intel_setting[1]);
-        intent.putExtra("oil_name_reply", oil_intel_setting[2]);
-        */
-
-
-        database = RoomDB.getAppDatabase(this);
-
-        Set set = new Set(oil_intel_setting[2],oil_intel_setting[0],oil_intel_setting[1]);
-
-        database.setDao().update(set);
-        //데이터 가져오기
-
-
-
-        finish();
-
-    }
 
 
 }
