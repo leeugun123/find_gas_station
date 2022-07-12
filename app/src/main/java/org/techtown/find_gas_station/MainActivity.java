@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
@@ -160,7 +161,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 init_reset();
+
+                upRecyclerView();
             }
         });
 
@@ -239,6 +243,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //Handler를 이용하지 않으면 googleMap 오류가 생기므로 핸들러 처리
 
+        upRecyclerView();
+
+
     }
 
 
@@ -313,6 +320,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             moil_list.add(new oil_list((String) NAME.get(i),Integer.toString((int)gas_price.get(i)),Double.toString((double)distance.get(i)),ok,imageResource));
         }
 
+
         myRecyclerAdapter.setOil_lists(moil_list);
         storeMarkers.clear();//storemarker 제거
         mMap.clear();
@@ -341,6 +349,37 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             storeMarkers.add(mMap.addMarker(markerOptions));//stroe Marker를 지도위에 다시 띄운다.
 
         }
+
+        upRecyclerView();
+        //스크롤 뷰 최상단으로 올리기
+
+    }
+
+
+    public void upRecyclerView(){
+
+        //Log.d("TAG", "리사이클러뷰 위로 올리기!");//locationList의 size는 0 이상이다.
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+
+
+            @Override
+            public void run() {
+                RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(mRecyclerView.getContext()) {
+
+                    @Override protected int getVerticalSnapPreference() {
+                        return LinearSmoothScroller.SNAP_TO_START;
+                    }
+                };
+
+                smoothScroller.setTargetPosition(NAME.size()); //itemPosition - 이동시키고자 하는 Item의 Position
+                mRecyclerView.getLayoutManager().startSmoothScroll(smoothScroller);
+
+            }
+        },100);
+        //핸들러를 사용하여
+        // 리사이클러뷰가 완전히 형성된 후 최상단으로 리사이클러뷰 올리기
 
     }
 

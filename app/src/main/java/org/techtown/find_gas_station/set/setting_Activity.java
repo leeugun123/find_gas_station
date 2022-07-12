@@ -19,7 +19,6 @@ import java.util.List;
 
 public class setting_Activity extends AppCompatActivity {
 
-
     private Button close;
 
     private Spinner spinner;//기름 스피너
