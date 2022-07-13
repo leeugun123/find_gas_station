@@ -149,27 +149,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         setContentView(R.layout.activity_main);
 
-
-        //카카오 navi API 코드
-        gpsTracker = new GpsTracker(MainActivity.this);
-
-        Location destination = Location.newBuilder("목적지 ", gpsTracker.getLongitude(), gpsTracker.getLatitude()).build();
-        //현재 위치는 고려할 필요가 없는가??
-
-        NaviOptions options = NaviOptions.newBuilder().setCoordType(CoordType.WGS84).setVehicleType(VehicleType.FIRST)
-                .setRpOption(RpOption.SHORTEST).build();
-        //네비 경로 설정 , WGS84좌표 , 1종 차량, 빠른길/최단거리 안내
-
-        KakaoNaviParams.Builder bu = KakaoNaviParams.newBuilder(destination).setNaviOptions(options);
-
-        KakaoNaviService.getInstance().navigate(this, bu.build());
-
-
-
-
-
-
-
         moil_list = new ArrayList<>();
 
         mRecyclerView = (RecyclerView) findViewById(R.id.list_recycle);
@@ -346,7 +325,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             else
                 imageResource = R.drawable.oil_2;
 
-            moil_list.add(new oil_list((String) NAME.get(i),Integer.toString((int)gas_price.get(i)),Double.toString((double)distance.get(i)),ok,imageResource));
+            moil_list.add(new oil_list((String) NAME.get(i),Integer.toString((int)gas_price.get(i)),Double.toString((double)distance.get(i)),
+                    ok,imageResource,(float)x_pos.get(i),(float)y_pos.get(i)));
+            //moil_list 수정
+
+
         }
 
 

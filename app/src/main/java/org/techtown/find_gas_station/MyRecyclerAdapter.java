@@ -6,11 +6,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.kakao.kakaonavi.KakaoNaviParams;
+import com.kakao.kakaonavi.KakaoNaviService;
+import com.kakao.kakaonavi.Location;
+import com.kakao.kakaonavi.NaviOptions;
+import com.kakao.kakaonavi.options.CoordType;
+import com.kakao.kakaonavi.options.RpOption;
+import com.kakao.kakaonavi.options.VehicleType;
+
+import org.techtown.find_gas_station.GPS.GpsTracker;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -55,6 +66,8 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         TextView oil_kind;
         ImageView oil_image;
 
+        Button navi_button;
+
         UserListRecyclerClickListener mClickListener;
 
         public ViewHolder(@NonNull View itemView,UserListRecyclerClickListener clickListener) {
@@ -65,6 +78,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             distance=(TextView) itemView.findViewById(R.id.distance);
             oil_kind = (TextView) itemView.findViewById(R.id.oil_kind);
             oil_image = itemView.findViewById(R.id.oil_image);
+            navi_button = itemView.findViewById(R.id.navi_button);
 
 
             mClickListener = clickListener;
@@ -81,6 +95,27 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             oil_image.setImageResource(oil_list.get_image());
 
 
+            navi_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    //카카오 navi API 코드
+                    Location destination = Location.newBuilder(oil_list.get_oil_name(),oil_list.getKatecX(), oil_list.getKatecY()).build();
+                    //현재 위치는 고려할 필요가 없는가?? 목적지 주유소 이름 ,x,y좌표
+
+                    NaviOptions options = NaviOptions.newBuilder().setCoordType(CoordType.KATEC).setVehicleType(VehicleType.FIRST)
+                            .setRpOption(RpOption.SHORTEST).build();
+                    //네비 경로 설정 , 카텍 좌표 , 1종 차량, 빠른길/최단거리 안내
+
+                    KakaoNaviParams.Builder bu = KakaoNaviParams.newBuilder(destination).setNaviOptions(options);
+
+                    KakaoNaviService.getInstance().navigate(view.getContext(), bu.build());
+
+
+                }
+            });
+
+
 
         }
 
@@ -89,8 +124,9 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
             mClickListener.onUserClicked(getAdapterPosition());
 
+        }//recyclerView 자체를 눌렀을때 나타나는 오류
 
-        }
+
 
     }
 
