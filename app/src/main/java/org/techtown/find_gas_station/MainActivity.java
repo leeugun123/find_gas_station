@@ -374,6 +374,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 };
 
                 smoothScroller.setTargetPosition(NAME.size()); //itemPosition - 이동시키고자 하는 Item의 Position
+                //마지막 배열 = 사용자 View 첫번째 List
                 mRecyclerView.getLayoutManager().startSmoothScroll(smoothScroller);
 
             }

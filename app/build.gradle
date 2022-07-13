@@ -61,4 +61,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-common-java8:2.5.0"
 
 
+    // 카카오내비 sdk를 사용하기 위해 필요
+    implementation group: 'com.kakao.sdk', name: 'kakaonavi', version: project.KAKAO_SDK_VERSION
+  
+
 }
