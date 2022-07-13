@@ -46,6 +46,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.snackbar.Snackbar;
+import com.kakao.kakaonavi.Location;
+import com.kakao.kakaonavi.NaviOptions;
+import com.kakao.kakaonavi.options.CoordType;
+import com.kakao.kakaonavi.options.RpOption;
+import com.kakao.kakaonavi.options.VehicleType;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -143,6 +148,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_main);
 
 
+        gpsTracker = new GpsTracker(MainActivity.this);
+
+
+        Location destination = Location.newBuilder("현 위치", gpsTracker.getLongitude(), gpsTracker.getLatitude()).build();
+
+        NaviOptions options = NaviOptions.newBuilder().setCoordType(CoordType.WGS84).setVehicleType(VehicleType.FIRST)
+                .setRpOption(RpOption.SHORTEST).build();
+        //네비 경로 설정
+
+
+
+
+
+
 
         moil_list = new ArrayList<>();
 
@@ -196,7 +215,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Intent intent = new Intent(getApplicationContext(),setting_Activity.class);
                 startActivityForResult(intent,REQUEST_CODE);
 
-            }//프래그먼트 전환s
+            }//Setting activity로 전환
+
 
         });//메뉴 버튼 생성
 
@@ -253,8 +273,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         Log.d("TAG", "locationList가 0이상입니다.");//locationList의 size는 0 이상이다.
         gpsTracker = new GpsTracker(MainActivity.this);
+        //gpsTracker 가져오기
 
-        getData((float) gpsTracker.getLatitude(),(float) gpsTracker.getLongitude());//getData메소드 호출
+        getData((float) gpsTracker.getLatitude(),(float) gpsTracker.getLongitude());
+        //getData메소드 호출하여 ArrayList 값들 채우기
 
         //list view에 출력
 
@@ -566,6 +588,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 try {
                     GeoTransPoint point = new GeoTransPoint(Longtitude,latitude);
                     GeoTransPoint ge = GeoTrans.convert(GeoTrans.GEO,GeoTrans.KATEC,point);
+                    //GEO를 KATEC으로 변환
+
 
                     URL url = new URL("http://www.opinet.co.kr/api/aroundAll.do?code=F211129251&x="+ge.getX()+"&y="+ ge.getY() +"&radius="+ oil_intel[0] +"&sort="+ oil_intel[1] +"&prodcd="+ oil_intel[2] +"&out=json");
 
