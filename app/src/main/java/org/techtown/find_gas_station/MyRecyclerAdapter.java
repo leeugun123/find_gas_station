@@ -73,16 +73,23 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         }
 
         public void onBind(oil_list oil_list) {
+
             name.setText(oil_list.get_oil_name());
             price.setText(oil_list.getPrice());
             distance.setText(oil_list.getDistance());
             oil_kind.setText(oil_list.getOil_kind());
             oil_image.setImageResource(oil_list.get_image());
+
+
+
         }
 
         @Override
         public void onClick(View view) {
+
             mClickListener.onUserClicked(getAdapterPosition());
+
+
         }
 
     }
