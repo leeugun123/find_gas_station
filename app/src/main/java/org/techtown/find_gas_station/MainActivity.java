@@ -46,6 +46,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.snackbar.Snackbar;
+import com.kakao.kakaonavi.KakaoNaviParams;
+import com.kakao.kakaonavi.KakaoNaviService;
 import com.kakao.kakaonavi.Location;
 import com.kakao.kakaonavi.NaviOptions;
 import com.kakao.kakaonavi.options.CoordType;
@@ -148,14 +150,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_main);
 
 
+        //카카오 navi API 코드
         gpsTracker = new GpsTracker(MainActivity.this);
 
-
-        Location destination = Location.newBuilder("현 위치", gpsTracker.getLongitude(), gpsTracker.getLatitude()).build();
+        Location destination = Location.newBuilder("목적지 ", gpsTracker.getLongitude(), gpsTracker.getLatitude()).build();
+        //현재 위치는 고려할 필요가 없는가??
 
         NaviOptions options = NaviOptions.newBuilder().setCoordType(CoordType.WGS84).setVehicleType(VehicleType.FIRST)
                 .setRpOption(RpOption.SHORTEST).build();
-        //네비 경로 설정
+        //네비 경로 설정 , WGS84좌표 , 1종 차량, 빠른길/최단거리 안내
+
+        KakaoNaviParams.Builder bu = KakaoNaviParams.newBuilder(destination).setNaviOptions(options);
+
+        KakaoNaviService.getInstance().navigate(this, bu.build());
 
 
 
