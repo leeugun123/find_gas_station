@@ -8,7 +8,7 @@
     android:layout_gravity="start"
     android:background="#ffff">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#ff7f00"
@@ -16,32 +16,31 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:gravity="center"
             android:text="주유소 설정"
             android:textColor="#ffffff"
             android:textSize="30sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/go_back"
-            app:layout_constraintHorizontal_bias="0.812"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="4dp" />
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/go_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
             android:background="#ff7f00"
-            android:text="뒤로가기"
+            android:drawableBottom="@drawable/back_icon"
             android:textColor="#000000"
             android:textSize="17sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:layout_editor_absoluteY="0dp"
-            tools:ignore="MissingConstraints" />
+            android:textStyle="bold" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
+
+
+
+
 
     <LinearLayout
         android:layout_marginTop="80dp"

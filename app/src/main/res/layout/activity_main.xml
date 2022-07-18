@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="#ff7f00"
@@ -20,10 +20,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:background="#ff7f00"
+            android:layout_alignParentLeft="true"
             android:drawableBottom="@drawable/set"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="0dp" />
+           />
 
         <TextView
             android:id="@+id/array_first"
@@ -34,25 +33,19 @@
             android:textColor="#ffffff"
             android:textSize="30sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/reset"
-            app:layout_constraintHorizontal_bias="0.472"
-            app:layout_constraintStart_toEndOf="@+id/setting"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="3dp" />
+            android:layout_centerHorizontal="true"
+            />
 
         <Button
             android:id="@+id/reset"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_alignParentRight="true"
             android:layout_gravity="right"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/f5"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="0dp" />
+            android:background="@drawable/f5" />
 
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
     <fragment
