@@ -12,18 +12,18 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:padding="5dp">
 
         <ImageView
             android:id="@+id/oil_image"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:src="@drawable/oil_2"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -51,6 +51,8 @@
                     android:textSize="20sp"
                     android:textColor="#000000"
                     />
+
+
             </LinearLayout>
 
             <LinearLayout
@@ -81,10 +83,10 @@
                     android:id="@+id/distance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginLeft="10dp"
                     android:text="3234"
                     android:textStyle="bold"
-                    android:textColor="#000000"
+                    android:textColor="#4CAF50"
                     android:textSize="30sp"/>
 
                 <TextView
@@ -92,7 +94,7 @@
                     android:layout_height="wrap_content"
                     android:text="M"
                     android:textStyle="bold"
-                    android:textColor="#000000"
+                    android:textColor="#4CAF50"
                     android:textSize="25sp"/>
 
             </LinearLayout>
@@ -104,6 +106,7 @@
             android:layout_width="60dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
+            android:drawableBottom="@drawable/navi"
             android:text="네비"
             android:textStyle="bold" />
 

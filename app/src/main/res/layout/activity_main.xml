@@ -8,25 +8,22 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:background="#ff7f00"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/setting"
-            android:layout_width="80dp"
-            android:layout_height="match_parent"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:background="#ff7f00"
-            android:text="설정"
-            android:textSize="27sp"
-            android:textColor="#000000"
-            android:textStyle="bold"
+            android:drawableBottom="@drawable/set"
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="5dp" />
+            tools:layout_editor_absoluteY="0dp" />
 
         <TextView
             android:id="@+id/array_first"
@@ -35,7 +32,7 @@
             android:gravity="center"
             android:text="가격순"
             android:textColor="#ffffff"
-            android:textSize="35sp"
+            android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/reset"
             app:layout_constraintHorizontal_bias="0.472"
@@ -45,8 +42,8 @@
 
         <Button
             android:id="@+id/reset"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="right"
             android:layout_marginRight="10dp"
             android:background="@drawable/f5"
@@ -55,15 +52,14 @@
             tools:layout_editor_absoluteY="0dp" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+    </LinearLayout>
 
 
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="515dp"
+        android:layout_height="400dp"
         tools:context=".MainActivity" />
 
     <ScrollView
