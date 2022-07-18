@@ -1,7 +1,9 @@
 package org.techtown.find_gas_station;
 
+import android.content.Intent;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.common.internal.Constants;
 import com.kakao.kakaonavi.KakaoNaviParams;
 import com.kakao.kakaonavi.KakaoNaviService;
 import com.kakao.kakaonavi.Location;
@@ -94,8 +97,8 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             oil_kind.setText(oil_list.getOil_kind());
             oil_image.setImageResource(oil_list.get_image());
 
-
             navi_button.setOnClickListener(new View.OnClickListener() {
+
                 @Override
                 public void onClick(View view) {
 
@@ -103,7 +106,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                     Location destination = Location.newBuilder(oil_list.get_oil_name(),oil_list.getKatecX(), oil_list.getKatecY()).build();
                     //현재 위치는 고려할 필요가 없는가?? 목적지 주유소 이름 ,x,y좌표
 
-                    NaviOptions options = NaviOptions.newBuilder().setCoordType(CoordType.KATEC).setVehicleType(VehicleType.FIRST)
+                    NaviOptions options = NaviOptions.newBuilder().setCoordType(CoordType.WGS84).setVehicleType(VehicleType.FIRST)
                             .setRpOption(RpOption.SHORTEST).build();
                     //네비 경로 설정 , 카텍 좌표 , 1종 차량, 빠른길/최단거리 안내
 

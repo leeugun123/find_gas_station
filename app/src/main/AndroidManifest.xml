@@ -40,6 +40,9 @@
             android:value="@string/kakao_app_key"
             />
 
+
+
+
         <activity
             android:name=".MainActivity"
             android:exported="true" />

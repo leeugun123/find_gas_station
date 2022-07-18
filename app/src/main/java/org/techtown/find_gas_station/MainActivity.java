@@ -326,7 +326,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 imageResource = R.drawable.oil_2;
 
             moil_list.add(new oil_list((String) NAME.get(i),Integer.toString((int)gas_price.get(i)),Double.toString((double)distance.get(i)),
-                    ok,imageResource,(float)x_pos.get(i),(float)y_pos.get(i)));
+                    ok,imageResource,
+                    (float)y_pos.get(i),(float)x_pos.get(i)));
             //moil_list 수정
 
 
@@ -375,7 +376,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
 
-
             @Override
             public void run() {
                 RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(mRecyclerView.getContext()) {
@@ -415,7 +415,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Manifest.permission.ACCESS_FINE_LOCATION);
         int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_COARSE_LOCATION);
-
 
         if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED &&
                 hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED   ) {
@@ -474,7 +473,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         @Override
         public void onLocationResult(@NonNull LocationResult locationResult) {
             super.onLocationResult(locationResult);
-            //init_reset();
+
             //계속해서 업데이트 된다....
             //계속 콜백함수로 호출되는 함수
         }
