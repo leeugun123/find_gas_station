@@ -103,7 +103,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                 public void onClick(View view) {
 
                     //카카오 navi API 코드
-                    Location destination = Location.newBuilder(oil_list.get_oil_name(),oil_list.getKatecX(), oil_list.getKatecY()).build();
+                    Location destination = Location.newBuilder(oil_list.get_oil_name(),oil_list.getWgs84X(), oil_list.getWgs84Y()).build();
                     //현재 위치는 고려할 필요가 없는가?? 목적지 주유소 이름 ,x,y좌표
 
                     NaviOptions options = NaviOptions.newBuilder().setCoordType(CoordType.WGS84).setVehicleType(VehicleType.FIRST)

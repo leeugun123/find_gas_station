@@ -255,6 +255,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     public void init_reset(){
 
         Log.d("TAG", "locationList가 0이상입니다.");//locationList의 size는 0 이상이다.
@@ -325,9 +326,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             else
                 imageResource = R.drawable.oil_2;
 
+            GeoTransPoint point = new GeoTransPoint((float)x_pos.get(i), (float)y_pos.get(i));
+
+            GeoTransPoint out = GeoTrans.convert(GeoTrans.KATEC, GeoTrans.GEO,point);
+            //KATEC -> Wgs84좌표계로 변경
+
             moil_list.add(new oil_list((String) NAME.get(i),Integer.toString((int)gas_price.get(i)),Double.toString((double)distance.get(i)),
-                    ok,imageResource,
-                    (float)y_pos.get(i),(float)x_pos.get(i)));
+                    ok,imageResource, (float)out.getX(),(float)out.getY()));
             //moil_list 수정
 
 
@@ -354,7 +359,41 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             markerOptions.snippet("현 위치에서부터의 거리 " + (double) distance.get(i) +"M");
             markerOptions.draggable(true);
 
-            BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.oil_2);
+            BitmapDrawable bitmapdraw;
+
+            if(trademark.get(i).equals("SKE")){
+                bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.sk);
+            }
+            else if(trademark.get(i).equals("GSC")){
+                bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.gs);
+            }
+            else if(trademark.get(i).equals("HDO")){
+                bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.hdoil);
+            }
+            else if(trademark.get(i).equals("SOL")){
+                bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.so);
+            }
+            else if(trademark.get(i).equals("RTO")){
+                bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.rto);
+            }//비슷
+            else if(trademark.get(i).equals("RTX")){
+                bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.rto);
+            }//비슷
+            else if(trademark.get(i).equals("NHO")){
+                bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.nho);
+            }
+            else if(trademark.get(i).equals("E1G")){
+                bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.e1);
+            }
+            else if(trademark.get(i).equals("SKG")){
+                bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.skgas);
+
+            }
+            else
+                bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.oil_2);
+
+
+
             Bitmap b = bitmapdraw.getBitmap();
             Bitmap smallMarker = Bitmap.createScaledBitmap(b,90,90,false);
             //Marker 이미지 표시

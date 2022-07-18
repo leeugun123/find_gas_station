@@ -12,13 +12,14 @@ public class oil_list {
     float wgsY;//wgs84 좌표 y
 
     public oil_list(String oil_name, String price, String distance,String oil_kind,int image, float wgsX,float wgsY){
+
         this.oil_name = oil_name;
         this.price = price;
         this.distance = distance;
         this.oil_kind = oil_kind;
         this.image = image;
         this.wgsX = wgsX;
-        this.wgsX = wgsY;
+        this.wgsY = wgsY;
 
     }
 
@@ -62,11 +63,11 @@ public class oil_list {
 
     public void setWgs84_X(float latitude){ this.wgsX = wgsX; }
 
-    public float getKatecX(){ return wgsX; }
+    public float getWgs84X(){ return wgsX; }
 
     public void setKatecY(float wgsY){ this.wgsY = wgsY; }
 
-    public float getKatecY(){ return wgsY; }
+    public float getWgs84Y(){ return wgsY; }
 
 
 
