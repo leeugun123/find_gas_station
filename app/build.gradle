@@ -30,6 +30,8 @@ android {
 
 dependencies {
 
+    implementation "com.kakao.sdk:v2-all:2.11.0" // 전체 모듈 설치, 2.11.0 버전부터 지원
+
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'com.google.android.gms:play-services-maps:18.0.2'

@@ -333,6 +333,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             moil_list.add(new oil_list((String) NAME.get(i),Integer.toString((int)gas_price.get(i)),Double.toString((double)distance.get(i)),
                     ok,imageResource, (float)out.getX(),(float)out.getY()));
+
             //moil_list 수정
 
 

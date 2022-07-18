@@ -1,5 +1,7 @@
 package org.techtown.find_gas_station;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
@@ -23,6 +25,7 @@ import com.kakao.kakaonavi.NaviOptions;
 import com.kakao.kakaonavi.options.CoordType;
 import com.kakao.kakaonavi.options.RpOption;
 import com.kakao.kakaonavi.options.VehicleType;
+import com.kakao.sdk.navi.NaviClient;
 
 import org.techtown.find_gas_station.GPS.GpsTracker;
 
@@ -61,6 +64,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         return oil_lists.size();
     }
 
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView name;
@@ -77,12 +81,11 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             super(itemView);
 
             name = (TextView) itemView.findViewById(R.id.name);
-           price =(TextView) itemView.findViewById(R.id.price);
-            distance=(TextView) itemView.findViewById(R.id.distance);
+            price = (TextView) itemView.findViewById(R.id.price);
+            distance = (TextView) itemView.findViewById(R.id.distance);
             oil_kind = (TextView) itemView.findViewById(R.id.oil_kind);
             oil_image = itemView.findViewById(R.id.oil_image);
             navi_button = itemView.findViewById(R.id.navi_button);
-
 
             mClickListener = clickListener;
             itemView.setOnClickListener(this);
@@ -108,12 +111,23 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
                     NaviOptions options = NaviOptions.newBuilder().setCoordType(CoordType.WGS84).setVehicleType(VehicleType.FIRST)
                             .setRpOption(RpOption.SHORTEST).build();
-                    //네비 경로 설정 , 카텍 좌표 , 1종 차량, 빠른길/최단거리 안내
+                    // 네비 경로 설정 , 카텍 좌표 , 1종 차량, 빠른길/최단거리 안내
+                    // 1종 승용차/소형승합차/소형화물차
 
                     KakaoNaviParams.Builder bu = KakaoNaviParams.newBuilder(destination).setNaviOptions(options);
 
                     KakaoNaviService.getInstance().navigate(view.getContext(), bu.build());
 
+                    /*
+                    if (NaviClient.getInstance().isKakaoNaviInstalled(view.getContext())) {
+
+
+
+                    } else {
+
+                        Log.i(TAG, "카카오내비 미설치");
+                    }
+                    */
 
                 }
             });
