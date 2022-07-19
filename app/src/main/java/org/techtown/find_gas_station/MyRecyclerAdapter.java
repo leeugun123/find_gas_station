@@ -118,17 +118,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
                     KakaoNaviService.getInstance().navigate(view.getContext(), bu.build());
 
-                    /*
-                    if (NaviClient.getInstance().isKakaoNaviInstalled(view.getContext())) {
-
-
-
-                    } else {
-
-                        Log.i(TAG, "카카오내비 미설치");
-                    }
-                    */
-
                 }
             });
 
@@ -141,7 +130,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
             mClickListener.onUserClicked(getAdapterPosition());
 
-        }//recyclerView 자체를 눌렀을때 나타나는 오류
+        }
 
 
 

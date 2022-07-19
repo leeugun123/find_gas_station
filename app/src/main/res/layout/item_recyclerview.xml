@@ -43,14 +43,13 @@
 
                 <TextView
                     android:id="@+id/name"
-                    android:layout_marginLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:text="현리주유소"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
                     android:textColor="#000000"
-                    />
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
 
             </LinearLayout>
@@ -97,18 +96,19 @@
                     android:textColor="#4CAF50"
                     android:textSize="25sp"/>
 
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/navi_button"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:drawableBottom="@drawable/navi"
+                    android:text=""
+                    android:textStyle="bold" />
+
+
             </LinearLayout>
 
         </LinearLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/navi_button"
-            android:layout_width="60dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:drawableBottom="@drawable/navi"
-            android:text=""
-            android:textStyle="bold" />
 
 
 
