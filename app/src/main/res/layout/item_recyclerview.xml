@@ -98,19 +98,17 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/navi_button_kakao"
-                    android:layout_width="40dp"
-                    android:layout_height="30dp"
-                    android:drawableBottom="@drawable/navi"
-                    android:text=""
+                    android:layout_width="80dp"
+                    android:layout_height="35dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="내비"
+                    android:drawableLeft="@drawable/navi_blue"
+                    android:textColor="@color/black"
+                    android:background="#FFEB3B"
                     android:textStyle="bold" />
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/navi_button_Tmap"
-                    android:layout_width="60dp"
-                    android:layout_height="30dp"
-                    android:drawableBottom="@drawable/tmap"
-                    android:text=""
-                    android:textStyle="bold" />
+
 
 
             </LinearLayout>

@@ -70,7 +70,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         ImageView oil_image;
 
         Button navi_button_kakao;
-        Button navi_button_Tmap;
+
 
         UserListRecyclerClickListener mClickListener;
 
@@ -83,7 +83,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             oil_kind = (TextView) itemView.findViewById(R.id.oil_kind);
             oil_image = itemView.findViewById(R.id.oil_image);
             navi_button_kakao = itemView.findViewById(R.id.navi_button_kakao);
-            navi_button_Tmap = itemView.findViewById(R.id.navi_button_Tmap);
 
             mClickListener = clickListener;
             itemView.setOnClickListener(this);
@@ -102,8 +101,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
                 @Override
                 public void onClick(View view) {
-
-
                     Log.i(TAG, "카카오내비 설치");
 
                     //카카오 navi API 코드
@@ -121,33 +118,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
                     KakaoNaviService.getInstance().navigate(view.getContext(),params);
 
-                    /*
-                    if (NaviClient.getInstance().isKakaoNaviInstalled(view.getContext())) {
-
-                        Log.i(TAG, "카카오내비 설치");
-
-                        //카카오 navi API 코드
-                        Location destination = Location.newBuilder(oil_list.get_oil_name(),oil_list.getWgs84X(), oil_list.getWgs84Y()).build();
-                        //현재 위치는 고려할 필요가 없는가?? 목적지 주유소 이름 ,x,y좌표
-
-                        NaviOptions options = NaviOptions.newBuilder().setCoordType(CoordType.WGS84).setVehicleType(VehicleType.FIRST)
-                                .setRpOption(RpOption.SHORTEST).build();
-                        // 네비 경로 설정 , 카텍 좌표 , 1종 차량, 빠른길/최단거리 안내
-                        // 1종 승용차/소형승합차/소형화물차
-
-                        KakaoNaviParams params = KakaoNaviParams.newBuilder(destination)
-                                .setNaviOptions(options)
-                                .build();
-
-                        KakaoNaviService.getInstance().navigate(view.getContext(),params);
-
-
-                    } else {
-
-
-
-                    }
-                   */
 
 
 
@@ -156,15 +126,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
 
 
-            navi_button_Tmap.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View view) {
-
-                    //T맵 navi API 코드
-
-                }
-            });//티맵 버튼을 눌렀을때
 
 
         }

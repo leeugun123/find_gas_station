@@ -3,6 +3,6 @@
     <string name="app_name">find_gas_station</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="kakao_app_key">8845be698470e8326f99a729d5ffbbef</string>
+    <string name="kakao_app_key">d522c426a1eb2601c487304a78ae9939</string>
 
 </resources>
