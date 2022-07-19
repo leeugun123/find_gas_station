@@ -97,10 +97,18 @@
                     android:textSize="25sp"/>
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/navi_button"
+                    android:id="@+id/navi_button_kakao"
                     android:layout_width="40dp"
                     android:layout_height="30dp"
                     android:drawableBottom="@drawable/navi"
+                    android:text=""
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/navi_button_Tmap"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:drawableBottom="@drawable/tmap"
                     android:text=""
                     android:textStyle="bold" />
 

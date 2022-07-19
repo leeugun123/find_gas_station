@@ -1,5 +1,7 @@
 package org.techtown.find_gas_station;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -53,6 +55,7 @@ import com.kakao.kakaonavi.NaviOptions;
 import com.kakao.kakaonavi.options.CoordType;
 import com.kakao.kakaonavi.options.RpOption;
 import com.kakao.kakaonavi.options.VehicleType;
+import com.kakao.sdk.navi.NaviClient;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -250,6 +253,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //Handler를 이용하지 않으면 googleMap 오류가 생기므로 핸들러 처리
 
         upRecyclerView();
+
 
 
     }
