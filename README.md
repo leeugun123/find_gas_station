@@ -43,10 +43,11 @@
 
 
 # 내 주변 주유소 정보
-![아이콘4](https://user-images.githubusercontent.com/50404123/157656906-aae509ea-442a-44d1-9dd8-cba09cd4f8b3.PNG)
+![image](https://user-images.githubusercontent.com/50404123/180202189-38ccaa7f-5b5c-4401-9c78-97d46f9f8f8e.png)
+![image](https://user-images.githubusercontent.com/50404123/180202438-e5b5ffc3-df57-4a83-b139-7562bde0c3e4.png)
 
-opinet이라는 주유소 공식 사이트에서 무료 API를 호출하여 그 정보를 가공하여
-RecyclerView로 나타내줌.
+
+opinet이라는 주유소 공식 사이트에서 무료 API를 호출 및 파싱을 통해 RecyclerView로 보여줌
 
 
 # 옵션 설정 화면
