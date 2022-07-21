@@ -192,6 +192,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+
+
         Red = BitmapFactory.decodeResource(getResources(),R.drawable.red_marker);
 
 
@@ -253,8 +255,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //Handler를 이용하지 않으면 googleMap 오류가 생기므로 핸들러 처리
 
         upRecyclerView();
-
-
 
     }
 
@@ -341,6 +341,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             //moil_list 수정
 
 
+
         }
 
 
@@ -400,7 +401,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
             Bitmap b = bitmapdraw.getBitmap();
-            Bitmap smallMarker = Bitmap.createScaledBitmap(b,90,90,false);
+            Bitmap smallMarker = Bitmap.createScaledBitmap(b,60,60,false);
             //Marker 이미지 표시
             markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
             storeMarkers.add(mMap.addMarker(markerOptions));//stroe Marker를 지도위에 다시 띄운다.
@@ -496,6 +497,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         }
 
+        Log.d( TAG, "지도가 준비되었습니다.!");
+
         mMap.getUiSettings().setZoomControlsEnabled(true);//확대/축소 컨트롤
         mMap.getUiSettings().setZoomGesturesEnabled(true);//줌 가능하도록 설정
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));//카메라 줌
@@ -590,20 +593,26 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void setStartLocation(){
+
+
         gpsTracker = new GpsTracker(MainActivity.this);
 
         LatLng DEFAULT_LOCATION = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
         //현재 위치 설정
         if (currentMarker != null) currentMarker.remove();
 
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, 10);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, 15);
 
         mMap.moveCamera(cameraUpdate);
+
+        Log.d( TAG, "초기설정");
+
     }//앱이 시작할때 자기 위치로 이동 시켜주는 메소드
 
 
 
     public void getData(float latitude,float Longtitude){
+
         x_pos.clear();
         y_pos.clear();
         //위치정보 초기화
@@ -674,7 +683,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-
     //여기 코드는 보지 않아 된다. GPS 요청 코드이다.
     /*
      * ActivityCompat.requestPermissions를 사용한 퍼미션 요청의 결과를 리턴받는 메소드입니다.
@@ -693,16 +701,26 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             // 모든 퍼미션을 허용했는지 체크합니다.
             for (int result : grandResults) {
                 if (result != PackageManager.PERMISSION_GRANTED) {
+
                     check_result = false;
                     break;
+
                 }
             }
 
+            //초기 어플을 시작할때  실행되는 메소드
 
             if (check_result) {
 
                 // 퍼미션을 허용했다면 위치 업데이트를 시작합니다.
-                startLocationUpdates();
+
+                setStartLocation();//주변 위치로 지도 업데이트
+                startLocationUpdates();//자기 위치 설정
+                init_reset();//주변 정보 가져오기
+
+                Log.d( TAG, "위치를 업데이트 합니다.");
+                //초기 어플을 설치할때 나타남
+
             } else {
                 // 거부한 퍼미션이 있다면 앱을 사용할 수 없는 이유를 설명해주고 앱을 종료합니다.2 가지 경우가 있습니다.
 
@@ -736,6 +754,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     }).show();
                 }
             }
+
+
 
         }
     }
