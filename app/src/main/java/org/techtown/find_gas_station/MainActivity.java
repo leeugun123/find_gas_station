@@ -221,11 +221,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 RoomDB db = Room.databaseBuilder(getApplicationContext(),
                         RoomDB.class,"RoomDB-db").allowMainThreadQueries().build();
 
-                //db.setDao().deleteAll();//데이터 전체 삭제
-
-                if(db.setDao().getAll().getOil_name().equals("")){
-                    db.setDao().insert(new Set("B027","1000","1"));
-                }
+                
+                db.setDao().insert(new Set("B027","1000","1"));
 
                 Set set = db.setDao().getAll();
 

@@ -15,13 +15,13 @@ public class Set {
     private int id;
 
     @ColumnInfo(name = "oil_name")
-    private String oil_name = ""; // 기름 종류
+    private String oil_name = "B027"; // 기름 종류
 
     @ColumnInfo(name = "oil_rad")
-    private String oil_rad = ""; // 반경 범위
+    private String oil_rad = "1000"; // 반경 범위
 
     @ColumnInfo(name = "oil_sort")
-    private String oil_sort = ""; // 정렬기준
+    private String oil_sort = "1"; // 정렬기준
 
     public Set(){
 
