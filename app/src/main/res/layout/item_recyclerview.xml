@@ -18,7 +18,7 @@
             android:id="@+id/oil_image"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_weight="1.5"
             android:src="@drawable/oil_2" />
 
         <LinearLayout
@@ -29,7 +29,7 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_weight="2"
+                android:layout_weight="3"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:orientation="horizontal">
@@ -46,12 +46,12 @@
 
                 <TextView
                     android:id="@+id/name"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="현리주유소"
                     android:textColor="#000000"
-                    android:textSize="20sp"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
 
 
@@ -63,57 +63,60 @@
                 android:orientation="horizontal"
                 android:layout_weight="5">
 
-                <TextView
-                    android:id="@+id/price"
+                <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="1670"
-                    android:layout_weight="4"
-                    android:textColor="#000000"
-                    android:textSize="40sp"
-                    android:textStyle="bold"
-                    />
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_weight="0.8">
+
+                    <TextView
+                        android:id="@+id/price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="1670"
+                        android:textColor="#000000"
+                        android:textSize="35dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="원"
+                        android:gravity="center_vertical"
+                        android:textSize="20sp"
+                        android:textColor="#000000"
+                        />
+
+
+                </LinearLayout>
+
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="원"
-                    android:textColor="#000000"
-                    android:layout_weight="1"
-                    android:textSize="25sp"
-                    android:textStyle="bold"
-                    />
-
-                <TextView
+                    android:layout_marginLeft="10dp"
                     android:id="@+id/distance"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="4"
-                    android:text="3234"
+                    android:layout_weight="0.8"
+                    android:text="3234M"
+                    android:gravity="left"
+                    android:layout_gravity="center_vertical"
                     android:textColor="#4CAF50"
                     android:textSize="30sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="m"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:textColor="#4CAF50"
-                    android:textSize="25sp"/>
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/navi_button_kakao"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="4"
-                    android:layout_marginLeft="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="내비"
                     android:drawableLeft="@drawable/navi_blue"
                     android:textColor="@color/black"
                     android:background="#FFEB3B"
+                    android:layout_gravity="center_vertical"
                     android:textStyle="bold" />
 
 

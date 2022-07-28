@@ -332,7 +332,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             GeoTransPoint out = GeoTrans.convert(GeoTrans.KATEC, GeoTrans.GEO,point);
             //KATEC -> Wgs84좌표계로 변경
 
-            moil_list.add(new oil_list((String) NAME.get(i),Integer.toString((int)gas_price.get(i)),Integer.toString((int)Math.round((Double)distance.get(i))),
+            moil_list.add(new oil_list((String) NAME.get(i),Integer.toString((int)gas_price.get(i)),Integer.toString((int)Math.round((Double)distance.get(i)))+"M",
                     ok,imageResource, (float)out.getX(),(float)out.getY()));
 
             //moil_list 수정
