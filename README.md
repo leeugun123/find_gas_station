@@ -1,3 +1,6 @@
+구글 플레이 다운로드 url : https://play.google.com/store/apps/details?id=com.roid.androidApp
+
+
 # find_gas_station
 내 주변 주유소를 쉽게 찾아주는 어플
 내 반경 1,3,5km 등 반경, 
