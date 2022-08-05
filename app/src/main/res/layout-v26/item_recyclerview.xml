@@ -72,21 +72,20 @@
 
                     <TextView
                         android:id="@+id/price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text="1670"
                         android:textColor="#000000"
                         android:autoSizeTextType="uniform"
-                        android:autoSizeMaxTextSize="35sp"
-                        android:autoSizeMinTextSize="15sp"
-
-
-
+                        android:autoSizeMaxTextSize="35dp"
+                        android:autoSizeMinTextSize="15dp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:text="원"
                         android:gravity="center_vertical"
@@ -97,23 +96,25 @@
 
                 </LinearLayout>
 
-
                 <TextView
                     android:layout_marginLeft="10dp"
                     android:id="@+id/distance"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="0.8"
                     android:text="3234M"
-                    android:gravity="left"
-                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:layout_gravity="center"
                     android:textColor="#4CAF50"
-                    android:textSize="30sp"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMaxTextSize="25dp"
+                    android:autoSizeMinTextSize="15dp"
                     android:textStyle="bold" />
 
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/navi_button_kakao"
+                    android:layout_marginLeft="5dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -123,6 +124,16 @@
                     android:background="#FFEB3B"
                     android:layout_gravity="center_vertical"
                     android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/intelButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:layout_marginLeft="5dp"
+                    android:drawableStart="@drawable/ic_baseline_add_24"
+                    android:background="@color/white"
+                    />
 
 
 
