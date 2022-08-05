@@ -70,6 +70,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         ImageView oil_image;
 
         Button navi_button_kakao;
+        Button intelButton;
 
 
         UserListRecyclerClickListener mClickListener;
@@ -83,6 +84,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             oil_kind = (TextView) itemView.findViewById(R.id.oil_kind);
             oil_image = itemView.findViewById(R.id.oil_image);
             navi_button_kakao = itemView.findViewById(R.id.navi_button_kakao);
+            intelButton = itemView.findViewById(R.id.intelButton);
 
             mClickListener = clickListener;
             itemView.setOnClickListener(this);
@@ -119,13 +121,17 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                     KakaoNaviService.getInstance().navigate(view.getContext(),params);
 
 
-
-
                 }
             }); //카카오 navi 버튼을 눌렀을때
 
+            intelButton.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
 
 
+                }
+            }); //intel 버튼을 눌렀을때
 
 
         }

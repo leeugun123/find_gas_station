@@ -89,6 +89,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private Button Setting;
 
+    ArrayList Uid = new ArrayList<>();// 주유소  uid
+
     ArrayList NAME = new ArrayList<>();//주유소 상호
     ArrayList x_pos = new ArrayList<>();//주유소 X좌표
     ArrayList y_pos = new ArrayList<>();//주유소 Y좌표
@@ -114,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public static final int REQUEST_CODE = 100;
 
-    //private String API_KEY = "F211129251";
+    private String API_KEY = "F211129251";
     private static final String TAG = "googlemap_example";
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int UPDATE_INTERVAL_MS = 1000;  // 1초
@@ -192,10 +194,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-
-
         Red = BitmapFactory.decodeResource(getResources(),R.drawable.red_marker);
-
 
         Setting = findViewById(R.id.setting);
         Setting.setOnClickListener(new View.OnClickListener() {
@@ -629,7 +628,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     //GEO를 KATEC으로 변환
 
 
-                    URL url = new URL("http://www.opinet.co.kr/api/aroundAll.do?code=F211129251&x="+ge.getX()+"&y="+ ge.getY() +"&radius="+ oil_intel[0] +"&sort="+ oil_intel[1] +"&prodcd="+ oil_intel[2] +"&out=json");
+                    URL url = new URL("http://www.opinet.co.kr/api/aroundAll.do?code="+ API_KEY +"&x="+ge.getX()+"&y="+ ge.getY() +"&radius="+ oil_intel[0] +"&sort="+ oil_intel[1] +"&prodcd="+ oil_intel[2] +"&out=json");
 
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("GET");//get 가져오기
