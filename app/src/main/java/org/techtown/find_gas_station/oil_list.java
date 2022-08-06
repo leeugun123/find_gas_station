@@ -2,6 +2,7 @@ package org.techtown.find_gas_station;
 
 public class oil_list {
 
+    String Uid;
     String oil_name;
     String price;
     String distance;
@@ -11,8 +12,9 @@ public class oil_list {
     float wgsX;//wgs84 좌표 x
     float wgsY;//wgs84 좌표 y
 
-    public oil_list(String oil_name, String price, String distance,String oil_kind,int image, float wgsX,float wgsY){
+    public oil_list(String Uid,String oil_name, String price, String distance,String oil_kind,int image, float wgsX,float wgsY){
 
+        this.Uid = Uid;
         this.oil_name = oil_name;
         this.price = price;
         this.distance = distance;
@@ -69,6 +71,13 @@ public class oil_list {
 
     public float getWgs84Y(){ return wgsY; }
 
+    public void setUid(String Uid){
+        this.Uid = Uid;
+    }
+
+    public String getUid(){
+        return Uid;
+    }
 
 
 

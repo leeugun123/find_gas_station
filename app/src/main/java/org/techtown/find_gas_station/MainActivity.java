@@ -331,7 +331,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             GeoTransPoint out = GeoTrans.convert(GeoTrans.KATEC, GeoTrans.GEO,point);
             //KATEC -> Wgs84좌표계로 변경
 
-            moil_list.add(new oil_list((String) NAME.get(i),Integer.toString((int)gas_price.get(i)),Integer.toString((int)Math.round((Double)distance.get(i)))+"M",
+            moil_list.add(new oil_list((String)Uid.get(i),(String) NAME.get(i),Integer.toString((int)gas_price.get(i)),Integer.toString((int)Math.round((Double)distance.get(i)))+"M",
                     ok,imageResource, (float)out.getX(),(float)out.getY()));
 
             //moil_list 수정
@@ -571,13 +571,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             JSONArray arr = (JSONArray) ar.get("OIL");
 
             for(int i=0; i<arr.length(); i++){
+
                 JSONObject dataObj = arr.getJSONObject(i);
+                Uid.add(dataObj.getString("UNI_ID"));
                 distance.add(dataObj.getDouble("DISTANCE"));
                 NAME.add(dataObj.getString("OS_NM"));//상호명
                 gas_price.add(dataObj.getInt("PRICE"));//가격
                 x_pos.add((float)dataObj.getDouble("GIS_X_COOR"));
                 y_pos.add((float)dataObj.getDouble("GIS_Y_COOR"));
                 trademark.add(dataObj.getString("POLL_DIV_CD"));
+
             }
 
         } catch (JSONException e) {
@@ -611,6 +614,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         x_pos.clear();
         y_pos.clear();
         //위치정보 초기화
+        Uid.clear();//id 초기화
         NAME.clear();//주유소 이름 초기화
         gas_price.clear();
         distance.clear();//거리 초기화
