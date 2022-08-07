@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public static final int REQUEST_CODE = 100;
 
     private String API_KEY = "F211129251";
+
     private static final String TAG = "googlemap_example";
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int UPDATE_INTERVAL_MS = 1000;  // 1초
@@ -275,6 +276,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         moil_list.clear();
 
         String ok= "";
+
         if(oil_intel[2].equals("B027")){
             ok = "휘발유";
         }
@@ -331,7 +333,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             GeoTransPoint out = GeoTrans.convert(GeoTrans.KATEC, GeoTrans.GEO,point);
             //KATEC -> Wgs84좌표계로 변경
 
-            moil_list.add(new oil_list((String)Uid.get(i),(String) NAME.get(i),Integer.toString((int)gas_price.get(i)),Integer.toString((int)Math.round((Double)distance.get(i)))+"M",
+            moil_list.add(new oil_list((String)Uid.get(i),(String) NAME.get(i),Integer.toString((int)gas_price.get(i)),((int)Math.round((Double)distance.get(i)))+"M",
                     ok,imageResource, (float)out.getX(),(float)out.getY()));
 
             //moil_list 수정
@@ -488,6 +490,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 // 요청 결과는 onRequestPermissionResult에서 수신됩니다.
                 ActivityCompat.requestPermissions( this, REQUIRED_PERMISSIONS,
                         PERMISSIONS_REQUEST_CODE);
+
             }
 
         }
@@ -570,18 +573,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             JSONObject ar = (JSONObject) obj.get("RESULT");
             JSONArray arr = (JSONArray) ar.get("OIL");
 
-            for(int i=0; i<arr.length(); i++){
 
-                JSONObject dataObj = arr.getJSONObject(i);
-                Uid.add(dataObj.getString("UNI_ID"));
-                distance.add(dataObj.getDouble("DISTANCE"));
-                NAME.add(dataObj.getString("OS_NM"));//상호명
-                gas_price.add(dataObj.getInt("PRICE"));//가격
-                x_pos.add((float)dataObj.getDouble("GIS_X_COOR"));
-                y_pos.add((float)dataObj.getDouble("GIS_Y_COOR"));
-                trademark.add(dataObj.getString("POLL_DIV_CD"));
 
-            }
+            JSONObject dataObj = arr.getJSONObject(0);
+
+            /*
+            Uid.add(dataObj.getString("UNI_ID"));
+            distance.add(dataObj.getDouble("DISTANCE"));
+            NAME.add(dataObj.getString("OS_NM"));//상호명
+            gas_price.add(dataObj.getInt("PRICE"));//가격
+            x_pos.add((float)dataObj.getDouble("GIS_X_COOR"));
+            y_pos.add((float)dataObj.getDouble("GIS_Y_COOR"));
+            trademark.add(dataObj.getString("POLL_DIV_CD"));
+            */
+
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -630,7 +635,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     GeoTransPoint point = new GeoTransPoint(Longtitude,latitude);
                     GeoTransPoint ge = GeoTrans.convert(GeoTrans.GEO,GeoTrans.KATEC,point);
                     //GEO를 KATEC으로 변환
-
 
                     URL url = new URL("http://www.opinet.co.kr/api/aroundAll.do?code="+ API_KEY +"&x="+ge.getX()+"&y="+ ge.getY() +"&radius="+ oil_intel[0] +"&sort="+ oil_intel[1] +"&prodcd="+ oil_intel[2] +"&out=json");
 

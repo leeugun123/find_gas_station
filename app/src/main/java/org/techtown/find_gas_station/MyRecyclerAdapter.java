@@ -23,9 +23,19 @@ import com.kakao.kakaonavi.options.RpOption;
 import com.kakao.kakaonavi.options.VehicleType;
 import com.kakao.sdk.navi.NaviClient;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.techtown.find_gas_station.GPS.GeoTrans;
+import org.techtown.find_gas_station.GPS.GeoTransPoint;
 import org.techtown.find_gas_station.GPS.GpsTracker;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Array;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.ViewHolder> {
@@ -128,9 +138,69 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
                 @Override
                 public void onClick(View view) {
+                    //Log.e(TAG,"=======================================" + oil_list.getUid());
 
+
+                    Thread readData = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            try {
+
+                                URL url = new URL("http://www.opinet.co.kr/api/detailById.do?code=F211129251&id="+ oil_list.getUid() + "&out=json");
+
+                                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                                connection.setRequestMethod("GET");//get 가져오기
+                                connection.setDoInput(true);
+
+                                InputStream is = connection.getInputStream();
+                                StringBuilder sb = new StringBuilder();
+                                BufferedReader br = new BufferedReader(new InputStreamReader(is,"UTF-8"));
+
+                                String result;
+                                while((result = br.readLine()) != null) {
+                                    sb.append(result + "\n");
+                                }
+
+                                result = sb.toString();
+
+                                try {
+                                        JSONObject obj = new JSONObject(result);
+                                        JSONObject ar = (JSONObject) obj.get("RESULT");
+                                        JSONArray arr = (JSONArray) ar.get("OIL");
+
+                                        JSONObject dataObj = arr.getJSONObject(0);
+
+                                        /*
+
+                                           Uid.add(dataObj.getString("UNI_ID"));
+                                           distance.add(dataObj.getDouble("DISTANCE"));
+                                           NAME.add(dataObj.getString("OS_NM"));//상호명
+                                           gas_price.add(dataObj.getInt("PRICE"));//가격
+                                           x_pos.add((float)dataObj.getDouble("GIS_X_COOR"));
+                                           y_pos.add((float)dataObj.getDouble("GIS_Y_COOR"));
+                                           trademark.add(dataObj.getString("POLL_DIV_CD"));
+
+                                        */
+
+
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }catch (Exception e){}
+                        }
+                    });
+                    readData.start();
+
+                    try {
+                        readData.join();
+                    }catch (Exception e){}
 
                 }
+
+
             }); //intel 버튼을 눌렀을때
 
 
