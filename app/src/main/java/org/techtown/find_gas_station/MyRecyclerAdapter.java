@@ -171,17 +171,24 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
                                         JSONObject dataObj = arr.getJSONObject(0);
 
-                                        /*
 
-                                           Uid.add(dataObj.getString("UNI_ID"));
-                                           distance.add(dataObj.getDouble("DISTANCE"));
-                                           NAME.add(dataObj.getString("OS_NM"));//상호명
-                                           gas_price.add(dataObj.getInt("PRICE"));//가격
-                                           x_pos.add((float)dataObj.getDouble("GIS_X_COOR"));
-                                           y_pos.add((float)dataObj.getDouble("GIS_Y_COOR"));
-                                           trademark.add(dataObj.getString("POLL_DIV_CD"));
+                                        String lotAddress = dataObj.getString("VAN_ADR");
+                                        //지번 주소
+                                        String stAddress = dataObj.getString("NEW_ADR");
+                                        //도로명 주소
+                                        String tel = dataObj.getString("TEL");
+                                        //전화번호
+                                        String oil_kind = dataObj.getString("LPG_YN");
+                                        //업종 구분 , N:주유소 Y:자동차주유소 C:주유소/충전소 겸업
+                                        String carWash = dataObj.getString("CAR_WASH_YN");
+                                        //세차장 존재 여부
+                                        String store = dataObj.getString("CVS_YN");
+                                        //편의점 존재 여부
 
-                                        */
+                                    Log.e(TAG,"======================================" + lotAddress);
+                                    //파싱은 제대로 됨
+
+
 
 
 

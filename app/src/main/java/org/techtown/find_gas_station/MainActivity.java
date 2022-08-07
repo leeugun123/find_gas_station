@@ -573,20 +573,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             JSONObject ar = (JSONObject) obj.get("RESULT");
             JSONArray arr = (JSONArray) ar.get("OIL");
 
+            for(int i=0; i<arr.length(); i++){
 
+                JSONObject dataObj = arr.getJSONObject(i);
+                Uid.add(dataObj.getString("UNI_ID"));
+                distance.add(dataObj.getDouble("DISTANCE"));
+                NAME.add(dataObj.getString("OS_NM"));//상호명
+                gas_price.add(dataObj.getInt("PRICE"));//가격
+                x_pos.add((float)dataObj.getDouble("GIS_X_COOR"));
+                y_pos.add((float)dataObj.getDouble("GIS_Y_COOR"));
+                trademark.add(dataObj.getString("POLL_DIV_CD"));
 
-            JSONObject dataObj = arr.getJSONObject(0);
-
-            /*
-            Uid.add(dataObj.getString("UNI_ID"));
-            distance.add(dataObj.getDouble("DISTANCE"));
-            NAME.add(dataObj.getString("OS_NM"));//상호명
-            gas_price.add(dataObj.getInt("PRICE"));//가격
-            x_pos.add((float)dataObj.getDouble("GIS_X_COOR"));
-            y_pos.add((float)dataObj.getDouble("GIS_Y_COOR"));
-            trademark.add(dataObj.getString("POLL_DIV_CD"));
-            */
-
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();
