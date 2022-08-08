@@ -13,6 +13,7 @@ public class IntelActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         binding = ActivityIntelBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

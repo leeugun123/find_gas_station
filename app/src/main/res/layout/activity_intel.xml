@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="지번 주소"
+        android:textStyle="bold"
         android:textSize="30sp"
         android:textColor="@color/black"
         tools:ignore="MissingConstraints"
@@ -21,7 +22,7 @@
         android:id="@+id/lotAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:textColor="@color/black"
         />
 
@@ -31,6 +32,7 @@
         android:text="도로명 주소"
         android:textSize="30sp"
         android:textColor="@color/black"
+        android:textStyle="bold"
         tools:ignore="MissingConstraints"
         />
 
@@ -38,7 +40,7 @@
         android:id="@+id/stAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:textColor="@color/black"
         />
 
@@ -46,6 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="30sp"
+        android:textStyle="bold"
         android:text="전화 번호"
         android:textColor="@color/black"
         />
@@ -54,7 +57,7 @@
         android:id="@+id/tel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:textColor="@color/black"
         />
 
@@ -62,6 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="30sp"
+        android:textStyle="bold"
         android:text="업종 구분"
         android:textColor="@color/black"
         />
@@ -70,7 +74,7 @@
         android:id="@+id/oil_kind"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:text=""
         android:textColor="@color/black"
         />
@@ -80,6 +84,7 @@
         android:layout_height="wrap_content"
         android:textSize="30sp"
         android:text="세차장 존재 여부"
+        android:textStyle="bold"
         android:textColor="@color/black"
         />
 
@@ -87,7 +92,7 @@
         android:id="@+id/carWash"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:text=""
         android:textColor="@color/black"
         />
@@ -96,6 +101,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="30sp"
+        android:textStyle="bold"
         android:text="편의점 존재 여부"
         android:textColor="@color/black"
         />
@@ -104,7 +110,7 @@
         android:id="@+id/store"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:text=""
         android:textColor="@color/black"
         />
