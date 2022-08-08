@@ -4,12 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import org.techtown.find_gas_station.databinding.ActivityIntelBinding;
+
 public class IntelActivity extends AppCompatActivity {
+
+    private ActivityIntelBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_intel);
+        binding = ActivityIntelBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
 
     }
 

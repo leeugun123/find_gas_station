@@ -26,6 +26,12 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    // ## ViewBinding 사용 설정 ######################
+    //Android Studio 버전 4.0 이상
+    buildFeatures {
+        viewBinding = true
+    }
+
 }
 
 dependencies {
