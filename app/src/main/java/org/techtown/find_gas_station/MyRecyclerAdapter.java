@@ -171,7 +171,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
                                         JSONObject dataObj = arr.getJSONObject(0);
 
-
                                         String lotAddress = dataObj.getString("VAN_ADR");
                                         //지번 주소
                                         String stAddress = dataObj.getString("NEW_ADR");
@@ -185,12 +184,11 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                                         String store = dataObj.getString("CVS_YN");
                                         //편의점 존재 여부
 
+
+
+
                                     Log.e(TAG,"======================================" + lotAddress);
                                     //파싱은 제대로 됨
-
-
-
-
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
