@@ -39,8 +39,8 @@
 
         <Button
             android:id="@+id/reset"
-            android:layout_width="40dp"
-            android:layout_height="match_parent"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@drawable/f5" />
@@ -58,15 +58,11 @@
         tools:context=".MainActivity" />
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list_recycle"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="12"/>
-
-
-
-
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list_recycle"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="12"
+        />
 
 </LinearLayout>
