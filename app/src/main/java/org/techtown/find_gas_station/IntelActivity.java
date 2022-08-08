@@ -19,6 +19,7 @@ public class IntelActivity extends AppCompatActivity {
         binding = ActivityIntelBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
         Intent receive_intent = getIntent();
 
         String lotAddress = receive_intent.getStringExtra("lotAddress");

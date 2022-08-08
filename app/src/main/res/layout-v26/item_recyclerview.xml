@@ -42,7 +42,9 @@
                     android:gravity="center"
                     android:textStyle="bold"
                     android:textColor="#ff7f00"
-                    android:textSize="20sp" />
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMaxTextSize="25dp"
+                    android:autoSizeMinTextSize="20dp" />
 
                 <TextView
                     android:id="@+id/name"
@@ -51,7 +53,9 @@
                     android:layout_marginLeft="10dp"
                     android:text="현리주유소"
                     android:textColor="#000000"
-                    android:textSize="17sp"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMaxTextSize="20dp"
+                    android:autoSizeMinTextSize="15dp"
                     android:textStyle="bold" />
 
 
@@ -95,24 +99,23 @@
                         android:textColor="#000000"
                         />
 
-
                 </LinearLayout>
 
+
                 <TextView
-                    android:layout_marginLeft="10dp"
                     android:id="@+id/distance"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.8"
-                    android:text="3234M"
-                    android:gravity="center"
                     android:layout_gravity="center"
-                    android:textColor="#4CAF50"
-                    android:autoSizeTextType="uniform"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="0.8"
                     android:autoSizeMaxTextSize="25dp"
                     android:autoSizeMinTextSize="15dp"
+                    android:autoSizeTextType="uniform"
+                    android:gravity="center"
+                    android:text="3234M"
+                    android:textColor="#4CAF50"
                     android:textStyle="bold" />
-
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/navi_button_kakao"
@@ -133,8 +136,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:layout_marginLeft="5dp"
-                    android:drawableStart="@drawable/ic_baseline_add_24"
-                    android:background="@color/white"
+                    android:text="상세 보기"
+                    android:autoSizeMaxTextSize="15dp"
+                    android:autoSizeMinTextSize="10dp"
+                    android:autoSizeTextType="uniform"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:background="#F57C00"
                     />
 
             </LinearLayout>
@@ -145,16 +153,28 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/img_carWash"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ㄷㄷㄷㄷ"
-            android:textColor="#000000"
+            android:src="@drawable/car_wash"
+            android:visibility="visible"
+            />
+        <!-- 세차장 -->
+
+        <ImageView
+            android:id="@+id/img_conStore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/conven_store"
+            android:layout_marginLeft="5dp"
             />
 
+        <!-- 편의점 -->
 
     </LinearLayout>
 

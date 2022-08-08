@@ -72,7 +72,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         return oil_lists.size();
     }
 
-
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView name;
@@ -83,6 +82,22 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
         Button navi_button_kakao;
         Button intelButton;
+
+        ImageView imgCarWash;//세차장 인증 유무
+        ImageView imgConStore;//편의점 인증 유무
+
+        String lotAddress;
+        //지번 주소
+        String stAddress;
+        //도로명 주소
+        String tel;
+        //전화번호
+        String oil;
+        //업종 구분 , N:주유소 Y:자동차주유소 C:주유소/충전소 겸업
+        String carWash;
+        //세차장 존재 여부
+        String store;
+        //편의점 존재 여부
 
 
         UserListRecyclerClickListener mClickListener;
@@ -98,6 +113,10 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             navi_button_kakao = itemView.findViewById(R.id.navi_button_kakao);
             intelButton = itemView.findViewById(R.id.intelButton);
 
+            imgCarWash = itemView.findViewById(R.id.img_carWash);
+            imgConStore = itemView.findViewById(R.id.img_conStore);
+
+
             mClickListener = clickListener;
             itemView.setOnClickListener(this);
 
@@ -110,6 +129,83 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             distance.setText(oil_list.getDistance());
             oil_kind.setText(oil_list.getOil_kind());
             oil_image.setImageResource(oil_list.get_image());
+
+            /*
+            Thread readData = new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+                    try {
+
+                        URL url = new URL("http://www.opinet.co.kr/api/detailById.do?code=F211129251&id="+ oil_list.getUid() + "&out=json");
+
+                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                        connection.setRequestMethod("GET");//get 가져오기
+                        connection.setDoInput(true);
+
+                        InputStream is = connection.getInputStream();
+                        StringBuilder sb = new StringBuilder();
+                        BufferedReader br = new BufferedReader(new InputStreamReader(is,"UTF-8"));
+
+                        String result;
+                        while((result = br.readLine()) != null) {
+                            sb.append(result + "\n");
+                        }
+
+                        result = sb.toString();
+
+                        try {
+
+                            JSONObject obj = new JSONObject(result);
+                            JSONObject ar = (JSONObject) obj.get("RESULT");
+                            JSONArray arr = (JSONArray) ar.get("OIL");
+
+                            JSONObject dataObj = arr.getJSONObject(0);
+
+                            lotAddress = dataObj.getString("VAN_ADR");
+                            //지번 주소
+                            stAddress = dataObj.getString("NEW_ADR");
+                            //도로명 주소
+                            tel = dataObj.getString("TEL");
+                            //전화번호
+                            oil = dataObj.getString("LPG_YN");
+                            //업종 구분 , N:주유소 Y:자동차주유소 C:주유소/충전소 겸업
+                            carWash = dataObj.getString("CAR_WASH_YN");
+                            //세차장 존재 여부
+                            store = dataObj.getString("CVS_YN");
+                            //편의점 존재 여부
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }catch (Exception e){}
+                }
+            });
+            readData.start();
+
+            try {
+                readData.join();
+            }catch (Exception e){}
+
+
+            if(carWash.equals("Y")){
+                imgCarWash.setVisibility(View.VISIBLE);
+            }
+            else{
+                imgCarWash.setVisibility(View.GONE);
+            }
+
+            if(store.equals("Y")){
+                imgConStore.setVisibility(View.VISIBLE);
+            }
+            else{
+                imgConStore.setVisibility(View.GONE);
+            }
+            //이미지 존재 여부
+            */
+
 
             navi_button_kakao.setOnClickListener(new View.OnClickListener() {
 
@@ -136,82 +232,25 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                 }
             }); //카카오 navi 버튼을 눌렀을때
 
+
+
             intelButton.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View view) {
 
-                    Thread readData = new Thread(new Runnable() {
-                        @Override
-                        public void run() {
+                    Intent intent = new Intent(itemView.getContext(),IntelActivity.class);
 
-                            try {
+                    intent.putExtra("lotAddress",lotAddress);
+                    intent.putExtra("stAddress",stAddress);
+                    intent.putExtra("tel",tel);
+                    intent.putExtra("oil_kind",oil);
+                    intent.putExtra("carWash",carWash);
+                    intent.putExtra("store",store);
 
-                                URL url = new URL("http://www.opinet.co.kr/api/detailById.do?code=F211129251&id="+ oil_list.getUid() + "&out=json");
-
-                                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                                connection.setRequestMethod("GET");//get 가져오기
-                                connection.setDoInput(true);
-
-                                InputStream is = connection.getInputStream();
-                                StringBuilder sb = new StringBuilder();
-                                BufferedReader br = new BufferedReader(new InputStreamReader(is,"UTF-8"));
-
-                                String result;
-                                while((result = br.readLine()) != null) {
-                                    sb.append(result + "\n");
-                                }
-
-                                result = sb.toString();
-
-                                try {
-
-                                        JSONObject obj = new JSONObject(result);
-                                        JSONObject ar = (JSONObject) obj.get("RESULT");
-                                        JSONArray arr = (JSONArray) ar.get("OIL");
-
-                                        JSONObject dataObj = arr.getJSONObject(0);
-
-                                        String lotAddress = dataObj.getString("VAN_ADR");
-                                        //지번 주소
-                                        String stAddress = dataObj.getString("NEW_ADR");
-                                        //도로명 주소
-                                        String tel = dataObj.getString("TEL");
-                                        //전화번호
-                                        String oil_kind = dataObj.getString("LPG_YN");
-                                        //업종 구분 , N:주유소 Y:자동차주유소 C:주유소/충전소 겸업
-                                        String carWash = dataObj.getString("CAR_WASH_YN");
-                                        //세차장 존재 여부
-                                        String store = dataObj.getString("CVS_YN");
-                                        //편의점 존재 여부
-
-                                    Intent intent = new Intent(itemView.getContext(),IntelActivity.class);
-
-                                    intent.putExtra("lotAddress",lotAddress);
-                                    intent.putExtra("stAddress",stAddress);
-                                    intent.putExtra("tel",tel);
-                                    intent.putExtra("oil_kind",oil_kind);
-                                    intent.putExtra("carWash",carWash);
-                                    intent.putExtra("store",store);
-
-                                    itemView.getContext().startActivity(intent);
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                            }catch (Exception e){}
-                        }
-                    });
-                    readData.start();
-
-                    try {
-                        readData.join();
-                    }catch (Exception e){}
-
+                    itemView.getContext().startActivity(intent);
 
                 }
-
 
             }); //intel 버튼을 눌렀을때
 

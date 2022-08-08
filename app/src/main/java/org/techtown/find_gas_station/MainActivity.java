@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     ArrayList trademark = new ArrayList<>();//트레이드 마크
 
+
     private int imageResource;
 
     private GoogleMap mMap;//구글 맵
