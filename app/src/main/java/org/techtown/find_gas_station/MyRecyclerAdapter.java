@@ -2,6 +2,8 @@ package org.techtown.find_gas_station;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -138,8 +140,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
                 @Override
                 public void onClick(View view) {
-                    //Log.e(TAG,"=======================================" + oil_list.getUid());
-
 
                     Thread readData = new Thread(new Runnable() {
                         @Override
@@ -165,6 +165,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                                 result = sb.toString();
 
                                 try {
+
                                         JSONObject obj = new JSONObject(result);
                                         JSONObject ar = (JSONObject) obj.get("RESULT");
                                         JSONArray arr = (JSONArray) ar.get("OIL");
@@ -184,11 +185,16 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                                         String store = dataObj.getString("CVS_YN");
                                         //편의점 존재 여부
 
+                                    Intent intent = new Intent(itemView.getContext(),IntelActivity.class);
 
+                                    intent.putExtra("lotAddress",lotAddress);
+                                    intent.putExtra("stAddress",stAddress);
+                                    intent.putExtra("tel",tel);
+                                    intent.putExtra("oil_kind",oil_kind);
+                                    intent.putExtra("carWash",carWash);
+                                    intent.putExtra("store",store);
 
-
-                                    Log.e(TAG,"======================================" + lotAddress);
-                                    //파싱은 제대로 됨
+                                    itemView.getContext().startActivity(intent);
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -202,6 +208,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                     try {
                         readData.join();
                     }catch (Exception e){}
+
 
                 }
 
