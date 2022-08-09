@@ -334,7 +334,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             GeoTransPoint out = GeoTrans.convert(GeoTrans.KATEC, GeoTrans.GEO,point);
             //KATEC -> Wgs84좌표계로 변경
 
-            moil_list.add(new oil_list((String)Uid.get(i),(String) NAME.get(i),Integer.toString((int)gas_price.get(i)),((int)Math.round((Double)distance.get(i)))+"M",
+            moil_list.add(new oil_list((String)Uid.get(i),(String) NAME.get(i),Integer.toString((int)gas_price.get(i)),((int)Math.round((Double)distance.get(i)))+"m",
                     ok,imageResource, (float)out.getX(),(float)out.getY()));
 
             //moil_list 수정
@@ -360,7 +360,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(temp); //지정하는 포지션 표시
             markerOptions.title((String) NAME.get(i)+" 가격 "+ (int) gas_price.get(i) + "원");//주유소 명
-            markerOptions.snippet("현 위치에서부터의 거리 " + (double) distance.get(i) +"M");
+            markerOptions.snippet("현 위치에서부터의 거리 " + (double) distance.get(i) +"m");
             markerOptions.draggable(true);
 
             BitmapDrawable bitmapdraw;
