@@ -7,12 +7,44 @@
     android:orientation="vertical"
     tools:context=".IntelActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:layout_weight="1"
+            android:src="@drawable/conven_store" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="오천만 주유소"
+                android:textColor="#000000"
+                android:textSize="30sp"
+                android:layout_centerInParent="true"
+                />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="지번 주소"
         android:textStyle="bold"
-        android:textSize="30sp"
+        android:autoSizeMaxTextSize="35dp"
+        android:autoSizeMinTextSize="25dp"
+        android:autoSizeTextType="uniform"
         android:textColor="@color/black"
         tools:ignore="MissingConstraints"
         />

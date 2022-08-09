@@ -213,6 +213,13 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
                     Intent intent = new Intent(itemView.getContext(),IntelActivity.class);
 
+                    intent.putExtra("title",oil_list.get_oil_name());
+                    //주유소 이름
+                    intent.putExtra("gas_img",oil_list.get_image());
+                    //주유소 imageView (정수임)
+
+
+
                     intent.putExtra("lotAddress",lotAddress);
                     intent.putExtra("stAddress",stAddress);
                     intent.putExtra("tel",tel);

@@ -19,8 +19,14 @@ public class IntelActivity extends AppCompatActivity {
         binding = ActivityIntelBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
         Intent receive_intent = getIntent();
+
+        String title = receive_intent.getStringExtra("title");
+        binding.title.setText(title);//주유소 이름
+
+        int image = receive_intent.getIntExtra("gas_img",R.drawable.oil_2);
+        binding.gasImage.setImageResource(image);
+        //주유소 이미지
 
         String lotAddress = receive_intent.getStringExtra("lotAddress");
         binding.lotAddress.setText(lotAddress);//지번 주소
@@ -47,18 +53,26 @@ public class IntelActivity extends AppCompatActivity {
 
         String carWash = receive_intent.getStringExtra("carWash");
         if(carWash.equals("Y")){
-            binding.carWash.setText("존재 O");
+            binding.carWash.setText("O");
             binding.carWash.setTextColor(Color.parseColor("#009900"));
         }
         else{
-            binding.carWash.setText("존재 X");
+            binding.carWash.setText("X");
             binding.carWash.setTextColor(Color.parseColor("#ff0000"));
         }
 
 
 
         String store = receive_intent.getStringExtra("store");
-        binding.store.setText(store);
+
+        if(store.equals("Y")){
+            binding.store.setText("O");
+            binding.carWash.setTextColor(Color.parseColor("#009900"));
+        }
+        else{
+            binding.store.setText("X");
+            binding.store.setTextColor(Color.parseColor("#ff0000"));
+        }
 
 
     }
