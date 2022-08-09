@@ -43,8 +43,8 @@ public class IntelActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent tt = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + tel));
-                startActivity(tt);
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + tel));
+                startActivity(intent);
 
             }
         });//전화 걸기
