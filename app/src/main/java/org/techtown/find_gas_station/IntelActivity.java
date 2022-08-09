@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 
 import org.techtown.find_gas_station.databinding.ActivityIntelBinding;
 
@@ -37,6 +39,16 @@ public class IntelActivity extends AppCompatActivity {
         String tel = receive_intent.getStringExtra("tel");
         binding.tel.setText(tel);//전화번호
 
+        binding.call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent tt = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + tel));
+                startActivity(tt);
+
+            }
+        });//전화 걸기
+
         String oil_kind = receive_intent.getStringExtra("oil_kind");
 
         if(oil_kind.equals("N")){
@@ -55,23 +67,25 @@ public class IntelActivity extends AppCompatActivity {
         if(carWash.equals("Y")){
             binding.carWash.setText("O");
             binding.carWash.setTextColor(Color.parseColor("#009900"));
+            //초록색
         }
         else{
             binding.carWash.setText("X");
             binding.carWash.setTextColor(Color.parseColor("#ff0000"));
+            //빨간색
         }
-
-
 
         String store = receive_intent.getStringExtra("store");
 
         if(store.equals("Y")){
             binding.store.setText("O");
             binding.carWash.setTextColor(Color.parseColor("#009900"));
+            //초록색
         }
         else{
             binding.store.setText("X");
             binding.store.setTextColor(Color.parseColor("#ff0000"));
+            //빨간색
         }
 
 

@@ -91,10 +91,19 @@
         <TextView
             android:id="@+id/tel"
             android:layout_marginLeft="10dp"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
+            android:textStyle="italic"
             android:textColor="@color/black"
+            />
+
+        <Button
+            android:id="@+id/call"
+            android:layout_marginLeft="5dp"
+            android:layout_width="45dp"
+            android:layout_height="40dp"
+            android:drawableLeft="@drawable/ic_baseline_call_24"
             />
 
     </LinearLayout>
