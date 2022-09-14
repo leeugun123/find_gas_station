@@ -31,6 +31,8 @@
      
 ## 4. 스플래쉬 화면 유지시간 최소화 
 
+## 5. 상세정보 버튼을 생성하여 주유소의 상세 정보를 확인 할 수 있음.
+
 
 # 버그 수정
 
@@ -39,6 +41,9 @@
  
 2. xml에서 textView나 Button이 분산되는 경우가 있었는데 constraintlayout -> RelativeLayout으로 변경함으로써 제자리에 있도록 수정
 
+3. 또한 각 휴대폰마다 크기가 다르기 때문에 Button, TextView의 크기가 각각 달라져 UI가 망가지는 이슈(?)가 있었다.
+-> xml 상속하여 textSize를 최대크기와 최소크기로 맞추고, layout_weight를 설정하여 각 화면마다 뷰의 비율을 설정하여 UI를 개선하였다.
+
 
 # 스플래쉬 화면
 ![아이콘](https://user-images.githubusercontent.com/50404123/157656737-53b150dc-d932-473c-9466-0f1d727a4959.PNG)
@@ -46,8 +51,8 @@
 
 
 # 내 주변 주유소 정보
-![image](https://user-images.githubusercontent.com/50404123/180202189-38ccaa7f-5b5c-4401-9c78-97d46f9f8f8e.png)
-![image](https://user-images.githubusercontent.com/50404123/180202438-e5b5ffc3-df57-4a83-b139-7562bde0c3e4.png)
+![image](https://user-images.githubusercontent.com/50404123/189346576-33940ffa-99b0-4a77-9ffc-619ef1a84313.png)
+![image](https://user-images.githubusercontent.com/50404123/189346603-23119148-edd4-44da-8674-ea49b8e57324.png)
 
 
 opinet이라는 주유소 공식 사이트에서 무료 API를 호출 및 파싱을 통해 RecyclerView로 보여줌
