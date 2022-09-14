@@ -30,6 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="오천만 주유소"
+                android:gravity="center"
                 android:textColor="#000000"
                 android:textSize="20sp" />
             
@@ -95,7 +96,7 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:textStyle="italic"
-            android:textColor="@color/black"
+            android:textColor="#109E17"
             />
 
         <Button

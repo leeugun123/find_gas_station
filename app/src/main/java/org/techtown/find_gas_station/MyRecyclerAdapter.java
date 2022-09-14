@@ -40,10 +40,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+
 public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.ViewHolder> {
 
     private ArrayList<oil_list> oil_lists = new ArrayList<>();
     private UserListRecyclerClickListener mClickListener;
+    private static final String GAS_API_KEY = BuildConfig.gas_api_key;
 
     public MyRecyclerAdapter(ArrayList<oil_list> Oil_lists,UserListRecyclerClickListener clickListener){
         oil_lists = Oil_lists;
@@ -161,7 +163,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
                             try {
 
-                                URL url = new URL("http://www.opinet.co.kr/api/detailById.do?code=F211129251&id="+ oil_list.getUid() + "&out=json");
+                                URL url = new URL("http://www.opinet.co.kr/api/detailById.do?code="+ GAS_API_KEY +"&id="+ oil_list.getUid() + "&out=json");
 
                                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                                 connection.setRequestMethod("GET");//get 가져오기

@@ -3,6 +3,10 @@ plugins {
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
+//선언 및 키 값을 불러옴
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 android {
     compileSdk 31
 
@@ -10,10 +14,13 @@ android {
         applicationId "com.roid.androidApp"
         minSdk 21
         targetSdk 30
-        versionCode 8
-        versionName "1.4"
+        versionCode 9
+        versionName "1.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField ("String", "GAS_API_KEY", properties.getProperty("gas_api_key"))
+        
     }
 
     buildTypes {

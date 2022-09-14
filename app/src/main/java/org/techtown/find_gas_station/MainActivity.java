@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public static final int REQUEST_CODE = 100;
 
-    private String API_KEY = "F211129251";
+    private String API_KEY = BuildConfig.gas_api_key;
 
     private static final String TAG = "googlemap_example";
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
