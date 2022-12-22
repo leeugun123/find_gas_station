@@ -143,8 +143,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private View mLayout;  // Snackbar 사용하기 위해서는 View가 필요합니다.
     // (참고로 Toast에서는 Context가 필요했습니다.)
 
-
-
     //Room DB 변수 추가
 
     @Override
@@ -222,8 +220,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 RoomDB db = Room.databaseBuilder(getApplicationContext(),
                         RoomDB.class,"RoomDB-db").allowMainThreadQueries().build();
 
-                
                 db.setDao().insert(new Set("B027","1000","1"));
+                //null 방지
 
                 Set set = db.setDao().getAll();
 
@@ -412,6 +410,148 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
+
+
+
+
+
+    //문자열 파싱
+    public void JsonParse(String str){
+
+        try {
+            JSONObject obj = new JSONObject(str);
+            JSONObject ar = (JSONObject) obj.get("RESULT");
+            JSONArray arr = (JSONArray) ar.get("OIL");
+
+            for(int i=0; i<arr.length(); i++){
+
+                JSONObject dataObj = arr.getJSONObject(i);
+                Uid.add(dataObj.getString("UNI_ID"));
+                distance.add(dataObj.getDouble("DISTANCE"));
+                NAME.add(dataObj.getString("OS_NM"));//상호명
+                gas_price.add(dataObj.getInt("PRICE"));//가격
+                x_pos.add((float)dataObj.getDouble("GIS_X_COOR"));
+                y_pos.add((float)dataObj.getDouble("GIS_Y_COOR"));
+                trademark.add(dataObj.getString("POLL_DIV_CD"));
+
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+
+                Log.e("TAG","실행이 됩니다.");
+
+
+                RoomDB db = Room.databaseBuilder(getApplicationContext(),
+                        RoomDB.class,"RoomDB-db").allowMainThreadQueries().build();
+
+                Set set = db.setDao().getAll();
+
+                oil_intel[0] = set.getOil_rad();
+                //반경
+
+                oil_intel[1] = set.getOil_sort();
+                //정렬 기준
+
+                oil_intel[2] = set.getOil_name();
+
+                if(oil_intel[1].equals("1")){
+                    array_first.setText("가격순");
+                }
+                else
+                    array_first.setText("거리순");
+
+                init_reset();
+
+                switch (requestCode) {
+
+                    case GPS_ENABLE_REQUEST_CODE:
+
+                        //사용자가 GPS 활성 시켰는지 검사
+                        if (checkLocationServicesStatus()) {
+                            if (checkLocationServicesStatus()) {
+                                Log.d(TAG, "onActivityResult : GPS 활성화 되있음");
+                                needRequest = true;
+                                return;
+                            }
+                        }
+                        break;
+                }
+
+            }
+
+        }
+
+    }
+
+
+    public void getData(float latitude,float Longtitude){
+
+        x_pos.clear();
+        y_pos.clear();
+        //위치정보 초기화
+        Uid.clear();//id 초기화
+        NAME.clear();//주유소 이름 초기화
+        gas_price.clear();
+        distance.clear();//거리 초기화
+        //미리 Arraylist를 초기화 하는 것이 좋다.
+
+        //인터넷을 사용하는 것이기 때문에 Thread 사용
+        //gpsTransfer 클래스를 이용하여 location 매개변수를 사용해 위도,경도 -> x,y좌표로 초기화
+        Thread readData = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                    GeoTransPoint point = new GeoTransPoint(Longtitude,latitude);
+                    GeoTransPoint ge = GeoTrans.convert(GeoTrans.GEO,GeoTrans.KATEC,point);
+                    //GEO를 KATEC으로 변환
+
+                    URL url = new URL("http://www.opinet.co.kr/api/aroundAll.do?code="+ API_KEY +"&x="+ge.getX()+"&y="+ ge.getY() +"&radius="+ oil_intel[0] +"&sort="+ oil_intel[1] +"&prodcd="+ oil_intel[2] +"&out=json");
+
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");//get 가져오기
+                    connection.setDoInput(true);
+
+                    InputStream is = connection.getInputStream();
+                    StringBuilder sb = new StringBuilder();
+                    BufferedReader br = new BufferedReader(new InputStreamReader(is,"UTF-8"));
+
+                    String result;
+                    while((result = br.readLine()) != null) {
+                        sb.append(result + "\n");
+                    }//일단 가져오는 것은 문제가 없음
+
+                    result = sb.toString();
+                    Log.d("result",result);
+                    JsonParse(result);
+                }catch (Exception e){}
+            }
+        });
+        readData.start();
+
+        try {
+            readData.join();
+        }catch (Exception e){}
+
+
+    }
+
+    //위치가 조회되지 않을때 발생하는 메소드
+
+
     public void upRecyclerView(){
 
         //Log.d("TAG", "리사이클러뷰 위로 올리기!");//locationList의 size는 0 이상이다.
@@ -439,6 +579,50 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+
+
+    final LocationCallback locationCallback = new LocationCallback() {
+
+        @Override
+        public void onLocationResult(@NonNull LocationResult locationResult) {
+            super.onLocationResult(locationResult);
+
+            //계속해서 업데이트 된다....
+            //계속 콜백함수로 호출되는 함수
+        }
+
+    };
+
+
+    //시작 위치 업데이트
+    private void startLocationUpdates() {
+
+        if (!checkLocationServicesStatus()) {
+            Log.d(TAG, "startLocationUpdates : call showDialogForLocationServiceSetting");
+            showDialogForLocationServiceSetting();
+        }else {
+
+            int hasFineLocationPermission = ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION);
+            int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION);
+
+            if (hasFineLocationPermission != PackageManager.PERMISSION_GRANTED ||
+                    hasCoarseLocationPermission != PackageManager.PERMISSION_GRANTED   ) {
+                Log.d(TAG, "startLocationUpdates : 퍼미션 안가지고 있음");
+                return;
+            }
+
+            Log.d(TAG, "startLocationUpdates : call mFusedLocationClient.requestLocationUpdates");
+
+            mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
+
+            if (checkPermission())
+                mMap.setMyLocationEnabled(true);
+
+        }
+
+    }
 
 
     @Override
@@ -511,161 +695,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 Log.d( TAG, "onMapClick :");
             }
-    });
-}
-
-    final LocationCallback locationCallback = new LocationCallback() {
-
-        @Override
-        public void onLocationResult(@NonNull LocationResult locationResult) {
-            super.onLocationResult(locationResult);
-
-            //계속해서 업데이트 된다....
-            //계속 콜백함수로 호출되는 함수
-        }
-
-    };
-
-
-    //시작 위치 업데이트
-    private void startLocationUpdates() {
-
-        if (!checkLocationServicesStatus()) {
-            Log.d(TAG, "startLocationUpdates : call showDialogForLocationServiceSetting");
-            showDialogForLocationServiceSetting();
-        }else {
-
-            int hasFineLocationPermission = ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION);
-            int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_COARSE_LOCATION);
-
-            if (hasFineLocationPermission != PackageManager.PERMISSION_GRANTED ||
-                    hasCoarseLocationPermission != PackageManager.PERMISSION_GRANTED   ) {
-                Log.d(TAG, "startLocationUpdates : 퍼미션 안가지고 있음");
-                return;
-            }
-
-            Log.d(TAG, "startLocationUpdates : call mFusedLocationClient.requestLocationUpdates");
-
-            mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
-
-            if (checkPermission())
-                mMap.setMyLocationEnabled(true);
-
-        }
-
-    }
-
-
-    public boolean checkLocationServicesStatus() {
-        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-                || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-    }//위치서비스상태 확인
-
-
-    //문자열 파싱
-    public void JsonParse(String str){
-
-        try {
-            JSONObject obj = new JSONObject(str);
-            JSONObject ar = (JSONObject) obj.get("RESULT");
-            JSONArray arr = (JSONArray) ar.get("OIL");
-
-            for(int i=0; i<arr.length(); i++){
-
-                JSONObject dataObj = arr.getJSONObject(i);
-                Uid.add(dataObj.getString("UNI_ID"));
-                distance.add(dataObj.getDouble("DISTANCE"));
-                NAME.add(dataObj.getString("OS_NM"));//상호명
-                gas_price.add(dataObj.getInt("PRICE"));//가격
-                x_pos.add((float)dataObj.getDouble("GIS_X_COOR"));
-                y_pos.add((float)dataObj.getDouble("GIS_Y_COOR"));
-                trademark.add(dataObj.getString("POLL_DIV_CD"));
-
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-    }
-
-    public void setStartLocation(){
-
-
-        gpsTracker = new GpsTracker(MainActivity.this);
-
-        LatLng DEFAULT_LOCATION = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
-        //현재 위치 설정
-        if (currentMarker != null) currentMarker.remove();
-
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, 15);
-
-        mMap.moveCamera(cameraUpdate);
-
-        Log.d( TAG, "초기설정");
-
-    }//앱이 시작할때 자기 위치로 이동 시켜주는 메소드
-
-
-
-    public void getData(float latitude,float Longtitude){
-
-        x_pos.clear();
-        y_pos.clear();
-        //위치정보 초기화
-        Uid.clear();//id 초기화
-        NAME.clear();//주유소 이름 초기화
-        gas_price.clear();
-        distance.clear();//거리 초기화
-        //미리 Arraylist를 초기화 하는 것이 좋다.
-
-        //인터넷을 사용하는 것이기 때문에 Thread 사용
-        //gpsTransfer 클래스를 이용하여 location 매개변수를 사용해 위도,경도 -> x,y좌표로 초기화
-        Thread readData = new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                try {
-                    GeoTransPoint point = new GeoTransPoint(Longtitude,latitude);
-                    GeoTransPoint ge = GeoTrans.convert(GeoTrans.GEO,GeoTrans.KATEC,point);
-                    //GEO를 KATEC으로 변환
-
-                    URL url = new URL("http://www.opinet.co.kr/api/aroundAll.do?code="+ API_KEY +"&x="+ge.getX()+"&y="+ ge.getY() +"&radius="+ oil_intel[0] +"&sort="+ oil_intel[1] +"&prodcd="+ oil_intel[2] +"&out=json");
-
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("GET");//get 가져오기
-                    connection.setDoInput(true);
-
-                    InputStream is = connection.getInputStream();
-                    StringBuilder sb = new StringBuilder();
-                    BufferedReader br = new BufferedReader(new InputStreamReader(is,"UTF-8"));
-
-                    String result;
-                    while((result = br.readLine()) != null) {
-                        sb.append(result + "\n");
-                    }//일단 가져오는 것은 문제가 없음
-
-                    result = sb.toString();
-                    Log.d("result",result);
-                    JsonParse(result);
-                }catch (Exception e){}
-            }
         });
-        readData.start();
-
-        try {
-            readData.join();
-        }catch (Exception e){}
-
-
     }
 
-    //위치가 조회되지 않을때 발생하는 메소드
 
     //여기부터는 런타임 퍼미션 처리을 위한 메소드들
     private boolean checkPermission() {
@@ -763,6 +795,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
+    public boolean checkLocationServicesStatus() {
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }//위치서비스상태 확인
+
     //여기부터는 GPS 활성화를 위한 메소드들
     private void showDialogForLocationServiceSetting() {
 
@@ -820,58 +859,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }//백그라운드에서도 화면이 계속 유지될수 있도록 함.
 
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    public void setStartLocation(){
 
 
-        if (requestCode == REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
+        gpsTracker = new GpsTracker(MainActivity.this);
 
-                Log.e("TAG","실행이 됩니다.");
+        LatLng DEFAULT_LOCATION = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+        //현재 위치 설정
+        if (currentMarker != null) currentMarker.remove();
+
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, 15);
+
+        mMap.moveCamera(cameraUpdate);
+
+        Log.d( TAG, "초기설정");
+
+    }//앱이 시작할때 자기 위치로 이동 시켜주는 메소드
 
 
-                RoomDB db = Room.databaseBuilder(getApplicationContext(),
-                        RoomDB.class,"RoomDB-db").allowMainThreadQueries().build();
 
-                Set set = db.setDao().getAll();
-
-                oil_intel[0] = set.getOil_rad();
-                //반경
-
-                oil_intel[1] = set.getOil_sort();
-                //정렬 기준
-
-                oil_intel[2] = set.getOil_name();
-
-                if(oil_intel[1].equals("1")){
-                    array_first.setText("가격순");
-                }
-                else
-                    array_first.setText("거리순");
-
-                init_reset();
-
-                switch (requestCode) {
-
-                    case GPS_ENABLE_REQUEST_CODE:
-
-                        //사용자가 GPS 활성 시켰는지 검사
-                        if (checkLocationServicesStatus()) {
-                            if (checkLocationServicesStatus()) {
-                                Log.d(TAG, "onActivityResult : GPS 활성화 되있음");
-                                needRequest = true;
-                                return;
-                            }
-                        }
-                        break;
-                }
-
-            }
-
-        }
-
-    }
 
     @Override
     public void onUserClicked(int position) {

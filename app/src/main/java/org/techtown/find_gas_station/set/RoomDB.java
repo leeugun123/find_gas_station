@@ -24,9 +24,5 @@ public abstract class RoomDB extends RoomDatabase {
     }
 
 
-    //디비객체제거
-    public static void destroyInstance() {
-        INSTANCE = null;
-    }
 
 }
