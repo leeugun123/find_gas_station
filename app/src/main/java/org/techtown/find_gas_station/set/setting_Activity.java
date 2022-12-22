@@ -3,6 +3,7 @@ package org.techtown.find_gas_station.set;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -45,6 +46,9 @@ public class setting_Activity extends AppCompatActivity {
         oil_intel_setting[0] = set.getOil_rad();//반경범위
         oil_intel_setting[1] = set.getOil_sort();//정렬기준
         oil_intel_setting[2] = set.getOil_name();//기름종류
+
+        Log.e("TAG",oil_intel_setting[1]);
+
         //이전 액티비티의 Intent를 가져옴
 
         close = findViewById(R.id.go_back);
@@ -191,22 +195,22 @@ public class setting_Activity extends AppCompatActivity {
 
         sort_spinner = findViewById(R.id.sort_spinner);
 
-        if(oil_intel_setting[1].equals("1")){
-            sort_spinner.setSelection(0);
-        }
-        else
-            sort_spinner.setSelection(1);
+
+
 
         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(
                 this,R.layout.support_simple_spinner_dropdown_item,sort_string);
         adapter2.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         sort_spinner.setAdapter(adapter2);
 
-        if(oil_intel_setting.equals("1")){
-            sort_spinner.setSelection(1);
-        }
-        else
+        if(oil_intel_setting[1].equals("1")){
             sort_spinner.setSelection(0);
+        }
+        else if(oil_intel_setting[1].equals("2"))
+            sort_spinner.setSelection(1);
+        //거리순 -> 가격순으로 자꾸 변경 됨.
+        //DB는 정상적으로 가져와짐
+
 
         sort_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

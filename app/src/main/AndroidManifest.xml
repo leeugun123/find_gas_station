@@ -37,11 +37,11 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/geo.API_KEY" />
+            android:value="AIzaSyDrklrzdAqFyoHRLFT5UoIlaNY_FI6VAUU" />
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="@string/kakao_app_key" />
+            android:value="8845be698470e8326f99a729d5ffbbef" />
 
         <activity
             android:name=".MainActivity"
