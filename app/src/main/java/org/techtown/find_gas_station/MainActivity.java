@@ -166,7 +166,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         mLayout = findViewById(R.id.layout_main);
 
-
         reset = findViewById(R.id.reset);//새로고침 버튼
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -223,6 +222,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 db.setDao().insert(new Set("B027","1000","1"));
                 //null 방지
 
+
+                /*
                 Set set = db.setDao().getAll();
 
                 oil_intel[0] = set.getOil_rad();
@@ -231,6 +232,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 //정렬 기준
                 oil_intel[2] = set.getOil_name();
                 //기름 종류
+
+                */
+
 
                 init_reset();
 
@@ -459,6 +463,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 RoomDB db = Room.databaseBuilder(getApplicationContext(),
                         RoomDB.class,"RoomDB-db").allowMainThreadQueries().build();
 
+                /*
                 Set set = db.setDao().getAll();
 
                 oil_intel[0] = set.getOil_rad();
@@ -474,6 +479,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
                 else
                     array_first.setText("거리순");
+
+                */
+
+
+
 
                 init_reset();
 

@@ -16,7 +16,7 @@ import java.util.List;
 public interface SetDao {
 
     @Query("SELECT * FROM set_table")
-    Set getAll();
+    LiveData<List<Set>> getAll();
 
     @Insert
     void insert(Set set);

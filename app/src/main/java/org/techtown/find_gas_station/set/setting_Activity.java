@@ -36,9 +36,11 @@ public class setting_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_drawer);
 
 
+
         RoomDB db = Room.databaseBuilder(getApplicationContext(),
                 RoomDB.class,"RoomDB-db").allowMainThreadQueries().build();
 
+        /*
         Set set = db.setDao().getAll();
 
         //데이터 가져오기
@@ -49,6 +51,8 @@ public class setting_Activity extends AppCompatActivity {
 
         Log.e("TAG",oil_intel_setting[1]);
 
+
+         */
         //이전 액티비티의 Intent를 가져옴
 
         close = findViewById(R.id.go_back);
@@ -58,6 +62,9 @@ public class setting_Activity extends AppCompatActivity {
                 finish();
             }
         });//닫기 버튼
+
+
+
 
 
         //1. 기름 종류 설정
@@ -132,6 +139,8 @@ public class setting_Activity extends AppCompatActivity {
 
 
 
+
+
         //2. 반경 설정
         ArrayList<String> distance_string = new ArrayList<String>();
 
@@ -187,6 +196,10 @@ public class setting_Activity extends AppCompatActivity {
         });
 
 
+
+
+
+
         //3. 정렬 기준 설정
         ArrayList<String> sort_string = new ArrayList<String>();
 
@@ -194,9 +207,6 @@ public class setting_Activity extends AppCompatActivity {
         sort_string.add("거리순");
 
         sort_spinner = findViewById(R.id.sort_spinner);
-
-
-
 
         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(
                 this,R.layout.support_simple_spinner_dropdown_item,sort_string);
@@ -208,8 +218,6 @@ public class setting_Activity extends AppCompatActivity {
         }
         else if(oil_intel_setting[1].equals("2"))
             sort_spinner.setSelection(1);
-        //거리순 -> 가격순으로 자꾸 변경 됨.
-        //DB는 정상적으로 가져와짐
 
 
         sort_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

@@ -17,7 +17,10 @@ public abstract class RoomDB extends RoomDatabase {
     public static RoomDB getAppDatabase(Context context){
         if(INSTANCE == null){
             INSTANCE = Room.databaseBuilder(context, RoomDB.class , "RoomDB-db")
+                    .allowMainThreadQueries()
+                    .fallbackToDestructiveMigration()
                     .build();
+
 
         }
         return  INSTANCE;
