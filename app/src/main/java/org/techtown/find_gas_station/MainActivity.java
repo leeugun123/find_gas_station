@@ -1,12 +1,12 @@
 package org.techtown.find_gas_station;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,7 +25,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -48,14 +47,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.snackbar.Snackbar;
-import com.kakao.kakaonavi.KakaoNaviParams;
-import com.kakao.kakaonavi.KakaoNaviService;
-import com.kakao.kakaonavi.Location;
-import com.kakao.kakaonavi.NaviOptions;
-import com.kakao.kakaonavi.options.CoordType;
-import com.kakao.kakaonavi.options.RpOption;
-import com.kakao.kakaonavi.options.VehicleType;
-import com.kakao.sdk.navi.NaviClient;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -63,9 +54,9 @@ import org.json.JSONObject;
 import org.techtown.find_gas_station.GPS.GeoTrans;
 import org.techtown.find_gas_station.GPS.GeoTransPoint;
 import org.techtown.find_gas_station.GPS.GpsTracker;
+import org.techtown.find_gas_station.MVVM.SetViewModel;
 import org.techtown.find_gas_station.set.RoomDB;
 import org.techtown.find_gas_station.set.Set;
-import org.techtown.find_gas_station.set.SetDao;
 import org.techtown.find_gas_station.set.setting_Activity;
 
 import java.io.BufferedReader;
@@ -145,6 +136,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     //Room DB 변수 추가
 
+    private SetViewModel setViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -165,6 +158,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         mLayout = findViewById(R.id.layout_main);
+
+        setViewModel = new ViewModelProvider(this).get(SetViewModel.class);
+        //viewModel 초기화
+
 
         reset = findViewById(R.id.reset);//새로고침 버튼
         reset.setOnClickListener(new View.OnClickListener() {
@@ -216,17 +213,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 //싱글톤 패턴을 사용하지 않고 무조건 강제 실행
                 //나중에 문제가 생길 수 있음
-                RoomDB db = Room.databaseBuilder(getApplicationContext(),
-                        RoomDB.class,"RoomDB-db").allowMainThreadQueries().build();
 
-                db.setDao().insert(new Set("B027","1000","1"));
-                //null 방지
+
+                setViewModel.insert(new Set("B027","1000","1"));
+
+
+                LiveData<List<Set>> set = setViewModel.getAllSets();
+
+                //observer 구현
+
 
 
                 /*
-                Set set = db.setDao().getAll();
-
-                oil_intel[0] = set.getOil_rad();
+                oil_intel[0] = set.
                 //반경
                 oil_intel[1] = set.getOil_sort();
                 //정렬 기준

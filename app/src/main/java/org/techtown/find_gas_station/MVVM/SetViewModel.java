@@ -14,11 +14,30 @@ import java.util.List;
 
 public class SetViewModel extends AndroidViewModel {
 
-    private MutableLiveData<List<Set>> sets;
+    private SetRepository setRepository;
+    private LiveData<List<Set>> sets;
 
     public SetViewModel(@NonNull Application application) {
         super(application);
+        setRepository = new SetRepository(application);
+        sets = setRepository.getSets();
 
+    }
+
+    public void insert(Set set){
+        setRepository.insert(set);
+    }
+
+    public void update(Set set){
+        setRepository.update(set);
+    }
+
+    public void delete(){
+        setRepository.delete();
+    }
+
+    public LiveData<List<Set>> getAllSets(){
+        return sets;
     }
 
 

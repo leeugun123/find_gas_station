@@ -28,7 +28,7 @@ public class SetRepository {
     }
 
     public LiveData<List<Set>> getSets(){
-            return setDao.getAll();
+        return setDao.getAll();
     }
 
     public void delete(){
@@ -38,6 +38,7 @@ public class SetRepository {
     public void update(Set set){
         setDao.update(set);
     }
+
 
 
 }
