@@ -221,18 +221,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 LiveData<List<Set>> set = setViewModel.getAllSets();
 
                 //observer 구현
-
-
-
-                /*
-                oil_intel[0] = set.
+                oil_intel[0] = set.getValue().get(0).getOil_rad();
                 //반경
-                oil_intel[1] = set.getOil_sort();
+                oil_intel[1] = set.getValue().get(0).getOil_sort();
                 //정렬 기준
-                oil_intel[2] = set.getOil_name();
+                oil_intel[2] = set.getValue().get(0).getOil_name();
                 //기름 종류
 
-                */
+
 
 
                 init_reset();
@@ -462,25 +458,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 RoomDB db = Room.databaseBuilder(getApplicationContext(),
                         RoomDB.class,"RoomDB-db").allowMainThreadQueries().build();
 
-                /*
-                Set set = db.setDao().getAll();
 
-                oil_intel[0] = set.getOil_rad();
+                LiveData<List<Set>> set = setViewModel.getAllSets();
+
+                //observer 구현
+                oil_intel[0] = set.getValue().get(0).getOil_rad();
                 //반경
-
-                oil_intel[1] = set.getOil_sort();
+                oil_intel[1] = set.getValue().get(0).getOil_sort();
                 //정렬 기준
-
-                oil_intel[2] = set.getOil_name();
+                oil_intel[2] = set.getValue().get(0).getOil_name();
+                //기름 종류
 
                 if(oil_intel[1].equals("1")){
                     array_first.setText("가격순");
                 }
                 else
                     array_first.setText("거리순");
-
-                */
-
 
 
 

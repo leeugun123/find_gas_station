@@ -11,8 +11,11 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.room.Room;
 
+import org.techtown.find_gas_station.MVVM.SetViewModel;
 import org.techtown.find_gas_station.MainActivity;
 import org.techtown.find_gas_station.R;
 import java.util.ArrayList;
@@ -30,30 +33,29 @@ public class setting_Activity extends AppCompatActivity {
 
     String[] oil_intel_setting = new String[3];
 
+    private SetViewModel setViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
 
+        setViewModel = new ViewModelProvider(this).get(SetViewModel.class);
+        //viewModel 초기화
 
 
         RoomDB db = Room.databaseBuilder(getApplicationContext(),
                 RoomDB.class,"RoomDB-db").allowMainThreadQueries().build();
 
-        /*
-        Set set = db.setDao().getAll();
+        LiveData<List<Set>> set = setViewModel.getAllSets();
 
-        //데이터 가져오기
-
-        oil_intel_setting[0] = set.getOil_rad();//반경범위
-        oil_intel_setting[1] = set.getOil_sort();//정렬기준
-        oil_intel_setting[2] = set.getOil_name();//기름종류
-
-        Log.e("TAG",oil_intel_setting[1]);
-
-
-         */
-        //이전 액티비티의 Intent를 가져옴
+        //observer 구현
+        oil_intel_setting[0] = set.getValue().get(0).getOil_rad();
+        //반경
+        oil_intel_setting[1] = set.getValue().get(0).getOil_sort();
+        //정렬 기준
+        oil_intel_setting[2] = set.getValue().get(0).getOil_name();
+        //기름 종류
 
         close = findViewById(R.id.go_back);
         close.setOnClickListener(new View.OnClickListener() {
