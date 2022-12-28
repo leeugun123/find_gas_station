@@ -19,6 +19,8 @@ public interface SetDao {
 
     @Query("DELETE FROM set_table")
     void deleteAll();
+    //모든 데이터를 지운다.
+
 
     @Update
     void update(Set set);

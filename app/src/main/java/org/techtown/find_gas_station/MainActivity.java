@@ -94,9 +94,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private GoogleMap mMap;//구글 맵
 
-    public static final int SETTING_REQUEST_CODE = 30;
-    public static final int SETTING_REQUEST_CODE_OK = 31;
-
 
     private Marker currentMarker = null; //현재 마커
 
@@ -134,7 +131,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     //Room DB 변수 추가
 
-    private SetViewModel setViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         mLayout = findViewById(R.id.layout_main);
 
+        SetViewModel setViewModel;
         setViewModel = new ViewModelProvider(this).get(SetViewModel.class);
         //viewModel 초기화
 
@@ -213,12 +210,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 //나중에 문제가 생길 수 있음
 
                 setViewModel.insert(new Set("B027","1000","1"));
+                //null 값 방지
 
                 Set set = setViewModel.getAllSets();
 
-                //null 오류
-
-                //observer 구현
                 oil_intel[0] = set.getOil_rad();
                 //반경
                 oil_intel[1] = set.getOil_sort();
@@ -226,6 +221,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 oil_intel[2] = set.getOil_name();
                 //기름 종류
 
+                Log.e("TAG",oil_intel[0]);
+                Log.e("TAG",oil_intel[1]);
+                Log.e("TAG",oil_intel[2]);
 
 
 
@@ -240,6 +238,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
                 else
                     array_first.setText("거리순");
+
 
 
             }
@@ -442,6 +441,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -450,22 +451,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (requestCode == REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
 
-                Log.e("TAG","실행이 됩니다.");
 
-
-                Set set = setViewModel.getAllSets();
-
-                //observer 구현
-                oil_intel[0] = set.getOil_rad();
+                oil_intel[0] = data.getStringExtra("0");
                 //반경
-
-                oil_intel[1] = set.getOil_sort();
+                oil_intel[1] = data.getStringExtra("1");
                 //정렬 기준
-                oil_intel[2] = set.getOil_name();
+                oil_intel[2] = data.getStringExtra("2");
                 //기름 종류
 
-
-                Log.e("TAG",oil_intel[2]);
 
                 if(oil_intel[1].equals("1")){
                     array_first.setText("가격순");
@@ -496,6 +489,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
     }
+
+
 
 
     public void getData(float latitude,float Longtitude){

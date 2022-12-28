@@ -46,13 +46,17 @@ public class setting_Activity extends AppCompatActivity {
 
         Set set = setViewModel.getAllSets();
 
-        //observer 구현
         oil_intel_setting[0] = set.getOil_rad();
         //반경
         oil_intel_setting[1] = set.getOil_sort();
         //정렬 기준
         oil_intel_setting[2] = set.getOil_name();
         //기름 종류
+
+        Log.e("TAG",oil_intel_setting[0]);
+        Log.e("TAG",oil_intel_setting[1]);
+        Log.e("TAG",oil_intel_setting[2]);
+
 
         close = findViewById(R.id.go_back);
         close.setOnClickListener(new View.OnClickListener() {
@@ -122,7 +126,12 @@ public class setting_Activity extends AppCompatActivity {
                 setViewModel.insert(new Set(oil_intel_setting[2],oil_intel_setting[0],oil_intel_setting[1]));
 
                 Intent intent = new Intent();
+                intent.putExtra("0",oil_intel_setting[0]);
+                intent.putExtra("1",oil_intel_setting[1]);
+                intent.putExtra("2",oil_intel_setting[2]);
+
                 setResult(RESULT_OK,intent);
+
 
             }
 
@@ -180,7 +189,11 @@ public class setting_Activity extends AppCompatActivity {
                 setViewModel.delete();
                 setViewModel.insert(new Set(oil_intel_setting[2],oil_intel_setting[0],oil_intel_setting[1]));
 
+
                 Intent intent = new Intent();
+                intent.putExtra("0",oil_intel_setting[0]);
+                intent.putExtra("1",oil_intel_setting[1]);
+                intent.putExtra("2",oil_intel_setting[2]);
                 setResult(RESULT_OK,intent);
 
             }
@@ -231,8 +244,13 @@ public class setting_Activity extends AppCompatActivity {
                 setViewModel.delete();
                 setViewModel.insert(new Set(oil_intel_setting[2],oil_intel_setting[0],oil_intel_setting[1]));
 
+
                 Intent intent = new Intent();
+                intent.putExtra("0",oil_intel_setting[0]);
+                intent.putExtra("1",oil_intel_setting[1]);
+                intent.putExtra("2",oil_intel_setting[2]);
                 setResult(RESULT_OK,intent);
+
 
             }
 
