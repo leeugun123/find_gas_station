@@ -453,26 +453,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Log.e("TAG","실행이 됩니다.");
 
 
-                RoomDB db = Room.databaseBuilder(getApplicationContext(),
-                        RoomDB.class,"RoomDB-db").allowMainThreadQueries().build();
-
-
                 Set set = setViewModel.getAllSets();
 
                 //observer 구현
                 oil_intel[0] = set.getOil_rad();
                 //반경
+
                 oil_intel[1] = set.getOil_sort();
                 //정렬 기준
                 oil_intel[2] = set.getOil_name();
                 //기름 종류
+
+
+                Log.e("TAG",oil_intel[2]);
 
                 if(oil_intel[1].equals("1")){
                     array_first.setText("가격순");
                 }
                 else
                     array_first.setText("거리순");
-
 
 
                 init_reset();

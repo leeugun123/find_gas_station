@@ -28,7 +28,7 @@ public class SetRepository {
     }
 
     public Set getSets(){
-        return setDao.getAll();
+        return allsets;
     }
 
     public void delete(){

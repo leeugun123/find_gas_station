@@ -44,9 +44,6 @@ public class setting_Activity extends AppCompatActivity {
         //viewModel 초기화
 
 
-        RoomDB db = Room.databaseBuilder(getApplicationContext(),
-                RoomDB.class,"RoomDB-db").allowMainThreadQueries().build();
-
         Set set = setViewModel.getAllSets();
 
         //observer 구현
@@ -64,9 +61,6 @@ public class setting_Activity extends AppCompatActivity {
                 finish();
             }
         });//닫기 버튼
-
-
-
 
 
         //1. 기름 종류 설정
@@ -124,8 +118,8 @@ public class setting_Activity extends AppCompatActivity {
                     oil_intel_setting[2] = "K015";
                 }
 
-                db.setDao().deleteAll();
-                db.setDao().insert(new Set(oil_intel_setting[2],oil_intel_setting[0],oil_intel_setting[1]));
+                setViewModel.delete();
+                setViewModel.insert(new Set(oil_intel_setting[2],oil_intel_setting[0],oil_intel_setting[1]));
 
                 Intent intent = new Intent();
                 setResult(RESULT_OK,intent);
@@ -183,8 +177,8 @@ public class setting_Activity extends AppCompatActivity {
                     oil_intel_setting[0] = "5000";
                 }//5km
 
-                db.setDao().deleteAll();
-                db.setDao().insert(new Set(oil_intel_setting[2],oil_intel_setting[0],oil_intel_setting[1]));
+                setViewModel.delete();
+                setViewModel.insert(new Set(oil_intel_setting[2],oil_intel_setting[0],oil_intel_setting[1]));
 
                 Intent intent = new Intent();
                 setResult(RESULT_OK,intent);
@@ -234,9 +228,8 @@ public class setting_Activity extends AppCompatActivity {
                     oil_intel_setting[1] = "2";//거리순
                 }
 
-                db.setDao().deleteAll();//데이터 전체 삭제
-                db.setDao().insert(new Set(oil_intel_setting[2],oil_intel_setting[0],oil_intel_setting[1]));
-                //새로 추가
+                setViewModel.delete();
+                setViewModel.insert(new Set(oil_intel_setting[2],oil_intel_setting[0],oil_intel_setting[1]));
 
                 Intent intent = new Intent();
                 setResult(RESULT_OK,intent);
