@@ -5,7 +5,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
@@ -65,7 +64,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 //좌표계 변환 문제 KATEC -> 위도,경도
 
@@ -214,18 +212,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 //싱글톤 패턴을 사용하지 않고 무조건 강제 실행
                 //나중에 문제가 생길 수 있음
 
-
                 setViewModel.insert(new Set("B027","1000","1"));
 
+                Set set = setViewModel.getAllSets();
 
-                LiveData<List<Set>> set = setViewModel.getAllSets();
+                //null 오류
 
                 //observer 구현
-                oil_intel[0] = set.getValue().get(0).getOil_rad();
+                oil_intel[0] = set.getOil_rad();
                 //반경
-                oil_intel[1] = set.getValue().get(0).getOil_sort();
+                oil_intel[1] = set.getOil_sort();
                 //정렬 기준
-                oil_intel[2] = set.getValue().get(0).getOil_name();
+                oil_intel[2] = set.getOil_name();
                 //기름 종류
 
 
@@ -459,14 +457,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         RoomDB.class,"RoomDB-db").allowMainThreadQueries().build();
 
 
-                LiveData<List<Set>> set = setViewModel.getAllSets();
+                Set set = setViewModel.getAllSets();
 
                 //observer 구현
-                oil_intel[0] = set.getValue().get(0).getOil_rad();
+                oil_intel[0] = set.getOil_rad();
                 //반경
-                oil_intel[1] = set.getValue().get(0).getOil_sort();
+                oil_intel[1] = set.getOil_sort();
                 //정렬 기준
-                oil_intel[2] = set.getValue().get(0).getOil_name();
+                oil_intel[2] = set.getOil_name();
                 //기름 종류
 
                 if(oil_intel[1].equals("1")){
@@ -541,6 +539,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     result = sb.toString();
                     Log.d("result",result);
                     JsonParse(result);
+
+
                 }catch (Exception e){}
             }
         });

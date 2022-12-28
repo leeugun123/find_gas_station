@@ -15,7 +15,7 @@ import java.util.List;
 public class SetViewModel extends AndroidViewModel {
 
     private SetRepository setRepository;
-    private LiveData<List<Set>> sets;
+    private Set sets;
 
     public SetViewModel(@NonNull Application application) {
         super(application);
@@ -36,7 +36,7 @@ public class SetViewModel extends AndroidViewModel {
         setRepository.delete();
     }
 
-    public LiveData<List<Set>> getAllSets(){
+    public Set getAllSets(){
         return sets;
     }
 

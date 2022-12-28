@@ -1,16 +1,18 @@
 package org.techtown.find_gas_station.set;
 
 import androidx.lifecycle.LiveData;
+import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
 import java.util.List;
 
+@Dao
 public interface SetDao {
 
     @Query("SELECT * FROM set_table")
-    LiveData<List<Set>> getAll();
+    Set getAll();
 
     @Insert
     void insert(Set set);

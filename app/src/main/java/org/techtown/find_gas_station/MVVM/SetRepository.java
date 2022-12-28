@@ -13,7 +13,7 @@ import java.util.List;
 public class SetRepository {
 
     private SetDao setDao;
-    private LiveData<List<Set>> allsets;
+    private Set allsets;
 
     public SetRepository(Application application){
 
@@ -27,7 +27,7 @@ public class SetRepository {
         setDao.insert(set);
     }
 
-    public LiveData<List<Set>> getSets(){
+    public Set getSets(){
         return setDao.getAll();
     }
 

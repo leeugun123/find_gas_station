@@ -47,14 +47,14 @@ public class setting_Activity extends AppCompatActivity {
         RoomDB db = Room.databaseBuilder(getApplicationContext(),
                 RoomDB.class,"RoomDB-db").allowMainThreadQueries().build();
 
-        LiveData<List<Set>> set = setViewModel.getAllSets();
+        Set set = setViewModel.getAllSets();
 
         //observer 구현
-        oil_intel_setting[0] = set.getValue().get(0).getOil_rad();
+        oil_intel_setting[0] = set.getOil_rad();
         //반경
-        oil_intel_setting[1] = set.getValue().get(0).getOil_sort();
+        oil_intel_setting[1] = set.getOil_sort();
         //정렬 기준
-        oil_intel_setting[2] = set.getValue().get(0).getOil_name();
+        oil_intel_setting[2] = set.getOil_name();
         //기름 종류
 
         close = findViewById(R.id.go_back);
