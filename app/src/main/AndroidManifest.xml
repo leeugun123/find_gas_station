@@ -41,11 +41,13 @@
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="8845be698470e8326f99a729d5ffbbef" />
+            android:value="d522c426a1eb2601c487304a78ae9939" />
 
         <activity
             android:name=".MainActivity"
             android:exported="true" />
+
+
     </application>
 
 </manifest>
