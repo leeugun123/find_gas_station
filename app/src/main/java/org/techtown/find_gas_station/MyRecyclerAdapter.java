@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +17,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.common.internal.Constants;
 import com.kakao.kakaonavi.KakaoNaviParams;
 import com.kakao.kakaonavi.KakaoNaviService;
 import com.kakao.kakaonavi.Location;
@@ -24,6 +24,7 @@ import com.kakao.kakaonavi.NaviOptions;
 import com.kakao.kakaonavi.options.CoordType;
 import com.kakao.kakaonavi.options.RpOption;
 import com.kakao.kakaonavi.options.VehicleType;
+import com.kakao.sdk.navi.Constants;
 import com.kakao.sdk.navi.NaviClient;
 
 import org.json.JSONArray;
@@ -153,7 +154,14 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
                     }
                     else{
-                        Toast.makeText(itemView.getContext(),"카카오 내비 미설치",Toast.LENGTH_LONG).show();
+
+                        view.getContext().startActivity(
+                                new Intent(
+                                        Intent.ACTION_VIEW,
+                                        Uri.parse(Constants.WEB_NAVI_INSTALL)
+                                ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        );
+
                     }
 
 
