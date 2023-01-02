@@ -159,7 +159,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                                 new Intent(
                                         Intent.ACTION_VIEW,
                                         Uri.parse(Constants.WEB_NAVI_INSTALL)
-                                ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         );
 
                     }
