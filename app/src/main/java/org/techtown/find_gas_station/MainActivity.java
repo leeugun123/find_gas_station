@@ -221,11 +221,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 oil_intel[2] = set.getOil_name();
                 //기름 종류
 
-                Log.e("TAG",oil_intel[0]);
-                Log.e("TAG",oil_intel[1]);
-                Log.e("TAG",oil_intel[2]);
-
-
 
                 init_reset();
 

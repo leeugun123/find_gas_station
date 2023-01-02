@@ -9,7 +9,7 @@ buildscript {
         google()
         mavenCentral()
         maven {
-            url 'http://devrepo.kakao.com:8088/nexus/content/groups/public/'
+            url 'https://devrepo.kakao.com/nexus/content/groups/public/'
             allowInsecureProtocol = true //add this line
         }
 

@@ -11,6 +11,7 @@
 
 
     <application
+        android:name=".GlobalApplication"
         android:allowBackup="true"
         android:icon="@mipmap/main_icon"
         android:label="내 주변 주유소"

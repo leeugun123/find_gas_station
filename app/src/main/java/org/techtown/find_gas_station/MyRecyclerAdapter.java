@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,7 +44,7 @@ import java.util.ArrayList;
 
 public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.ViewHolder> {
 
-    private ArrayList<oil_list> oil_lists = new ArrayList<>();
+    private ArrayList<oil_list> oil_lists;
     private UserListRecyclerClickListener mClickListener;
     private static final String GAS_API_KEY = BuildConfig.gas_api_key;
 
@@ -129,22 +130,33 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
                 @Override
                 public void onClick(View view) {
-                    Log.i(TAG, "카카오내비 설치");
 
-                    //카카오 navi API 코드
-                    Location destination = Location.newBuilder(oil_list.get_oil_name(),oil_list.getWgs84X(), oil_list.getWgs84Y()).build();
-                    //현재 위치는 고려할 필요가 없는가?? 목적지 주유소 이름 ,x,y좌표
+                    Log.i(TAG, "카카오내비 설치 여부 확인");
 
-                    NaviOptions options = NaviOptions.newBuilder().setCoordType(CoordType.WGS84).setVehicleType(VehicleType.FIRST)
-                            .setRpOption(RpOption.SHORTEST).build();
-                    // 네비 경로 설정 , 카텍 좌표 , 1종 차량, 빠른길/최단거리 안내
-                    // 1종 승용차/소형승합차/소형화물차
 
-                    KakaoNaviParams params = KakaoNaviParams.newBuilder(destination)
-                            .setNaviOptions(options)
-                            .build();
+                    if(NaviClient.getInstance().isKakaoNaviInstalled(view.getContext())){
+                        //카카오 navi API 코드
+                        Location destination = Location.newBuilder(oil_list.get_oil_name(),oil_list.getWgs84X(), oil_list.getWgs84Y()).build();
 
-                    KakaoNaviService.getInstance().navigate(view.getContext(),params);
+                        //현재 위치는 고려할 필요가 없는가?? 목적지 주유소 이름 ,x,y좌표
+                        NaviOptions options = NaviOptions.newBuilder().setCoordType(CoordType.WGS84).setVehicleType(VehicleType.FIRST)
+                                .setRpOption(RpOption.FAST).build();
+
+                        // 네비 경로 설정 , 카텍 좌표 , 1종 차량, 빠른길/최단거리 안내
+                        // 1종 승용차/소형승합차/소형화물차
+
+                        KakaoNaviParams params = KakaoNaviParams.newBuilder(destination)
+                                .setNaviOptions(options)
+                                .build();
+
+                        KakaoNaviService.getInstance().navigate(view.getContext(),params);
+
+                    }
+                    else{
+                        Toast.makeText(itemView.getContext(),"카카오 내비 미설치",Toast.LENGTH_LONG).show();
+                    }
+
+
 
 
                 }
