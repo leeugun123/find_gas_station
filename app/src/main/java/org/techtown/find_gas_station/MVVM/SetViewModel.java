@@ -17,6 +17,9 @@ public class SetViewModel extends AndroidViewModel {
     private SetRepository setRepository;
     private Set sets;
 
+
+
+
     public SetViewModel(@NonNull Application application) {
         super(application);
         setRepository = new SetRepository(application);

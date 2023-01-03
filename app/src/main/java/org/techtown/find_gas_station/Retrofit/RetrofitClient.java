@@ -6,9 +6,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
 
     private static RetrofitClient instance = null;
-    //private static RetrofitAPI retrofitAPI;
+    private static RetrofitAPI retrofitAPI;
 
-    private final static String BASE_UIRL = "http:///www.opinet.co.kr/api/aroundAll.do/";
+    private final static String BASE_UIRL = "http:///www.opinet.co.kr/api/aroundAll.do";
 
     //싱글톤에 맞추어 변수들을 전부 static으로 만들어줌, 메소드 역시
 
@@ -19,7 +19,9 @@ public class RetrofitClient {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        //retrofitApI = retrofit.create(RetrofitAPI.class);
+        retrofitAPI = retrofit.create(RetrofitAPI.class);
+
+
 
     }
 
@@ -32,10 +34,10 @@ public class RetrofitClient {
         return instance;
     }
 
-    /*
-    public static RetrofitApi getRetrofitAPI(){
+
+    public static RetrofitAPI getRetrofitAPI(){
         return retrofitAPI;
     }
-    */
+
 
 }

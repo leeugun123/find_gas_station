@@ -54,6 +54,10 @@ import org.techtown.find_gas_station.GPS.GeoTrans;
 import org.techtown.find_gas_station.GPS.GeoTransPoint;
 import org.techtown.find_gas_station.GPS.GpsTracker;
 import org.techtown.find_gas_station.MVVM.SetViewModel;
+import org.techtown.find_gas_station.Retrofit.MyPojo;
+import org.techtown.find_gas_station.Retrofit.OIL;
+import org.techtown.find_gas_station.Retrofit.RESULT;
+import org.techtown.find_gas_station.Retrofit.RetrofitAPI;
 import org.techtown.find_gas_station.set.RoomDB;
 import org.techtown.find_gas_station.set.Set;
 import org.techtown.find_gas_station.set.setting_Activity;
@@ -64,6 +68,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 //좌표계 변환 문제 KATEC -> 위도,경도
 
@@ -130,6 +140,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     // (참고로 Toast에서는 Context가 필요했습니다.)
 
     //Room DB 변수 추가
+
+    //레트로핏 테스트
+    private Retrofit retrofit;
+    private final static String BASE_URL = "http:///www.opinet.co.kr/api/aroundAll.do/";
+    RetrofitAPI retrofitAPI;
+    ArrayList<OIL> oilList = new ArrayList<>();
 
 
     @Override
@@ -251,12 +267,56 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @SuppressLint("UseCompatLoadingForDrawables")
     public void init_reset(){
 
-        Log.d("TAG", "locationList가 0이상입니다.");//locationList의 size는 0 이상이다.
+
         gpsTracker = new GpsTracker(MainActivity.this);
         //gpsTracker 가져오기
 
         getData((float) gpsTracker.getLatitude(),(float) gpsTracker.getLongitude());
         //getData메소드 호출하여 ArrayList 값들 채우기
+
+        //레트로핏 객체 생성
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        retrofitAPI = retrofit.create(RetrofitAPI.class);
+
+        retrofitAPI.getOilList(API_KEY,"json","314681.8","544837","5000","B027","1")
+                .enqueue(new Callback<MyPojo>() {
+
+                    @Override
+                    public void onResponse(Call<MyPojo> call, Response<MyPojo> response) {
+
+                        if(response.isSuccessful()){
+
+                            MyPojo myPojo = response.body();
+                            RESULT result = myPojo.getRESULT();
+                            OIL oil = result.getOIL()[0];
+
+                            Log.d("TAG",oil.toString());
+
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<MyPojo> call, Throwable t) {
+
+                    }
+
+                });
+
+
+
+
+
+
+
+
+
+
 
         //list view에 출력
 
@@ -329,6 +389,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     ok,imageResource, (float)out.getX(),(float)out.getY()));
 
             //moil_list 수정
+
 
 
         }
