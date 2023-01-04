@@ -282,7 +282,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         retrofitAPI = retrofit.create(RetrofitAPI.class);
 
-        retrofitAPI.getOilList(API_KEY,"json","314681.8","544837","5000","B027","1")
+        retrofitAPI.getOilList(API_KEY,"json","314681.8","544837","5000","B027","2")
                 .enqueue(new Callback<MyPojo>() {
 
                     @Override
@@ -294,7 +294,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                             RESULT result = myPojo.getRESULT();
                             OIL oil = result.getOIL()[0];
 
-                            Log.d("TAG",oil.toString());
+                            Log.d("TAG",oil.toString() +"주유소 정보입니다.");
 
 
 
@@ -589,7 +589,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     }//일단 가져오는 것은 문제가 없음
 
                     result = sb.toString();
-                    Log.d("result",result);
+                    //Log.d("result",result);
                     JsonParse(result);
 
 

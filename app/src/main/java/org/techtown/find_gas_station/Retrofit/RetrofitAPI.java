@@ -6,7 +6,7 @@ import retrofit2.http.Query;
 
 public interface RetrofitAPI {
 
-    @GET()
+    @GET("http://www.opinet.co.kr/api/aroundAll.do")
     Call<MyPojo> getOilList(@Query("code") String code,
                             @Query("out") String out,
                             @Query("x") String x,
