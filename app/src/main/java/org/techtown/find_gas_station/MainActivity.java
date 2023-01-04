@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     //레트로핏 테스트
     private Retrofit retrofit;
-    private final static String BASE_URL = "http:///www.opinet.co.kr/api/aroundAll.do/";
+    private final static String BASE_URL = "http:///www.opinet.co.kr/";
     RetrofitAPI retrofitAPI;
     ArrayList<OIL> oilList = new ArrayList<>();
 
@@ -295,6 +295,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                             OIL oil = result.getOIL()[0];
 
                             Log.d("TAG",oil.toString());
+
+
 
 
                         }

@@ -8,7 +8,7 @@ public class RetrofitClient {
     private static RetrofitClient instance = null;
     private static RetrofitAPI retrofitAPI;
 
-    private final static String BASE_UIRL = "http:///www.opinet.co.kr/api/aroundAll.do";
+    private final static String BASE_UIRL = "http:///www.opinet.co.kr/";
 
     //싱글톤에 맞추어 변수들을 전부 static으로 만들어줌, 메소드 역시
 

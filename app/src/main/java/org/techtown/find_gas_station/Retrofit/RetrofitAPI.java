@@ -6,7 +6,7 @@ import retrofit2.http.Query;
 
 public interface RetrofitAPI {
 
-    @GET
+    @GET()
     Call<MyPojo> getOilList(@Query("code") String code,
                             @Query("out") String out,
                             @Query("x") String x,
@@ -14,6 +14,8 @@ public interface RetrofitAPI {
                             @Query("radius") String radius,
                             @Query("prodcd") String prodcd,
                             @Query("sort") String sort);
+
+
 
 
 }
