@@ -274,52 +274,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         getData((float) gpsTracker.getLatitude(),(float) gpsTracker.getLongitude());
         //getData메소드 호출하여 ArrayList 값들 채우기
 
-        //레트로핏 객체 생성
-        retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        retrofitAPI = retrofit.create(RetrofitAPI.class);
-
-        retrofitAPI.getOilList(API_KEY,"json","314681.8","544837","5000","B027","2")
-                .enqueue(new Callback<MyPojo>() {
-
-                    @Override
-                    public void onResponse(Call<MyPojo> call, Response<MyPojo> response) {
-
-                        if(response.isSuccessful()){
-
-                            MyPojo myPojo = response.body();
-                            RESULT result = myPojo.getRESULT();
-                            OIL oil = result.getOIL()[0];
-
-                            Log.d("TAG",oil.toString() +"주유소 정보입니다.");
-
-
-
-
-                        }
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<MyPojo> call, Throwable t) {
-
-                    }
-
-                });
-
-
-
-
-
-
-
-
-
-
-
         //list view에 출력
 
         mRecyclerView = (RecyclerView) findViewById(R.id.list_recycle);
@@ -466,41 +420,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-
-
-
-
-
-    //문자열 파싱
-    public void JsonParse(String str){
-
-        try {
-            JSONObject obj = new JSONObject(str);
-            JSONObject ar = (JSONObject) obj.get("RESULT");
-            JSONArray arr = (JSONArray) ar.get("OIL");
-
-            for(int i=0; i<arr.length(); i++){
-
-                JSONObject dataObj = arr.getJSONObject(i);
-                Uid.add(dataObj.getString("UNI_ID"));
-                distance.add(dataObj.getDouble("DISTANCE"));
-                NAME.add(dataObj.getString("OS_NM"));//상호명
-                gas_price.add(dataObj.getInt("PRICE"));//가격
-                x_pos.add((float)dataObj.getDouble("GIS_X_COOR"));
-                y_pos.add((float)dataObj.getDouble("GIS_Y_COOR"));
-                trademark.add(dataObj.getString("POLL_DIV_CD"));
-
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-    }
-
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -569,28 +488,62 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void run() {
 
                 try {
+
                     GeoTransPoint point = new GeoTransPoint(Longtitude,latitude);
                     GeoTransPoint ge = GeoTrans.convert(GeoTrans.GEO,GeoTrans.KATEC,point);
                     //GEO를 KATEC으로 변환
 
-                    URL url = new URL("http://www.opinet.co.kr/api/aroundAll.do?code="+ API_KEY +"&x="+ge.getX()+"&y="+ ge.getY() +"&radius="+ oil_intel[0] +"&sort="+ oil_intel[1] +"&prodcd="+ oil_intel[2] +"&out=json");
+                    //레트로핏 객체 생성
+                    retrofit = new Retrofit.Builder()
+                            .baseUrl(BASE_URL)
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
 
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("GET");//get 가져오기
-                    connection.setDoInput(true);
+                    retrofitAPI = retrofit.create(RetrofitAPI.class);
 
-                    InputStream is = connection.getInputStream();
-                    StringBuilder sb = new StringBuilder();
-                    BufferedReader br = new BufferedReader(new InputStreamReader(is,"UTF-8"));
+                    //파싱 데이터 확인 작업 실시
+                    retrofitAPI.getOilList(API_KEY,"json",Double.toString(ge.getX()),Double.toString(ge.getY()),oil_intel[0],oil_intel[2],oil_intel[1])
+                            .enqueue(new Callback<MyPojo>() {
 
-                    String result;
-                    while((result = br.readLine()) != null) {
-                        sb.append(result + "\n");
-                    }//일단 가져오는 것은 문제가 없음
+                                @Override
+                                public void onResponse(Call<MyPojo> call, Response<MyPojo> response) {
 
-                    result = sb.toString();
-                    //Log.d("result",result);
-                    JsonParse(result);
+                                    if(response.isSuccessful()){
+
+                                        MyPojo myPojo = response.body();
+                                        RESULT result = myPojo.getRESULT();
+
+
+                                        //요청에서 뭔가 문제가 생김
+
+                                        for(int i=0; i<result.getOIL().length; i++){
+
+                                            Log.d("TAG",result.getOIL()[i].toString() +"주유소 정보입니다.");
+
+                                            //데이터는 원하는대로 가져와짐
+
+                                            Uid.add(result.getOIL()[i].getUNI_ID());
+                                            distance.add(result.getOIL()[i].getDISTANCE());
+                                            NAME.add(result.getOIL()[i].getOS_NM());//상호명
+                                            gas_price.add(result.getOIL()[i].getPRICE());//가격
+                                            x_pos.add(Float.parseFloat(result.getOIL()[i].getGIS_X_COOR()));
+                                            y_pos.add(Float.parseFloat(result.getOIL()[i].getGIS_Y_COOR()));
+                                            trademark.add(result.getOIL()[i].getPOLL_DIV_CD());
+
+                                        }
+
+                                    }
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<MyPojo> call, Throwable t) {
+
+                                }
+
+                            });
+
+
 
 
                 }catch (Exception e){}
