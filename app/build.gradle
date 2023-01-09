@@ -19,7 +19,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField ("String", "GAS_API_KEY", properties.getProperty("gas_api_key"))
+        //buildConfigField ("String", "GAS_API_KEY", properties.getProperty("gas_api_key"))
         
     }
 

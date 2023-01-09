@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.kakao.kakaonavi.BuildConfig;
 import com.kakao.kakaonavi.KakaoNaviParams;
 import com.kakao.kakaonavi.KakaoNaviService;
 import com.kakao.kakaonavi.Location;
@@ -46,19 +47,19 @@ import java.util.ArrayList;
 public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.ViewHolder> {
 
     private ArrayList<oil_list> oil_lists;
-    private UserListRecyclerClickListener mClickListener;
-    private static final String GAS_API_KEY = BuildConfig.gas_api_key;
 
-    public MyRecyclerAdapter(ArrayList<oil_list> Oil_lists,UserListRecyclerClickListener clickListener){
+    private static final String GAS_API_KEY = "F211129251";
+
+    public MyRecyclerAdapter(ArrayList<oil_list> Oil_lists){
         oil_lists = Oil_lists;
-        mClickListener = clickListener;
+
     }
 
     @NonNull
     @Override
     public MyRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recyclerview,parent,false);
-        return new ViewHolder(view,mClickListener);
+        return new ViewHolder(view);
     }
 
     @Override
@@ -76,7 +77,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         return oil_lists.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView name;
         TextView price;
@@ -100,10 +101,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         String store;
         //편의점 존재 여부
 
-
-        UserListRecyclerClickListener mClickListener;
-
-        public ViewHolder(@NonNull View itemView,UserListRecyclerClickListener clickListener) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             name = (TextView) itemView.findViewById(R.id.name);
@@ -114,8 +112,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             navi_button_kakao = itemView.findViewById(R.id.navi_button_kakao);
             intelButton = itemView.findViewById(R.id.intelButton);
 
-            mClickListener = clickListener;
-            itemView.setOnClickListener(this);
+
 
         }
 
@@ -258,12 +255,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
         }
 
-        @Override
-        public void onClick(View view) {
 
-            mClickListener.onUserClicked(getAdapterPosition());
-
-        }
 
 
 

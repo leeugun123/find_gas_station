@@ -46,6 +46,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.snackbar.Snackbar;
+import com.kakao.kakaonavi.BuildConfig;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -113,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public static final int REQUEST_CODE = 100;
 
-    private String API_KEY = BuildConfig.gas_api_key;
+    private String API_KEY = "F211129251";
 
     private static final String TAG = "googlemap_example";
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
@@ -160,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         moil_list = new ArrayList<>();
 
         mRecyclerView = (RecyclerView) findViewById(R.id.list_recycle);
-        myRecyclerAdapter = new MyRecyclerAdapter(moil_list,this);
+        myRecyclerAdapter = new MyRecyclerAdapter(moil_list);
 
         mRecyclerView.setAdapter(myRecyclerAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -277,167 +278,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //getData메소드 호출하여 ArrayList 값들 채우기
 
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
 
-            @Override
-            public void run() {
+    }
 
-                Log.d("TAG",Integer.toString(gas_price.size()));
-
-                mRecyclerView = (RecyclerView) findViewById(R.id.list_recycle);
-                myRecyclerAdapter = new MyRecyclerAdapter(moil_list,this);
-
-                mRecyclerView.setAdapter(myRecyclerAdapter);
-                moil_list = new ArrayList<>();
-                moil_list.clear();
-
-
-
-                String ok= "";
-
-                if(oil_intel[2].equals("B027")){
-                    ok = "휘발유";
-                }
-                else if(oil_intel[2].equals("D047")){
-                    ok = "경유";
-                }
-                else if(oil_intel[2].equals("B034")){
-                    ok = "고급휘발유";
-                }
-                else if(oil_intel[2].equals("C004")){
-                    ok = "실내등유";
-                }
-                else
-                    ok = "자동차부탄";
-
-                //주유소 상표 마크 표시
-                for(int i=gas_price.size()-1; i>-1; i--){
-
-                    if(trademark.get(i).equals("SKE")){
-                        imageResource = R.drawable.sk;
-                    }
-                    else if(trademark.get(i).equals("GSC")){
-                        imageResource = R.drawable.gs;
-                    }
-                    else if(trademark.get(i).equals("HDO")){
-                        imageResource = R.drawable.hdoil;
-                    }
-                    else if(trademark.get(i).equals("SOL")){
-                        imageResource = R.drawable.so;
-                    }
-                    else if(trademark.get(i).equals("RTO")){
-                        imageResource = R.drawable.rto;
-                    }//비슷
-                    else if(trademark.get(i).equals("RTX")){
-                        imageResource = R.drawable.rto;
-                    }//비슷
-                    else if(trademark.get(i).equals("RTX")){
-                        imageResource = R.drawable.rto;
-                    }
-                    else if(trademark.get(i).equals("NHO")){
-                        imageResource = R.drawable.nho;
-                    }
-                    else if(trademark.get(i).equals("E1G")){
-                        imageResource = R.drawable.e1;
-                    }
-                    else if(trademark.get(i).equals("SKG")){
-                        imageResource = R.drawable.skgas;
-                    }
-                    else
-                        imageResource = R.drawable.oil_2;
-
-                    GeoTransPoint point = new GeoTransPoint(x_pos.get(i), y_pos.get(i));
-
-                    GeoTransPoint out = GeoTrans.convert(GeoTrans.KATEC, GeoTrans.GEO,point);
-                    //KATEC -> Wgs84좌표계로 변경
-
-                    moil_list.add(new oil_list(Uid.get(i), NAME.get(i),gas_price.get(i),distance.get(i)+"m",
-                            ok,imageResource, (float)out.getX(),(float)out.getY()));
-
-                    //moil_list 수정
-
-                    //Log.d("TAG", "크기 값을 넣겠습니다.");
-
-                }
-
-
-
-
-
-                myRecyclerAdapter.setOil_lists(moil_list);
-                storeMarkers.clear();//storemarker 제거
-                mMap.clear();
-
-                //이쪽 코드에는 아무런 문제가 없다. 정확한 위치가 표시됨.
-
-                for (int i = 0; i < x_pos.size(); i++) {
-
-                    GeoTransPoint point = new GeoTransPoint((float)x_pos.get(i), (float)y_pos.get(i));
-                    //ypos가 위도
-                    GeoTransPoint out = GeoTrans.convert(GeoTrans.KATEC, GeoTrans.GEO,point);
-
-                    LatLng temp = new LatLng(out.getY(),out.getX());//좌표변환
-
-                    MarkerOptions markerOptions = new MarkerOptions();
-                    markerOptions.position(temp); //지정하는 포지션 표시
-                    markerOptions.title((String) NAME.get(i)+" 가격 "+ gas_price.get(i) + "원");//주유소 명
-                    markerOptions.snippet("현 위치에서부터의 거리 " + distance.get(i) +"m");
-                    markerOptions.draggable(true);
-
-                    BitmapDrawable bitmapdraw;
-
-                    if(trademark.get(i).equals("SKE")){
-                        bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.sk);
-                    }
-                    else if(trademark.get(i).equals("GSC")){
-                        bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.gs);
-                    }
-                    else if(trademark.get(i).equals("HDO")){
-                        bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.hdoil);
-                    }
-                    else if(trademark.get(i).equals("SOL")){
-                        bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.so);
-                    }
-                    else if(trademark.get(i).equals("RTO")){
-                        bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.rto);
-                    }//비슷
-                    else if(trademark.get(i).equals("RTX")){
-                        bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.rto);
-                    }//비슷
-                    else if(trademark.get(i).equals("NHO")){
-                        bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.nho);
-                    }
-                    else if(trademark.get(i).equals("E1G")){
-                        bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.e1);
-                    }
-                    else if(trademark.get(i).equals("SKG")){
-                        bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.skgas);
-
-                    }
-                    else
-                        bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.oil_2);
-
-
-
-                    Bitmap b = bitmapdraw.getBitmap();
-                    Bitmap smallMarker = Bitmap.createScaledBitmap(b,60,60,false);
-                    //Marker 이미지 표시
-                    markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
-                    storeMarkers.add(mMap.addMarker(markerOptions));//stroe Marker를 지도위에 다시 띄운다.
-
-                }
-
-                upRecyclerView();
-                //스크롤 뷰 최상단으로 올리기
-
-            }
-        },1000);
         //데이터를 가져오는 것이 비동기적으로 구현됨으로 기다려야 함
-
-
-
-
 
 
 
@@ -449,7 +293,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-    }
+
 
 
     @Override
@@ -545,17 +389,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                         MyPojo myPojo = response.body();
                                         RESULT result = myPojo.getRESULT();
 
-
                                         for(int i=0; i<result.getOIL().length; i++){
-
 
                                             Uid.add(result.getOIL()[i].getUNI_ID());
                                             //주유소 ID
 
                                             distance.add(result.getOIL()[i].getDISTANCE());
                                             //거리
-
-
 
                                             NAME.add(result.getOIL()[i].getOS_NM());
                                             //상호명
@@ -574,6 +414,156 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                                         }
 
+                                        Log.d("TAG",Integer.toString(gas_price.size()));
+
+                                        mRecyclerView = (RecyclerView) findViewById(R.id.list_recycle);
+                                        myRecyclerAdapter = new MyRecyclerAdapter(moil_list);
+
+
+                                        mRecyclerView.setAdapter(myRecyclerAdapter);
+                                        moil_list = new ArrayList<>();
+                                        moil_list.clear();
+
+
+                                        String ok= "";
+
+                                        if(oil_intel[2].equals("B027")){
+                                            ok = "휘발유";
+                                        }
+                                        else if(oil_intel[2].equals("D047")){
+                                            ok = "경유";
+                                        }
+                                        else if(oil_intel[2].equals("B034")){
+                                            ok = "고급휘발유";
+                                        }
+                                        else if(oil_intel[2].equals("C004")){
+                                            ok = "실내등유";
+                                        }
+                                        else
+                                            ok = "자동차부탄";
+
+                                        //주유소 상표 마크 표시
+                                        for(int i=gas_price.size()-1; i>-1; i--){
+
+                                            if(trademark.get(i).equals("SKE")){
+                                                imageResource = R.drawable.sk;
+                                            }
+                                            else if(trademark.get(i).equals("GSC")){
+                                                imageResource = R.drawable.gs;
+                                            }
+                                            else if(trademark.get(i).equals("HDO")){
+                                                imageResource = R.drawable.hdoil;
+                                            }
+                                            else if(trademark.get(i).equals("SOL")){
+                                                imageResource = R.drawable.so;
+                                            }
+                                            else if(trademark.get(i).equals("RTO")){
+                                                imageResource = R.drawable.rto;
+                                            }//비슷
+                                            else if(trademark.get(i).equals("RTX")){
+                                                imageResource = R.drawable.rto;
+                                            }//비슷
+                                            else if(trademark.get(i).equals("RTX")){
+                                                imageResource = R.drawable.rto;
+                                            }
+                                            else if(trademark.get(i).equals("NHO")){
+                                                imageResource = R.drawable.nho;
+                                            }
+                                            else if(trademark.get(i).equals("E1G")){
+                                                imageResource = R.drawable.e1;
+                                            }
+                                            else if(trademark.get(i).equals("SKG")){
+                                                imageResource = R.drawable.skgas;
+                                            }
+                                            else
+                                                imageResource = R.drawable.oil_2;
+
+                                            GeoTransPoint point = new GeoTransPoint(x_pos.get(i), y_pos.get(i));
+
+                                            GeoTransPoint out = GeoTrans.convert(GeoTrans.KATEC, GeoTrans.GEO,point);
+                                            //KATEC -> Wgs84좌표계로 변경
+
+                                            moil_list.add(new oil_list(Uid.get(i), NAME.get(i),gas_price.get(i),distance.get(i)+"m",
+                                                    ok,imageResource, (float)out.getX(),(float)out.getY()));
+
+                                            //moil_list 수정
+
+                                            //Log.d("TAG", "크기 값을 넣겠습니다.");
+
+                                        }
+
+
+
+
+
+                                        myRecyclerAdapter.setOil_lists(moil_list);
+                                        storeMarkers.clear();//storemarker 제거
+                                        mMap.clear();
+
+                                        //이쪽 코드에는 아무런 문제가 없다. 정확한 위치가 표시됨.
+
+                                        for (int i = 0; i < x_pos.size(); i++) {
+
+                                            GeoTransPoint point = new GeoTransPoint((float)x_pos.get(i), (float)y_pos.get(i));
+                                            //ypos가 위도
+                                            GeoTransPoint out = GeoTrans.convert(GeoTrans.KATEC, GeoTrans.GEO,point);
+
+                                            LatLng temp = new LatLng(out.getY(),out.getX());//좌표변환
+
+                                            MarkerOptions markerOptions = new MarkerOptions();
+                                            markerOptions.position(temp); //지정하는 포지션 표시
+                                            markerOptions.title((String) NAME.get(i)+" 가격 "+ gas_price.get(i) + "원");//주유소 명
+                                            markerOptions.snippet("현 위치에서부터의 거리 " + distance.get(i) +"m");
+                                            markerOptions.draggable(true);
+
+                                            BitmapDrawable bitmapdraw;
+
+                                            if(trademark.get(i).equals("SKE")){
+                                                bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.sk);
+                                            }
+                                            else if(trademark.get(i).equals("GSC")){
+                                                bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.gs);
+                                            }
+                                            else if(trademark.get(i).equals("HDO")){
+                                                bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.hdoil);
+                                            }
+                                            else if(trademark.get(i).equals("SOL")){
+                                                bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.so);
+                                            }
+                                            else if(trademark.get(i).equals("RTO")){
+                                                bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.rto);
+                                            }//비슷
+                                            else if(trademark.get(i).equals("RTX")){
+                                                bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.rto);
+                                            }//비슷
+                                            else if(trademark.get(i).equals("NHO")){
+                                                bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.nho);
+                                            }
+                                            else if(trademark.get(i).equals("E1G")){
+                                                bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.e1);
+                                            }
+                                            else if(trademark.get(i).equals("SKG")){
+                                                bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.skgas);
+
+                                            }
+                                            else
+                                                bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.oil_2);
+
+
+
+                                            Bitmap b = bitmapdraw.getBitmap();
+                                            Bitmap smallMarker = Bitmap.createScaledBitmap(b,60,60,false);
+                                            //Marker 이미지 표시
+                                            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                                            storeMarkers.add(mMap.addMarker(markerOptions));//stroe Marker를 지도위에 다시 띄운다.
+
+                                        }
+
+                                        upRecyclerView();
+                                        //스크롤 뷰 최상단으로 올리기
+
+
+
 
 
                                     }
@@ -582,6 +572,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                                 @Override
                                 public void onFailure(Call<MyPojo> call, Throwable t) {
+
+                                    Log.e("TAG","API를 불러오는데 실패하였습니다.");
 
                                 }
 
