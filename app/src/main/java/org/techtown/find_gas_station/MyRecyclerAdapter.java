@@ -47,15 +47,16 @@ import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.ViewHolder> {
 
-    private ArrayList<oil_list> oil_lists;
+    private List<oil_list> oil_lists;
     private GoogleMap recyclerMap;
     private static final String GAS_API_KEY = "F211129251";
 
-    public MyRecyclerAdapter(ArrayList<oil_list> Oil_lists,GoogleMap map){
+    public MyRecyclerAdapter(List<oil_list> Oil_lists,GoogleMap map){
         oil_lists = Oil_lists;
         recyclerMap = map;
     }
@@ -72,7 +73,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         holder.onBind(oil_lists.get(position));
     }
 
-    public void setOil_lists(ArrayList<oil_list> list){
+    public void setOil_lists(List<oil_list> list){
         this.oil_lists = list;
         notifyDataSetChanged();
     }

@@ -24,10 +24,13 @@ public class Splash extends AppCompatActivity {
             }
         },500);
 
+
+
     }
 
     @Override
     protected void onPause() {
+
         super.onPause();
         finish();
     }

@@ -54,6 +54,7 @@ import org.json.JSONObject;
 import org.techtown.find_gas_station.GPS.GeoTrans;
 import org.techtown.find_gas_station.GPS.GeoTransPoint;
 import org.techtown.find_gas_station.GPS.GpsTracker;
+import org.techtown.find_gas_station.MVVM.GetOilViewModel;
 import org.techtown.find_gas_station.MVVM.SetViewModel;
 import org.techtown.find_gas_station.Retrofit.MyPojo;
 import org.techtown.find_gas_station.Retrofit.OIL;
@@ -69,6 +70,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -84,23 +86,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     //받아오는 list들
     private RecyclerView mRecyclerView;
     private MyRecyclerAdapter myRecyclerAdapter;
-    private ArrayList<oil_list> moil_list;
+    private List<oil_list> moil_list;
 
     private Button Setting;
 
-    ArrayList<String> Uid = new ArrayList<>();// 주유소  uid
-
-    ArrayList<String> NAME = new ArrayList<>();//주유소 상호
-    ArrayList<Float> x_pos = new ArrayList<>();//주유소 X좌표
-    ArrayList<Float> y_pos = new ArrayList<>();//주유소 Y좌표
-    ArrayList<String> gas_price = new ArrayList<>();//주유소 판매가격
-    ArrayList storeMarkers = new ArrayList<>();//주유소 정보 표시
-    ArrayList<String> distance = new ArrayList<>(); // 거리
-
-    ArrayList<String> trademark = new ArrayList<>();//트레이드 마크
-
-
-    private int imageResource;
 
     private GoogleMap mMap;//구글 맵
 
@@ -139,14 +128,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private View mLayout;  // Snackbar 사용하기 위해서는 View가 필요합니다.
     // (참고로 Toast에서는 Context가 필요했습니다.)
 
-    //Room DB 변수 추가
-
-    //레트로핏 테스트
-    private Retrofit retrofit;
-    private final static String BASE_URL = "http:///www.opinet.co.kr/";
-    RetrofitAPI retrofitAPI;
-    //ArrayList<OIL> oilList = new ArrayList<>();
-
+    SetViewModel setViewModel;
+    GetOilViewModel getOilViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,9 +152,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         mLayout = findViewById(R.id.layout_main);
 
-        SetViewModel setViewModel;
+
         setViewModel = new ViewModelProvider(this).get(SetViewModel.class);
-        //viewModel 초기화
+        //setViewModel 초기화
+
+        getOilViewModel = new ViewModelProvider(this).get(GetOilViewModel.class);
+        //getOilViewModel 초기화
 
 
         reset = findViewById(R.id.reset);//새로고침 버튼
@@ -182,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 init_reset();
 
                 upRecyclerView();
+
             }
         });
 
@@ -235,7 +222,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 oil_intel[1] = set.getOil_sort();
                 //정렬 기준
                 oil_intel[2] = set.getOil_name();
-
                 //기름 종류
 
 
@@ -273,6 +259,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //gpsTracker 가져오기
         getData((float) gpsTracker.getLatitude(),(float) gpsTracker.getLongitude());
         //getData메소드 호출하여 ArrayList 값들 채우기
+
     }
 
 
@@ -282,7 +269,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
 
         if (requestCode == REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
@@ -331,229 +317,28 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public void getData(float latitude,float Longtitude){
 
-        x_pos.clear();
-        y_pos.clear();
-        //위치정보 초기화
-        Uid.clear();//id 초기화
-        NAME.clear();//주유소 이름 초기화
-        gas_price.clear();
-        distance.clear();//거리 초기화
-        //미리 Arraylist를 초기화 하는 것이 좋다.
+
 
         //인터넷을 사용하는 것이기 때문에 Thread 사용
         //gpsTransfer 클래스를 이용하여 location 매개변수를 사용해 위도,경도 -> x,y좌표로 초기화
-
-
 
         GeoTransPoint point = new GeoTransPoint(Longtitude,latitude);
         GeoTransPoint ge = GeoTrans.convert(GeoTrans.GEO,GeoTrans.KATEC,point);
                     //GEO를 KATEC으로 변환
 
-                    //레트로핏 객체 생성
-        retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        mRecyclerView = (RecyclerView) findViewById(R.id.list_recycle);
 
-        retrofitAPI = retrofit.create(RetrofitAPI.class);
+        moil_list = getOilViewModel.getOil(API_KEY,
+                Double.toString(ge.getX()),Double.toString(ge.getY())
+                ,oil_intel[0],oil_intel[2],oil_intel[1]);
 
-        //파싱 데이터 확인 작업 실시
-        retrofitAPI.getOilList(API_KEY,"json",Double.toString(ge.getX()),Double.toString(ge.getY()),oil_intel[0],oil_intel[2],oil_intel[1])
-                .enqueue(new Callback<MyPojo>() {
+        myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
 
-                    @Override
-                    public void onResponse(Call<MyPojo> call, Response<MyPojo> response) {
-
-                        if(response.isSuccessful()){
-
-                            MyPojo myPojo = response.body();
-                            RESULT result = myPojo.getRESULT();
-
-                            for(int i=0; i<result.getOIL().length; i++){
-
-                                Uid.add(result.getOIL()[i].getUNI_ID());
-                                //주유소 ID
-
-                                distance.add(result.getOIL()[i].getDISTANCE());
-                                //거리
-
-                                NAME.add(result.getOIL()[i].getOS_NM());
-                                //상호명
-
-                                gas_price.add(result.getOIL()[i].getPRICE());
-                                //가격
-
-                                x_pos.add(Float.parseFloat(result.getOIL()[i].getGIS_X_COOR()));
-                                //X 위치
-
-                                y_pos.add(Float.parseFloat(result.getOIL()[i].getGIS_Y_COOR()));
-                                //Y 위치
-
-                                trademark.add(result.getOIL()[i].getPOLL_DIV_CD());
-                                //트레이드 마크
-
-                            }
-
-                            Log.d("TAG",Integer.toString(gas_price.size()));
-
-                            mRecyclerView = (RecyclerView) findViewById(R.id.list_recycle);
-                            myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
+        mRecyclerView.setAdapter(myRecyclerAdapter);
 
 
-                            mRecyclerView.setAdapter(myRecyclerAdapter);
-                            moil_list = new ArrayList<>();
-                            moil_list.clear();
-
-
-                            String ok= "";
-
-                            if(oil_intel[2].equals("B027")){
-                                ok = "휘발유";
-                            }
-                            else if(oil_intel[2].equals("D047")){
-                                ok = "경유";
-                            }
-                            else if(oil_intel[2].equals("B034")){
-                                ok = "고급휘발유";
-                            }
-                            else if(oil_intel[2].equals("C004")){
-                                ok = "실내등유";
-                            }
-                            else
-                                ok = "자동차부탄";
-
-                            //주유소 상표 마크 표시
-                            for(int i=gas_price.size()-1; i>-1; i--){
-
-                                if(trademark.get(i).equals("SKE")){
-                                    imageResource = R.drawable.sk;
-                                }
-                                else if(trademark.get(i).equals("GSC")){
-                                    imageResource = R.drawable.gs;
-                                }
-                                else if(trademark.get(i).equals("HDO")){
-                                    imageResource = R.drawable.hdoil;
-                                }
-                                else if(trademark.get(i).equals("SOL")){
-                                    imageResource = R.drawable.so;
-                                }
-                                else if(trademark.get(i).equals("RTO")){
-                                    imageResource = R.drawable.rto;
-                                }//비슷
-                                else if(trademark.get(i).equals("RTX")){
-                                    imageResource = R.drawable.rto;
-                                }//비슷
-                                else if(trademark.get(i).equals("RTX")){
-                                    imageResource = R.drawable.rto;
-                                }
-                                else if(trademark.get(i).equals("NHO")){
-                                    imageResource = R.drawable.nho;
-                                }
-                                else if(trademark.get(i).equals("E1G")){
-                                    imageResource = R.drawable.e1;
-                                }
-                                else if(trademark.get(i).equals("SKG")){
-                                    imageResource = R.drawable.skgas;
-                                }
-                                else
-                                    imageResource = R.drawable.oil_2;
-
-                                GeoTransPoint point = new GeoTransPoint(x_pos.get(i), y_pos.get(i));
-
-                                GeoTransPoint out = GeoTrans.convert(GeoTrans.KATEC, GeoTrans.GEO,point);
-                                //KATEC -> Wgs84좌표계로 변경
-
-                                moil_list.add(new oil_list(Uid.get(i), NAME.get(i),gas_price.get(i),distance.get(i)+"m",
-                                        ok,imageResource, (float)out.getX(),(float)out.getY()));
-
-
-
-
-
-                            }
-
-
-                            myRecyclerAdapter.setOil_lists(moil_list);
-                            storeMarkers.clear();//storemarker 제거
-                            mMap.clear();
-
-
-
-                            for (int i = 0; i < x_pos.size(); i++) {
-
-                                GeoTransPoint point = new GeoTransPoint((float)x_pos.get(i), (float)y_pos.get(i));
-
-                                GeoTransPoint out = GeoTrans.convert(GeoTrans.KATEC, GeoTrans.GEO,point);
-
-                                LatLng temp = new LatLng(out.getY(),out.getX());//좌표변환
-
-                                MarkerOptions markerOptions = new MarkerOptions();
-                                markerOptions.position(temp); //지정하는 포지션 표시
-                                markerOptions.title((String) NAME.get(i)+" 가격 "+ gas_price.get(i) + "원");//주유소 명
-                                markerOptions.snippet("현 위치에서부터의 거리 " + distance.get(i) +"m");
-                                markerOptions.draggable(true);
-
-                                BitmapDrawable bitmapdraw;
-
-                                if(trademark.get(i).equals("SKE")){
-                                    bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.sk);
-                                }
-                                else if(trademark.get(i).equals("GSC")){
-                                    bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.gs);
-                                }
-                                else if(trademark.get(i).equals("HDO")){
-                                    bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.hdoil);
-                                }
-                                else if(trademark.get(i).equals("SOL")){
-                                    bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.so);
-                                }
-                                else if(trademark.get(i).equals("RTO")) {
-                                    bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.rto);
-                                }//비슷
-                                else if(trademark.get(i).equals("RTX")){
-                                    bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.rto);
-                                }//비슷
-                                else if(trademark.get(i).equals("NHO")){
-                                    bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.nho);
-                                }
-                                else if(trademark.get(i).equals("E1G")){
-                                    bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.e1);
-                                }
-                                else if(trademark.get(i).equals("SKG")){
-                                    bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.skgas);
-                                }
-                                else
-                                    bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.oil_2);
-
-
-
-                                Bitmap b = bitmapdraw.getBitmap();
-                                Bitmap smallMarker = Bitmap.createScaledBitmap(b,60,60,false);
-                                //Marker 이미지 표시
-                                markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
-                                storeMarkers.add(mMap.addMarker(markerOptions));//stroe Marker를 지도위에 다시 띄운다.
-
-                            }
-
-                            upRecyclerView();
-                            //스크롤 뷰 최상단으로 올리기
-
-
-
-
-
-                        }
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<MyPojo> call, Throwable t) {
-
-                        Log.e("TAG","API를 불러오는데 실패하였습니다.");
-
-                    }
-
-                });
+        upRecyclerView();
+        //스크롤 뷰 최상단으로 올리기
 
     }
 
@@ -576,7 +361,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     }
                 };
 
-                smoothScroller.setTargetPosition(NAME.size()); //itemPosition - 이동시키고자 하는 Item의 Position
+                smoothScroller.setTargetPosition(moil_list.size()); //itemPosition - 이동시키고자 하는 Item의 Position
                 //마지막 배열 = 사용자 View 첫번째 List
                 mRecyclerView.getLayoutManager().startSmoothScroll(smoothScroller);
 
