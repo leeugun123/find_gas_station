@@ -79,7 +79,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 //좌표계 변환 문제 KATEC -> 위도,경도
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback,ActivityCompat.OnRequestPermissionsResultCallback,
-        MyRecyclerAdapter.UserListRecyclerClickListener,GoogleMap.OnMarkerClickListener{
+        GoogleMap.OnMarkerClickListener{
 
     //받아오는 list들들
 
@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         moil_list = new ArrayList<>();
 
         mRecyclerView = (RecyclerView) findViewById(R.id.list_recycle);
-        myRecyclerAdapter = new MyRecyclerAdapter(moil_list);
+        myRecyclerAdapter = new MyRecyclerAdapter(moil_list, mMap);
 
         mRecyclerView.setAdapter(myRecyclerAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -417,7 +417,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                         Log.d("TAG",Integer.toString(gas_price.size()));
 
                                         mRecyclerView = (RecyclerView) findViewById(R.id.list_recycle);
-                                        myRecyclerAdapter = new MyRecyclerAdapter(moil_list);
+                                        myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
 
 
                                         mRecyclerView.setAdapter(myRecyclerAdapter);
@@ -491,9 +491,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                             //Log.d("TAG", "크기 값을 넣겠습니다.");
 
                                         }
-
-
-
 
 
                                         myRecyclerAdapter.setOil_lists(moil_list);
@@ -928,34 +925,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-
-    @Override
-    public void onUserClicked(int position) {
-        Log.d(TAG,"onUserClicked: selected a user: " + moil_list.get(position).get_oil_name());
-
-        String O_name = moil_list.get(position).get_oil_name();
-
-        for(int i=0; i<NAME.size(); i++){
-            if(O_name.equals(NAME.get(i))){
-
-                GeoTransPoint point = new GeoTransPoint((float)x_pos.get(i), (float)y_pos.get(i));
-                GeoTransPoint out = GeoTrans.convert(GeoTrans.KATEC, GeoTrans.GEO,point);
-                //좌표변환
-
-                mMap.animateCamera(CameraUpdateFactory.newLatLng(
-                        new LatLng(out.getY(),out.getX())),
-                        600,
-                        null
-                );
-
-
-                mMap.setOnMarkerClickListener(this);
-
-
-                break;
-            }
-        }
-    }
 
     //recycerView를 클릭하면 그 위치로 view가 이동함
 

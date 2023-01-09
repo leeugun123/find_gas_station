@@ -17,6 +17,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.common.GoogleApiAvailabilityLight;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
 import com.kakao.kakaonavi.BuildConfig;
 import com.kakao.kakaonavi.KakaoNaviParams;
 import com.kakao.kakaonavi.KakaoNaviService;
@@ -47,12 +52,12 @@ import java.util.ArrayList;
 public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.ViewHolder> {
 
     private ArrayList<oil_list> oil_lists;
-
+    private GoogleMap recyclerMap;
     private static final String GAS_API_KEY = "F211129251";
 
-    public MyRecyclerAdapter(ArrayList<oil_list> Oil_lists){
+    public MyRecyclerAdapter(ArrayList<oil_list> Oil_lists,GoogleMap map){
         oil_lists = Oil_lists;
-
+        recyclerMap = map;
     }
 
     @NonNull
@@ -76,6 +81,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
     public int getItemCount() {
         return oil_lists.size();
     }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -101,6 +107,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         String store;
         //편의점 존재 여부
 
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -112,8 +119,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             navi_button_kakao = itemView.findViewById(R.id.navi_button_kakao);
             intelButton = itemView.findViewById(R.id.intelButton);
 
-
-
         }
 
         public void onBind(oil_list oil_list) {
@@ -123,6 +128,24 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             distance.setText(oil_list.getDistance());
             oil_kind.setText(oil_list.getOil_kind());
             oil_image.setImageResource(oil_list.get_image());
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+
+                    recyclerMap.animateCamera(CameraUpdateFactory.newLatLng(
+                            new LatLng((float)oil_list.getWgs84Y() ,(float)oil_list.getWgs84X() )  ),
+                                    600,
+                                    null
+                            );
+                    recyclerMap.setOnMarkerClickListener((GoogleMap.OnMarkerClickListener) itemView.getContext());
+
+                }
+
+            });
+            //클릭하면 동작
+
 
             navi_button_kakao.setOnClickListener(new View.OnClickListener() {
 
@@ -257,12 +280,8 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
 
 
-
-
     }
 
-    public interface UserListRecyclerClickListener{
-        void onUserClicked(int position);
-    }
+
 
 }
