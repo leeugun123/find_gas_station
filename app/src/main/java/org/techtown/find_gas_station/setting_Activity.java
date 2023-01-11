@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.set;
+package org.techtown.find_gas_station;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,6 +18,8 @@ import androidx.room.Room;
 import org.techtown.find_gas_station.MVVM.SetViewModel;
 import org.techtown.find_gas_station.MainActivity;
 import org.techtown.find_gas_station.R;
+import org.techtown.find_gas_station.set.Set;
+
 import java.util.ArrayList;
 import java.util.List;
 
