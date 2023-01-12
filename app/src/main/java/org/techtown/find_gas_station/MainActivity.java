@@ -70,6 +70,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -332,7 +333,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 ,oil_intel[0],oil_intel[1],oil_intel[2]);
 
 
-
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
 
@@ -341,13 +341,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 Log.e("TAG",moil_list.size() + "크기 ");
 
+                Collections.reverse(moil_list);
+                //역순 뒤집기
+
                 myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
 
                 mRecyclerView.setAdapter(myRecyclerAdapter);
                 upRecyclerView();
                 //스크롤 뷰 최상단으로 올리기
+
+
+
             }
-        },3000);
+        },2500);
 
 
 

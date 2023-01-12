@@ -49,7 +49,6 @@ public class GetOilRepository {
 
 
         oil = oilKind;
-        Log.e("TAG",oil);
 
         retrofitAPI.getOilList(APIkey, "json", xPos, yPos, radius,oilKind,sort)
                 .enqueue(new Callback<MyPojo>() {
@@ -63,7 +62,6 @@ public class GetOilRepository {
 
                             MyPojo myPojo = response.body();
                             RESULT result = myPojo.getRESULT();
-
 
 
                             for(int i=0; i<result.getOIL().length; i++){
