@@ -1,9 +1,11 @@
 package org.techtown.find_gas_station.MVVM;
 
 import android.app.Application;
+import android.util.Log;
 
 import org.techtown.find_gas_station.GPS.GeoTrans;
 import org.techtown.find_gas_station.GPS.GeoTransPoint;
+import org.techtown.find_gas_station.MainActivity;
 import org.techtown.find_gas_station.R;
 import org.techtown.find_gas_station.Retrofit.MyPojo;
 import org.techtown.find_gas_station.Retrofit.RESULT;
@@ -12,6 +14,7 @@ import org.techtown.find_gas_station.oil_list;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,8 +27,9 @@ public class GetOilRepository {
     private Retrofit retrofit;
     private final static String BASE_URL = "http:///www.opinet.co.kr/";
     RetrofitAPI retrofitAPI;
-
     List<oil_list> moil_list;
+
+    String oil = "";
 
     public GetOilRepository(Application application){
         super();
@@ -41,18 +45,26 @@ public class GetOilRepository {
 
     }
 
-    public List<oil_list> getOil(String APIkey,String xPos,String yPos,String radius,String sort,String oilKind) {
-        retrofitAPI.getOilList(APIkey, "json", xPos, yPos, radius, sort, oilKind)
+    public void getOil(String APIkey,String xPos,String yPos,String radius,String sort,String oilKind) {
+
+
+        oil = oilKind;
+        Log.e("TAG",oil);
+
+        retrofitAPI.getOilList(APIkey, "json", xPos, yPos, radius,oilKind,sort)
                 .enqueue(new Callback<MyPojo>() {
+
                     @Override
                     public void onResponse(Call<MyPojo> call, Response<MyPojo> response) {
 
-                        moil_list.clear();
+                        MainActivity.moil_list.clear();
 
                         if(response.isSuccessful()){
 
                             MyPojo myPojo = response.body();
                             RESULT result = myPojo.getRESULT();
+
+
 
                             for(int i=0; i<result.getOIL().length; i++){
 
@@ -68,21 +80,23 @@ public class GetOilRepository {
                                String gas_price = result.getOIL()[i].getPRICE();
                                //주유소 가격
 
-                                String oilKind = "";
+                               String inputOil;
 
-                                if(result.getOIL()[i].getPOLL_DIV_CD().equals("B027")){
-                                    oilKind = "휘발유";
-                                }
-                                else if(result.getOIL()[i].getPOLL_DIV_CD().equals("D047")){
-                                    oilKind = "경유";
-                                }else if(result.getOIL()[i].getPOLL_DIV_CD().equals("B034")){
-                                    oilKind = "고급휘발유";
-                                }
-                                else if(result.getOIL()[i].getPOLL_DIV_CD().equals("C004")){
-                                    oilKind = "실내등유";
-                                }
-                                else
-                                    oilKind = "자동차부탄";
+
+                               if(oil.equals("B027")){
+                                   inputOil = "휘발유";
+                               }
+                               else if(oil.equals("D047")){
+                                   inputOil = "경유";
+                               }
+                               else if(oil.equals("B034")){
+                                   inputOil = "고급휘발유";
+                               }
+                               else if(oil.equals("C004")){
+                                   inputOil = "실내등유";
+                               }
+                               else
+                                   inputOil = "자동차부탄";
 
 
                                float xPos = Float.parseFloat(result.getOIL()[i].getGIS_X_COOR());
@@ -96,8 +110,7 @@ public class GetOilRepository {
                                 GeoTransPoint out = GeoTrans.convert(GeoTrans.KATEC, GeoTrans.GEO,point);
                                 //KATEC -> Wgs84좌표계로 변경
 
-
-                               String trademark = result.getOIL()[i].getPOLL_DIV_CD();
+                                String trademark = result.getOIL()[i].getPOLL_DIV_CD();
                                //트레이드 마크
 
                                 int imageResource;
@@ -136,12 +149,13 @@ public class GetOilRepository {
                                 else
                                     imageResource = R.drawable.oil_2;
 
-
                                 moil_list.add(new oil_list(uid,name,gas_price,distance+"m",
-                                        oilKind,imageResource,(float)out.getX(),(float)out.getY()));
+                                        inputOil,imageResource,(float)out.getX(),(float)out.getY()));
+
 
                             }
 
+                            MainActivity.moil_list = moil_list;
 
                         }
 
@@ -156,9 +170,13 @@ public class GetOilRepository {
 
                 });
 
-        return moil_list;
+
+
+
+
 
     }
+
 
 
 }

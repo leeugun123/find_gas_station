@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     //받아오는 list들
     private RecyclerView mRecyclerView;
     private MyRecyclerAdapter myRecyclerAdapter;
-    private List<oil_list> moil_list;
+    public static List<oil_list> moil_list;
 
     private Button Setting;
 
@@ -273,7 +273,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (requestCode == REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
 
-
                 oil_intel[0] = data.getStringExtra("0");
                 //반경
                 oil_intel[1] = data.getStringExtra("1");
@@ -318,7 +317,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void getData(float latitude,float Longtitude){
 
 
-
         //인터넷을 사용하는 것이기 때문에 Thread 사용
         //gpsTransfer 클래스를 이용하여 location 매개변수를 사용해 위도,경도 -> x,y좌표로 초기화
 
@@ -328,17 +326,31 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         mRecyclerView = (RecyclerView) findViewById(R.id.list_recycle);
 
-        moil_list = getOilViewModel.getOil(API_KEY,
+
+       getOilViewModel.getOil(API_KEY,
                 Double.toString(ge.getX()),Double.toString(ge.getY())
-                ,oil_intel[0],oil_intel[2],oil_intel[1]);
-
-        myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
-
-        mRecyclerView.setAdapter(myRecyclerAdapter);
+                ,oil_intel[0],oil_intel[1],oil_intel[2]);
 
 
-        upRecyclerView();
-        //스크롤 뷰 최상단으로 올리기
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+
+                Log.e("TAG",moil_list.size() + "크기 ");
+
+                myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
+
+                mRecyclerView.setAdapter(myRecyclerAdapter);
+                upRecyclerView();
+                //스크롤 뷰 최상단으로 올리기
+            }
+        },3000);
+
+
+
 
     }
 

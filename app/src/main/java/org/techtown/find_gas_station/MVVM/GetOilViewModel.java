@@ -20,9 +20,9 @@ public class GetOilViewModel extends AndroidViewModel {
         getOilRepository = new GetOilRepository(application);
     }
 
-    public List<oil_list> getOil(String APIkey,String xPos,String yPos,String radius,String sort,String oilKind){
+    public void getOil(String APIkey,String xPos,String yPos,String radius,String sort,String oilKind){
 
-        return getOilRepository.getOil(APIkey,xPos,yPos,radius,sort,oilKind);
+        getOilRepository.getOil(APIkey,xPos,yPos,radius,sort,oilKind);
     }
 
 
