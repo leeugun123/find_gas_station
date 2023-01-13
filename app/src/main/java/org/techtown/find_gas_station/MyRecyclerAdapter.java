@@ -2,8 +2,9 @@ package org.techtown.find_gas_station;
 
 import static android.content.ContentValues.TAG;
 
-import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,17 +13,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.common.GoogleApiAvailabilityLight;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.kakao.kakaonavi.BuildConfig;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.kakao.kakaonavi.KakaoNaviParams;
 import com.kakao.kakaonavi.KakaoNaviService;
 import com.kakao.kakaonavi.Location;
@@ -36,17 +35,12 @@ import com.kakao.sdk.navi.NaviClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.techtown.find_gas_station.GPS.GeoTrans;
-import org.techtown.find_gas_station.GPS.GeoTransPoint;
-import org.techtown.find_gas_station.GPS.GpsTracker;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -129,6 +123,25 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             distance.setText(oil_list.getDistance());
             oil_kind.setText(oil_list.getOil_kind());
             oil_image.setImageResource(oil_list.get_image());
+
+
+            //구글맵에 주유소 이미지 표시
+            LatLng pos = new LatLng(oil_list.getWgs84Y(),oil_list.getWgs84X());
+
+            MarkerOptions markerOptions = new MarkerOptions();
+
+            BitmapDrawable bitmapdraw = (BitmapDrawable) oil_image.getResources().getDrawable(oil_list.get_image());
+            Bitmap b = bitmapdraw.getBitmap();
+            Bitmap smallMarker = Bitmap.createScaledBitmap(b,80,80,false);
+
+            markerOptions.position(pos).title(oil_list.get_oil_name()).snippet("현 위치로부터 거리" + oil_list.getDistance())
+                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+
+            recyclerMap.addMarker(markerOptions);
+
+
+
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
 

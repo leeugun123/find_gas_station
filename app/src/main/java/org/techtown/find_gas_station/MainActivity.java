@@ -329,6 +329,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mRecyclerView = (RecyclerView) findViewById(R.id.list_recycle);
 
        getOilViewModel.getOil(mRecyclerView, mMap, API_KEY, Double.toString(ge.getX()),Double.toString(ge.getY()),oil_intel[0],oil_intel[1],oil_intel[2]);
+       
 
     }
 
