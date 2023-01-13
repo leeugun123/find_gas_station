@@ -143,7 +143,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         moil_list = new ArrayList<>();
 
+
         mRecyclerView = (RecyclerView) findViewById(R.id.list_recycle);
+
+
         myRecyclerAdapter = new MyRecyclerAdapter(moil_list, mMap);
 
         mRecyclerView.setAdapter(myRecyclerAdapter);
@@ -153,10 +156,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         mLayout = findViewById(R.id.layout_main);
 
-
         setViewModel = new ViewModelProvider(this).get(SetViewModel.class);
         //setViewModel 초기화
-
         getOilViewModel = new ViewModelProvider(this).get(GetOilViewModel.class);
         //getOilViewModel 초기화
 
@@ -327,36 +328,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         mRecyclerView = (RecyclerView) findViewById(R.id.list_recycle);
 
-
-       getOilViewModel.getOil(API_KEY,
-                Double.toString(ge.getX()),Double.toString(ge.getY())
-                ,oil_intel[0],oil_intel[1],oil_intel[2]);
-
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-
-                Log.e("TAG",moil_list.size() + "크기 ");
-
-                Collections.reverse(moil_list);
-                //역순 뒤집기
-
-                myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
-
-                mRecyclerView.setAdapter(myRecyclerAdapter);
-                upRecyclerView();
-                //스크롤 뷰 최상단으로 올리기
-
-
-
-            }
-        },2500);
-
-
-
+       getOilViewModel.getOil(mRecyclerView, mMap, API_KEY, Double.toString(ge.getX()),Double.toString(ge.getY()),oil_intel[0],oil_intel[1],oil_intel[2]);
 
     }
 

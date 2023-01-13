@@ -1,11 +1,18 @@
 package org.techtown.find_gas_station.MVVM;
 
 import android.app.Application;
+import android.os.Handler;
 import android.util.Log;
+
+import androidx.recyclerview.widget.LinearSmoothScroller;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.maps.GoogleMap;
 
 import org.techtown.find_gas_station.GPS.GeoTrans;
 import org.techtown.find_gas_station.GPS.GeoTransPoint;
 import org.techtown.find_gas_station.MainActivity;
+import org.techtown.find_gas_station.MyRecyclerAdapter;
 import org.techtown.find_gas_station.R;
 import org.techtown.find_gas_station.Retrofit.MyPojo;
 import org.techtown.find_gas_station.Retrofit.RESULT;
@@ -13,6 +20,7 @@ import org.techtown.find_gas_station.Retrofit.RetrofitAPI;
 import org.techtown.find_gas_station.oil_list;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -28,6 +36,8 @@ public class GetOilRepository {
     private final static String BASE_URL = "http:///www.opinet.co.kr/";
     RetrofitAPI retrofitAPI;
     List<oil_list> moil_list;
+
+    private MyRecyclerAdapter myRecyclerAdapter;
 
     String oil = "";
 
@@ -45,7 +55,9 @@ public class GetOilRepository {
 
     }
 
-    public void getOil(String APIkey,String xPos,String yPos,String radius,String sort,String oilKind) {
+    public void getOil(
+                       RecyclerView mRecyclerView,
+                       GoogleMap mMap, String APIkey, String xPos, String yPos, String radius, String sort, String oilKind) {
 
 
         oil = oilKind;
@@ -56,7 +68,7 @@ public class GetOilRepository {
                     @Override
                     public void onResponse(Call<MyPojo> call, Response<MyPojo> response) {
 
-                        MainActivity.moil_list.clear();
+                        moil_list.clear();
 
                         if(response.isSuccessful()){
 
@@ -80,6 +92,7 @@ public class GetOilRepository {
 
                                String inputOil;
 
+                               Log.e("TAG",name+" "+gas_price);
 
                                if(oil.equals("B027")){
                                    inputOil = "휘발유";
@@ -153,7 +166,14 @@ public class GetOilRepository {
 
                             }
 
-                            MainActivity.moil_list = moil_list;
+                            Collections.reverse(moil_list);
+                            //역순 뒤집기
+
+                            myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
+
+                            mRecyclerView.setAdapter(myRecyclerAdapter);
+
+                            upRecyclerView(mRecyclerView);
 
                         }
 
@@ -172,6 +192,33 @@ public class GetOilRepository {
 
 
 
+
+    }
+
+    public void upRecyclerView(RecyclerView mRecyclerView){
+
+        //Log.d("TAG", "리사이클러뷰 위로 올리기!");//locationList의 size는 0 이상이다.
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(mRecyclerView.getContext()) {
+
+                    @Override protected int getVerticalSnapPreference() {
+                        return LinearSmoothScroller.SNAP_TO_START;
+                    }
+                };
+
+                smoothScroller.setTargetPosition(moil_list.size()); //itemPosition - 이동시키고자 하는 Item의 Position
+                //마지막 배열 = 사용자 View 첫번째 List
+                mRecyclerView.getLayoutManager().startSmoothScroll(smoothScroller);
+
+            }
+        },100);
+        //핸들러를 사용하여
+        // 리사이클러뷰가 완전히 형성된 후 최상단으로 리사이클러뷰 올리기
 
     }
 

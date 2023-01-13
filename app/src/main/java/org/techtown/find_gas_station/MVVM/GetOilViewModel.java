@@ -5,7 +5,11 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.maps.GoogleMap;
+
+import org.techtown.find_gas_station.MyRecyclerAdapter;
 import org.techtown.find_gas_station.oil_list;
 
 import java.util.List;
@@ -20,9 +24,14 @@ public class GetOilViewModel extends AndroidViewModel {
         getOilRepository = new GetOilRepository(application);
     }
 
-    public void getOil(String APIkey,String xPos,String yPos,String radius,String sort,String oilKind){
+    public void getOil(
+                       RecyclerView mRecyclerView,
+                       GoogleMap mMap,
+                       String APIkey, String xPos, String yPos, String radius, String sort, String oilKind){
 
-        getOilRepository.getOil(APIkey,xPos,yPos,radius,sort,oilKind);
+        getOilRepository.getOil(
+                mRecyclerView,
+                mMap,APIkey,xPos,yPos,radius,sort,oilKind);
     }
 
 
