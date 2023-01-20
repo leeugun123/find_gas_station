@@ -242,19 +242,15 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                             JSONArray arr = (JSONArray) ar.get("OIL");
                             JSONObject dataObj = arr.getJSONObject(0);
 
-                            carWash = dataObj.getString("CAR_WASH_YN");
-                            //세차장 존재 여부
-                            store = dataObj.getString("CVS_YN");
-                            //편의점 존재 여부
 
 
-                            Log.e("TAG",oil_list.get_oil_name() + " 편의점 " + store + " 세차장 " + carWash);
+                            //Log.e("TAG",oil_list.get_oil_name() + " 편의점 " + store + " 세차장 " + carWash);
 
-                            if(carWash.equals("Y")){
+                            if(dataObj.getString("CAR_WASH_YN").equals("Y")){
                                 carWashImg.setImageResource(R.drawable.car_wash);
                             }
 
-                            if(store.equals("Y")){
+                            if(dataObj.getString("CVS_YN").equals("Y")){
                                 convenStore.setImageResource(R.drawable.conven_store);
                             }
 
@@ -267,9 +263,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                 }
             });
 
-            readData.start();
-
-
+            //readData.start();
 
 
 
