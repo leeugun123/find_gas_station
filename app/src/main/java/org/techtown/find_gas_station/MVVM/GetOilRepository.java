@@ -159,12 +159,11 @@ public class GetOilRepository {
                                 else
                                     imageResource = R.drawable.oil_2;
 
-
-
                                 Log.e("TAG",distance);
 
                                 moil_list.add(new oil_list(uid,name,gas_price, changeKm(distance)+"km",
                                         inputOil,imageResource,(float)out.getX(),(float)out.getY()));
+
 
 
                             }
