@@ -75,7 +75,6 @@ public class GetOilRepository {
                             MyPojo myPojo = response.body();
                             RESULT result = myPojo.getRESULT();
 
-
                             for(int i=0; i<result.getOIL().length; i++){
 
                                String uid = result.getOIL()[i].getUNI_ID();
@@ -160,7 +159,11 @@ public class GetOilRepository {
                                 else
                                     imageResource = R.drawable.oil_2;
 
-                                moil_list.add(new oil_list(uid,name,gas_price,distance+"m",
+
+
+                                Log.e("TAG",distance);
+
+                                moil_list.add(new oil_list(uid,name,gas_price, changeKm(distance)+"km",
                                         inputOil,imageResource,(float)out.getX(),(float)out.getY()));
 
 
@@ -173,14 +176,14 @@ public class GetOilRepository {
 
                             mRecyclerView.setAdapter(myRecyclerAdapter);
 
-                            upRecyclerView(mRecyclerView);
+                    upRecyclerView(mRecyclerView);
 
-                        }
+                }
 
-                    }
+    }
 
-                    @Override
-                    public void onFailure(Call<MyPojo> call, Throwable t) {
+    @Override
+    public void onFailure(Call<MyPojo> call, Throwable t) {
 
 
                     }
@@ -190,10 +193,16 @@ public class GetOilRepository {
 
 
 
-
-
-
     }
+
+    public static String changeKm(String distance){
+
+        double doubleD = Double.parseDouble(distance)/1000;
+
+
+        return String.format("%.1f",doubleD);
+
+    }//m -> km 변경 메소드
 
     public void upRecyclerView(RecyclerView mRecyclerView){
 

@@ -140,9 +140,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             recyclerMap.addMarker(markerOptions);
 
 
-
-
-
             itemView.setOnClickListener(new View.OnClickListener() {
 
                 @Override
