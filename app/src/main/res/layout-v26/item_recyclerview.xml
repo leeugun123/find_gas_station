@@ -58,20 +58,17 @@
                     android:textStyle="bold" />
 
                 <ImageView
-                    android:id="@+id/conStore"
-                    android:src="@drawable/car_wash"
+                    android:id="@+id/carWashStore"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     />
 
                 <ImageView
-                    android:id="@+id/carWashStore"
-                    android:src="@drawable/conven_store"
+                    android:id="@+id/conStore"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    />
+                    android:layout_weight="2" />
 
 
 

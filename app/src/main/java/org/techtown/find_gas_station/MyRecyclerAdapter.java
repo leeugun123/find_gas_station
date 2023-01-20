@@ -86,8 +86,12 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         TextView oil_kind;
         ImageView oil_image;
 
+        ImageView carWashImg;
+        ImageView convenStore;
+
         Button navi_button_kakao;
         Button intelButton;
+
 
         String lotAddress;
         //지번 주소
@@ -97,6 +101,9 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         //전화번호
         String oil;
         //업종 구분 , N:주유소 Y:자동차주유소 C:주유소/충전소 겸업
+
+
+
         String carWash;
         //세차장 존재 여부
         String store;
@@ -104,15 +111,19 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
 
         public ViewHolder(@NonNull View itemView) {
+
             super(itemView);
 
-            name = (TextView) itemView.findViewById(R.id.name);
-            price = (TextView) itemView.findViewById(R.id.price);
-            distance = (TextView) itemView.findViewById(R.id.distance);
-            oil_kind = (TextView) itemView.findViewById(R.id.oil_kind);
+            name = itemView.findViewById(R.id.name);
+            price =  itemView.findViewById(R.id.price);
+            distance = itemView.findViewById(R.id.distance);
+            oil_kind =  itemView.findViewById(R.id.oil_kind);
             oil_image = itemView.findViewById(R.id.oil_image);
             navi_button_kakao = itemView.findViewById(R.id.navi_button_kakao);
             intelButton = itemView.findViewById(R.id.intelButton);
+
+            carWashImg = itemView.findViewById(R.id.carWashStore);
+            convenStore = itemView.findViewById(R.id.conStore);
 
         }
 
@@ -200,6 +211,65 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
                 }
             }); //카카오 navi 버튼을 눌렀을때
+
+            Thread readData = new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+                    try {
+
+                        URL url = new URL("http://www.opinet.co.kr/api/detailById.do?code="+ GAS_API_KEY +"&id="+ oil_list.getUid() + "&out=json");
+
+                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                        connection.setRequestMethod("GET");//get 가져오기
+                        connection.setDoInput(true);
+
+                        InputStream is = connection.getInputStream();
+                        StringBuilder sb = new StringBuilder();
+                        BufferedReader br = new BufferedReader(new InputStreamReader(is,"UTF-8"));
+
+                        String result;
+                        while((result = br.readLine()) != null) {
+                            sb.append(result + "\n");
+                        }
+
+                        result = sb.toString();
+
+                        try {
+
+                            JSONObject obj = new JSONObject(result);
+                            JSONObject ar = (JSONObject) obj.get("RESULT");
+                            JSONArray arr = (JSONArray) ar.get("OIL");
+                            JSONObject dataObj = arr.getJSONObject(0);
+
+                            carWash = dataObj.getString("CAR_WASH_YN");
+                            //세차장 존재 여부
+                            store = dataObj.getString("CVS_YN");
+                            //편의점 존재 여부
+
+
+                            Log.e("TAG",oil_list.get_oil_name() + " 편의점 " + store + " 세차장 " + carWash);
+
+                            if(carWash.equals("Y")){
+                                carWashImg.setImageResource(R.drawable.car_wash);
+                            }
+
+                            if(store.equals("Y")){
+                                convenStore.setImageResource(R.drawable.conven_store);
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }catch (Exception e){}
+                }
+            });
+
+            readData.start();
+
+
 
 
 
