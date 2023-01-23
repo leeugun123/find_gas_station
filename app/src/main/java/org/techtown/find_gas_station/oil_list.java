@@ -2,22 +2,27 @@ package org.techtown.find_gas_station;
 
 public class oil_list {
 
-    String Uid;
-    String oil_name;
-    String price;
-    String distance;
-    String oil_kind;
+    private String Uid;
+    private String oil_name;
+    private String price;
+    private String distance;
+    private String oil_kind;
 
-    String carWash;//세차장 유무
-    String conStore;//편의점 유무
+    private String carWash;//세차장 유무
+    private String conStore;//편의점 유무
 
-    int image;
+    private String lotNumberAdd;//지번 주소
+    private String roadAdd; //도로명 주소
+    private String tel; // 전화번호
+    private String sector; // 업종 구분
 
-    float wgsX;//wgs84 좌표 x
-    float wgsY;//wgs84 좌표 y
+    private int image;
+
+    private float wgsX;//wgs84 좌표 x
+    private float wgsY;//wgs84 좌표 y
 
     public oil_list(String Uid,String oil_name, String price, String distance,String oil_kind,int image, float wgsX,float wgsY
-    ,String carWash,String conStore){
+    ,String carWash,String conStore,String lotNumberAdd,String roadAdd,String tel,String sector){
 
         this.Uid = Uid;
         this.oil_name = oil_name;
@@ -30,6 +35,11 @@ public class oil_list {
 
         this.carWash = carWash;
         this.conStore = conStore;
+
+        this.lotNumberAdd = lotNumberAdd;
+        this.roadAdd = roadAdd;
+        this.tel = tel;
+        this.sector = sector;
 
     }
 
@@ -87,7 +97,31 @@ public class oil_list {
         return Uid;
     }
 
+    public void setCarWash(String carWash){this.carWash = carWash;}
 
+    public String getCarWash(){return carWash;}
+
+    public void setConStore(String store){this.conStore = store;}
+
+    public String getConStore(){return conStore;}
+
+    public void setLotNumberAdd(String lotNumberAdd){
+        this.lotNumberAdd = lotNumberAdd;
+    }
+
+    public String getLotNumberAdd(){return lotNumberAdd;}
+
+    public void setRoadAdd(String roadAdd){this.roadAdd = roadAdd;}
+
+    public String getRoadAdd(){return roadAdd;}
+
+    public void setTel(String tel){this.tel = tel;}
+
+    public String getTel(){return tel;}
+
+    public void setSector(String sector){this.sector = sector;}
+
+    public String getSector(){return sector;}
 
 
 }

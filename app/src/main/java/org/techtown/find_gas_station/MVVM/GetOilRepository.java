@@ -73,17 +73,25 @@ public class GetOilRepository {
                             String carWash = result.getOIL()[0].getCAR_WASH_YN();
                             String conStore = result.getOIL()[0].getCVS_YN();
 
-                            Log.e("TAG",result.getOIL()[0].getCAR_WASH_YN() +"  "+result.getOIL()[0].getCVS_YN());
+                            String lotNumberAddress = result.getOIL()[0].getVAN_ADR();
+
+                            String roadAddress = result.getOIL()[0].getNEW_ADR();
+
+                            String tel = result.getOIL()[0].getTEL();
+                            String sector = result.getOIL()[0].getLPG_YN();
 
 
                             moil_list.add(new oil_list(uid,name,gas_price, changeKm(distance)+"km",
-                                    inputOil,imageResource,getX,getY,carWash,conStore));
+                                    inputOil,imageResource,getX,getY,carWash,conStore,lotNumberAddress,roadAddress,
+                                    tel,sector));
 
-                            Log.e("TAG","크기" + moil_list.size());
 
                             if(moil_list.size() == size){
+
                                 myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
                                 mRecyclerView.setAdapter(myRecyclerAdapter);
+
+
                             }
 
                         }

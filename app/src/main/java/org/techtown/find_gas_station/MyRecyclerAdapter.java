@@ -48,7 +48,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
     private List<oil_list> oil_lists;
     private GoogleMap recyclerMap;
-    private static final String GAS_API_KEY = "F211129251";
+
 
     public MyRecyclerAdapter(List<oil_list> Oil_lists,GoogleMap map){
         oil_lists = Oil_lists;
@@ -99,7 +99,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         //도로명 주소
         String tel;
         //전화번호
-        String oil;
+        String sector;
         //업종 구분 , N:주유소 Y:자동차주유소 C:주유소/충전소 겸업
 
 
@@ -135,8 +135,13 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             oil_kind.setText(oil_list.getOil_kind());
             oil_image.setImageResource(oil_list.get_image());
 
-            carWash = oil_list.carWash;
-            store = oil_list.conStore;
+            carWash = oil_list.getCarWash();
+            store = oil_list.getConStore();
+
+            lotAddress = oil_list.getLotNumberAdd();
+            stAddress = oil_list.getRoadAdd();
+            tel = oil_list.getTel();
+            sector = oil_list.getSector();
 
             if(carWash.equals("Y")){
                 carWashImg.setImageResource(R.drawable.car_wash);
@@ -226,63 +231,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                 @Override
                 public void onClick(View view) {
 
-                    Thread readData = new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            try {
-
-                                Log.e("TAG",oil_list.get_oil_name());
-
-                                URL url = new URL("http://www.opinet.co.kr/api/detailById.do?code="+ GAS_API_KEY +"&id="+ oil_list.getUid() + "&out=json");
-
-                                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                                connection.setRequestMethod("GET");//get 가져오기
-                                connection.setDoInput(true);
-
-                                InputStream is = connection.getInputStream();
-                                StringBuilder sb = new StringBuilder();
-                                BufferedReader br = new BufferedReader(new InputStreamReader(is,"UTF-8"));
-
-                                String result;
-                                while((result = br.readLine()) != null) {
-                                    sb.append(result + "\n");
-                                }
-
-                                result = sb.toString();
-
-                                try {
-
-                                    JSONObject obj = new JSONObject(result);
-                                    JSONObject ar = (JSONObject) obj.get("RESULT");
-                                    JSONArray arr = (JSONArray) ar.get("OIL");
-                                    JSONObject dataObj = arr.getJSONObject(0);
-                                    lotAddress = dataObj.getString("VAN_ADR");
-                                    //지번 주소
-                                    stAddress = dataObj.getString("NEW_ADR");
-                                    //도로명 주소
-                                    tel = dataObj.getString("TEL");
-                                    //전화번호
-                                    oil = dataObj.getString("LPG_YN");
-                                    //업종 구분 , N:주유소 Y:자동차주유소 C:주유소/충전소 겸업
-                                    carWash = dataObj.getString("CAR_WASH_YN");
-                                    //세차장 존재 여부
-                                    store = dataObj.getString("CVS_YN");
-                                    //편의점 존재 여부
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                            }catch (Exception e){}
-                        }
-                    });
-                    readData.start();
-
-                    try {
-                        readData.join();
-                    }catch (Exception e){}
-
 
                     Intent intent = new Intent(itemView.getContext(),IntelActivity.class);
 
@@ -291,12 +239,11 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                     intent.putExtra("gas_img",oil_list.get_image());
                     //주유소 imageView (정수임)
 
-
-
                     intent.putExtra("lotAddress",lotAddress);
                     intent.putExtra("stAddress",stAddress);
                     intent.putExtra("tel",tel);
-                    intent.putExtra("oil_kind",oil);
+                    intent.putExtra("oil_kind",sector);
+
                     intent.putExtra("carWash",carWash);
                     intent.putExtra("store",store);
 
