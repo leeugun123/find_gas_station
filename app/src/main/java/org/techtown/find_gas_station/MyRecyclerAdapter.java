@@ -135,6 +135,19 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             oil_kind.setText(oil_list.getOil_kind());
             oil_image.setImageResource(oil_list.get_image());
 
+            carWash = oil_list.carWash;
+            store = oil_list.conStore;
+
+            if(carWash.equals("Y")){
+                carWashImg.setImageResource(R.drawable.car_wash);
+            }
+
+            if(store.equals("Y")){
+                convenStore.setImageResource(R.drawable.conven_store);
+            }
+
+
+
 
             //구글맵에 주유소 이미지 표시
             LatLng pos = new LatLng(oil_list.getWgs84Y(),oil_list.getWgs84X());
@@ -204,63 +217,8 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
                     }
 
-
-
-
-
-
                 }
             }); //카카오 navi 버튼을 눌렀을때
-
-            Thread readData = new Thread(new Runnable() {
-                @Override
-                public void run() {
-
-                    try {
-
-                        URL url = new URL("http://www.opinet.co.kr/api/detailById.do?code="+ GAS_API_KEY +"&id="+ oil_list.getUid() + "&out=json");
-
-                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                        connection.setRequestMethod("GET");//get 가져오기
-                        connection.setDoInput(true);
-
-                        InputStream is = connection.getInputStream();
-                        StringBuilder sb = new StringBuilder();
-                        BufferedReader br = new BufferedReader(new InputStreamReader(is,"UTF-8"));
-
-                        String result;
-                        while((result = br.readLine()) != null) {
-                            sb.append(result + "\n");
-                        }
-
-                        result = sb.toString();
-
-                        try {
-
-                            JSONObject obj = new JSONObject(result);
-                            JSONObject ar = (JSONObject) obj.get("RESULT");
-                            JSONArray arr = (JSONArray) ar.get("OIL");
-                            JSONObject dataObj = arr.getJSONObject(0);
-
-                            if(dataObj.getString("CAR_WASH_YN").equals("Y")){
-                                carWashImg.setImageResource(R.drawable.car_wash);
-                            }
-
-                            if(dataObj.getString("CVS_YN").equals("Y")){
-                                convenStore.setImageResource(R.drawable.conven_store);
-                            }
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }catch (Exception e){}
-                }
-            });
-
-            readData.start();
-
 
 
             intelButton.setOnClickListener(new View.OnClickListener() {
