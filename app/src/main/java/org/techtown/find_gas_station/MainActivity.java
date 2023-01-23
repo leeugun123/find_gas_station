@@ -103,8 +103,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public static final int REQUEST_CODE = 100;
 
-    private String API_KEY = "F211129251";
-
     private static final String TAG = "googlemap_example";
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int UPDATE_INTERVAL_MS = 1000;  // 1초
@@ -313,8 +311,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-
-
     public void getData(float latitude,float Longtitude){
 
 
@@ -327,7 +323,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         mRecyclerView = findViewById(R.id.list_recycle);
 
-        getOilViewModel.getOil(mRecyclerView, mMap, API_KEY, Double.toString(ge.getX()),Double.toString(ge.getY()),oil_intel[0],oil_intel[1],oil_intel[2]);
+        getOilViewModel.getOilList(mRecyclerView, mMap, Double.toString(ge.getX()),Double.toString(ge.getY()),oil_intel[0],oil_intel[1],oil_intel[2]);
 
 
     }

@@ -19,21 +19,22 @@ public class GetOilViewModel extends AndroidViewModel {
     //레트로핏 테스트
     private GetOilRepository getOilRepository;
 
+
     public GetOilViewModel(@NonNull Application application) {
         super(application);
         getOilRepository = new GetOilRepository(application);
     }
 
-    public void getOil(
-                       RecyclerView mRecyclerView,
-                       GoogleMap mMap,
-                       String APIkey, String xPos, String yPos, String radius, String sort, String oilKind){
+    //주유소 상세 가져오기
+    public void getOilDetail(String uid){
 
-        getOilRepository.getOil(
-                mRecyclerView,
-                mMap,APIkey,xPos,yPos,radius,sort,oilKind);
+    }
 
+    //현재 위치 중심으로 주유소 리스트 가져오기
+    public void getOilList(RecyclerView mRecyclerView, GoogleMap mMap,
+                       String xPos, String yPos, String radius, String sort, String oilKind){
 
+        getOilRepository.getOilList(mRecyclerView, mMap,xPos,yPos,radius,sort,oilKind);
     }
 
 

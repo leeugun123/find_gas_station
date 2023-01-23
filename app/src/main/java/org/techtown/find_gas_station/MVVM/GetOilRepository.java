@@ -37,6 +37,8 @@ public class GetOilRepository {
     RetrofitAPI retrofitAPI;
     List<oil_list> moil_list;
 
+    private String apiKey = "F211129251";
+
     private MyRecyclerAdapter myRecyclerAdapter;
 
     String oil = "";
@@ -55,14 +57,14 @@ public class GetOilRepository {
 
     }
 
-    public void getOil(
+    public void getOilList(
                        RecyclerView mRecyclerView,
-                       GoogleMap mMap, String APIkey, String xPos, String yPos, String radius, String sort, String oilKind) {
+                       GoogleMap mMap,  String xPos, String yPos, String radius, String sort, String oilKind) {
 
 
         oil = oilKind;
 
-        retrofitAPI.getOilList(APIkey, "json", xPos, yPos, radius,oilKind,sort)
+        retrofitAPI.getOilList(apiKey, "json", xPos, yPos, radius,oilKind,sort)
                 .enqueue(new Callback<MyPojo>() {
 
                     @Override
