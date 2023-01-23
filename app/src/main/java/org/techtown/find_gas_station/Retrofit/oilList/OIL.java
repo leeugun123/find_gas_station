@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.Retrofit;
+package org.techtown.find_gas_station.Retrofit.oilList;
 
 import android.view.ViewDebug;
 

@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.Retrofit;
+package org.techtown.find_gas_station.Retrofit.oilList;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -7,7 +7,7 @@ public class MyPojo
 {
     @SerializedName("RESULT")
     @Expose
-    private RESULT RESULT;
+    private org.techtown.find_gas_station.Retrofit.oilList.RESULT RESULT;
 
     public RESULT getRESULT ()
     {

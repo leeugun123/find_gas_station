@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -19,7 +18,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -41,43 +39,20 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.snackbar.Snackbar;
-import com.kakao.kakaonavi.BuildConfig;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.techtown.find_gas_station.GPS.GeoTrans;
 import org.techtown.find_gas_station.GPS.GeoTransPoint;
 import org.techtown.find_gas_station.GPS.GpsTracker;
 import org.techtown.find_gas_station.MVVM.GetOilViewModel;
 import org.techtown.find_gas_station.MVVM.SetViewModel;
-import org.techtown.find_gas_station.Retrofit.MyPojo;
-import org.techtown.find_gas_station.Retrofit.OIL;
-import org.techtown.find_gas_station.Retrofit.RESULT;
-import org.techtown.find_gas_station.Retrofit.RetrofitAPI;
-import org.techtown.find_gas_station.set.RoomDB;
 import org.techtown.find_gas_station.set.Set;
 import org.techtown.find_gas_station.set.setting_Activity;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 //좌표계 변환 문제 KATEC -> 위도,경도
 
@@ -243,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //Handler를 이용하지 않으면 googleMap 오류가 생기므로 핸들러 처리
 
-        upRecyclerView();
+       upRecyclerView();
         //리스트 최상단으로 위치
 
 

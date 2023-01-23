@@ -157,7 +157,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                 public void onClick(View view) {
 
                     recyclerMap.animateCamera(CameraUpdateFactory.newLatLng(
-                            new LatLng((float)oil_list.getWgs84Y() ,(float)oil_list.getWgs84X() )  ),
+                            new LatLng(oil_list.getWgs84Y() ,oil_list.getWgs84X() )  ),
                                     600,
                                     null
                             );

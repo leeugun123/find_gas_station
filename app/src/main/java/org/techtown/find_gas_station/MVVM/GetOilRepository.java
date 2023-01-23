@@ -11,18 +11,16 @@ import com.google.android.gms.maps.GoogleMap;
 
 import org.techtown.find_gas_station.GPS.GeoTrans;
 import org.techtown.find_gas_station.GPS.GeoTransPoint;
-import org.techtown.find_gas_station.MainActivity;
 import org.techtown.find_gas_station.MyRecyclerAdapter;
 import org.techtown.find_gas_station.R;
-import org.techtown.find_gas_station.Retrofit.MyPojo;
-import org.techtown.find_gas_station.Retrofit.RESULT;
+import org.techtown.find_gas_station.Retrofit.oilDetail.OilDetail;
+import org.techtown.find_gas_station.Retrofit.oilList.MyPojo;
+import org.techtown.find_gas_station.Retrofit.oilList.RESULT;
 import org.techtown.find_gas_station.Retrofit.RetrofitAPI;
 import org.techtown.find_gas_station.oil_list;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,6 +52,35 @@ public class GetOilRepository {
                 .build();
 
         retrofitAPI = retrofit.create(RetrofitAPI.class);
+
+    }
+
+    public void getOilDetail(String uid){
+
+        retrofitAPI.getOilDetail(apiKey,"json",uid)
+                .enqueue(new Callback<OilDetail>() {
+                    @Override
+                    public void onResponse(Call<OilDetail> call, Response<OilDetail> response) {
+
+                        if(response.isSuccessful()){
+
+                            OilDetail oilDetail = response.body();
+                            org.techtown.find_gas_station.Retrofit.oilDetail.RESULT result = oilDetail.getRESULT();
+
+
+
+                        }
+
+
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<OilDetail> call, Throwable t) {
+
+                    }
+                });
+
 
     }
 
@@ -93,7 +120,8 @@ public class GetOilRepository {
 
                                String inputOil;
 
-                               Log.e("TAG",name+" "+gas_price);
+                               Log.e("TAG",uid);
+
 
                                if(oil.equals("B027")){
                                    inputOil = "휘발유";
@@ -161,7 +189,7 @@ public class GetOilRepository {
                                 else
                                     imageResource = R.drawable.oil_2;
 
-                                Log.e("TAG",distance);
+
 
                                 moil_list.add(new oil_list(uid,name,gas_price, changeKm(distance)+"km",
                                         inputOil,imageResource,(float)out.getX(),(float)out.getY()));
@@ -170,13 +198,9 @@ public class GetOilRepository {
 
                             }
 
-
-
                             myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
 
                             mRecyclerView.setAdapter(myRecyclerAdapter);
-
-                    upRecyclerView(mRecyclerView);
 
                 }
 
@@ -204,32 +228,6 @@ public class GetOilRepository {
 
     }//m -> km 변경 메소드
 
-    public void upRecyclerView(RecyclerView mRecyclerView){
-
-        //Log.d("TAG", "리사이클러뷰 위로 올리기!");//locationList의 size는 0 이상이다.
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(mRecyclerView.getContext()) {
-
-                    @Override protected int getVerticalSnapPreference() {
-                        return LinearSmoothScroller.SNAP_TO_START;
-                    }
-                };
-
-                smoothScroller.setTargetPosition(moil_list.size()); //itemPosition - 이동시키고자 하는 Item의 Position
-                //마지막 배열 = 사용자 View 첫번째 List
-                mRecyclerView.getLayoutManager().startSmoothScroll(smoothScroller);
-
-            }
-        },100);
-        //핸들러를 사용하여
-        // 리사이클러뷰가 완전히 형성된 후 최상단으로 리사이클러뷰 올리기
-
-    }
 
 
 

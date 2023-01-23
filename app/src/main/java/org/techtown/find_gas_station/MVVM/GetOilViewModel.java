@@ -27,7 +27,7 @@ public class GetOilViewModel extends AndroidViewModel {
 
     //주유소 상세 가져오기
     public void getOilDetail(String uid){
-
+        getOilRepository.getOilDetail(uid);
     }
 
     //현재 위치 중심으로 주유소 리스트 가져오기
