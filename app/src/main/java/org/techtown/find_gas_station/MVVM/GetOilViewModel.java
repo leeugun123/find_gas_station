@@ -32,6 +32,8 @@ public class GetOilViewModel extends AndroidViewModel {
         getOilRepository.getOil(
                 mRecyclerView,
                 mMap,APIkey,xPos,yPos,radius,sort,oilKind);
+
+
     }
 
 

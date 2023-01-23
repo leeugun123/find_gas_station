@@ -174,8 +174,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                 @Override
                 public void onClick(View view) {
 
-                    Log.i(TAG, "카카오내비 설치 여부 확인");
-
 
                     if(NaviClient.getInstance().isKakaoNaviInstalled(view.getContext())){
                         //카카오 navi API 코드
@@ -205,6 +203,8 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                         );
 
                     }
+
+
 
 
 
@@ -242,10 +242,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                             JSONArray arr = (JSONArray) ar.get("OIL");
                             JSONObject dataObj = arr.getJSONObject(0);
 
-
-
-                            //Log.e("TAG",oil_list.get_oil_name() + " 편의점 " + store + " 세차장 " + carWash);
-
                             if(dataObj.getString("CAR_WASH_YN").equals("Y")){
                                 carWashImg.setImageResource(R.drawable.car_wash);
                             }
@@ -263,7 +259,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                 }
             });
 
-            //readData.start();
+            readData.start();
 
 
 
@@ -277,6 +273,8 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                         public void run() {
 
                             try {
+
+                                Log.e("TAG",oil_list.get_oil_name());
 
                                 URL url = new URL("http://www.opinet.co.kr/api/detailById.do?code="+ GAS_API_KEY +"&id="+ oil_list.getUid() + "&out=json");
 

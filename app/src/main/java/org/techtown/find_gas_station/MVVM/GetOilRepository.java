@@ -168,8 +168,7 @@ public class GetOilRepository {
 
                             }
 
-                            Collections.reverse(moil_list);
-                            //역순 뒤집기
+
 
                             myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
 

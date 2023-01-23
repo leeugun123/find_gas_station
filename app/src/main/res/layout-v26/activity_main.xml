@@ -57,17 +57,14 @@
         android:layout_weight="8"
         tools:context=".MainActivity" />
 
-    <ScrollView
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list_recycle"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="12">
+        android:layout_weight="15"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list_recycle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 
-    </ScrollView>
 
 
 </LinearLayout>

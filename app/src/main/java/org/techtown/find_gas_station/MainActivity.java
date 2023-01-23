@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         mRecyclerView.setAdapter(myRecyclerAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,true));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
 
 
         mLayout = findViewById(R.id.layout_main);
@@ -225,7 +225,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 //정렬 기준
                 oil_intel[2] = set.getOil_name();
                 //기름 종류
-
 
                 init_reset();
 
@@ -326,9 +325,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         GeoTransPoint ge = GeoTrans.convert(GeoTrans.GEO,GeoTrans.KATEC,point);
                     //GEO를 KATEC으로 변환
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.list_recycle);
+        mRecyclerView = findViewById(R.id.list_recycle);
 
-       getOilViewModel.getOil(mRecyclerView, mMap, API_KEY, Double.toString(ge.getX()),Double.toString(ge.getY()),oil_intel[0],oil_intel[1],oil_intel[2]);
+        getOilViewModel.getOil(mRecyclerView, mMap, API_KEY, Double.toString(ge.getX()),Double.toString(ge.getY()),oil_intel[0],oil_intel[1],oil_intel[2]);
        
 
     }
