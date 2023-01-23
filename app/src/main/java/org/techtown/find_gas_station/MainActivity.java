@@ -328,7 +328,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mRecyclerView = findViewById(R.id.list_recycle);
 
         getOilViewModel.getOil(mRecyclerView, mMap, API_KEY, Double.toString(ge.getX()),Double.toString(ge.getY()),oil_intel[0],oil_intel[1],oil_intel[2]);
-       
+
 
     }
 
@@ -337,7 +337,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public void upRecyclerView(){
 
-        //Log.d("TAG", "리사이클러뷰 위로 올리기!");//locationList의 size는 0 이상이다.
+        Log.e("TAG", "리사이클러뷰 위로 올리기!");//locationList의 size는 0 이상이다.
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -356,7 +356,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 mRecyclerView.getLayoutManager().startSmoothScroll(smoothScroller);
 
             }
-        },100);
+        },500);
         //핸들러를 사용하여
         // 리사이클러뷰가 완전히 형성된 후 최상단으로 리사이클러뷰 올리기
 
