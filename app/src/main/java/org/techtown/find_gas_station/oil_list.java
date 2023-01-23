@@ -7,12 +7,17 @@ public class oil_list {
     String price;
     String distance;
     String oil_kind;
+
+    String carWash;//세차장 유무
+    String conStore;//편의점 유무
+
     int image;
 
     float wgsX;//wgs84 좌표 x
     float wgsY;//wgs84 좌표 y
 
-    public oil_list(String Uid,String oil_name, String price, String distance,String oil_kind,int image, float wgsX,float wgsY){
+    public oil_list(String Uid,String oil_name, String price, String distance,String oil_kind,int image, float wgsX,float wgsY
+    ,String carWash,String conStore){
 
         this.Uid = Uid;
         this.oil_name = oil_name;
@@ -22,6 +27,9 @@ public class oil_list {
         this.image = image;
         this.wgsX = wgsX;
         this.wgsY = wgsY;
+
+        this.carWash = carWash;
+        this.conStore = conStore;
 
     }
 

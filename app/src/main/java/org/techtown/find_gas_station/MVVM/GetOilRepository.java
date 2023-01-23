@@ -56,7 +56,9 @@ public class GetOilRepository {
 
     }
 
-    public void getOilDetail(String uid){
+    public void getOilDetail(int size, RecyclerView mRecyclerView,
+                              GoogleMap mMap,String uid,String name,String gas_price,String distance,String inputOil,
+                             int imageResource,float getX,float getY){
 
         retrofitAPI.getOilDetail(apiKey,"json",uid)
                 .enqueue(new Callback<OilDetail>() {
@@ -68,12 +70,21 @@ public class GetOilRepository {
                             OilDetail oilDetail = response.body();
                             org.techtown.find_gas_station.Retrofit.oilDetail.RESULT result = oilDetail.getRESULT();
 
-                            for(int i=0; i<result.getOIL().length; i++){
+                            String carWash = result.getOIL()[0].getCAR_WASH_YN();
+                            String conStore = result.getOIL()[0].getCVS_YN();
 
-                                Log.e("TAG",result.getOIL()[i].getCAR_WASH_YN());
+                            Log.e("TAG",result.getOIL()[0].getCAR_WASH_YN() +"  "+result.getOIL()[0].getCVS_YN());
 
+
+                            moil_list.add(new oil_list(uid,name,gas_price, changeKm(distance)+"km",
+                                    inputOil,imageResource,getX,getY,carWash,conStore));
+
+                            Log.e("TAG","크기" + moil_list.size());
+
+                            if(moil_list.size() == size){
+                                myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
+                                mRecyclerView.setAdapter(myRecyclerAdapter);
                             }
-
 
                         }
 
@@ -125,8 +136,6 @@ public class GetOilRepository {
                                //주유소 가격
 
                                String inputOil;
-
-                               Log.e("TAG",uid);
 
 
                                if(oil.equals("B027")){
@@ -195,18 +204,15 @@ public class GetOilRepository {
                                 else
                                     imageResource = R.drawable.oil_2;
 
-
-
-                                moil_list.add(new oil_list(uid,name,gas_price, changeKm(distance)+"km",
-                                        inputOil,imageResource,(float)out.getX(),(float)out.getY()));
+                                getOilDetail(result.getOIL().length,mRecyclerView,mMap,uid,name,gas_price,distance,inputOil,
+                                imageResource,(float)out.getX(),(float)out.getY());
 
 
 
                             }
 
-                            myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
 
-                            mRecyclerView.setAdapter(myRecyclerAdapter);
+
 
                 }
 
