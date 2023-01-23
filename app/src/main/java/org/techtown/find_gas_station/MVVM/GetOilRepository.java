@@ -13,6 +13,7 @@ import org.techtown.find_gas_station.GPS.GeoTrans;
 import org.techtown.find_gas_station.GPS.GeoTransPoint;
 import org.techtown.find_gas_station.MyRecyclerAdapter;
 import org.techtown.find_gas_station.R;
+import org.techtown.find_gas_station.Retrofit.oilDetail.OIL;
 import org.techtown.find_gas_station.Retrofit.oilDetail.OilDetail;
 import org.techtown.find_gas_station.Retrofit.oilList.MyPojo;
 import org.techtown.find_gas_station.Retrofit.oilList.RESULT;
@@ -67,6 +68,11 @@ public class GetOilRepository {
                             OilDetail oilDetail = response.body();
                             org.techtown.find_gas_station.Retrofit.oilDetail.RESULT result = oilDetail.getRESULT();
 
+                            for(int i=0; i<result.getOIL().length; i++){
+
+                                Log.e("TAG",result.getOIL()[i].getCAR_WASH_YN());
+
+                            }
 
 
                         }

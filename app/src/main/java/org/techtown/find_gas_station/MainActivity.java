@@ -300,6 +300,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         getOilViewModel.getOilList(mRecyclerView, mMap, Double.toString(ge.getX()),Double.toString(ge.getY()),oil_intel[0],oil_intel[1],oil_intel[2]);
 
+        getOilViewModel.getOilDetail("A0006673");
+
 
     }
 
