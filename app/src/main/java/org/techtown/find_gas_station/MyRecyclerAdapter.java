@@ -131,7 +131,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
             name.setText(oil_list.get_oil_name());
             price.setText(oil_list.getPrice()+"원");
-            distance.setText(oil_list.getDistance());
+            distance.setText(changeKm(oil_list.getDistance())+"km");
             oil_kind.setText(oil_list.getOil_kind());
             oil_image.setImageResource(oil_list.get_image());
 
@@ -255,6 +255,15 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
 
         }
+
+        public String changeKm(String distance){
+
+            double doubleD = Double.parseDouble(distance)/1000;
+
+
+            return String.format("%.1f",doubleD);
+
+        }//m -> km 변경 메소드
 
 
 

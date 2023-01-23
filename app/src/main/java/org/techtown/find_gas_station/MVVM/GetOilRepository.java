@@ -12,6 +12,8 @@ import com.google.android.gms.maps.GoogleMap;
 import org.techtown.find_gas_station.GPS.GeoTrans;
 import org.techtown.find_gas_station.GPS.GeoTransPoint;
 import org.techtown.find_gas_station.MyRecyclerAdapter;
+import org.techtown.find_gas_station.OilDistanceComparator;
+import org.techtown.find_gas_station.OilPriceComparator;
 import org.techtown.find_gas_station.R;
 import org.techtown.find_gas_station.Retrofit.oilDetail.OIL;
 import org.techtown.find_gas_station.Retrofit.oilDetail.OilDetail;
@@ -21,6 +23,7 @@ import org.techtown.find_gas_station.Retrofit.RetrofitAPI;
 import org.techtown.find_gas_station.oil_list;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -56,7 +59,7 @@ public class GetOilRepository {
 
     }
 
-    public void getOilDetail(int size, RecyclerView mRecyclerView,
+    public void getOilDetail(String sort, int size, RecyclerView mRecyclerView,
                               GoogleMap mMap,String uid,String name,String gas_price,String distance,String inputOil,
                              int imageResource,float getX,float getY){
 
@@ -80,13 +83,25 @@ public class GetOilRepository {
                             String tel = result.getOIL()[0].getTEL();
                             String sector = result.getOIL()[0].getLPG_YN();
 
+                            int dis = (int)Double.parseDouble(distance);
+                            //소수점 짜르기
 
-                            moil_list.add(new oil_list(uid,name,gas_price, changeKm(distance)+"km",
+                            moil_list.add(new oil_list(uid,name,gas_price, Integer.toString(dis),
                                     inputOil,imageResource,getX,getY,carWash,conStore,lotNumberAddress,roadAddress,
                                     tel,sector));
 
 
                             if(moil_list.size() == size){
+
+                                if(sort.equals("1")){
+                                    Collections.sort(moil_list,new OilPriceComparator());
+                                }//가격순
+                                else{
+                                    Collections.sort(moil_list,new OilDistanceComparator());
+                                }//거리순
+
+                                //불필요한 정렬이 계속 일어나고 있다.
+
 
                                 myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
                                 mRecyclerView.setAdapter(myRecyclerAdapter);
@@ -212,7 +227,9 @@ public class GetOilRepository {
                                 else
                                     imageResource = R.drawable.oil_2;
 
-                                getOilDetail(result.getOIL().length,mRecyclerView,mMap,uid,name,gas_price,distance,inputOil,
+
+
+                                getOilDetail(sort,result.getOIL().length,mRecyclerView,mMap,uid,name,gas_price,distance,inputOil,
                                 imageResource,(float)out.getX(),(float)out.getY());
 
 
@@ -238,15 +255,6 @@ public class GetOilRepository {
 
 
     }
-
-    public static String changeKm(String distance){
-
-        double doubleD = Double.parseDouble(distance)/1000;
-
-
-        return String.format("%.1f",doubleD);
-
-    }//m -> km 변경 메소드
 
 
 
