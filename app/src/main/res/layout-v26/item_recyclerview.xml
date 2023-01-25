@@ -61,14 +61,14 @@
                     android:id="@+id/carWashStore"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"
+                    android:layout_weight="1.5"
                     />
 
                 <ImageView
                     android:id="@+id/conStore"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="2" />
+                    android:layout_weight="1.5" />
 
 
 
