@@ -143,7 +143,9 @@ public class GetOilRepository {
                     @Override
                     public void onResponse(Call<MyPojo> call, Response<MyPojo> response) {
 
-                        moil_list.clear();
+                        moil_list = new ArrayList<>();
+                        //clear가 아닌 객체를 새로 생성
+
 
                         if(response.isSuccessful()){
 
