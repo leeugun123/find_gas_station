@@ -106,9 +106,11 @@ public class GetOilRepository {
 
                                 //데이터는 제대로 들어감.
 
-                                Log.e("TAG","efeff");
-
                                 myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
+                                myRecyclerAdapter.notifyDataSetChanged();
+
+                                //notifyDataSetChanged() 예외처리 실험
+
                                 mRecyclerView.setAdapter(myRecyclerAdapter);
 
                             }
