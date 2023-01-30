@@ -73,11 +73,12 @@ public class GetOilRepository {
                             OilDetail oilDetail = response.body();
                             org.techtown.find_gas_station.Retrofit.oilDetail.RESULT result = oilDetail.getRESULT();
 
+                            //세차장, 편의점 정보
                             String carWash = result.getOIL()[0].getCAR_WASH_YN();
                             String conStore = result.getOIL()[0].getCVS_YN();
 
+                            //상세 정보 받아오기
                             String lotNumberAddress = result.getOIL()[0].getVAN_ADR();
-
                             String roadAddress = result.getOIL()[0].getNEW_ADR();
 
                             String tel = result.getOIL()[0].getTEL();
@@ -93,6 +94,7 @@ public class GetOilRepository {
 
                             if(moil_list.size() == size){
 
+
                                 if(sort.equals("1")){
                                     Collections.sort(moil_list,new OilPriceComparator());
                                 }//가격순
@@ -100,12 +102,14 @@ public class GetOilRepository {
                                     Collections.sort(moil_list,new OilDistanceComparator());
                                 }//거리순
 
-                                //불필요한 정렬이 계속 일어나고 있다.
+                                //불필요한 정렬이 생성
 
+                                //데이터는 제대로 들어감.
+
+                                Log.e("TAG","efeff");
 
                                 myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
                                 mRecyclerView.setAdapter(myRecyclerAdapter);
-
 
                             }
 
@@ -157,6 +161,8 @@ public class GetOilRepository {
 
                                String gas_price = result.getOIL()[i].getPRICE();
                                //주유소 가격
+
+                                //Log.e("TAG",name +" "+gas_price);
 
                                String inputOil;
 

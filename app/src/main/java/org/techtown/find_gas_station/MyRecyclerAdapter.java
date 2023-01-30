@@ -49,7 +49,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
     private List<oil_list> oil_lists;
     private GoogleMap recyclerMap;
 
-
     public MyRecyclerAdapter(List<oil_list> Oil_lists,GoogleMap map){
         oil_lists = Oil_lists;
         recyclerMap = map;
@@ -125,6 +124,8 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             carWashImg = itemView.findViewById(R.id.carWashStore);
             convenStore = itemView.findViewById(R.id.conStore);
 
+
+
         }
 
         public void onBind(oil_list oil_list) {
@@ -143,12 +144,19 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             tel = oil_list.getTel();
             sector = oil_list.getSector();
 
+
             if(carWash.equals("Y")){
                 carWashImg.setImageResource(R.drawable.car_wash);
+            }
+            else{
+                carWashImg.setImageResource(R.color.white);
             }
 
             if(store.equals("Y")){
                 convenStore.setImageResource(R.drawable.conven_store);
+            }
+            else{
+                convenStore.setImageResource(R.color.white);
             }
 
 
