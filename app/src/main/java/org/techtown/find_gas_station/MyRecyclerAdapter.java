@@ -119,10 +119,13 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             oil_kind =  itemView.findViewById(R.id.oil_kind);
             oil_image = itemView.findViewById(R.id.oil_image);
             navi_button_kakao = itemView.findViewById(R.id.navi_button_kakao);
-            intelButton = itemView.findViewById(R.id.intelButton);
+
+            //intelButton = itemView.findViewById(R.id.intelButton);
 
             carWashImg = itemView.findViewById(R.id.carWashStore);
             convenStore = itemView.findViewById(R.id.conStore);
+
+
 
 
 
@@ -233,7 +236,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                 }
             }); //카카오 navi 버튼을 눌렀을때
 
-
+            /*
             intelButton.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -261,6 +264,8 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
             }); //intel 버튼을 눌렀을때
 
+
+             */
 
         }
 

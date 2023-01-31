@@ -17,7 +17,7 @@
             android:layout_width="0dp"
             android:layout_height="200dp"
             android:layout_weight="1"
-            android:src="@drawable/conven_store" />
+            />
 
         <RelativeLayout
             android:layout_width="0dp"
@@ -29,14 +29,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="오천만 주유소"
                 android:gravity="center"
+                android:text="오천만 주유소"
                 android:textColor="#000000"
                 android:textSize="20sp" />
             
         </RelativeLayout>
         
     </LinearLayout>
+
 
     <TextView
         android:layout_marginTop="15dp"

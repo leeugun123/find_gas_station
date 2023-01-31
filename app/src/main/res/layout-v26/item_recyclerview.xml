@@ -135,6 +135,10 @@
                     android:layout_gravity="center_vertical"
                     android:textStyle="bold" />
 
+
+
+
+                <!--
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/intelButton"
                     android:layout_width="0dp"
@@ -149,6 +153,8 @@
                     android:textStyle="bold"
                     android:background="#F57C00"
                     />
+                -->
+
 
             </LinearLayout>
 
