@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,15 +33,6 @@ import com.kakao.kakaonavi.options.VehicleType;
 import com.kakao.sdk.navi.Constants;
 import com.kakao.sdk.navi.NaviClient;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.List;
 
 
@@ -66,11 +58,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         holder.onBind(oil_lists.get(position));
     }
 
-    public void setOil_lists(List<oil_list> list){
-        this.oil_lists = list;
-        notifyDataSetChanged();
-    }
-
     @Override
     public int getItemCount() {
         return oil_lists.size();
@@ -89,7 +76,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         ImageView convenStore;
 
         Button navi_button_kakao;
-        Button intelButton;
+        ImageButton intelButton;
 
 
         String lotAddress;
@@ -120,11 +107,10 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             oil_image = itemView.findViewById(R.id.oil_image);
             navi_button_kakao = itemView.findViewById(R.id.navi_button_kakao);
 
-            //intelButton = itemView.findViewById(R.id.intelButton);
+            intelButton = itemView.findViewById(R.id.intelButton);
 
             carWashImg = itemView.findViewById(R.id.carWashStore);
             convenStore = itemView.findViewById(R.id.conStore);
-
 
 
 
@@ -161,7 +147,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             else{
                 convenStore.setImageResource(R.color.white);
             }
-
 
 
 
@@ -236,7 +221,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                 }
             }); //카카오 navi 버튼을 눌렀을때
 
-            /*
+
             intelButton.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -265,7 +250,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             }); //intel 버튼을 눌렀을때
 
 
-             */
 
         }
 
@@ -277,6 +261,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             return String.format("%.1f",doubleD);
 
         }//m -> km 변경 메소드
+
 
 
 

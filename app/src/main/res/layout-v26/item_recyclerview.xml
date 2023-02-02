@@ -61,7 +61,7 @@
                     android:id="@+id/carWashStore"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.5"
+                    android:layout_weight="1.2"
                     android:src="@color/white"
                     />
 
@@ -70,7 +70,7 @@
                     android:layout_width="0dp"
                     android:src="@color/white"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.5" />
+                    android:layout_weight="1.2" />
 
 
 
@@ -136,24 +136,20 @@
                     android:textStyle="bold" />
 
 
-
-
-                <!--
-                <androidx.appcompat.widget.AppCompatButton
+                <ImageButton
                     android:id="@+id/intelButton"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.4"
                     android:layout_marginLeft="5dp"
-                    android:text="상세 보기"
+                    android:src="@drawable/gas"
                     android:autoSizeMaxTextSize="15dp"
                     android:autoSizeMinTextSize="10dp"
                     android:autoSizeTextType="uniform"
                     android:textColor="#000000"
                     android:textStyle="bold"
-                    android:background="#F57C00"
-                    />
-                -->
+                    android:background="#F57C00"/>
+
 
 
             </LinearLayout>
