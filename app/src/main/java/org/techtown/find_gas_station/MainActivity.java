@@ -117,13 +117,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         moil_list = new ArrayList<>();
 
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.list_recycle);
+        mRecyclerView =  findViewById(R.id.list_recycle);
 
-
-        myRecyclerAdapter = new MyRecyclerAdapter(moil_list, mMap);
-
-        mRecyclerView.setAdapter(myRecyclerAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
 
 
@@ -267,6 +262,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 switch (requestCode) {
 
                     case GPS_ENABLE_REQUEST_CODE:
+
+                        
 
                         //사용자가 GPS 활성 시켰는지 검사
                         if (checkLocationServicesStatus()) {
