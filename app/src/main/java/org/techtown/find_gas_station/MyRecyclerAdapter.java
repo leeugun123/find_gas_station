@@ -32,6 +32,7 @@ import com.kakao.kakaonavi.options.RpOption;
 import com.kakao.kakaonavi.options.VehicleType;
 import com.kakao.sdk.navi.Constants;
 import com.kakao.sdk.navi.NaviClient;
+import com.skt.Tmap.TMapTapi;
 
 import java.util.List;
 
@@ -149,6 +150,9 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             }
 
 
+            TMapTapi tMapTapi = new TMapTapi(itemView.getContext());
+            tMapTapi.setSKTMapAuthentication ("L7ulY9am4w4s7AlYIZNbv4lchOgIAQS8wQj6c3u2");
+            //티맵 설정
 
             //구글맵에 주유소 이미지 표시
             LatLng pos = new LatLng(oil_list.getWgs84Y(),oil_list.getWgs84X());
@@ -189,6 +193,11 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                 public void onClick(View view) {
 
 
+                    tMapTapi.invokeNavigate(oil_list.get_oil_name(),oil_list.getWgs84X(), oil_list.getWgs84Y(),0,true);
+
+
+
+            /*
                     if(NaviClient.getInstance().isKakaoNaviInstalled(view.getContext())){
                         //카카오 navi API 코드
                         Location destination = Location.newBuilder(oil_list.get_oil_name(),oil_list.getWgs84X(), oil_list.getWgs84Y()).build();
@@ -217,6 +226,10 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                         );
 
                     }
+                */
+
+
+
 
                 }
             }); //카카오 navi 버튼을 눌렀을때
