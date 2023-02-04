@@ -135,6 +135,8 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             sector = oil_list.getSector();
 
 
+
+
             if(carWash.equals("Y")){
                 carWashImg.setImageResource(R.drawable.car_wash);
             }
@@ -150,9 +152,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             }
 
 
-            TMapTapi tMapTapi = new TMapTapi(itemView.getContext());
-            tMapTapi.setSKTMapAuthentication ("L7ulY9am4w4s7AlYIZNbv4lchOgIAQS8wQj6c3u2");
-            //티맵 설정
 
             //구글맵에 주유소 이미지 표시
             LatLng pos = new LatLng(oil_list.getWgs84Y(),oil_list.getWgs84X());
@@ -192,10 +191,16 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                 @Override
                 public void onClick(View view) {
 
+                    TMapTapi tmaptapi = new TMapTapi(view.getContext());
+                    tmaptapi.setSKTMapAuthentication ("QTJqKCg4yj1fSttLgermg8ernwOs9ccN5vBf07tG");
 
-                    tMapTapi.invokeNavigate(oil_list.get_oil_name(),oil_list.getWgs84X(), oil_list.getWgs84Y(),0,true);
+                    tmaptapi.invokeTmap();
 
+                    tmaptapi.invokeNavigate(oil_list.get_oil_name(),oil_list.getWgs84Y(), oil_list.getWgs84X(), 0, true);
 
+                    Log.e("TAG","누름");
+
+                    //appkey 이상 없음.
 
             /*
                     if(NaviClient.getInstance().isKakaoNaviInstalled(view.getContext())){
@@ -226,8 +231,9 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                         );
 
                     }
-                */
 
+
+            */
 
 
 
