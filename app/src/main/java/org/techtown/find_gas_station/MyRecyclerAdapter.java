@@ -33,6 +33,7 @@ import com.kakao.kakaonavi.options.VehicleType;
 import com.kakao.sdk.navi.Constants;
 import com.kakao.sdk.navi.NaviClient;
 import com.skt.Tmap.TMapTapi;
+import com.skt.Tmap.TMapView;
 
 import java.util.List;
 
@@ -191,18 +192,20 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                 @Override
                 public void onClick(View view) {
 
-                    TMapTapi tmaptapi = new TMapTapi(view.getContext());
-                    tmaptapi.setSKTMapAuthentication ("QTJqKCg4yj1fSttLgermg8ernwOs9ccN5vBf07tG");
 
-                    tmaptapi.invokeTmap();
+                    /*
+                    TMapTapi tMapTapi = new TMapTapi(itemView.getContext());
+                    tMapTapi.setSKTMapAuthentication("QTJqKCg4yj1fSttLgermg8ernwOs9ccN5vBf07tG");
 
-                    tmaptapi.invokeNavigate(oil_list.get_oil_name(),oil_list.getWgs84Y(), oil_list.getWgs84X(), 0, true);
+                    tMapTapi.invokeTmap();
+                    tMapTapi.invokeRoute(oil_list.get_oil_name(),oil_list.getWgs84X(), oil_list.getWgs84Y());
 
                     Log.e("TAG","누름");
 
+                    */
+
                     //appkey 이상 없음.
 
-            /*
                     if(NaviClient.getInstance().isKakaoNaviInstalled(view.getContext())){
                         //카카오 navi API 코드
                         Location destination = Location.newBuilder(oil_list.get_oil_name(),oil_list.getWgs84X(), oil_list.getWgs84Y()).build();
@@ -231,10 +234,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                         );
 
                     }
-
-
-            */
-
 
 
                 }

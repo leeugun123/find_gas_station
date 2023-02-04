@@ -42,6 +42,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.material.snackbar.Snackbar;
+import com.skt.Tmap.TMapTapi;
 
 import org.techtown.find_gas_station.GPS.GeoTrans;
 import org.techtown.find_gas_station.GPS.GeoTransPoint;
@@ -130,14 +131,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //getOilViewModel 초기화
 
 
+
         reset = findViewById(R.id.reset);//새로고침 버튼
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                init_reset();
+               init_reset();
 
-                upRecyclerView();
+               upRecyclerView();
 
             }
         });
