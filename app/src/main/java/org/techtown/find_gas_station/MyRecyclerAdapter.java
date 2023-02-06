@@ -193,17 +193,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                 public void onClick(View view) {
 
 
-                    /*
-                    TMapTapi tMapTapi = new TMapTapi(itemView.getContext());
-                    tMapTapi.setSKTMapAuthentication("QTJqKCg4yj1fSttLgermg8ernwOs9ccN5vBf07tG");
-
-                    tMapTapi.invokeTmap();
-                    tMapTapi.invokeRoute(oil_list.get_oil_name(),oil_list.getWgs84X(), oil_list.getWgs84Y());
-
-                    Log.e("TAG","누름");
-
-                    */
-
                     //appkey 이상 없음.
 
                     if(NaviClient.getInstance().isKakaoNaviInstalled(view.getContext())){
@@ -237,6 +226,9 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
 
                 }
+
+
+
             }); //카카오 navi 버튼을 눌렀을때
 
 
