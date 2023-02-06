@@ -13,9 +13,9 @@ android {
     defaultConfig {
         applicationId "com.roid.androidApp"
         minSdk 21
-        targetSdk 30
-        versionCode 9
-        versionName "1.5"
+        targetSdkVersion 31
+        versionCode 10
+        versionName "1.6"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
