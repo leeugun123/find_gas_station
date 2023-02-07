@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+
 }
 
 //선언 및 키 값을 불러옴
@@ -21,7 +22,7 @@ android {
 
         buildConfigField ("String", "GAS_API_KEY", properties.getProperty("gas_api_key"))
         buildConfigField("String","KAKAO_API_KEY",properties.getProperty("kakao_api_key"))
-        
+        buildConfigField("String","GOOGLE_API_KEY",properties.getProperty("google_api_key"))
 
 
     }
