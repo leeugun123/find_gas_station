@@ -13,7 +13,7 @@ public class GlobalApplication extends Application {
         super.onCreate();
         instance = this;
 
-        KakaoSdk.init(this,"{0405879d330b7953d9dd1ac469669ba7}");
+        KakaoSdk.init(this,"{"+ BuildConfig.KAKAO_API_KEY + "}");
 
     }
 

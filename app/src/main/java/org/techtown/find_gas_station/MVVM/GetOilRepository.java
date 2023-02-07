@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.maps.GoogleMap;
 
+import org.techtown.find_gas_station.BuildConfig;
 import org.techtown.find_gas_station.GPS.GeoTrans;
 import org.techtown.find_gas_station.GPS.GeoTransPoint;
 import org.techtown.find_gas_station.MyRecyclerAdapter;
@@ -39,7 +40,7 @@ public class GetOilRepository {
     RetrofitAPI retrofitAPI;
     List<oil_list> moil_list;
 
-    private String apiKey = "F211129251";
+    private String apiKey = BuildConfig.GAS_API_KEY;
 
     private MyRecyclerAdapter myRecyclerAdapter;
 

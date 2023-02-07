@@ -19,8 +19,11 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        //buildConfigField ("String", "GAS_API_KEY", properties.getProperty("gas_api_key"))
+        buildConfigField ("String", "GAS_API_KEY", properties.getProperty("gas_api_key"))
+        buildConfigField("String","KAKAO_API_KEY",properties.getProperty("kakao_api_key"))
         
+
+
     }
 
     buildTypes {
@@ -85,6 +88,10 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     // Gson 변환기
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+
+
+
 
 
 }

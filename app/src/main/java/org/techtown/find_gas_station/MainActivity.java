@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     //받아오는 list들
     private RecyclerView mRecyclerView;
-    private MyRecyclerAdapter myRecyclerAdapter;
     public static List<oil_list> moil_list;
 
     private Button Setting;

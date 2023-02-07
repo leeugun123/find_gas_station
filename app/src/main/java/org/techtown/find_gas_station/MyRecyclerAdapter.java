@@ -114,9 +114,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             carWashImg = itemView.findViewById(R.id.carWashStore);
             convenStore = itemView.findViewById(R.id.conStore);
 
-
-
-
         }
 
         public void onBind(oil_list oil_list) {
