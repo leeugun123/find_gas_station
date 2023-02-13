@@ -345,6 +345,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     //시작 위치 업데이트
+    @SuppressLint("MissingPermission")
     private void startLocationUpdates() {
 
         if (!checkLocationServicesStatus()) {
@@ -578,6 +579,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         builder.create().show();
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     protected void onStart() {
         super.onStart();
