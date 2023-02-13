@@ -114,35 +114,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         setContentView(R.layout.activity_main);
 
-        moil_list = new ArrayList<>();
-
-
-        mRecyclerView =  findViewById(R.id.list_recycle);
-
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
-
-
-        mLayout = findViewById(R.id.layout_main);
-
-        setViewModel = new ViewModelProvider(this).get(SetViewModel.class);
-        //setViewModel 초기화
-        getOilViewModel = new ViewModelProvider(this).get(GetOilViewModel.class);
-        //getOilViewModel 초기화
-
-
-
-        reset = findViewById(R.id.reset);//새로고침 버튼
-        reset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-               init_reset();
-
-               upRecyclerView();
-
-            }
-        });
-
         locationRequest = new LocationRequest()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(UPDATE_INTERVAL_MS)
@@ -159,9 +130,34 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+
+
+        moil_list = new ArrayList<>();
+
+        mRecyclerView = findViewById(R.id.list_recycle);
+        mLayout = findViewById(R.id.layout_main);
+        reset = findViewById(R.id.reset);//새로고침 버튼
+        Setting = findViewById(R.id.setting);
+
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
+        setViewModel = new ViewModelProvider(this).get(SetViewModel.class);
+        //setViewModel 초기화
+        getOilViewModel = new ViewModelProvider(this).get(GetOilViewModel.class);
+        //getOilViewModel 초기화
+
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                init_reset();
+
+                upRecyclerView();
+
+            }
+        });
+
         Red = BitmapFactory.decodeResource(getResources(),R.drawable.red_marker);
 
-        Setting = findViewById(R.id.setting);
         Setting.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceType")
             @Override
@@ -210,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
             }
-        },100);
+        },200);
 
         //Handler를 이용하지 않으면 googleMap 오류가 생기므로 핸들러 처리
 
