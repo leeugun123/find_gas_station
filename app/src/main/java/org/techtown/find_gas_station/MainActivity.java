@@ -208,9 +208,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-
-
-
             }
         },200);
 
@@ -233,9 +230,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         getData((float) gpsTracker.getLatitude(),(float) gpsTracker.getLongitude());
         //getData메소드 호출하여 ArrayList 값들 채우기
 
-        complete = false;
-        CheckTypesTask task = new CheckTypesTask();
-        task.execute();
 
     }
 
@@ -297,6 +291,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //인터넷을 사용하는 것이기 때문에 Thread 사용
         //gpsTransfer 클래스를 이용하여 location 매개변수를 사용해 위도,경도 -> x,y좌표로 초기화
 
+        MainActivity.complete = false;
+        CheckTypesTask task = new CheckTypesTask();
+        task.execute();
+
+
         GeoTransPoint point = new GeoTransPoint(Longtitude,latitude);
         GeoTransPoint ge = GeoTrans.convert(GeoTrans.GEO,GeoTrans.KATEC,point);
                     //GEO를 KATEC으로 변환
@@ -305,13 +304,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         getOilViewModel.getOilList(mRecyclerView, mMap, Double.toString(ge.getX()),Double.toString(ge.getY()),oil_intel[0],oil_intel[1],oil_intel[2]);
 
-
-
-
     }
 
     //위치가 조회되지 않을때 발생하는 메소드
-
 
     public void upRecyclerView(){
 
@@ -670,7 +665,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         @Override
         protected Void doInBackground(Void... arg0) {
 
-            while(!complete){
+            while(!MainActivity.complete){
 
             }
 

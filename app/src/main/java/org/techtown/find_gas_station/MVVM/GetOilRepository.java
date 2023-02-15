@@ -108,12 +108,8 @@ public class GetOilRepository {
 
                                 myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
                                 myRecyclerAdapter.notifyDataSetChanged();
-
-
-
                                 mRecyclerView.setAdapter(myRecyclerAdapter);
 
-                                MainActivity.complete = true;
 
                             }
 
@@ -157,6 +153,9 @@ public class GetOilRepository {
                             Log.e("TAG","데이터가 존재");
 
                             if(result.getOIL().length == 0){
+
+                                Log.e("TAG","데이터가 비었음");
+
 
                                 myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
                                 myRecyclerAdapter.notifyDataSetChanged();

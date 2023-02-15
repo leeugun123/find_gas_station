@@ -40,11 +40,12 @@ import java.util.List;
 
 public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.ViewHolder> {
 
-    private List<oil_list> oil_lists;
+    private List<oil_list> oilLists;
     private GoogleMap recyclerMap;
+    int idx = 0;
 
     public MyRecyclerAdapter(List<oil_list> Oil_lists,GoogleMap map){
-        oil_lists = Oil_lists;
+        oilLists = Oil_lists;
         recyclerMap = map;
     }
 
@@ -57,12 +58,12 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull MyRecyclerAdapter.ViewHolder holder, int position) {
-        holder.onBind(oil_lists.get(position));
+        holder.onBind(oilLists.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return oil_lists.size();
+        return oilLists.size();
     }
 
 
@@ -148,7 +149,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             else{
                 convenStore.setImageResource(R.color.white);
             }
-
 
 
             //구글맵에 주유소 이미지 표시
@@ -255,6 +255,14 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                 }
 
             }); //intel 버튼을 눌렀을때
+
+
+            idx++;
+
+            if(idx == oilLists.size()){
+                idx = 0;
+                MainActivity.complete = true;
+            }
 
 
 
