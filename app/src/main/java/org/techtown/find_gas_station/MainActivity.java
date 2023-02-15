@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private Button Setting;
 
-
+    public static boolean complete;
 
     private GoogleMap mMap;//구글 맵
 
@@ -233,6 +233,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         getData((float) gpsTracker.getLatitude(),(float) gpsTracker.getLongitude());
         //getData메소드 호출하여 ArrayList 값들 채우기
 
+        complete = false;
         CheckTypesTask task = new CheckTypesTask();
         task.execute();
 
@@ -669,14 +670,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         @Override
         protected Void doInBackground(Void... arg0) {
 
-            try {
-                for (int i = 0; i < 5; i++) {
+            while(!complete){
 
-
-                    Thread.sleep(500);
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
 
             return null;

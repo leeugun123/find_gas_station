@@ -109,11 +109,11 @@ public class GetOilRepository {
                                 myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
                                 myRecyclerAdapter.notifyDataSetChanged();
 
-                                //notifyDataSetChanged() 예외처리 실험
+
 
                                 mRecyclerView.setAdapter(myRecyclerAdapter);
 
-
+                                MainActivity.complete = true;
 
                             }
 
@@ -154,6 +154,18 @@ public class GetOilRepository {
                             MyPojo myPojo = response.body();
                             RESULT result = myPojo.getRESULT();
 
+                            Log.e("TAG","데이터가 존재");
+
+                            if(result.getOIL().length == 0){
+
+                                myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
+                                myRecyclerAdapter.notifyDataSetChanged();
+                                MainActivity.complete = true;
+
+                            }//데이터가 존재하지 않는 경우 예외처리
+
+
+
                             for(int i=0; i<result.getOIL().length; i++){
 
                                String uid = result.getOIL()[i].getUNI_ID();
@@ -167,8 +179,6 @@ public class GetOilRepository {
 
                                String gas_price = result.getOIL()[i].getPRICE();
                                //주유소 가격
-
-                                //Log.e("TAG",name +" "+gas_price);
 
                                String inputOil;
 
