@@ -12,6 +12,7 @@ import com.google.android.gms.maps.GoogleMap;
 import org.techtown.find_gas_station.BuildConfig;
 import org.techtown.find_gas_station.GPS.GeoTrans;
 import org.techtown.find_gas_station.GPS.GeoTransPoint;
+import org.techtown.find_gas_station.MainActivity;
 import org.techtown.find_gas_station.MyRecyclerAdapter;
 import org.techtown.find_gas_station.OilDistanceComparator;
 import org.techtown.find_gas_station.OilPriceComparator;
@@ -92,9 +93,7 @@ public class GetOilRepository {
                                     inputOil,imageResource,getX,getY,carWash,conStore,lotNumberAddress,roadAddress,
                                     tel,sector));
 
-
                             if(moil_list.size() == size){
-
 
                                 if(sort.equals("1")){
                                     Collections.sort(moil_list,new OilPriceComparator());
@@ -113,6 +112,8 @@ public class GetOilRepository {
                                 //notifyDataSetChanged() 예외처리 실험
 
                                 mRecyclerView.setAdapter(myRecyclerAdapter);
+
+
 
                             }
 

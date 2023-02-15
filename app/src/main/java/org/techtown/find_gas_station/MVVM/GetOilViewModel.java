@@ -24,6 +24,8 @@ public class GetOilViewModel extends AndroidViewModel {
         getOilRepository = new GetOilRepository(application);
     }
 
+
+
     //현재 위치 중심으로 주유소 리스트 가져오기
     public void getOilList(RecyclerView mRecyclerView, GoogleMap mMap,
                        String xPos, String yPos, String radius, String sort, String oilKind){

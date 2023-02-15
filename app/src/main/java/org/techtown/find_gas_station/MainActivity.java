@@ -13,12 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -65,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public static List<oil_list> moil_list;
 
     private Button Setting;
+
 
 
     private GoogleMap mMap;//구글 맵
@@ -150,7 +153,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onClick(View view) {
 
                 init_reset();
-
                 upRecyclerView();
 
             }
@@ -205,6 +207,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
+
+
+
+
             }
         },200);
 
@@ -212,6 +218,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
        upRecyclerView();
         //리스트 최상단으로 위치
+
 
 
 
@@ -225,6 +232,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //gpsTracker 가져오기
         getData((float) gpsTracker.getLatitude(),(float) gpsTracker.getLongitude());
         //getData메소드 호출하여 ArrayList 값들 채우기
+
+        CheckTypesTask task = new CheckTypesTask();
+        task.execute();
 
     }
 
@@ -639,6 +649,50 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public boolean onMarkerClick(@NonNull Marker marker) {
         return false;
     }
+
+    private class CheckTypesTask extends AsyncTask<Void, Void, Void> {
+
+        ProgressDialog asyncDialog = new ProgressDialog(MainActivity.this);
+
+        @Override
+        protected void onPreExecute() {
+
+            asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            asyncDialog.setMessage("데이터를 가져오는 중..");
+
+            // show dialog
+            asyncDialog.show();
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+
+            try {
+                for (int i = 0; i < 5; i++) {
+
+
+                    Thread.sleep(500);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+
+            asyncDialog.dismiss();
+            super.onPostExecute(result);
+
+        }
+
+
+    }
+
 }
 /**
  * @author aquilegia
