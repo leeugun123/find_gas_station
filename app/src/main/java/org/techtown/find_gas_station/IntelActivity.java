@@ -111,7 +111,6 @@ public class IntelActivity extends AppCompatActivity implements OnMapReadyCallba
         float wgsY = receive_intent.getFloatExtra("wgsY",0);
         float wgsX = receive_intent.getFloatExtra("wgsX",0);
 
-
         LatLng pos = new LatLng(wgsY,wgsX);
 
         MarkerOptions markerOptions = new MarkerOptions();;

@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -457,6 +458,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
 
+    long pressedTime = 0; //'뒤로가기' 버튼 클릭했을 때의 시간
+
+    @Override
+    public void onBackPressed() {
+
+        //마지막으로 누른 '뒤로가기' 버튼 클릭 시간이 이전의 '뒤로가기' 버튼 클릭 시간과의 차이가 2초보다 크면
+        if(System.currentTimeMillis() > pressedTime + 2000){
+            //현재 시간을 pressedTime 에 저장
+            pressedTime = System.currentTimeMillis();
+            Toast.makeText(getApplicationContext(),"한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+        }
+
+        //마지막 '뒤로가기' 버튼 클릭시간이 이전의 '뒤로가기' 버튼 클릭 시간과의 차이가 2초보다 작으면
+        else{
+            Toast.makeText(getApplicationContext(),"종료 완료", Toast.LENGTH_SHORT).show();
+            // 앱 종료
+            finish();
+        }
+    }
 
     //여기부터는 런타임 퍼미션 처리을 위한 메소드들
     private boolean checkPermission() {
