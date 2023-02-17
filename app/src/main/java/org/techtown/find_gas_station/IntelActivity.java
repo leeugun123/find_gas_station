@@ -111,22 +111,18 @@ public class IntelActivity extends AppCompatActivity implements OnMapReadyCallba
         float wgsY = receive_intent.getFloatExtra("wgsY",0);
         float wgsX = receive_intent.getFloatExtra("wgsX",0);
 
-        /*
+
         LatLng pos = new LatLng(wgsY,wgsX);
 
         MarkerOptions markerOptions = new MarkerOptions();;
 
-
-        BitmapDrawable bitmapdraw = (BitmapDrawable) oil_image.getResources().getDrawable(image);
+        BitmapDrawable bitmapdraw = (BitmapDrawable) binding.gasImage.getResources().getDrawable(image);
         Bitmap b = bitmapdraw.getBitmap();
-        Bitmap smallMarker = Bitmap.createScaledBitmap(b,80,80,false);
+        Bitmap smallMarker = Bitmap.createScaledBitmap(b,120,120,false);
 
 
         markerOptions.position(pos).title(title).snippet("현 위치로부터 거리" + "2.4km")
                 .icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
-
-        detailMap.addMarker(markerOptions);
-        */
 
 
         Handler handler = new Handler();
@@ -134,6 +130,8 @@ public class IntelActivity extends AppCompatActivity implements OnMapReadyCallba
 
             @Override
             public void run() {
+
+                detailMap.addMarker(markerOptions);
 
                 detailMap.animateCamera(CameraUpdateFactory.newLatLng(
                                 new LatLng(wgsY ,wgsX)),
@@ -158,8 +156,10 @@ public class IntelActivity extends AppCompatActivity implements OnMapReadyCallba
 
         detailMap.getUiSettings().setZoomControlsEnabled(true);//확대/축소 컨트롤
         detailMap.getUiSettings().setZoomGesturesEnabled(true);//줌 가능하도록 설정
-        detailMap.animateCamera(CameraUpdateFactory.zoomTo(20));//카메라 줌
+        detailMap.animateCamera(CameraUpdateFactory.zoomTo(18));//카메라 줌
         detailMap.getUiSettings().setMyLocationButtonEnabled(true);
+
+
 
     }
 
