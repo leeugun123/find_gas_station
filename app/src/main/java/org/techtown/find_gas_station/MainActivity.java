@@ -296,6 +296,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         MainActivity.complete = false;
         CheckTypesTask task = new CheckTypesTask();
         task.execute();
+        //프로그래스바를 쓰던 안쓰던 데이터를 가져오는 속도는 똑같음.
 
 
         GeoTransPoint point = new GeoTransPoint(Longtitude,latitude);
@@ -670,7 +671,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         protected Void doInBackground(Void... arg0) {
 
             while(!MainActivity.complete){
-                Log.e("TAG",""+ MainActivity.complete);
+               // Log.e("TAG",""+ MainActivity.complete);
+
+
             }
 
             return null;

@@ -111,7 +111,7 @@ public class GetOilRepository {
                                 myRecyclerAdapter.notifyDataSetChanged();
 
                                 MainActivity.complete = true;
-                                Log.e("TAG","완료됨"+ MainActivity.complete);
+                               // Log.e("TAG","완료됨"+ MainActivity.complete);
 
 
                             }
