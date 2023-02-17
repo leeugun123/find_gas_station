@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private Button Setting;
 
-    public static boolean complete;
+    public static boolean complete,empty;
 
     private GoogleMap mMap;//구글 맵
 
@@ -292,6 +292,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //gpsTransfer 클래스를 이용하여 location 매개변수를 사용해 위도,경도 -> x,y좌표로 초기화
 
         MainActivity.complete = false;
+        MainActivity.empty = false;
+
+
         CheckTypesTask task = new CheckTypesTask();
         task.execute();
         //프로그래스바를 쓰던 안쓰던 데이터를 가져오는 속도는 똑같음.
@@ -304,6 +307,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mRecyclerView = findViewById(R.id.list_recycle);
 
         getOilViewModel.getOilList(mRecyclerView, mMap, Double.toString(ge.getX()),Double.toString(ge.getY()),oil_intel[0],oil_intel[1],oil_intel[2]);
+
+
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+
+                if(MainActivity.empty){
+                    Toast.makeText(getApplicationContext(),"데이터가 비어있거나 서버가 점검 중입니다.",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        },500);
+
 
 
     }
@@ -438,6 +458,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
 
         }
+
+
 
         Log.d( TAG, "지도가 준비되었습니다.!");
 
@@ -691,10 +713,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         protected Void doInBackground(Void... arg0) {
 
             while(!MainActivity.complete){
-               // Log.e("TAG",""+ MainActivity.complete);
+                Log.e("TAG",""+ MainActivity.complete);
 
 
             }
+
 
             return null;
         }

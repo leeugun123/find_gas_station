@@ -3,6 +3,7 @@ package org.techtown.find_gas_station.MVVM;
 import android.app.Application;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
@@ -70,6 +71,8 @@ public class GetOilRepository {
                     @Override
                     public void onResponse(Call<OilDetail> call, Response<OilDetail> response) {
 
+
+
                         if(response.isSuccessful()){
 
                             OilDetail oilDetail = response.body();
@@ -111,7 +114,7 @@ public class GetOilRepository {
                                 myRecyclerAdapter.notifyDataSetChanged();
 
                                 MainActivity.complete = true;
-                               // Log.e("TAG","완료됨"+ MainActivity.complete);
+                                Log.e("TAG","완료됨"+ MainActivity.complete);
 
 
                             }
@@ -124,6 +127,8 @@ public class GetOilRepository {
 
                     @Override
                     public void onFailure(Call<OilDetail> call, Throwable t) {
+
+
 
                     }
                 });
@@ -152,7 +157,6 @@ public class GetOilRepository {
                             MyPojo myPojo = response.body();
                             RESULT result = myPojo.getRESULT();
 
-                            Log.e("TAG","데이터가 존재");
 
                             if(result.getOIL().length == 0){
 
@@ -161,6 +165,9 @@ public class GetOilRepository {
                                 myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
                                 mRecyclerView.setAdapter(myRecyclerAdapter);
                                 myRecyclerAdapter.notifyDataSetChanged();
+
+
+                                MainActivity.empty = true;
                                 MainActivity.complete = true;
 
                             }//데이터가 존재하지 않는 경우 예외처리
@@ -268,6 +275,8 @@ public class GetOilRepository {
 
     @Override
     public void onFailure(Call<MyPojo> call, Throwable t) {
+
+
 
 
                     }
