@@ -79,7 +79,7 @@ public class IntelActivity extends AppCompatActivity {
 
         if(store.equals("Y")){
             binding.store.setText("O");
-            binding.carWash.setTextColor(Color.parseColor("#009900"));
+            binding.store.setTextColor(Color.parseColor("#009900"));
             //초록색
         }
         else{
