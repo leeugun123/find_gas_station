@@ -73,6 +73,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleMap mMap;//구글 맵
 
 
+
+
     private Marker currentMarker = null; //현재 마커
 
     TextView array_first;
@@ -451,6 +453,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onMapClick(LatLng latLng) {
 
                 Log.d( TAG, "onMapClick :");
+
             }
         });
     }
@@ -512,6 +515,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 Log.d( TAG, "위치를 업데이트 합니다.");
                 //초기 어플을 설치할때 나타남
+
 
             } else {
                 // 거부한 퍼미션이 있다면 앱을 사용할 수 없는 이유를 설명해주고 앱을 종료합니다.2 가지 경우가 있습니다.
@@ -666,7 +670,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         protected Void doInBackground(Void... arg0) {
 
             while(!MainActivity.complete){
-
+                Log.e("TAG",""+ MainActivity.complete);
             }
 
             return null;

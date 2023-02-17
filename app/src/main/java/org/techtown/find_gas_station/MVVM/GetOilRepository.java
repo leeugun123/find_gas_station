@@ -107,8 +107,11 @@ public class GetOilRepository {
                                 //데이터는 제대로 들어감.
 
                                 myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
-                                myRecyclerAdapter.notifyDataSetChanged();
                                 mRecyclerView.setAdapter(myRecyclerAdapter);
+                                myRecyclerAdapter.notifyDataSetChanged();
+
+                                MainActivity.complete = true;
+                                Log.e("TAG","완료됨"+ MainActivity.complete);
 
 
                             }
@@ -144,7 +147,6 @@ public class GetOilRepository {
                         moil_list = new ArrayList<>();
                         //clear가 아닌 객체를 새로 생성
 
-
                         if(response.isSuccessful()){
 
                             MyPojo myPojo = response.body();
@@ -156,8 +158,8 @@ public class GetOilRepository {
 
                                 Log.e("TAG","데이터가 비었음");
 
-
                                 myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
+                                mRecyclerView.setAdapter(myRecyclerAdapter);
                                 myRecyclerAdapter.notifyDataSetChanged();
                                 MainActivity.complete = true;
 

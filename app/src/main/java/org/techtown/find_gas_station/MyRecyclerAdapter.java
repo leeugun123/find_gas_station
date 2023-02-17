@@ -42,7 +42,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
     private List<oil_list> oilLists;
     private GoogleMap recyclerMap;
-    int idx = 0;
 
     public MyRecyclerAdapter(List<oil_list> Oil_lists,GoogleMap map){
         oilLists = Oil_lists;
@@ -91,13 +90,10 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         String sector;
         //업종 구분 , N:주유소 Y:자동차주유소 C:주유소/충전소 겸업
 
-
-
         String carWash;
         //세차장 존재 여부
         String store;
         //편의점 존재 여부
-
 
         public ViewHolder(@NonNull View itemView) {
 
@@ -132,9 +128,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             stAddress = oil_list.getRoadAdd();
             tel = oil_list.getTel();
             sector = oil_list.getSector();
-
-
-
 
             if(carWash.equals("Y")){
                 carWashImg.setImageResource(R.drawable.car_wash);
@@ -255,14 +248,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                 }
 
             }); //intel 버튼을 눌렀을때
-
-
-            idx++;
-
-            if(idx == oilLists.size()){
-                idx = 0;
-                MainActivity.complete = true;
-            }
 
 
 
