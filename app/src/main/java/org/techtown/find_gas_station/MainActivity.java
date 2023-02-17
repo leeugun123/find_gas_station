@@ -72,9 +72,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private GoogleMap mMap;//구글 맵
 
-
-
-
     private Marker currentMarker = null; //현재 마커
 
     TextView array_first;
