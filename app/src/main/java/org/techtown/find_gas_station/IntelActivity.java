@@ -1,18 +1,33 @@
 package org.techtown.find_gas_station;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.techtown.find_gas_station.databinding.ActivityIntelBinding;
 
-public class IntelActivity extends AppCompatActivity {
+public class IntelActivity extends AppCompatActivity implements OnMapReadyCallback{
 
     private ActivityIntelBinding binding;
+    private GoogleMap detailMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +79,7 @@ public class IntelActivity extends AppCompatActivity {
 
 
         String carWash = receive_intent.getStringExtra("carWash");
+
         if(carWash.equals("Y")){
             binding.carWash.setText("O");
             binding.carWash.setTextColor(Color.parseColor("#009900"));
@@ -88,7 +104,64 @@ public class IntelActivity extends AppCompatActivity {
             //빨간색
         }
 
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.detailMap);
+        mapFragment.getMapAsync(this);
+
+        float wgsY = receive_intent.getFloatExtra("wgsY",0);
+        float wgsX = receive_intent.getFloatExtra("wgsX",0);
+
+        /*
+        LatLng pos = new LatLng(wgsY,wgsX);
+
+        MarkerOptions markerOptions = new MarkerOptions();;
+
+
+        BitmapDrawable bitmapdraw = (BitmapDrawable) oil_image.getResources().getDrawable(image);
+        Bitmap b = bitmapdraw.getBitmap();
+        Bitmap smallMarker = Bitmap.createScaledBitmap(b,80,80,false);
+
+
+        markerOptions.position(pos).title(title).snippet("현 위치로부터 거리" + "2.4km")
+                .icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+
+        detailMap.addMarker(markerOptions);
+        */
+
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+
+                detailMap.animateCamera(CameraUpdateFactory.newLatLng(
+                                new LatLng(wgsY ,wgsX)),
+                        600,
+                        null
+                );
+
+            }
+        },500);
+
+
+
 
     }
+
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+
+        Log.e("TAG","세부사항 맵 준비됨");
+
+        detailMap = googleMap;
+
+        detailMap.getUiSettings().setZoomControlsEnabled(true);//확대/축소 컨트롤
+        detailMap.getUiSettings().setZoomGesturesEnabled(true);//줌 가능하도록 설정
+        detailMap.animateCamera(CameraUpdateFactory.zoomTo(20));//카메라 줌
+        detailMap.getUiSettings().setMyLocationButtonEnabled(true);
+
+    }
+
 
 }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -143,7 +144,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                 convenStore.setImageResource(R.color.white);
             }
 
-
             //구글맵에 주유소 이미지 표시
             LatLng pos = new LatLng(oil_list.getWgs84Y(),oil_list.getWgs84X());
 
@@ -157,6 +157,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                     .icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
 
             recyclerMap.addMarker(markerOptions);
+
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -183,7 +184,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                 public void onClick(View view) {
 
 
-                    //appkey 이상 없음.
 
                     if(NaviClient.getInstance().isKakaoNaviInstalled(view.getContext())){
                         //카카오 navi API 코드
@@ -229,6 +229,10 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
 
                     Intent intent = new Intent(itemView.getContext(),IntelActivity.class);
+
+                    intent.putExtra("wgsY",oil_list.getWgs84Y());
+                    intent.putExtra("wgsX",oil_list.getWgs84X());
+
 
                     intent.putExtra("title",oil_list.get_oil_name());
                     //주유소 이름

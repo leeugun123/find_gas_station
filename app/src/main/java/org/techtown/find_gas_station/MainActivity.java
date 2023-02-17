@@ -304,6 +304,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         getOilViewModel.getOilList(mRecyclerView, mMap, Double.toString(ge.getX()),Double.toString(ge.getY()),oil_intel[0],oil_intel[1],oil_intel[2]);
 
+
     }
 
     //위치가 조회되지 않을때 발생하는 메소드
@@ -648,6 +649,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         return false;
     }
 
+
+    //대기 프로그래스바 클래스
     private class CheckTypesTask extends AsyncTask<Void, Void, Void> {
 
         ProgressDialog asyncDialog = new ProgressDialog(MainActivity.this);
