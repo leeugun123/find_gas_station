@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public static boolean complete,empty;
 
+
     private GoogleMap mMap;//구글 맵
 
     private Marker currentMarker = null; //현재 마커
@@ -113,9 +114,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
-                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//화면이 꺼지지 않도록 유지
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        //화면이 꺼지지 않도록 유지
 
         setContentView(R.layout.activity_main);
+
 
         locationRequest = new LocationRequest()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
@@ -143,8 +146,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Setting = findViewById(R.id.setting);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
+
         setViewModel = new ViewModelProvider(this).get(SetViewModel.class);
         //setViewModel 초기화
+
         getOilViewModel = new ViewModelProvider(this).get(GetOilViewModel.class);
         //getOilViewModel 초기화
 
@@ -173,6 +178,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         });//메뉴 버튼 생성
 
+
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -181,17 +187,36 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 //싱글톤 패턴을 사용하지 않고 무조건 강제 실행
                 //나중에 문제가 생길 수 있음
 
+
                 setViewModel.insert(new Set("B027","1000","1"));
                 //null 값 방지
 
+
+
                 Set set = setViewModel.getAllSets();
 
-                oil_intel[0] = set.getOil_rad();
+                Log.e("TAG","빈 null 값에 접근");
+
+                if(set.getOil_rad() == null)
+                    oil_intel[0] = "1000";
+                else
+                    oil_intel[0] = set.getOil_rad();
+
                 //반경
-                oil_intel[1] = set.getOil_sort();
-                //정렬 기준
-                oil_intel[2] = set.getOil_name();
-                //기름 종류
+
+                if(set.getOil_sort() == null){
+                    oil_intel[1] = "1";
+                }
+                else
+                    oil_intel[1] = set.getOil_sort();
+                    //정렬 기준
+
+               if(set.getOil_name() == null){
+                    oil_intel[2] = "B027";
+               }
+               else
+                    oil_intel[2] = set.getOil_name();
+               //기름 종류
 
                 init_reset();
 
@@ -377,8 +402,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void startLocationUpdates() {
 
         if (!checkLocationServicesStatus()) {
+
             Log.d(TAG, "startLocationUpdates : call showDialogForLocationServiceSetting");
             showDialogForLocationServiceSetting();
+
         }else {
 
             int hasFineLocationPermission = ContextCompat.checkSelfPermission(this,
@@ -545,7 +572,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             //초기 어플을 시작할때  실행되는 메소드
 
-
             if (check_result) {
 
                 // 퍼미션을 허용했다면 위치 업데이트를 시작합니다.
@@ -660,6 +686,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Log.d(TAG, "onStop : call stopLocationUpdates");
             mFusedLocationClient.removeLocationUpdates(locationCallback);
         }
+
     }//백그라운드에서도 화면이 계속 유지될수 있도록 함.
 
 

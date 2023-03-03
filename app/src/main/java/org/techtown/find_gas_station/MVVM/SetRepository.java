@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
+import org.techtown.find_gas_station.MainActivity;
 import org.techtown.find_gas_station.set.RoomDB;
 import org.techtown.find_gas_station.set.Set;
 import org.techtown.find_gas_station.set.SetDao;
@@ -25,6 +26,7 @@ public class SetRepository {
     }
 
     public void insert(Set set){
+
         setDao.insert(set);
     }
 
