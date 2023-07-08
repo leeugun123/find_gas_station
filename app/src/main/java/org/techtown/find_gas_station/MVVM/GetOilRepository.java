@@ -1,11 +1,8 @@
 package org.techtown.find_gas_station.MVVM;
 
 import android.app.Application;
-import android.os.Handler;
 import android.util.Log;
-import android.widget.Toast;
 
-import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -13,12 +10,11 @@ import com.google.android.gms.maps.GoogleMap;
 import org.techtown.find_gas_station.BuildConfig;
 import org.techtown.find_gas_station.GPS.GeoTrans;
 import org.techtown.find_gas_station.GPS.GeoTransPoint;
-import org.techtown.find_gas_station.MainActivity;
+import org.techtown.find_gas_station.HomeFragment;
 import org.techtown.find_gas_station.MyRecyclerAdapter;
 import org.techtown.find_gas_station.OilDistanceComparator;
 import org.techtown.find_gas_station.OilPriceComparator;
 import org.techtown.find_gas_station.R;
-import org.techtown.find_gas_station.Retrofit.oilDetail.OIL;
 import org.techtown.find_gas_station.Retrofit.oilDetail.OilDetail;
 import org.techtown.find_gas_station.Retrofit.oilList.MyPojo;
 import org.techtown.find_gas_station.Retrofit.oilList.RESULT;
@@ -113,8 +109,8 @@ public class GetOilRepository {
                                 mRecyclerView.setAdapter(myRecyclerAdapter);
                                 myRecyclerAdapter.notifyDataSetChanged();
 
-                                MainActivity.complete = true;
-                                Log.e("TAG","완료됨"+ MainActivity.complete);
+                                HomeFragment.complete = true;
+
 
 
                             }
@@ -167,8 +163,8 @@ public class GetOilRepository {
                                 myRecyclerAdapter.notifyDataSetChanged();
 
 
-                                MainActivity.empty = true;
-                                MainActivity.complete = true;
+                                HomeFragment.empty = true;
+                                HomeFragment.complete = true;
 
                             }//데이터가 존재하지 않는 경우 예외처리
 

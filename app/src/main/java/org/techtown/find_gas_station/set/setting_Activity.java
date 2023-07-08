@@ -11,15 +11,11 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.room.Room;
 
 import org.techtown.find_gas_station.MVVM.SetViewModel;
-import org.techtown.find_gas_station.MainActivity;
 import org.techtown.find_gas_station.R;
 import java.util.ArrayList;
-import java.util.List;
 
 public class setting_Activity extends AppCompatActivity {
 

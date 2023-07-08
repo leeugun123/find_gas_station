@@ -45,9 +45,6 @@
             android:name="com.kakao.sdk.AppKey"
             android:value="${kakao_api_key}" />
 
-        <activity
-            android:name=".MainActivity"
-            android:exported="true" />
     </application>
 
 </manifest>
