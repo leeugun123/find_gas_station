@@ -15,9 +15,7 @@ import org.techtown.find_gas_station.MVVM.SetViewModel;
 import org.techtown.find_gas_station.set.Set;
 
 public class Splash extends AppCompatActivity {
-
-    private static final int GPS_ENABLE_REQUEST_CODE = 2001;
-
+    
     SetViewModel setViewModel;
 
     @Override

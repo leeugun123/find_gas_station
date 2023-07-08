@@ -60,54 +60,42 @@ import java.util.List;
 
 //좌표계 변환 문제 KATEC -> 위도,경도
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback,ActivityCompat.OnRequestPermissionsResultCallback,
+public class MainActivity extends AppCompatActivity
+        implements OnMapReadyCallback,
+        ActivityCompat.OnRequestPermissionsResultCallback,
         GoogleMap.OnMarkerClickListener{
 
     //받아오는 list들
     private RecyclerView mRecyclerView;
     public static List<oil_list> moil_list;
-
     private Button Setting;
-
     public static boolean complete,empty;
-
-
     private GoogleMap mMap;//구글 맵
-
     private Marker currentMarker = null; //현재 마커
-
-    TextView array_first;
-
-    Bitmap Red;
+    private TextView array_first;
+    private Bitmap Red;
 
     public static final int REQUEST_CODE = 100;
-
     private static final String TAG = "googlemap_example";
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int UPDATE_INTERVAL_MS = 1000;  // 1초
     private static final int FASTEST_UPDATE_INTERVAL_MS = 500; // 0.5초
-
-    // onRequestPermissionsResult에서 수신된 결과에서 ActivityCompat.requestPermissions를 사용한 퍼미션 요청을 구별하기 위해 사용됩니다.
     private static final int PERMISSIONS_REQUEST_CODE = 100;
     boolean needRequest = false;
-
-
-    // 앱을 실행하기 위해 필요한 퍼미션을 정의합니다.
-    String[] REQUIRED_PERMISSIONS  = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};  // 외부 저장소
-
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationRequest locationRequest;
     private GpsTracker gpsTracker;
-
     private Button reset;
-
     String[] oil_intel = new String[3];
-
-    private View mLayout;  // Snackbar 사용하기 위해서는 View가 필요합니다.
-    // (참고로 Toast에서는 Context가 필요했습니다.)
+    private View mLayout;
 
     SetViewModel setViewModel;
     GetOilViewModel getOilViewModel;
+
+    // 앱을 실행하기 위해 필요한 퍼미션을 정의
+    String[] REQUIRED_PERMISSIONS  = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};  // 외부 저장소
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -186,22 +174,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 //싱글톤 패턴을 사용하지 않고 무조건 강제 실행
                 //나중에 문제가 생길 수 있음
-
-
                 setViewModel.insert(new Set("B027","1000","1"));
                 //null 값 방지
 
-
-
                 Set set = setViewModel.getAllSets();
-
-                Log.e("TAG","빈 null 값에 접근");
 
                 if(set.getOil_rad() == null)
                     oil_intel[0] = "1000";
                 else
                     oil_intel[0] = set.getOil_rad();
-
                 //반경
 
                 if(set.getOil_sort() == null){
@@ -209,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
                 else
                     oil_intel[1] = set.getOil_sort();
-                    //정렬 기준
+                //정렬 기준
 
                if(set.getOil_name() == null){
                     oil_intel[2] = "B027";
@@ -220,8 +201,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 init_reset();
 
-                Log.e("TAG","실행이 됩니다.");
-
                 array_first = findViewById(R.id.array_first);
 
                 if(oil_intel[1].equals("1")){
@@ -231,35 +210,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     array_first.setText("거리순");
 
 
-
-
             }
         },200);
 
         //Handler를 이용하지 않으면 googleMap 오류가 생기므로 핸들러 처리
 
        upRecyclerView();
-        //리스트 최상단으로 위치
-
-
 
 
     }
-
 
     @SuppressLint("UseCompatLoadingForDrawables")
     public void init_reset(){
 
         gpsTracker = new GpsTracker(MainActivity.this);
-        //gpsTracker 가져오기
         getData((float) gpsTracker.getLatitude(),(float) gpsTracker.getLongitude());
-        //getData메소드 호출하여 ArrayList 값들 채우기
 
-
-    }
-
-
-
+    }//getData메소드 호출하여 ArrayList 값들 채우기
 
 
     @Override
@@ -276,7 +243,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 oil_intel[2] = data.getStringExtra("2");
                 //기름 종류
 
-
                 if(oil_intel[1].equals("1")){
                     array_first.setText("가격순");
                 }
@@ -290,18 +256,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                     case GPS_ENABLE_REQUEST_CODE:
 
-                        
-
                         //사용자가 GPS 활성 시켰는지 검사
-                        if (checkLocationServicesStatus()) {
-                            if (checkLocationServicesStatus()) {
-                                Log.d(TAG, "onActivityResult : GPS 활성화 되있음");
+                        if (checkLocationServicesStatus() && checkLocationServicesStatus()) {
                                 needRequest = true;
                                 return;
-                            }
                         }
+
                         break;
+
                 }
+
 
             }
 
@@ -332,7 +296,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mRecyclerView = findViewById(R.id.list_recycle);
 
         getOilViewModel.getOilList(mRecyclerView, mMap, Double.toString(ge.getX()),Double.toString(ge.getY()),oil_intel[0],oil_intel[1],oil_intel[2]);
-
 
 
         Handler handler = new Handler();
@@ -389,9 +352,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         @Override
         public void onLocationResult(@NonNull LocationResult locationResult) {
             super.onLocationResult(locationResult);
-
-            //계속해서 업데이트 된다....
-            //계속 콜백함수로 호출되는 함수
         }
 
     };
@@ -414,12 +374,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     Manifest.permission.ACCESS_COARSE_LOCATION);
 
             if (hasFineLocationPermission != PackageManager.PERMISSION_GRANTED ||
-                    hasCoarseLocationPermission != PackageManager.PERMISSION_GRANTED   ) {
-                Log.d(TAG, "startLocationUpdates : 퍼미션 안가지고 있음");
+                    hasCoarseLocationPermission != PackageManager.PERMISSION_GRANTED  ) {
                 return;
             }
-
-            Log.d(TAG, "startLocationUpdates : call mFusedLocationClient.requestLocationUpdates");
 
             mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
 
@@ -433,66 +390,48 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
-        Log.d(TAG, "onMapReady :");
 
         mMap = googleMap;
-        //런타임 퍼미션 요청 대화상자나 GPS 활성 요청 대화상자 보이기전에
-        //지도의 초기위치를 서울로 이동
-
         setStartLocation();
 
 
-        //런타임 퍼미션 처리
-        // 1. 위치 퍼미션을 가지고 있는지 체크합니다.
         int hasFineLocationPermission = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
         int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_COARSE_LOCATION);
 
         if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED &&
-                hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED   ) {
+                hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED  ) {
+            startLocationUpdates();
 
-            // 2. 이미 퍼미션을 가지고 있다면
-            // ( 안드로이드 6.0 이하 버전은 런타임 퍼미션이 필요없기 때문에 이미 허용된 걸로 인식합니다.)
+        }else {
 
-            startLocationUpdates(); // 3. 위치 업데이트 시작
-
-
-        }else {  //2. 퍼미션 요청을 허용한 적이 없다면 퍼미션 요청이 필요합니다. 2가지 경우(3-1, 4-1)가 있습니다.
-
-            // 3-1. 사용자가 퍼미션 거부를 한 적이 있는 경우에는
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[0])) {
 
-                // 3-2. 요청을 진행하기 전에 사용자가에게 퍼미션이 필요한 이유를 설명해줄 필요가 있습니다.
                 Snackbar.make(mLayout, "이 앱을 실행하려면 위치 접근 권한이 필요합니다.",
                         Snackbar.LENGTH_INDEFINITE).setAction("확인", new View.OnClickListener() {
 
                     @Override
                     public void onClick(View view) {
-                        // 3-3. 사용자게에 퍼미션 요청을 합니다. 요청 결과는 onRequestPermissionResult에서 수신됩니다.
                         ActivityCompat.requestPermissions( MainActivity.this, REQUIRED_PERMISSIONS,
                                 PERMISSIONS_REQUEST_CODE);
                     }
+
                 }).show();
 
-
             } else {
-                // 4-1. 사용자가 퍼미션 거부를 한 적이 없는 경우에는 퍼미션 요청을 바로 합니다.
-                // 요청 결과는 onRequestPermissionResult에서 수신됩니다.
-                ActivityCompat.requestPermissions( this, REQUIRED_PERMISSIONS,
-                        PERMISSIONS_REQUEST_CODE);
-
+                ActivityCompat.requestPermissions( this, REQUIRED_PERMISSIONS, PERMISSIONS_REQUEST_CODE);
             }
+
 
         }
 
-
-
-        Log.d( TAG, "지도가 준비되었습니다.!");
-
-        mMap.getUiSettings().setZoomControlsEnabled(true);//확대/축소 컨트롤
-        mMap.getUiSettings().setZoomGesturesEnabled(true);//줌 가능하도록 설정
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));//카메라 줌
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        //확대/축소 컨트롤
+        mMap.getUiSettings().setZoomGesturesEnabled(true);
+        //줌 가능하도록 설정
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+        //카메라 줌
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         // 현재 오동작을 해서 주석처리
 
@@ -501,10 +440,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onMapClick(LatLng latLng) {
 
-                Log.d( TAG, "onMapClick :");
 
             }
+
         });
+
     }
 
     long pressedTime = 0; //'뒤로가기' 버튼 클릭했을 때의 시간
@@ -512,22 +452,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onBackPressed() {
 
-        //마지막으로 누른 '뒤로가기' 버튼 클릭 시간이 이전의 '뒤로가기' 버튼 클릭 시간과의 차이가 2초보다 크면
+
         if(System.currentTimeMillis() > pressedTime + 2000){
-            //현재 시간을 pressedTime 에 저장
             pressedTime = System.currentTimeMillis();
             Toast.makeText(getApplicationContext(),"한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
         }
 
-        //마지막 '뒤로가기' 버튼 클릭시간이 이전의 '뒤로가기' 버튼 클릭 시간과의 차이가 2초보다 작으면
-        else{
-            Toast.makeText(getApplicationContext(),"종료 완료", Toast.LENGTH_SHORT).show();
-            // 앱 종료
+        else {
+
+            Toast.makeText(getApplicationContext(), "종료 완료", Toast.LENGTH_SHORT).show();
             finish();
+
         }
     }
 
-    //여기부터는 런타임 퍼미션 처리을 위한 메소드들
+    // 런타임 퍼미션 처리를 위한 메소드들
     private boolean checkPermission() {
 
         int hasFineLocationPermission = ContextCompat.checkSelfPermission(this,
@@ -545,7 +484,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-    //여기 코드는 보지 않아 된다. GPS 요청 코드이다.
+    //GPS 요청 코드
+
     /*
      * ActivityCompat.requestPermissions를 사용한 퍼미션 요청의 결과를 리턴받는 메소드입니다.
      */
@@ -556,56 +496,44 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onRequestPermissionsResult(permsRequestCode, permissions, grandResults);
         if (permsRequestCode == PERMISSIONS_REQUEST_CODE && grandResults.length == REQUIRED_PERMISSIONS.length) {
 
-            // 요청 코드가 PERMISSIONS_REQUEST_CODE 이고, 요청한 퍼미션 개수만큼 수신되었다면
-
             boolean check_result = true;
 
-            // 모든 퍼미션을 허용했는지 체크합니다.
+            // 모든 퍼미션을 허용 체크
             for (int result : grandResults) {
-                if (result != PackageManager.PERMISSION_GRANTED) {
 
+                if (result != PackageManager.PERMISSION_GRANTED) {
                     check_result = false;
                     break;
-
                 }
-            }
 
-            //초기 어플을 시작할때  실행되는 메소드
+            }
 
             if (check_result) {
 
-                // 퍼미션을 허용했다면 위치 업데이트를 시작합니다.
-
-                setStartLocation();//주변 위치로 지도 업데이트
-                startLocationUpdates();//자기 위치 설정
-                init_reset();//주변 정보 가져오기
-
-                Log.d( TAG, "위치를 업데이트 합니다.");
-                //초기 어플을 설치할때 나타남
-
+                setStartLocation();
+                //주변 위치로 지도 업데이트
+                startLocationUpdates();
+                //자기 위치 설정
+                init_reset();
+                //주변 정보 가져오기
 
             } else {
-                // 거부한 퍼미션이 있다면 앱을 사용할 수 없는 이유를 설명해주고 앱을 종료합니다.2 가지 경우가 있습니다.
 
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[0])
                         || ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[1])) {
 
-
-                    // 사용자가 거부만 선택한 경우에는 앱을 다시 실행하여 허용을 선택하면 앱을 사용할 수 있습니다.
                     Snackbar.make(mLayout, "퍼미션이 거부되었습니다. 앱을 다시 실행하여 퍼미션을 허용해주세요. ",
                             Snackbar.LENGTH_INDEFINITE).setAction("확인", new View.OnClickListener() {
 
                         @Override
                         public void onClick(View view) {
-
                             finish();
                         }
+
                     }).show();
 
                 } else {
 
-
-                    // "다시 묻지 않음"을 사용자가 체크하고 거부를 선택한 경우에는 설정(앱 정보)에서 퍼미션을 허용해야 앱을 사용할 수 있습니다.
                     Snackbar.make(mLayout, "퍼미션이 거부되었습니다. 설정(앱 정보)에서 퍼미션을 허용해야 합니다. ",
                             Snackbar.LENGTH_INDEFINITE).setAction("확인", new View.OnClickListener() {
 
@@ -614,8 +542,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                             finish();
                         }
+
                     }).show();
+
                 }
+
             }
 
 
@@ -625,20 +556,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     public boolean checkLocationServicesStatus() {
+
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
                 || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-    }//위치서비스상태 확인
 
-    //여기부터는 GPS 활성화를 위한 메소드들
+    }
+    //위치서비스상태 확인
+
+    //GPS 활성화를 위한 메소드들
     private void showDialogForLocationServiceSetting() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
         builder.setTitle("위치 서비스 비활성화");
         builder.setMessage("앱을 사용하기 위해서는 위치 서비스가 필요합니다.\n"
                 + "위치 설정을 수정하실래요?");
         builder.setCancelable(true);
+
         builder.setPositiveButton("설정", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
@@ -647,13 +583,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 startActivityForResult(callGPSSettingIntent, GPS_ENABLE_REQUEST_CODE);
             }
         });
+
         builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
             }
         });
+
         builder.create().show();
+
     }
 
     @SuppressLint("MissingPermission")
@@ -661,20 +600,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onStart() {
         super.onStart();
 
-        Log.d(TAG, "onStart");
-
         if (checkPermission()) {
-
-            Log.d(TAG, "onStart : call mFusedLocationClient.requestLocationUpdates");
             mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
 
             if (mMap!=null)
                 mMap.setMyLocationEnabled(true);
-
         }
 
 
-    }//백그라운드에서도 화면이 계속 유지될수 있도록 함.
+    }
+    //백그라운드에서도 화면이 계속 유지
 
     @Override
     protected void onStop() {
@@ -682,16 +617,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onStop();
 
         if (mFusedLocationClient != null) {
-
-            Log.d(TAG, "onStop : call stopLocationUpdates");
             mFusedLocationClient.removeLocationUpdates(locationCallback);
         }
 
-    }//백그라운드에서도 화면이 계속 유지될수 있도록 함.
+    }//백그라운드에서도 화면이 계속 유지
 
 
     public void setStartLocation(){
-
 
         gpsTracker = new GpsTracker(MainActivity.this);
 
@@ -710,9 +642,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-    //recycerView를 클릭하면 그 위치로 view가 이동함
-
-
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
         return false;
@@ -729,23 +658,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             asyncDialog.setMessage("데이터를 가져오는 중..");
-
-            // show dialog
             asyncDialog.show();
+
             super.onPreExecute();
 
         }
 
         @Override
         protected Void doInBackground(Void... arg0) {
-
-            while(!MainActivity.complete){
-                Log.e("TAG",""+ MainActivity.complete);
-
-
-            }
-
-
             return null;
         }
 
@@ -761,12 +681,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 }
-/**
- * @author aquilegia
- *
- * The code based on hyosang(http://hyosang.kr/tc/96) and aero's blog ((http://aero.sarang.net/map/analysis.html)
- *	License:  LGPL : http://www.gnu.org/copyleft/lesser.html
- */
 
 
 
