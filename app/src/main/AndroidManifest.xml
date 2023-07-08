@@ -20,6 +20,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
+            android:name=".FragmentActivity"
+            android:exported="false" />
+        <activity
             android:name=".IntelActivity"
             android:exported="false" />
         <activity
@@ -38,16 +41,13 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${google_api_key}" />
-
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value= "${kakao_api_key}"/>
+            android:value="${kakao_api_key}" />
 
         <activity
             android:name=".MainActivity"
             android:exported="true" />
-
-
     </application>
 
 </manifest>

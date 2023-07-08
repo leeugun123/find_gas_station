@@ -90,7 +90,9 @@ dependencies {
     // Gson 변환기
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
-
+    //바텀 네비게이션 뷰
+    implementation 'androidx.navigation:navigation-fragment:2.3.2'
+    implementation 'androidx.navigation:navigation-ui:2.3.2'
 
 
 
