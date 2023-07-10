@@ -47,6 +47,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
     public MyRecyclerAdapter(List<oil_list> Oil_lists,GoogleMap map){
         oilLists = Oil_lists;
         recyclerMap = map;
+
     }
 
     @NonNull
@@ -145,9 +146,12 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             }
 
             //구글맵에 주유소 이미지 표시
+
+
             LatLng pos = new LatLng(oil_list.getWgs84Y(),oil_list.getWgs84X());
 
             MarkerOptions markerOptions = new MarkerOptions();
+
 
             BitmapDrawable bitmapdraw = (BitmapDrawable) oil_image.getResources().getDrawable(oil_list.get_image());
             Bitmap b = bitmapdraw.getBitmap();

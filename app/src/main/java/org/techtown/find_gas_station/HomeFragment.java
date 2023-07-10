@@ -85,6 +85,7 @@ public class HomeFragment extends Fragment
     private Marker currentMarker = null; //현재 마커
     private TextView array_first;
     private Bitmap Red;
+    private boolean notYet = false;
 
     public static final int REQUEST_CODE = 100;
     private static final String TAG = "googlemap_example";
@@ -110,7 +111,6 @@ public class HomeFragment extends Fragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Log.e("TAG","onCreate");
 
         requireActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -182,6 +182,25 @@ public class HomeFragment extends Fragment
             }
         },200);
 
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                if(!notYet){
+                    init_reset();
+                    notYet = true;
+                }
+
+            }
+        },1500);
+        //onMap이 초기화되지 않아 데이터를 가져오지 못하는 경우, 보험으로 실행
+
+
+
+
+
+
         //Handler를 이용하지 않으면 googleMap 오류가 생기므로 핸들러 처리
 
         upRecyclerView();
@@ -246,26 +265,24 @@ public class HomeFragment extends Fragment
 
     public void getData(float latitude,float Longtitude){
 
-
         //인터넷을 사용하는 것이기 때문에 Thread 사용
         //gpsTransfer 클래스를 이용하여 location 매개변수를 사용해 위도,경도 -> x,y좌표로 초기화
 
         HomeFragment.complete = false;
         HomeFragment.empty = false;
 
-
         HomeFragment.CheckTypesTask task = new HomeFragment.CheckTypesTask();
         task.execute();
         //프로그래스바를 쓰던 안쓰던 데이터를 가져오는 속도는 똑같음.
-
 
         GeoTransPoint point = new GeoTransPoint(Longtitude,latitude);
         GeoTransPoint ge = GeoTrans.convert(GeoTrans.GEO,GeoTrans.KATEC,point);
         //GEO를 KATEC으로 변환
 
-
-        getOilViewModel.getOilList(mRecyclerView, mMap, Double.toString(ge.getX()),Double.toString(ge.getY()),oil_intel[0],oil_intel[1],oil_intel[2]);
-
+        if(mMap != null){
+            getOilViewModel.getOilList(mRecyclerView, mMap, Double.toString(ge.getX()),Double.toString(ge.getY()),oil_intel[0],oil_intel[1],oil_intel[2]);
+            notYet = true;
+        }
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -361,6 +378,9 @@ public class HomeFragment extends Fragment
     public void onMapReady(final GoogleMap googleMap) {
 
         mMap = googleMap;
+
+        Log.e("TAG","onMapReady");
+
         setStartLocation();
 
 
