@@ -55,6 +55,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.techtown.find_gas_station.GPS.GeoTrans;
@@ -127,19 +128,14 @@ public class HomeFragment extends Fragment
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
 
-
         moil_list = new ArrayList<>();
-
 
         setViewModel = new ViewModelProvider(this).get(SetViewModel.class);
         //setViewModel 초기화
         getOilViewModel = new ViewModelProvider(this).get(GetOilViewModel.class);
         //getOilViewModel 초기화
 
-
         Red = BitmapFactory.decodeResource(getResources(),R.drawable.red_marker);
-
-
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -293,7 +289,6 @@ public class HomeFragment extends Fragment
 
     public void upRecyclerView(){
 
-        Log.e("TAG", "리사이클러뷰 위로 올리기!");//locationList의 size는 0 이상이다.
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -313,8 +308,7 @@ public class HomeFragment extends Fragment
 
             }
         },500);
-        //핸들러를 사용하여
-        // 리사이클러뷰가 완전히 형성된 후 최상단으로 리사이클러뷰 올리기
+        //핸들러를 사용하여 리사이클러뷰가 완전히 형성된 후 최상단으로 리사이클러뷰 올리기
 
     }
 
@@ -594,11 +588,7 @@ public class HomeFragment extends Fragment
 
         mMap.moveCamera(cameraUpdate);
 
-        Log.d( TAG, "초기설정");
-
     }//앱이 시작할때 자기 위치로 이동 시켜주는 메소드
-
-
 
 
     @Override
@@ -640,13 +630,13 @@ public class HomeFragment extends Fragment
 
 
 
+    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Log.e("TAG","onCreateView");
 
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
 
@@ -660,17 +650,17 @@ public class HomeFragment extends Fragment
         mapFragment.getMapAsync(this);
 
 
-        mRecyclerView = view.findViewById(R.id.list_recycle);
+        mRecyclerView = rootView.findViewById(R.id.list_recycle);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity(),RecyclerView.VERTICAL,false));
 
 
-        mLayout = view.findViewById(R.id.layout_main);
+        mLayout = rootView.findViewById(R.id.layout_main);
 
-        array_first = view.findViewById(R.id.array_first);
+        array_first = rootView.findViewById(R.id.array_first);
 
 
-        reset = view.findViewById(R.id.reset);
+        reset = rootView.findViewById(R.id.reset);
 
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -682,7 +672,7 @@ public class HomeFragment extends Fragment
             }
         });
 
-        Setting = view.findViewById(R.id.setting);
+        Setting = rootView.findViewById(R.id.setting);
 
         Setting.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceType")
@@ -698,8 +688,8 @@ public class HomeFragment extends Fragment
         });//메뉴 버튼 생성
 
 
+        return rootView;
 
-        return view;
     }
 
 

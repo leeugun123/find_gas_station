@@ -3,6 +3,7 @@ package org.techtown.find_gas_station;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -16,7 +17,10 @@ public class FragmentActivity extends AppCompatActivity {
 
 
     private long pressedTime = 0;
+    private Fragment fa,fb;
+    private FragmentManager fragmentManager;
     BottomNavigationView bottomNavigationView; //바텀 네비게이션 뷰
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +30,11 @@ public class FragmentActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottomNav);
 
         //처음화면
-        getSupportFragmentManager().beginTransaction().add(R.id.main_frame, new HomeFragment()).commit();
+
+        fragmentManager = getSupportFragmentManager();
+
+        fa = new HomeFragment();
+        fragmentManager.beginTransaction().add(R.id.main_frame, fa).commit();
 
         //바텀 네비게이션뷰 안의 아이템 설정
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -35,12 +43,34 @@ public class FragmentActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
 
                     case R.id.Home_fragment:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, new HomeFragment()).commit();
+
+                        if(fa == null){
+                            fa = new HomeFragment();
+                            fragmentManager.beginTransaction().add(R.id.main_frame,fa).commit();
+                        }
+
+                        if(fa != null)
+                            fragmentManager.beginTransaction().show(fa).commit();
+                        if(fb != null)
+                            fragmentManager.beginTransaction().hide(fb).commit();
+
                         break;
+
                     case R.id.Daily_fragment:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, new DailyFragment()).commit();
+
+                        if(fb == null){
+                            fb = new DailyFragment();
+                            fragmentManager.beginTransaction().add(R.id.main_frame, fb).commit();
+                        }
+
+                        if(fa != null)
+                            fragmentManager.beginTransaction().hide(fa).commit();
+                        if(fb != null)
+                            fragmentManager.beginTransaction().show(fb).commit();
+
                         break;
                 }
+
                 return true;
             }
         });
