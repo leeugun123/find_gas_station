@@ -6,11 +6,16 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.List;
+
 public class FragmentActivity extends AppCompatActivity {
 
+
+    private long pressedTime = 0;
     BottomNavigationView bottomNavigationView; //바텀 네비게이션 뷰
 
     @Override
@@ -42,4 +47,24 @@ public class FragmentActivity extends AppCompatActivity {
 
 
     }
+
+
+
+    @Override
+    public void onBackPressed(){
+
+
+        if(System.currentTimeMillis() > pressedTime + 2000){
+            pressedTime = System.currentTimeMillis();
+            Toast.makeText(this,"한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+        }
+        else {
+
+            Toast.makeText(this, "종료 완료", Toast.LENGTH_SHORT).show();
+            finish();
+
+        }
+
+    }
+
 }

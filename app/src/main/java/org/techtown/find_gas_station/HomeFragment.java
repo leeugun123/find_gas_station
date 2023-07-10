@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
@@ -66,6 +67,7 @@ import org.techtown.find_gas_station.set.setting_Activity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class HomeFragment extends Fragment
@@ -420,23 +422,6 @@ public class HomeFragment extends Fragment
 
     }
 
-    long pressedTime = 0; //'뒤로가기' 버튼 클릭했을 때의 시간
-
-    public void onBackPressed() {
-
-
-        if(System.currentTimeMillis() > pressedTime + 2000){
-            pressedTime = System.currentTimeMillis();
-            Toast.makeText(requireContext(),"한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
-        }
-
-        else {
-
-            Toast.makeText(requireContext(), "종료 완료", Toast.LENGTH_SHORT).show();
-            requireActivity().finish();
-
-        }
-    }
 
     // 런타임 퍼미션 처리를 위한 메소드들
     private boolean checkPermission() {
