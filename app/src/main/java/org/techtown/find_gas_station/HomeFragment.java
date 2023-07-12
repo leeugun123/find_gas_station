@@ -608,7 +608,9 @@ public class HomeFragment extends Fragment
 
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
+
         return false;
+
     }
 
 

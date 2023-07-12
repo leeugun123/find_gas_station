@@ -157,7 +157,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             Bitmap b = bitmapdraw.getBitmap();
             Bitmap smallMarker = Bitmap.createScaledBitmap(b,80,80,false);
 
-            markerOptions.position(pos).title(oil_list.get_oil_name()).snippet("현 위치로부터 거리" + oil_list.getDistance())
+            markerOptions.position(pos).title(oil_list.get_oil_name()).snippet("현 위치로부터 거리 " + oil_list.getDistance() + "m")
                     .icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
 
             recyclerMap.addMarker(markerOptions);
@@ -174,7 +174,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                                     600,
                                     null
                             );
-                    recyclerMap.setOnMarkerClickListener((GoogleMap.OnMarkerClickListener) itemView.getContext());
+
 
                 }
 
