@@ -68,7 +68,6 @@ public class GetOilRepository {
                     public void onResponse(Call<OilDetail> call, Response<OilDetail> response) {
 
 
-
                         if(response.isSuccessful()){
 
                             OilDetail oilDetail = response.body();

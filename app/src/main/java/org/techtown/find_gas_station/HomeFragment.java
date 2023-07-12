@@ -193,7 +193,7 @@ public class HomeFragment extends Fragment
                 }
 
             }
-        },1500);
+        },500);
         //onMap이 초기화되지 않아 데이터를 가져오지 못하는 경우, 보험으로 실행
 
 

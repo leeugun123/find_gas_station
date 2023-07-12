@@ -19,7 +19,8 @@ public class FragmentActivity extends AppCompatActivity {
     private long pressedTime = 0;
     private Fragment fa,fb;
     private FragmentManager fragmentManager;
-    BottomNavigationView bottomNavigationView; //바텀 네비게이션 뷰
+    BottomNavigationView bottomNavigationView;
+    //바텀 네비게이션 뷰
 
 
     @Override
@@ -74,6 +75,8 @@ public class FragmentActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+
 
 
     }
