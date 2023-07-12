@@ -189,6 +189,7 @@ public class HomeFragment extends Fragment
 
                 if(!notYet){
                     init_reset();
+                    upRecyclerView();
                     notYet = true;
                 }
 
@@ -196,12 +197,6 @@ public class HomeFragment extends Fragment
         },500);
         //onMap이 초기화되지 않아 데이터를 가져오지 못하는 경우, 보험으로 실행
 
-
-
-
-
-
-        //Handler를 이용하지 않으면 googleMap 오류가 생기므로 핸들러 처리
 
         upRecyclerView();
 
