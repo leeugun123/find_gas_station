@@ -21,6 +21,7 @@
         tools:targetApi="m">
         <activity
             android:name=".FragmentActivity"
+            android:configChanges="orientation|screenSize"
             android:exported="false" />
         <activity
             android:name=".IntelActivity"

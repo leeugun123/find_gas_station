@@ -197,7 +197,6 @@ public class HomeFragment extends Fragment
         },500);
         //onMap이 초기화되지 않아 데이터를 가져오지 못하는 경우, 보험으로 실행
 
-
         upRecyclerView();
 
 
@@ -455,12 +454,16 @@ public class HomeFragment extends Fragment
     /*
      * ActivityCompat.requestPermissions를 사용한 퍼미션 요청의 결과를 리턴받는 메소드입니다.
      */
-    @RequiresApi(api = Build.VERSION_CODES.M)
+
+    //이 메소드가 실행이 안됨
     @Override
     public void onRequestPermissionsResult(int permsRequestCode,
                                            @NonNull String[] permissions,
                                            @NonNull int[] grandResults) {
         super.onRequestPermissionsResult(permsRequestCode, permissions, grandResults);
+
+        Log.e("TAG","허용");
+
         if (permsRequestCode == PERMISSIONS_REQUEST_CODE && grandResults.length == REQUIRED_PERMISSIONS.length) {
 
             boolean check_result = true;
@@ -477,9 +480,13 @@ public class HomeFragment extends Fragment
 
             if (check_result) {
 
+
+
                 setStartLocation();
                 //주변 위치로 지도 업데이트
-                startLocationUpdates();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    startLocationUpdates();
+                }
                 //자기 위치 설정
                 init_reset();
                 //주변 정보 가져오기
