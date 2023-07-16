@@ -13,7 +13,7 @@
         android:id="@+id/Daily_fragment"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_search_24"
-        android:title="유가 확인"
+        android:title="평균 가격"
         />
 
 

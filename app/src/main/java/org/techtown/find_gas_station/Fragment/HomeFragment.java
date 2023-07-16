@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station;
+package org.techtown.find_gas_station.Fragment;
 
 import static android.content.Context.LOCATION_SERVICE;
 
@@ -20,11 +20,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
@@ -50,12 +48,10 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.techtown.find_gas_station.GPS.GeoTrans;
@@ -63,12 +59,13 @@ import org.techtown.find_gas_station.GPS.GeoTransPoint;
 import org.techtown.find_gas_station.GPS.GpsTracker;
 import org.techtown.find_gas_station.MVVM.GetOilViewModel;
 import org.techtown.find_gas_station.MVVM.SetViewModel;
+import org.techtown.find_gas_station.R;
+import org.techtown.find_gas_station.oil_list;
 import org.techtown.find_gas_station.set.Set;
 import org.techtown.find_gas_station.set.setting_Activity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 
 public class HomeFragment extends Fragment
@@ -135,7 +132,7 @@ public class HomeFragment extends Fragment
         getOilViewModel = new ViewModelProvider(this).get(GetOilViewModel.class);
         //getOilViewModel 초기화
 
-        Red = BitmapFactory.decodeResource(getResources(),R.drawable.red_marker);
+        Red = BitmapFactory.decodeResource(getResources(), R.drawable.red_marker);
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {

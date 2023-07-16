@@ -1,4 +1,6 @@
-package org.techtown.find_gas_station;
+package org.techtown.find_gas_station.Comparator;
+
+import org.techtown.find_gas_station.oil_list;
 
 import java.util.Comparator;
 

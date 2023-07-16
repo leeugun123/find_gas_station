@@ -12,7 +12,8 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.List;
+import org.techtown.find_gas_station.Fragment.DailyFragment;
+import org.techtown.find_gas_station.Fragment.HomeFragment;
 
 public class FragmentActivity extends AppCompatActivity {
 
