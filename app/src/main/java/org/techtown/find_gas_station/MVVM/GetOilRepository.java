@@ -15,6 +15,7 @@ import org.techtown.find_gas_station.MyRecyclerAdapter;
 import org.techtown.find_gas_station.Comparator.OilDistanceComparator;
 import org.techtown.find_gas_station.Comparator.OilPriceComparator;
 import org.techtown.find_gas_station.R;
+import org.techtown.find_gas_station.Retrofit.oilAvg.OilAvg;
 import org.techtown.find_gas_station.Retrofit.oilDetail.OilDetail;
 import org.techtown.find_gas_station.Retrofit.oilList.MyPojo;
 import org.techtown.find_gas_station.Retrofit.oilList.RESULT;
@@ -58,15 +59,55 @@ public class GetOilRepository {
 
     }
 
+    public void getOilAvg(String date, String prodcd){
+
+        retrofitAPI.getAvgRecentPrice(apiKey,"json",date,prodcd)
+                .enqueue(new Callback<OilAvg>() {
+
+                    @Override
+                    public void onResponse(Call<OilAvg> call, Response<OilAvg> response) {
+
+                        if(response.isSuccessful()){
+
+                            OilAvg oilAvg = response.body();
+                            org.techtown.find_gas_station.Retrofit.oilAvg.RESULT result = oilAvg.getRESULT();
+
+                            for(int i=0; i<result.getOil().length; i++){
+
+
+
+                            }
+
+
+
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<OilAvg> call, Throwable t) {
+
+
+
+                    }
+
+
+
+                });
+
+
+    }
+
     public void getOilDetail(String sort, int size, RecyclerView mRecyclerView,
                               GoogleMap mMap,String uid,String name,String gas_price,String distance,String inputOil,
                              int imageResource,float getX,float getY){
 
         retrofitAPI.getOilDetail(apiKey,"json",uid)
                 .enqueue(new Callback<OilDetail>() {
+
                     @Override
                     public void onResponse(Call<OilDetail> call, Response<OilDetail> response) {
-
 
                         if(response.isSuccessful()){
 
@@ -110,13 +151,9 @@ public class GetOilRepository {
 
                                 HomeFragment.complete = true;
 
-
-
                             }
 
                         }
-
-
 
                     }
 
@@ -124,8 +161,9 @@ public class GetOilRepository {
                     public void onFailure(Call<OilDetail> call, Throwable t) {
 
 
-
                     }
+
+
                 });
 
 

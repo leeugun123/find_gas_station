@@ -33,6 +33,11 @@ public class GetOilViewModel extends AndroidViewModel {
         getOilRepository.getOilList(mRecyclerView, mMap,xPos,yPos,radius,sort,oilKind);
     }
 
+    public void getOilAvg(String date, String prodcd){
+
+        getOilRepository.getOilAvg(date,prodcd);
+    }
+
 
 
 }
