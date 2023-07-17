@@ -1,5 +1,6 @@
 package org.techtown.find_gas_station.Retrofit;
 
+import org.techtown.find_gas_station.Retrofit.oilAvg.OilAvg;
 import org.techtown.find_gas_station.Retrofit.oilDetail.OilDetail;
 import org.techtown.find_gas_station.Retrofit.oilList.MyPojo;
 
@@ -21,6 +22,14 @@ public interface RetrofitAPI {
 
     @GET("http://www.opinet.co.kr/api/detailById.do")
     Call<OilDetail> getOilDetail(@Query("code") String code, @Query("out") String out, @Query("id") String id);
+
+    @GET("http://www.opinet.co.kr/api/avgRecentPrice.do")
+    Call<OilAvg> getAvgRecentPrice(@Query("code") String code, @Query("out") String out,
+                                   @Query("date") String date, @Query("prodcd") String prodcd);
+
+
+
+
 
 
 
