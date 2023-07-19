@@ -102,7 +102,7 @@ public class GetOilRepository {
 
                                 OIL oil = result.getOil()[i];
 
-                                entries.add(new Entry(Integer.parseInt(oil.getDate().substring(4)),
+                                entries.add(new Entry(Integer.parseInt(oil.getDate().substring(6)),
                                                      Integer.parseInt(doubleToInt(oil.getPrice()))));
                             }
 
