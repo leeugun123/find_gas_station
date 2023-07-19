@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.mikephil.charting.charts.LineChart;
 import com.google.android.gms.maps.GoogleMap;
 
 import org.techtown.find_gas_station.MyRecyclerAdapter;
@@ -33,9 +34,9 @@ public class GetOilViewModel extends AndroidViewModel {
         getOilRepository.getOilList(mRecyclerView, mMap,xPos,yPos,radius,sort,oilKind);
     }
 
-    public void getOilAvg(String date, String prodcd){
+    public void getOilAvg(LineChart lineChart, String prodcd){
 
-        getOilRepository.getOilAvg(date,prodcd);
+        getOilRepository.getOilAvg(lineChart,prodcd);
     }
 
 

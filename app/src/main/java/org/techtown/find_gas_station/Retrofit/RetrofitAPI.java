@@ -25,7 +25,7 @@ public interface RetrofitAPI {
 
     @GET("http://www.opinet.co.kr/api/avgRecentPrice.do")
     Call<OilAvg> getAvgRecentPrice(@Query("code") String code, @Query("out") String out,
-                                   @Query("date") String date, @Query("prodcd") String prodcd);
+                                   @Query("prodcd") String prodcd);
 
 
 

@@ -1,10 +1,17 @@
 package org.techtown.find_gas_station.MVVM;
 
 import android.app.Application;
+import android.graphics.Color;
 import android.util.Log;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.gms.maps.GoogleMap;
 
 import org.techtown.find_gas_station.BuildConfig;
@@ -60,9 +67,25 @@ public class GetOilRepository {
 
     }
 
-    public void getOilAvg(String date, String prodcd){
+    public static String doubleToInt(String price){
 
-        retrofitAPI.getAvgRecentPrice(apiKey,"json",date,prodcd)
+        String temp = "";
+
+        for(int i=0; i<price.length(); i++){
+
+            if(price.charAt(i) == '.')
+                break;
+
+            temp += price.charAt(i);
+
+        }
+
+        return temp;
+    }
+
+    public void getOilAvg(LineChart lineChart, String prodcd){
+
+        retrofitAPI.getAvgRecentPrice(apiKey,"json",prodcd)
                 .enqueue(new Callback<OilAvg>() {
 
                     @Override
@@ -73,15 +96,33 @@ public class GetOilRepository {
                             OilAvg oilAvg = response.body();
                             org.techtown.find_gas_station.Retrofit.oilAvg.RESULT result = oilAvg.getRESULT();
 
+                            List<Entry> entries = new ArrayList<>();
+
                             for(int i=0; i<result.getOil().length; i++){
 
                                 OIL oil = result.getOil()[i];
 
-
-
-
+                                entries.add(new Entry(Integer.parseInt(oil.getDate().substring(4)),
+                                                     Integer.parseInt(doubleToInt(oil.getPrice()))));
                             }
 
+                            LineDataSet dataSet = new LineDataSet(entries, "주유소 가격");
+                            dataSet.setColor(Color.RED);
+                            dataSet.setLineWidth(2f);
+                            dataSet.setCircleColor(Color.RED);
+                            dataSet.setCircleRadius(4f);
+                            dataSet.setDrawCircleHole(false);
+
+                            List<ILineDataSet> dataSets = new ArrayList<>();
+                            dataSets.add(dataSet);
+
+                            LineData lineData = new LineData(dataSets);
+
+                            lineChart.setData(lineData);
+                            lineChart.getDescription().setText("최근 일주일 전국 유가 가격");
+                            lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+                            lineChart.getAxisRight().setEnabled(false);
+                            lineChart.invalidate();
 
                         }
 

@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.mikephil.charting.charts.LineChart;
+
 import org.techtown.find_gas_station.MVVM.GetOilViewModel;
 import org.techtown.find_gas_station.R;
 
@@ -17,6 +19,8 @@ public class GasolineFragment extends Fragment {
 
     GetOilViewModel getOilViewModel;
 
+    private LineChart lineChart;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +28,7 @@ public class GasolineFragment extends Fragment {
         getOilViewModel = new ViewModelProvider(this).get(GetOilViewModel.class);
         //getOilViewModel 초기화
 
-        getOilViewModel.getOilAvg("20230715","B027");
+
 
 
     }
@@ -34,6 +38,10 @@ public class GasolineFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View rootView =  inflater.inflate(R.layout.fragment_gasoline, container, false);
+
+        lineChart = rootView.findViewById(R.id.line_chart);
+        getOilViewModel.getOilAvg(lineChart,"B027");
+
 
 
 
