@@ -15,6 +15,7 @@ import org.techtown.find_gas_station.MyRecyclerAdapter;
 import org.techtown.find_gas_station.Comparator.OilDistanceComparator;
 import org.techtown.find_gas_station.Comparator.OilPriceComparator;
 import org.techtown.find_gas_station.R;
+import org.techtown.find_gas_station.Retrofit.oilAvg.OIL;
 import org.techtown.find_gas_station.Retrofit.oilAvg.OilAvg;
 import org.techtown.find_gas_station.Retrofit.oilDetail.OilDetail;
 import org.techtown.find_gas_station.Retrofit.oilList.MyPojo;
@@ -74,10 +75,12 @@ public class GetOilRepository {
 
                             for(int i=0; i<result.getOil().length; i++){
 
+                                OIL oil = result.getOil()[i];
+
+
 
 
                             }
-
 
 
                         }
