@@ -106,7 +106,10 @@ public class GetOilRepository {
                                 OIL oil = result.getOil()[i];
 
                                 //recyclerView에 담을 ArrayList<Oil>
-                                Avg.add(oil);
+                                Avg.add(new OIL(
+                                        oil.getDate(),
+                                        doubleToInt(oil.getPrice())
+                                ));
 
                                 entries.add(new Entry(Integer.parseInt(oil.getDate().substring(6)),
                                                      Integer.parseInt(doubleToInt(oil.getPrice()))));
@@ -130,6 +133,9 @@ public class GetOilRepository {
                             lineChart.getAxisRight().setEnabled(false);
                             lineChart.invalidate();
 
+                            Collections.reverse(Avg);
+                            //역순 뒤집기
+
                             oilAvg_recyclerView.setAdapter(new OilAvgRecyclerAdapter(Avg));
 
                         }
@@ -150,6 +156,8 @@ public class GetOilRepository {
 
 
     }
+
+
 
     public void getOilDetail(String sort, int size, RecyclerView mRecyclerView,
                               GoogleMap mMap,String uid,String name,String gas_price,String distance,String inputOil,

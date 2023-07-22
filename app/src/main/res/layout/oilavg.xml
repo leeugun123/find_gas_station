@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="horizontal"
+    android:layout_marginTop="5dp"
     >
 
     <TextView
@@ -12,19 +13,44 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginLeft="20dp"
         android:gravity="center"
-        android:textAlignment="center"
-        android:text="2022년 7월 21일"
+        android:text="7월 21일"
         android:textColor="@color/black"
-        />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:text="1375원"
-        android:textColor="#D50000"
+        android:layout_marginLeft="120dp"
+        android:text="1375"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="@color/black"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:text="원"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        />
+
+
+    <TextView
+        android:id="@+id/priceGap"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="40dp"
+        android:text="3"
+        android:textColor="@color/gray"
+        android:textSize="25sp"
         />
 
 
