@@ -47,7 +47,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
     public MyRecyclerAdapter(List<oil_list> Oil_lists,GoogleMap map){
         oilLists = Oil_lists;
         recyclerMap = map;
-
     }
 
     @NonNull

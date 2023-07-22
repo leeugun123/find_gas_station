@@ -15,6 +15,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.gms.maps.GoogleMap;
 
 import org.techtown.find_gas_station.BuildConfig;
+import org.techtown.find_gas_station.Fragment.OilAvgRecyclerAdapter;
 import org.techtown.find_gas_station.GPS.GeoTrans;
 import org.techtown.find_gas_station.GPS.GeoTransPoint;
 import org.techtown.find_gas_station.Fragment.HomeFragment;
@@ -30,6 +31,7 @@ import org.techtown.find_gas_station.Retrofit.oilList.RESULT;
 import org.techtown.find_gas_station.Retrofit.RetrofitAPI;
 import org.techtown.find_gas_station.oil_list;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -83,7 +85,7 @@ public class GetOilRepository {
         return temp;
     }
 
-    public void getOilAvg(LineChart lineChart, String prodcd){
+    public void getOilAvg(LineChart lineChart,RecyclerView oilAvg_recyclerView ,String prodcd){
 
         retrofitAPI.getAvgRecentPrice(apiKey,"json",prodcd)
                 .enqueue(new Callback<OilAvg>() {
@@ -97,10 +99,14 @@ public class GetOilRepository {
                             org.techtown.find_gas_station.Retrofit.oilAvg.RESULT result = oilAvg.getRESULT();
 
                             List<Entry> entries = new ArrayList<>();
+                            ArrayList<OIL> Avg = new ArrayList<>();
 
                             for(int i=0; i<result.getOil().length; i++){
 
                                 OIL oil = result.getOil()[i];
+
+                                //recyclerView에 담을 ArrayList<Oil>
+                                Avg.add(oil);
 
                                 entries.add(new Entry(Integer.parseInt(oil.getDate().substring(6)),
                                                      Integer.parseInt(doubleToInt(oil.getPrice()))));
@@ -123,6 +129,8 @@ public class GetOilRepository {
                             lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
                             lineChart.getAxisRight().setEnabled(false);
                             lineChart.invalidate();
+
+                            oilAvg_recyclerView.setAdapter(new OilAvgRecyclerAdapter(Avg));
 
                         }
 

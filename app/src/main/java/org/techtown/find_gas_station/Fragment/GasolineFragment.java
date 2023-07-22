@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +19,10 @@ import org.techtown.find_gas_station.R;
 
 public class GasolineFragment extends Fragment {
 
-    GetOilViewModel getOilViewModel;
-
+    private GetOilViewModel getOilViewModel;
     private LineChart lineChart;
+    private RecyclerView oilAvg_recyclerView;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,8 +42,12 @@ public class GasolineFragment extends Fragment {
 
         View rootView =  inflater.inflate(R.layout.fragment_gasoline, container, false);
 
+        oilAvg_recyclerView = rootView.findViewById(R.id.oilAvg_recyclerView);
+        oilAvg_recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+
         lineChart = rootView.findViewById(R.id.line_chart);
-        getOilViewModel.getOilAvg(lineChart,"B027");
+        getOilViewModel.getOilAvg(lineChart,oilAvg_recyclerView,"B027");
+
 
 
 

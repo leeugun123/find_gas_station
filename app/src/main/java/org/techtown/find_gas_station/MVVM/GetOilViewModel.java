@@ -34,9 +34,9 @@ public class GetOilViewModel extends AndroidViewModel {
         getOilRepository.getOilList(mRecyclerView, mMap,xPos,yPos,radius,sort,oilKind);
     }
 
-    public void getOilAvg(LineChart lineChart, String prodcd){
+    public void getOilAvg(LineChart lineChart,RecyclerView oilAvg_recyclerView, String prodcd){
 
-        getOilRepository.getOilAvg(lineChart,prodcd);
+        getOilRepository.getOilAvg(lineChart,oilAvg_recyclerView,prodcd);
     }
 
 
