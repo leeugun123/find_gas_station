@@ -27,7 +27,42 @@
         android:id="@+id/oilAvg_recyclerView"
         android:layout_marginTop="25dp"
         android:layout_width="match_parent"
-        android:layout_height="500dp"/>
+        android:layout_height="300dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:text="오늘의 유가"
+            android:textAlignment="center"
+            android:textSize="30sp"
+            android:textColor="@color/black"
+            />
+
+        <TextView
+            android:id="@+id/priceText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="60dp"
+            android:text="1350원"
+            android:textAlignment="center"
+            android:textColor="@color/red"
+            android:textSize="45sp"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+
+
 
 
 

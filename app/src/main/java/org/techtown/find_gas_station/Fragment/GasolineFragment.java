@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 
@@ -22,6 +23,7 @@ public class GasolineFragment extends Fragment {
     private GetOilViewModel getOilViewModel;
     private LineChart lineChart;
     private RecyclerView oilAvg_recyclerView;
+    private TextView priceText;
 
 
     @Override
@@ -45,8 +47,9 @@ public class GasolineFragment extends Fragment {
         oilAvg_recyclerView = rootView.findViewById(R.id.oilAvg_recyclerView);
         oilAvg_recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
+        priceText = rootView.findViewById(R.id.priceText);
         lineChart = rootView.findViewById(R.id.line_chart);
-        getOilViewModel.getOilAvg(lineChart,oilAvg_recyclerView,"B027");
+        getOilViewModel.getOilAvg(lineChart,oilAvg_recyclerView,priceText,"B027");
 
 
 

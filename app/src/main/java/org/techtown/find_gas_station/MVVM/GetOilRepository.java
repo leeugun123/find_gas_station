@@ -3,6 +3,7 @@ package org.techtown.find_gas_station.MVVM;
 import android.app.Application;
 import android.graphics.Color;
 import android.util.Log;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -85,7 +86,7 @@ public class GetOilRepository {
         return temp;
     }
 
-    public void getOilAvg(LineChart lineChart,RecyclerView oilAvg_recyclerView ,String prodcd){
+    public void getOilAvg(LineChart lineChart, RecyclerView oilAvg_recyclerView, TextView priceText, String prodcd){
 
         retrofitAPI.getAvgRecentPrice(apiKey,"json",prodcd)
                 .enqueue(new Callback<OilAvg>() {
@@ -135,6 +136,8 @@ public class GetOilRepository {
 
                             Collections.reverse(Avg);
                             //역순 뒤집기
+
+                            priceText.setText(Avg.get(0).getPrice() + "원");
 
                             oilAvg_recyclerView.setAdapter(new OilAvgRecyclerAdapter(Avg));
 

@@ -1,6 +1,7 @@
 package org.techtown.find_gas_station.MVVM;
 
 import android.app.Application;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -34,9 +35,9 @@ public class GetOilViewModel extends AndroidViewModel {
         getOilRepository.getOilList(mRecyclerView, mMap,xPos,yPos,radius,sort,oilKind);
     }
 
-    public void getOilAvg(LineChart lineChart,RecyclerView oilAvg_recyclerView, String prodcd){
+    public void getOilAvg(LineChart lineChart, RecyclerView oilAvg_recyclerView, TextView priceText, String prodcd){
 
-        getOilRepository.getOilAvg(lineChart,oilAvg_recyclerView,prodcd);
+        getOilRepository.getOilAvg(lineChart,oilAvg_recyclerView,priceText,prodcd);
     }
 
 
