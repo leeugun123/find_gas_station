@@ -8,6 +8,7 @@
     tools:context=".Fragment.GasolineFragment">
 
     <TextView
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="최근 일주일 휘발유 평균 가격"

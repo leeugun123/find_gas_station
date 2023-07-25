@@ -15,7 +15,7 @@ import org.techtown.find_gas_station.R;
 
 public class DailyFragment extends Fragment {
 
-    private Fragment gasol_Fragment,disel_Fragment;
+    private Fragment gasol_Fragment,disel_Fragment,HighGasol_Fragment,kerosene_Fragment,butan_Fragment;
     private TabLayout tabs;
 
     @Override
@@ -24,6 +24,10 @@ public class DailyFragment extends Fragment {
 
         gasol_Fragment = new GasolineFragment();
         disel_Fragment = new DieselFragment();
+        HighGasol_Fragment = new High_GasolineFragment();
+        kerosene_Fragment = new KeroseneFragment();
+        butan_Fragment = new ButaneFragment();
+
 
         getParentFragmentManager().beginTransaction().add(R.id.frame, gasol_Fragment).commit();
 
@@ -54,9 +58,22 @@ public class DailyFragment extends Fragment {
 
                     selected = disel_Fragment;
 
+                }else if(position == 2){
+
+                    selected = HighGasol_Fragment;
+
+                }else if(position == 3){
+
+                    selected = kerosene_Fragment;
+
+                }else{
+
+                    selected = butan_Fragment;
+
                 }
 
                 getParentFragmentManager().beginTransaction().replace(R.id.frame, selected).commit();
+
             }
 
             @Override
