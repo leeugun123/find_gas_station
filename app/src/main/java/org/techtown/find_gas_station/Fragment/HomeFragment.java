@@ -113,6 +113,9 @@ public class HomeFragment extends Fragment
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         //화면이 꺼지지 않도록 유지
 
+
+        Log.e("TAG","onCreate");
+
         locationRequest = new LocationRequest()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(UPDATE_INTERVAL_MS)
@@ -125,58 +128,54 @@ public class HomeFragment extends Fragment
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
 
+
         moil_list = new ArrayList<>();
-
         setViewModel = new ViewModelProvider(this).get(SetViewModel.class);
-        //setViewModel 초기화
         getOilViewModel = new ViewModelProvider(this).get(GetOilViewModel.class);
-        //getOilViewModel 초기화
-
         Red = BitmapFactory.decodeResource(getResources(), R.drawable.red_marker);
+        //초기화 부분
 
         Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
 
-                //싱글톤 패턴을 사용하지 않고 무조건 강제 실행
-                //나중에 문제가 생길 수 있음
-                setViewModel.insert(new Set("B027","1000","1"));
-                //null 값 방지
+        handler.postDelayed(() -> {
 
-                Set set = setViewModel.getAllSets();
+            //싱글톤 패턴을 사용하지 않고 무조건 강제 실행
+            //나중에 문제가 생길 수 있음
+            setViewModel.insert(new Set("B027","1000","1"));
+            //null 값 방지
 
-                if(set.getOil_rad() == null)
-                    oil_intel[0] = "1000";
-                else
-                    oil_intel[0] = set.getOil_rad();
-                //반경
+            Set set = setViewModel.getAllSets();
 
-                if(set.getOil_sort() == null){
-                    oil_intel[1] = "1";
-                }
-                else
-                    oil_intel[1] = set.getOil_sort();
-                //정렬 기준
+            if(set.getOil_rad() == null)
+                oil_intel[0] = "1000";
+            else
+                oil_intel[0] = set.getOil_rad();
+            //반경
 
-                if(set.getOil_name() == null){
-                    oil_intel[2] = "B027";
-                }
-                else
-                    oil_intel[2] = set.getOil_name();
-                //기름 종류
-
-                init_reset();
-
-
-                if(oil_intel[1].equals("1")){
-                    array_first.setText("가격순");
-                }
-                else
-                    array_first.setText("거리순");
-
-
+            if(set.getOil_sort() == null){
+                oil_intel[1] = "1";
             }
+            else
+                oil_intel[1] = set.getOil_sort();
+            //정렬 기준
+
+            if(set.getOil_name() == null){
+                oil_intel[2] = "B027";
+            }
+            else
+                oil_intel[2] = set.getOil_name();
+            //기름 종류
+
+            if(oil_intel[1].equals("1")){
+                array_first.setText("가격순");
+            }
+            else
+                array_first.setText("거리순");
+
+
+            init_reset();
+            upRecyclerView();
+
         },200);
 
 
@@ -185,8 +184,11 @@ public class HomeFragment extends Fragment
             public void run() {
 
                 if(!notYet){
+
                     init_reset();
                     upRecyclerView();
+                    //setStartLocation();
+
                     notYet = true;
                 }
 
@@ -194,13 +196,14 @@ public class HomeFragment extends Fragment
         },500);
         //onMap이 초기화되지 않아 데이터를 가져오지 못하는 경우, 보험으로 실행
 
-        upRecyclerView();
 
 
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     public void init_reset(){
+
+        Log.e("TAG","init_reset");
 
         gpsTracker = new GpsTracker(requireActivity());
         getData((float) gpsTracker.getLatitude(),(float) gpsTracker.getLongitude());
@@ -212,6 +215,8 @@ public class HomeFragment extends Fragment
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        Log.e("TAG","onActivityResult");
 
         if (requestCode == REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
@@ -258,9 +263,10 @@ public class HomeFragment extends Fragment
 
         //인터넷을 사용하는 것이기 때문에 Thread 사용
         //gpsTransfer 클래스를 이용하여 location 매개변수를 사용해 위도,경도 -> x,y좌표로 초기화
-
+        Log.e("TAG","getData");
         HomeFragment.complete = false;
         HomeFragment.empty = false;
+
 
         HomeFragment.CheckTypesTask task = new HomeFragment.CheckTypesTask();
         task.execute();
@@ -327,15 +333,22 @@ public class HomeFragment extends Fragment
         @Override
         public void onLocationResult(@NonNull LocationResult locationResult) {
             super.onLocationResult(locationResult);
+
+            Log.e("TAG","onLocationResult");
+
         }
 
     };
 
 
     //시작 위치 업데이트
+
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("MissingPermission")
     private void startLocationUpdates() {
+
+        Log.e("TAG","startLocationUpdates");
 
         if (!checkLocationServicesStatus()) {
 
@@ -373,7 +386,6 @@ public class HomeFragment extends Fragment
         Log.e("TAG","onMapReady");
 
         setStartLocation();
-
 
         int hasFineLocationPermission = ContextCompat.checkSelfPermission(requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION);
@@ -431,6 +443,8 @@ public class HomeFragment extends Fragment
     // 런타임 퍼미션 처리를 위한 메소드들
     private boolean checkPermission() {
 
+        Log.e("TAG","checkPermission");
+
         int hasFineLocationPermission = ContextCompat.checkSelfPermission(requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION);
         int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(requireContext(),
@@ -452,6 +466,7 @@ public class HomeFragment extends Fragment
      * ActivityCompat.requestPermissions를 사용한 퍼미션 요청의 결과를 리턴받는 메소드입니다.
      */
 
+
     //이 메소드가 실행이 안됨
     @Override
     public void onRequestPermissionsResult(int permsRequestCode,
@@ -459,7 +474,7 @@ public class HomeFragment extends Fragment
                                            @NonNull int[] grandResults) {
         super.onRequestPermissionsResult(permsRequestCode, permissions, grandResults);
 
-        Log.e("TAG","허용");
+        Log.e("TAG","onRequestPermissionsResult");
 
         if (permsRequestCode == PERMISSIONS_REQUEST_CODE && grandResults.length == REQUIRED_PERMISSIONS.length) {
 
@@ -529,6 +544,8 @@ public class HomeFragment extends Fragment
     @RequiresApi(api = Build.VERSION_CODES.M)
     public boolean checkLocationServicesStatus() {
 
+        Log.e("TAG","checkLocationServicesStatus");
+
         LocationManager locationManager = (LocationManager) requireActivity().getSystemService(LOCATION_SERVICE);
 
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
@@ -539,6 +556,8 @@ public class HomeFragment extends Fragment
 
     //GPS 활성화를 위한 메소드들
     private void showDialogForLocationServiceSetting() {
+
+        Log.e("TAG","showDialogForLocationServiceSetting");
 
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
 
@@ -572,6 +591,9 @@ public class HomeFragment extends Fragment
     public void onStart() {
         super.onStart();
 
+        Log.e("TAG","onStart");
+
+
         if (checkPermission()) {
             mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
 
@@ -580,11 +602,14 @@ public class HomeFragment extends Fragment
         }
 
 
+
     }
     //백그라운드에서도 화면이 계속 유지
 
     @Override
     public void onStop() {
+
+        Log.e("TAG","onStop");
 
         super.onStop();
 
@@ -596,6 +621,8 @@ public class HomeFragment extends Fragment
 
 
     public void setStartLocation(){
+
+        Log.e("TAG","setStartLocation");
 
         gpsTracker = new GpsTracker(requireContext());
 
@@ -612,7 +639,7 @@ public class HomeFragment extends Fragment
 
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
-
+        Log.e("TAG","onMarkerClick");
         return false;
 
     }
