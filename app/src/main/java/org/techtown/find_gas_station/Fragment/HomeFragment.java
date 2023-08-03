@@ -70,7 +70,6 @@ import java.util.List;
 
 public class HomeFragment extends Fragment
         implements OnMapReadyCallback,
-        ActivityCompat.OnRequestPermissionsResultCallback,
         GoogleMap.OnMarkerClickListener{
 
     //받아오는 list들
@@ -85,7 +84,6 @@ public class HomeFragment extends Fragment
     private boolean notYet = false;
 
     public static final int REQUEST_CODE = 100;
-    private static final String TAG = "googlemap_example";
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int UPDATE_INTERVAL_MS = 1000;  // 1초
     private static final int FASTEST_UPDATE_INTERVAL_MS = 500; // 0.5초
@@ -172,7 +170,6 @@ public class HomeFragment extends Fragment
             else
                 array_first.setText("거리순");
 
-
             init_reset();
             upRecyclerView();
 
@@ -184,11 +181,8 @@ public class HomeFragment extends Fragment
             public void run() {
 
                 if(!notYet){
-
                     init_reset();
                     upRecyclerView();
-                    //setStartLocation();
-
                     notYet = true;
                 }
 
@@ -233,7 +227,6 @@ public class HomeFragment extends Fragment
                 }
                 else
                     array_first.setText("거리순");
-
 
                 init_reset();
 
@@ -333,7 +326,6 @@ public class HomeFragment extends Fragment
         @Override
         public void onLocationResult(@NonNull LocationResult locationResult) {
             super.onLocationResult(locationResult);
-
             Log.e("TAG","onLocationResult");
 
         }
@@ -342,37 +334,22 @@ public class HomeFragment extends Fragment
 
 
     //시작 위치 업데이트
-
-
     @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("MissingPermission")
     private void startLocationUpdates() {
 
         Log.e("TAG","startLocationUpdates");
 
-        if (!checkLocationServicesStatus()) {
+        int hasFineLocationPermission = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION);
+        int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION);
 
-            Log.d(TAG, "startLocationUpdates : call showDialogForLocationServiceSetting");
-            showDialogForLocationServiceSetting();
+        if (hasFineLocationPermission != PackageManager.PERMISSION_GRANTED || hasCoarseLocationPermission != PackageManager.PERMISSION_GRANTED)
+            return;
 
-        }else {
+        mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
 
-            int hasFineLocationPermission = ContextCompat.checkSelfPermission(requireContext(),
-                    Manifest.permission.ACCESS_FINE_LOCATION);
-            int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(requireContext(),
-                    Manifest.permission.ACCESS_COARSE_LOCATION);
-
-            if (hasFineLocationPermission != PackageManager.PERMISSION_GRANTED ||
-                    hasCoarseLocationPermission != PackageManager.PERMISSION_GRANTED  ) {
-                return;
-            }
-
-            mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
-
-            if (checkPermission())
-                mMap.setMyLocationEnabled(true);
-
-        }
+        if(checkPermission())
+            mMap.setMyLocationEnabled(true);
 
     }
 
@@ -462,84 +439,6 @@ public class HomeFragment extends Fragment
 
     //GPS 요청 코드
 
-    /*
-     * ActivityCompat.requestPermissions를 사용한 퍼미션 요청의 결과를 리턴받는 메소드입니다.
-     */
-
-
-    //이 메소드가 실행이 안됨
-    @Override
-    public void onRequestPermissionsResult(int permsRequestCode,
-                                           @NonNull String[] permissions,
-                                           @NonNull int[] grandResults) {
-        super.onRequestPermissionsResult(permsRequestCode, permissions, grandResults);
-
-        Log.e("TAG","onRequestPermissionsResult");
-
-        if (permsRequestCode == PERMISSIONS_REQUEST_CODE && grandResults.length == REQUIRED_PERMISSIONS.length) {
-
-            boolean check_result = true;
-
-            // 모든 퍼미션을 허용 체크
-            for (int result : grandResults) {
-
-                if (result != PackageManager.PERMISSION_GRANTED) {
-                    check_result = false;
-                    break;
-                }
-
-            }
-
-            if (check_result) {
-
-
-
-                setStartLocation();
-                //주변 위치로 지도 업데이트
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    startLocationUpdates();
-                }
-                //자기 위치 설정
-                init_reset();
-                //주변 정보 가져오기
-
-            } else {
-
-                if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), REQUIRED_PERMISSIONS[0])
-                        || ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), REQUIRED_PERMISSIONS[1])) {
-
-                    Snackbar.make(mLayout, "퍼미션이 거부되었습니다. 앱을 다시 실행하여 퍼미션을 허용해주세요. ",
-                            Snackbar.LENGTH_INDEFINITE).setAction("확인", new View.OnClickListener() {
-
-                        @Override
-                        public void onClick(View view) {
-                            requireActivity().finish();
-                        }
-
-                    }).show();
-
-                } else {
-
-                    Snackbar.make(mLayout, "퍼미션이 거부되었습니다. 설정(앱 정보)에서 퍼미션을 허용해야 합니다. ",
-                            Snackbar.LENGTH_INDEFINITE).setAction("확인", new View.OnClickListener() {
-
-                        @Override
-                        public void onClick(View view) {
-
-                            requireActivity().finish();
-                        }
-
-                    }).show();
-
-                }
-
-            }
-
-
-
-        }
-    }
-
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     public boolean checkLocationServicesStatus() {
@@ -554,37 +453,6 @@ public class HomeFragment extends Fragment
     }
     //위치서비스상태 확인
 
-    //GPS 활성화를 위한 메소드들
-    private void showDialogForLocationServiceSetting() {
-
-        Log.e("TAG","showDialogForLocationServiceSetting");
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-
-        builder.setTitle("위치 서비스 비활성화");
-        builder.setMessage("앱을 사용하기 위해서는 위치 서비스가 필요합니다.\n"
-                + "위치 설정을 수정하실래요?");
-        builder.setCancelable(true);
-
-        builder.setPositiveButton("설정", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                Intent callGPSSettingIntent
-                        = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                startActivityForResult(callGPSSettingIntent, GPS_ENABLE_REQUEST_CODE);
-            }
-        });
-
-        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
-
-        builder.create().show();
-
-    }
 
     @SuppressLint("MissingPermission")
     @Override
