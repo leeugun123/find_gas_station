@@ -12,6 +12,7 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.gms.maps.GoogleMap;
 
@@ -112,7 +113,9 @@ public class GetOilRepository {
                                         doubleToInt(oil.getPrice())
                                 ));
 
-                                entries.add(new Entry(Integer.parseInt(oil.getDate().substring(6)),
+                                Log.e("TAG",oil.getDate());
+
+                                entries.add(new Entry(i,
                                                      Integer.parseInt(doubleToInt(oil.getPrice()))));
                             }
 
@@ -122,6 +125,11 @@ public class GetOilRepository {
                             dataSet.setCircleColor(Color.RED);
                             dataSet.setCircleRadius(4f);
                             dataSet.setDrawCircleHole(false);
+
+                            // Example: Customize the x-axis labels
+                            XAxis xAxis = lineChart.getXAxis();
+                            xAxis.setValueFormatter(new IndexAxisValueFormatter(new String[]{"7일전", "6일전", "5일전", "4일전", "3일전",
+                            "2일전","1일전"}));
 
                             List<ILineDataSet> dataSets = new ArrayList<>();
                             dataSets.add(dataSet);
@@ -137,7 +145,8 @@ public class GetOilRepository {
                             Collections.reverse(Avg);
                             //역순 뒤집기
 
-                            priceText.setText(Avg.get(0).getPrice() + "원");
+                            if(Avg.size() > 0)
+                                priceText.setText(Avg.get(0).getPrice() + "원");
 
                             oilAvg_recyclerView.setAdapter(new OilAvgRecyclerAdapter(Avg));
 
