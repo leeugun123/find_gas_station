@@ -120,9 +120,9 @@ public class GetOilRepository {
                             }
 
                             LineDataSet dataSet = new LineDataSet(entries, "주유소 가격");
-                            dataSet.setColor(Color.RED);
+                            dataSet.setColor(Color.rgb(255,153,000));
                             dataSet.setLineWidth(2f);
-                            dataSet.setCircleColor(Color.RED);
+                            dataSet.setCircleColor(Color.rgb(255,153,000));
                             dataSet.setCircleRadius(4f);
                             dataSet.setDrawCircleHole(false);
 
