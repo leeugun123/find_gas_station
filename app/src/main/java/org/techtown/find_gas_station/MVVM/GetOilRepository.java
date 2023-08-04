@@ -146,7 +146,7 @@ public class GetOilRepository {
                             //역순 뒤집기
 
                             if(Avg.size() > 0)
-                                priceText.setText(Avg.get(0).getPrice() + "원");
+                                priceText.setText(Avg.get(0).getPrice());
 
                             oilAvg_recyclerView.setAdapter(new OilAvgRecyclerAdapter(Avg));
 

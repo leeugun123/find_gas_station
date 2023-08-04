@@ -81,7 +81,7 @@ public class OilAvgRecyclerAdapter extends RecyclerView.Adapter<OilAvgRecyclerAd
                 String priceText = Integer.toString(gap);
 
                 if(gap > 0){
-                    priceGap.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.red));
+                    priceGap.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.orange));
                     priceGap.setText("+"+ priceText);
                 }else{
                     priceGap.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.purple_700));
