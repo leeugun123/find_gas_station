@@ -138,7 +138,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             }
 
             if(store.equals("Y")){
-                convenStore.setImageResource(R.drawable.conven_store);
+                convenStore.setImageResource(R.drawable.convenstore);
             }
             else{
                 convenStore.setImageResource(R.color.white);
