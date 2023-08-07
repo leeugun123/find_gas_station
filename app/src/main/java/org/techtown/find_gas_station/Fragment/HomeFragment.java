@@ -523,14 +523,20 @@ public class HomeFragment extends Fragment
 
             asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             asyncDialog.setMessage("데이터를 가져오는 중..");
-            asyncDialog.show();
 
+            asyncDialog.show();
             super.onPreExecute();
 
         }
 
         @Override
         protected Void doInBackground(Void... arg0) {
+
+            while(!HomeFragment.complete){
+                //Log.e("TAG",""+ HomeFragment.complete);
+            }
+
+
             return null;
         }
 
