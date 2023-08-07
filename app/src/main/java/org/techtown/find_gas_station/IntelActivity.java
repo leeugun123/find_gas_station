@@ -39,7 +39,7 @@ public class IntelActivity extends AppCompatActivity implements OnMapReadyCallba
         Intent receive_intent = getIntent();
 
         String title = receive_intent.getStringExtra("title");
-        binding.title.setText(title);//주유소 이름
+        //binding.title.setText(title);//주유소 이름
 
         int image = receive_intent.getIntExtra("gas_img",R.drawable.oil_2);
         binding.gasImage.setImageResource(image);

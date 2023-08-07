@@ -10,39 +10,24 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_gravity="center"
+        >
 
         <ImageView
             android:id="@+id/gasImage"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_weight="1"
+            android:layout_gravity="center"
             />
 
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2">
 
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:text="오천만 주유소"
-                android:textColor="#FF7f00"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-            
-        </RelativeLayout>
-        
     </LinearLayout>
 
 
     <TextView
         android:layout_marginTop="30dp"
-        android:layout_width="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="지번 주소"
         android:textSize="20sp"
@@ -52,7 +37,8 @@
 
     <TextView
         android:id="@+id/lotAddress"
-        android:layout_width="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="25sp"
         android:textColor="#0A65BF"
@@ -61,7 +47,8 @@
 
     <TextView
         android:layout_marginTop="30dp"
-        android:layout_width="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="도로명 주소"
         android:textSize="20sp"
@@ -71,7 +58,8 @@
 
     <TextView
         android:id="@+id/stAddress"
-        android:layout_width="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="25sp"
         android:textColor="#16AE1C"
@@ -84,6 +72,7 @@
         android:orientation="horizontal">
 
         <TextView
+            android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
@@ -97,6 +86,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:orientation="horizontal">
 
 
@@ -128,6 +118,7 @@
 
         <TextView
             android:layout_width="wrap_content"
+            android:layout_marginLeft="10dp"
             android:layout_height="match_parent"
             android:textSize="20sp"
             android:text="업종 구분"
@@ -154,12 +145,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:textSize="20sp"
             android:text="세차장"
             android:textColor="@color/black"
