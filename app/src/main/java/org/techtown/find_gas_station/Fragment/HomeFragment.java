@@ -36,6 +36,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -76,11 +77,12 @@ public class HomeFragment extends Fragment
     private RecyclerView mRecyclerView;
     public static List<oil_list> moil_list;
     private Button Setting;
-    public static boolean complete,empty;
+    public static boolean empty;
     private GoogleMap mMap;//구글 맵
     private Marker currentMarker = null; //현재 마커
     private TextView array_first;
     private Bitmap Red;
+    private ProgressBar progressBar;
     private boolean notYet = false;
 
     public static final int REQUEST_CODE = 100;
@@ -113,6 +115,7 @@ public class HomeFragment extends Fragment
 
 
         Log.e("TAG","onCreate");
+
 
         locationRequest = new LocationRequest()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
@@ -172,6 +175,8 @@ public class HomeFragment extends Fragment
 
             init_reset();
             upRecyclerView();
+
+
 
         },200);
 
@@ -257,20 +262,17 @@ public class HomeFragment extends Fragment
         //인터넷을 사용하는 것이기 때문에 Thread 사용
         //gpsTransfer 클래스를 이용하여 location 매개변수를 사용해 위도,경도 -> x,y좌표로 초기화
         Log.e("TAG","getData");
-        HomeFragment.complete = false;
+
         HomeFragment.empty = false;
+        progressBar.setVisibility(View.VISIBLE);
 
-
-        HomeFragment.CheckTypesTask task = new HomeFragment.CheckTypesTask();
-        task.execute();
-        //프로그래스바를 쓰던 안쓰던 데이터를 가져오는 속도는 똑같음.
 
         GeoTransPoint point = new GeoTransPoint(Longtitude,latitude);
         GeoTransPoint ge = GeoTrans.convert(GeoTrans.GEO,GeoTrans.KATEC,point);
         //GEO를 KATEC으로 변환
 
         if(mMap != null){
-            getOilViewModel.getOilList(mRecyclerView, mMap, Double.toString(ge.getX()),Double.toString(ge.getY()),oil_intel[0],oil_intel[1],oil_intel[2]);
+            getOilViewModel.getOilList(mRecyclerView, mMap, progressBar ,Double.toString(ge.getX()),Double.toString(ge.getY()),oil_intel[0],oil_intel[1],oil_intel[2]);
             notYet = true;
         }
 
@@ -302,6 +304,7 @@ public class HomeFragment extends Fragment
 
             @Override
             public void run() {
+
                 RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(mRecyclerView.getContext()) {
 
                     @Override protected int getVerticalSnapPreference() {
@@ -316,6 +319,8 @@ public class HomeFragment extends Fragment
             }
         },500);
         //핸들러를 사용하여 리사이클러뷰가 완전히 형성된 후 최상단으로 리사이클러뷰 올리기
+
+
 
     }
 
@@ -513,44 +518,6 @@ public class HomeFragment extends Fragment
     }
 
 
-    //대기 프로그래스바 클래스
-    private class CheckTypesTask extends AsyncTask<Void, Void, Void> {
-
-        ProgressDialog asyncDialog = new ProgressDialog(requireContext());
-
-        @Override
-        protected void onPreExecute() {
-
-            asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            asyncDialog.setMessage("데이터를 가져오는 중..");
-
-            asyncDialog.show();
-            super.onPreExecute();
-
-        }
-
-        @Override
-        protected Void doInBackground(Void... arg0) {
-
-            while(!HomeFragment.complete){
-                //Log.e("TAG",""+ HomeFragment.complete);
-            }
-
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-
-            asyncDialog.dismiss();
-            super.onPostExecute(result);
-
-        }
-
-    }
-
-
 
     @Nullable
     @Override
@@ -576,6 +543,8 @@ public class HomeFragment extends Fragment
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity(),RecyclerView.VERTICAL,false));
 
+
+        progressBar = rootView.findViewById(R.id.progressBar);
 
         mLayout = rootView.findViewById(R.id.layout_main);
 

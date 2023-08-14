@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -53,12 +54,33 @@
         android:layout_height="0dp"
         android:layout_weight="8" />
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list_recycle"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="15"/>
+        android:layout_weight="15"
+        android:orientation="vertical"
+        tools:ignore="Suspicious0dp">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_marginTop="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list_recycle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+    </LinearLayout>
+
+
+
+
 
 
 

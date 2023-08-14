@@ -1,6 +1,7 @@
 package org.techtown.find_gas_station.MVVM;
 
 import android.app.Application;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -29,10 +30,10 @@ public class GetOilViewModel extends AndroidViewModel {
 
 
     //현재 위치 중심으로 주유소 리스트 가져오기
-    public void getOilList(RecyclerView mRecyclerView, GoogleMap mMap,
-                       String xPos, String yPos, String radius, String sort, String oilKind){
+    public void getOilList(RecyclerView mRecyclerView, GoogleMap mMap, ProgressBar progressBar,
+                           String xPos, String yPos, String radius, String sort, String oilKind){
 
-        getOilRepository.getOilList(mRecyclerView, mMap,xPos,yPos,radius,sort,oilKind);
+        getOilRepository.getOilList(mRecyclerView, mMap, progressBar ,xPos,yPos,radius,sort,oilKind);
     }
 
     public void getOilAvg(LineChart lineChart, RecyclerView oilAvg_recyclerView, TextView priceText, String prodcd){

@@ -1,8 +1,12 @@
 package org.techtown.find_gas_station.MVVM;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.Application;
 import android.graphics.Color;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -172,7 +176,7 @@ public class GetOilRepository {
 
 
     public void getOilDetail(String sort, int size, RecyclerView mRecyclerView,
-                              GoogleMap mMap,String uid,String name,String gas_price,String distance,String inputOil,
+                              GoogleMap mMap, ProgressBar progressBar ,String uid,String name,String gas_price,String distance,String inputOil,
                              int imageResource,float getX,float getY){
 
         retrofitAPI.getOilDetail(apiKey,"json",uid)
@@ -212,18 +216,17 @@ public class GetOilRepository {
                                 else{
                                     Collections.sort(moil_list,new OilDistanceComparator());
                                 }//거리순
+                                //불필요한 정렬 생성
 
-                                //불필요한 정렬이 생성
-
-                                //데이터는 제대로 들어감.
+                                progressBar.setVisibility(View.GONE);
 
                                 myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
                                 mRecyclerView.setAdapter(myRecyclerAdapter);
                                 myRecyclerAdapter.notifyDataSetChanged();
 
-                                HomeFragment.complete = true;
 
                             }
+
 
                         }
 
@@ -242,8 +245,8 @@ public class GetOilRepository {
     }
 
     public void getOilList(
-                       RecyclerView mRecyclerView,
-                       GoogleMap mMap,  String xPos, String yPos, String radius, String sort, String oilKind) {
+            RecyclerView mRecyclerView,
+            GoogleMap mMap, ProgressBar progressBar, String xPos, String yPos, String radius, String sort, String oilKind) {
 
 
         oil = oilKind;
@@ -272,8 +275,8 @@ public class GetOilRepository {
                                 myRecyclerAdapter.notifyDataSetChanged();
 
 
+                                progressBar.setVisibility(View.GONE);
                                 HomeFragment.empty = true;
-                                HomeFragment.complete = true;
 
                             }//데이터가 존재하지 않는 경우 예외처리
 
@@ -363,8 +366,7 @@ public class GetOilRepository {
                                     imageResource = R.drawable.oil_2;
 
 
-
-                                getOilDetail(sort,result.getOIL().length,mRecyclerView,mMap,uid,name,gas_price,distance,inputOil,
+                                getOilDetail(sort,result.getOIL().length,mRecyclerView,mMap, progressBar ,uid,name,gas_price,distance,inputOil,
                                 imageResource,(float)out.getX(),(float)out.getY());
 
 
