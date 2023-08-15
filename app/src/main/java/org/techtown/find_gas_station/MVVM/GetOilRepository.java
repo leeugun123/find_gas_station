@@ -2,6 +2,8 @@ package org.techtown.find_gas_station.MVVM;
 
 import static android.content.ContentValues.TAG;
 
+import static org.techtown.find_gas_station.Fragment.HomeFragment.moil_list;
+
 import android.app.Application;
 import android.graphics.Color;
 import android.util.Log;
@@ -53,7 +55,7 @@ public class GetOilRepository {
     private Retrofit retrofit;
     private final static String BASE_URL = "http:///www.opinet.co.kr/";
     RetrofitAPI retrofitAPI;
-    List<oil_list> moil_list;
+
 
     private String apiKey = BuildConfig.GAS_API_KEY;
 

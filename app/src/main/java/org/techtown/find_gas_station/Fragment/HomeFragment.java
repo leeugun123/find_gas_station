@@ -60,6 +60,7 @@ import org.techtown.find_gas_station.GPS.GeoTransPoint;
 import org.techtown.find_gas_station.GPS.GpsTracker;
 import org.techtown.find_gas_station.MVVM.GetOilViewModel;
 import org.techtown.find_gas_station.MVVM.SetViewModel;
+import org.techtown.find_gas_station.MyRecyclerAdapter;
 import org.techtown.find_gas_station.R;
 import org.techtown.find_gas_station.oil_list;
 import org.techtown.find_gas_station.set.Set;
@@ -264,6 +265,15 @@ public class HomeFragment extends Fragment
         Log.e("TAG","getData");
 
         HomeFragment.empty = false;
+
+        moil_list.clear();
+        MyRecyclerAdapter myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
+        mRecyclerView.setAdapter(myRecyclerAdapter);
+        myRecyclerAdapter.notifyDataSetChanged();
+        //어뎁터 및 데이터 초기화
+
+
+
         progressBar.setVisibility(View.VISIBLE);
 
 
