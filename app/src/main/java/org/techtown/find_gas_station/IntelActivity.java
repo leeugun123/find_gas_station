@@ -3,6 +3,7 @@ package org.techtown.find_gas_station;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Application;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -12,7 +13,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -21,6 +21,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.kakao.sdk.common.KakaoSdk;
 
 import org.techtown.find_gas_station.databinding.ActivityIntelBinding;
 
@@ -163,4 +164,20 @@ public class IntelActivity extends AppCompatActivity implements OnMapReadyCallba
     }
 
 
+    public static class GlobalApplication extends Application {
+
+        private static GlobalApplication instance;
+
+        @Override
+        public void onCreate(){
+            super.onCreate();
+            instance = this;
+
+            KakaoSdk.init(this,"{"+ BuildConfig.KAKAO_API_KEY + "}");
+
+        }
+
+
+
+    }
 }
