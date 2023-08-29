@@ -63,63 +63,19 @@ public class oil_list {
         return image;
     }
 
-    public void setOil_name(String name){
-        this.oil_name = name;
-    }
-
-    public void setPrice(String price){
-        this.price = price;
-    }
-
-    public void setDistance(String distance){
-        this.distance = distance;
-    }
-
-    public void setOil_kind(String oil_kind){this.oil_kind = oil_kind;}
-
-    public void set_image(int image){
-        this.image = image;
-    }
-
-    public void setWgs84_X(float latitude){ this.wgsX = wgsX; }
-
     public float getWgs84X(){ return wgsX; }
-
-    public void setKatecY(float wgsY){ this.wgsY = wgsY; }
 
     public float getWgs84Y(){ return wgsY; }
 
-    public void setUid(String Uid){
-        this.Uid = Uid;
-    }
-
-    public String getUid(){
-        return Uid;
-    }
-
-    public void setCarWash(String carWash){this.carWash = carWash;}
-
     public String getCarWash(){return carWash;}
-
-    public void setConStore(String store){this.conStore = store;}
 
     public String getConStore(){return conStore;}
 
-    public void setLotNumberAdd(String lotNumberAdd){
-        this.lotNumberAdd = lotNumberAdd;
-    }
-
     public String getLotNumberAdd(){return lotNumberAdd;}
-
-    public void setRoadAdd(String roadAdd){this.roadAdd = roadAdd;}
 
     public String getRoadAdd(){return roadAdd;}
 
-    public void setTel(String tel){this.tel = tel;}
-
     public String getTel(){return tel;}
-
-    public void setSector(String sector){this.sector = sector;}
 
     public String getSector(){return sector;}
 
