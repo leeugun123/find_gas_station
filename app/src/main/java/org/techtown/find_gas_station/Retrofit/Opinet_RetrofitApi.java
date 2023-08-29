@@ -8,9 +8,9 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
-public interface RetrofitAPI {
+public interface Opinet_RetrofitApi {
 
-    @GET("http://www.opinet.co.kr/api/aroundAll.do")
+    @GET("api/aroundAll.do")
     Call<MyPojo> getOilList(@Query("code") String code,
                             @Query("out") String out,
                             @Query("x") String x,
@@ -20,14 +20,12 @@ public interface RetrofitAPI {
                             @Query("sort") String sort);
 
 
-    @GET("http://www.opinet.co.kr/api/detailById.do")
+    @GET("api/detailById.do")
     Call<OilDetail> getOilDetail(@Query("code") String code, @Query("out") String out, @Query("id") String id);
 
-    @GET("http://www.opinet.co.kr/api/avgRecentPrice.do")
+    @GET("api/avgRecentPrice.do")
     Call<OilAvg> getAvgRecentPrice(@Query("code") String code, @Query("out") String out,
                                    @Query("prodcd") String prodcd);
-
-
 
 
 }

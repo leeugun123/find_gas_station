@@ -1,7 +1,5 @@
 package org.techtown.find_gas_station.MVVM;
 
-import static android.content.ContentValues.TAG;
-
 import static org.techtown.find_gas_station.Fragment.HomeFragment.moil_list;
 
 import android.app.Application;
@@ -31,15 +29,15 @@ import org.techtown.find_gas_station.MyRecyclerAdapter;
 import org.techtown.find_gas_station.Comparator.OilDistanceComparator;
 import org.techtown.find_gas_station.Comparator.OilPriceComparator;
 import org.techtown.find_gas_station.R;
+import org.techtown.find_gas_station.Retrofit.Kakao_RetrofitApi;
+import org.techtown.find_gas_station.Retrofit.Opinet_RetrofitApi;
 import org.techtown.find_gas_station.Retrofit.oilAvg.OIL;
 import org.techtown.find_gas_station.Retrofit.oilAvg.OilAvg;
 import org.techtown.find_gas_station.Retrofit.oilDetail.OilDetail;
 import org.techtown.find_gas_station.Retrofit.oilList.MyPojo;
 import org.techtown.find_gas_station.Retrofit.oilList.RESULT;
-import org.techtown.find_gas_station.Retrofit.RetrofitAPI;
 import org.techtown.find_gas_station.oil_list;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -52,12 +50,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GetOilRepository {
 
-    private Retrofit retrofit;
-    private final static String BASE_URL = "http:///www.opinet.co.kr/";
-    RetrofitAPI retrofitAPI;
+    private Retrofit opinet_retrofit;
+    private Retrofit kakao_retrofit;
+    private final static String OPINET_BASE_URL = "http:///www.opinet.co.kr/";
+    private final static String KAKAO_BASE_URL = "https://apis-navi.kakaomobility.com/";
+    Opinet_RetrofitApi opinet_retrofitApi;
+    Kakao_RetrofitApi kakao_retrofitApi;
 
-
-    private String apiKey = BuildConfig.GAS_API_KEY;
+    private String opinet_apiKey = BuildConfig.GAS_API_KEY;
 
     private MyRecyclerAdapter myRecyclerAdapter;
 
@@ -68,12 +68,20 @@ public class GetOilRepository {
 
         moil_list = new ArrayList<>();
 
-        retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+        kakao_retrofit = new Retrofit.Builder()
+                .baseUrl(KAKAO_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        retrofitAPI = retrofit.create(RetrofitAPI.class);
+
+        opinet_retrofit = new Retrofit.Builder()
+                .baseUrl(OPINET_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+
+        opinet_retrofitApi = opinet_retrofit.create(Opinet_RetrofitApi.class);
+        kakao_retrofitApi = kakao_retrofit.create(Kakao_RetrofitApi.class);
 
     }
 
@@ -95,7 +103,7 @@ public class GetOilRepository {
 
     public void getOilAvg(LineChart lineChart, RecyclerView oilAvg_recyclerView, TextView priceText, String prodcd){
 
-        retrofitAPI.getAvgRecentPrice(apiKey,"json",prodcd)
+        opinet_retrofitApi.getAvgRecentPrice(opinet_apiKey,"json",prodcd)
                 .enqueue(new Callback<OilAvg>() {
 
                     @Override
@@ -181,7 +189,7 @@ public class GetOilRepository {
                               GoogleMap mMap, ProgressBar progressBar ,String uid,String name,String gas_price,String distance,String inputOil,
                              int imageResource,float getX,float getY){
 
-        retrofitAPI.getOilDetail(apiKey,"json",uid)
+        opinet_retrofitApi.getOilDetail(opinet_apiKey,"json",uid)
                 .enqueue(new Callback<OilDetail>() {
 
                     @Override
@@ -253,7 +261,7 @@ public class GetOilRepository {
 
         oil = oilKind;
 
-        retrofitAPI.getOilList(apiKey, "json", xPos, yPos, radius,oilKind,sort)
+        opinet_retrofitApi.getOilList(opinet_apiKey, "json", xPos, yPos, radius,oilKind,sort)
                 .enqueue(new Callback<MyPojo>() {
 
                     @Override
