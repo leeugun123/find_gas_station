@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="org.techtown.find_gas_station">
 
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -42,9 +46,11 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${google_api_key}" />
+
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="${kakao_api_key}" />
+
 
     </application>
 

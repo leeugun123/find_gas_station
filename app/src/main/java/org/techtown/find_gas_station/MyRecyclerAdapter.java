@@ -34,8 +34,8 @@ import com.kakao.kakaonavi.options.VehicleType;
 import com.kakao.sdk.navi.Constants;
 import com.kakao.sdk.navi.NaviClient;
 import com.skt.Tmap.TMapTapi;
-import com.skt.Tmap.TMapView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -186,8 +186,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                 @Override
                 public void onClick(View view) {
 
-
-
                     if(NaviClient.getInstance().isKakaoNaviInstalled(view.getContext())){
                         //카카오 navi API 코드
                         Location destination = Location.newBuilder(oil_list.get_oil_name(),oil_list.getWgs84X(), oil_list.getWgs84Y()).build();
@@ -216,6 +214,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                         );
 
                     }
+
 
 
                 }

@@ -172,12 +172,13 @@ public class IntelActivity extends AppCompatActivity implements OnMapReadyCallba
         public void onCreate(){
             super.onCreate();
             instance = this;
-
             KakaoSdk.init(this,"{"+ BuildConfig.KAKAO_API_KEY + "}");
-
         }
 
 
 
     }
+
+
+
 }
