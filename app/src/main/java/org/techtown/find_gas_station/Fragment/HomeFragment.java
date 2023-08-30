@@ -278,7 +278,8 @@ public class HomeFragment extends Fragment
         //GEO를 KATEC으로 변환
 
         if(mMap != null){
-            getOilViewModel.getOilList(mRecyclerView, mMap, progressBar ,Double.toString(ge.getX()),Double.toString(ge.getY()),oil_intel[0],oil_intel[1],oil_intel[2]);
+            getOilViewModel.getOilList(mRecyclerView, mMap, progressBar ,Double.toString(ge.getX()),Double.toString(ge.getY()),
+                    oil_intel[0],"3",oil_intel[2]);
             notYet = true;
         }
 

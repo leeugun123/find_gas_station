@@ -1,6 +1,7 @@
 package org.techtown.find_gas_station.MVVM;
 
 import static org.techtown.find_gas_station.Fragment.HomeFragment.moil_list;
+import static org.techtown.find_gas_station.Retrofit.kakaoResponseModel.KakaoResponseModel.*;
 
 import android.app.Application;
 import android.graphics.Color;
@@ -32,14 +33,18 @@ import org.techtown.find_gas_station.OilList;
 import org.techtown.find_gas_station.R;
 import org.techtown.find_gas_station.Retrofit.Kakao_RetrofitApi;
 import org.techtown.find_gas_station.Retrofit.Opinet_RetrofitApi;
+import org.techtown.find_gas_station.Retrofit.kakaoResponseModel.KakaoResponseModel;
 import org.techtown.find_gas_station.Retrofit.oilAvg.OIL;
 import org.techtown.find_gas_station.Retrofit.oilAvg.OilAvg;
 import org.techtown.find_gas_station.Retrofit.oilDetail.OilDetail;
 import org.techtown.find_gas_station.Retrofit.oilList.MyPojo;
 import org.techtown.find_gas_station.Retrofit.oilList.RESULT;
 
+import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -63,10 +68,16 @@ public class GetOilRepository {
 
     String oil = "";
 
+    private ArrayList<OilList> plusOilList;
+
+
+
     public GetOilRepository(Application application){
         super();
 
-        moil_list = new ArrayList<OilList>();
+        moil_list = new ArrayList<>();
+        plusOilList = new ArrayList<>();
+        //카카오api를 활용한 추가적인 정보가 필요할때 사용
 
         kakao_retrofit = new Retrofit.Builder()
                 .baseUrl(KAKAO_BASE_URL)
@@ -254,7 +265,6 @@ public class GetOilRepository {
                              String myX , String myY){
 
 
-
         opinet_retrofitApi.getOilDetail(opinet_apiKey,"json",uid)
                 .enqueue(new Callback<OilDetail>() {
 
@@ -288,11 +298,20 @@ public class GetOilRepository {
 
                                     if(sort.equals("3") || sort.equals("4")){
 
+                                        Log.e("TAG","진입하였습니다.");
 
+
+                                        for(int i = 0; i<moil_list.size(); i++){
+
+                                            Log.e("TAG",i + " ");
+                                            getOilKakaoApi(moil_list.get(i),myX,myY);
+
+
+                                        }
 
 
                                         return;
-                                    }
+                                    }//추가적인 카카오 api를 요구하는 경우
 
 
 
@@ -329,8 +348,42 @@ public class GetOilRepository {
 
     }
 
-    public void getOilKakaoApi(ArrayList<OilList> oilLists){
+    public void getOilKakaoApi(OilList oilList,String myX, String myY){
 
+        Log.e("TAG","kakaoApi 진입");
+
+        kakao_retrofitApi.getDirections("127.11015314141542,37.39472714688412",
+                        "127.111202,37.394912"
+                ,"202109170000")
+
+                .enqueue(new Callback<KakaoResponseModel>() {
+                    @Override
+                    public void onResponse(Call<KakaoResponseModel> call, Response<KakaoResponseModel> response) {
+
+                        if(response.isSuccessful()){
+
+                            KakaoResponseModel kakoModel = response.body();
+
+                            String spendTime = Integer.toString(kakoModel.getRoutes().get(0).getSummary().getDuration());
+                            String actualDis = Integer.toString(kakoModel.getRoutes().get(0).getSummary().getDistance());
+
+
+                            Log.e("TAG",spendTime + " " +actualDis);
+
+                        }
+                        else
+                            Log.e("TAG","실패");
+                    }
+
+                    @Override
+                    public void onFailure(Call<KakaoResponseModel> call, Throwable t) {
+
+
+                    }
+
+
+
+                });
 
 
     }
@@ -416,6 +469,14 @@ public class GetOilRepository {
 
                 });
 
+
+    }
+
+
+    public String getCurrentDateTimeString() {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmm");
+        return dateFormat.format(new Date());
 
     }
 
