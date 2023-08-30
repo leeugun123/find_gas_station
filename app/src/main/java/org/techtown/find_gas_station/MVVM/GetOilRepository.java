@@ -28,6 +28,7 @@ import org.techtown.find_gas_station.Fragment.HomeFragment;
 import org.techtown.find_gas_station.MyRecyclerAdapter;
 import org.techtown.find_gas_station.Comparator.OilDistanceComparator;
 import org.techtown.find_gas_station.Comparator.OilPriceComparator;
+import org.techtown.find_gas_station.OilList;
 import org.techtown.find_gas_station.R;
 import org.techtown.find_gas_station.Retrofit.Kakao_RetrofitApi;
 import org.techtown.find_gas_station.Retrofit.Opinet_RetrofitApi;
@@ -36,7 +37,6 @@ import org.techtown.find_gas_station.Retrofit.oilAvg.OilAvg;
 import org.techtown.find_gas_station.Retrofit.oilDetail.OilDetail;
 import org.techtown.find_gas_station.Retrofit.oilList.MyPojo;
 import org.techtown.find_gas_station.Retrofit.oilList.RESULT;
-import org.techtown.find_gas_station.oil_list;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -66,7 +66,7 @@ public class GetOilRepository {
     public GetOilRepository(Application application){
         super();
 
-        moil_list = new ArrayList<>();
+        moil_list = new ArrayList<OilList>();
 
         kakao_retrofit = new Retrofit.Builder()
                 .baseUrl(KAKAO_BASE_URL)
@@ -280,13 +280,15 @@ public class GetOilRepository {
                                 int dis = (int)Double.parseDouble(distance);
                                 //소수점 짜르기
 
-                                moil_list.add(new oil_list(uid, name, gas_price, Integer.toString(dis),
+                                moil_list.add(new OilList(uid, name, gas_price, Integer.toString(dis),
                                         inputOil,imageResource, DestinationX, DestinationY,carWash,conStore,lotNumberAddress,roadAddress,
                                         tel,sector,"",""));
 
                                 if(moil_list.size() == size){
 
                                     if(sort.equals("3") || sort.equals("4")){
+
+
 
 
                                         return;
@@ -327,15 +329,12 @@ public class GetOilRepository {
 
     }
 
-    public void getOilKakaoApi(){
-
-
+    public void getOilKakaoApi(ArrayList<OilList> oilLists){
 
 
 
     }
-    //카카오 api를 이용하여 추가정보를 가져옵니다.
-
+    //카카오 api 이용하여 추가정보(실제 거리 , 소요시간)를 가져옴.
 
 
     public void getOilAvg(LineChart lineChart, RecyclerView oilAvg_recyclerView, TextView priceText, String prodcd){

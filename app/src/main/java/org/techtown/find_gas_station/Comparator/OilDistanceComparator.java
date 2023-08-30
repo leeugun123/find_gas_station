@@ -1,12 +1,12 @@
 package org.techtown.find_gas_station.Comparator;
 
-import org.techtown.find_gas_station.oil_list;
+import org.techtown.find_gas_station.OilList;
 
 import java.util.Comparator;
 
-public class OilDistanceComparator implements Comparator<oil_list> {
+public class OilDistanceComparator implements Comparator<OilList> {
     @Override
-    public int compare(oil_list oil_list, oil_list t1) {
+    public int compare(OilList oil_list, OilList t1) {
 
         if(Integer.parseInt(oil_list.getDistance()) == Integer.parseInt(t1.getDistance())){
             return Integer.parseInt(oil_list.getPrice())-Integer.parseInt(t1.getPrice());

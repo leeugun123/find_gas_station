@@ -1,6 +1,6 @@
 package org.techtown.find_gas_station;
 
-public class oil_list {
+public class OilList {
 
     private String Uid;
     private String oil_name;
@@ -24,8 +24,8 @@ public class oil_list {
     private String actDistance; // 실제 거리
     private String spendTime; //소요시간
 
-    public oil_list(String Uid,String oil_name, String price, String distance,String oil_kind,int image, float wgsX,float wgsY
-    ,String carWash,String conStore,String lotNumberAdd,String roadAdd,String tel,String sector,String actDistance,String spendTime){
+    public OilList(String Uid,String oil_name, String price, String distance,String oil_kind,int image, float wgsX,float wgsY
+            ,String carWash,String conStore,String lotNumberAdd,String roadAdd,String tel,String sector,String actDistance,String spendTime){
 
         this.Uid = Uid;
         this.oil_name = oil_name;

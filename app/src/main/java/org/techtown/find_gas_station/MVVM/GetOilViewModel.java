@@ -6,16 +6,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.google.android.gms.maps.GoogleMap;
-
-import org.techtown.find_gas_station.MyRecyclerAdapter;
-import org.techtown.find_gas_station.oil_list;
-
-import java.util.List;
 
 public class GetOilViewModel extends AndroidViewModel {
 

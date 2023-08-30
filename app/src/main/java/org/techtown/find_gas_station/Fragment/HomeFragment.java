@@ -5,21 +5,17 @@ import static android.content.Context.LOCATION_SERVICE;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.LocationManager;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -54,7 +50,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.material.snackbar.Snackbar;
-import com.skt.Tmap.TMapTapi;
 
 import org.techtown.find_gas_station.GPS.GeoTrans;
 import org.techtown.find_gas_station.GPS.GeoTransPoint;
@@ -62,8 +57,8 @@ import org.techtown.find_gas_station.GPS.GpsTracker;
 import org.techtown.find_gas_station.MVVM.GetOilViewModel;
 import org.techtown.find_gas_station.MVVM.SetViewModel;
 import org.techtown.find_gas_station.MyRecyclerAdapter;
+import org.techtown.find_gas_station.OilList;
 import org.techtown.find_gas_station.R;
-import org.techtown.find_gas_station.oil_list;
 import org.techtown.find_gas_station.set.Set;
 import org.techtown.find_gas_station.set.setting_Activity;
 
@@ -77,7 +72,7 @@ public class HomeFragment extends Fragment
 
     //받아오는 list들
     private RecyclerView mRecyclerView;
-    public static List<oil_list> moil_list;
+    public static List<OilList> moil_list;
     private Button Setting;
     public static boolean empty;
     private GoogleMap mMap;//구글 맵

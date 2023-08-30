@@ -41,10 +41,10 @@ import java.util.List;
 
 public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.ViewHolder> {
 
-    private List<oil_list> oilLists;
+    private List<OilList> oilLists;
     private GoogleMap recyclerMap;
 
-    public MyRecyclerAdapter(List<oil_list> Oil_lists,GoogleMap map){
+    public MyRecyclerAdapter(List<OilList> Oil_lists,GoogleMap map){
         oilLists = Oil_lists;
         recyclerMap = map;
     }
@@ -114,7 +114,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
         }
 
-        public void onBind(oil_list oil_list) {
+        public void onBind(OilList oil_list) {
 
             name.setText(oil_list.get_oil_name());
             price.setText(oil_list.getPrice()+"원");
