@@ -21,8 +21,11 @@ public class oil_list {
     private float wgsX;//wgs84 좌표 x
     private float wgsY;//wgs84 좌표 y
 
+    private String actDistance; // 실제 거리
+    private String spendTime; //소요시간
+
     public oil_list(String Uid,String oil_name, String price, String distance,String oil_kind,int image, float wgsX,float wgsY
-    ,String carWash,String conStore,String lotNumberAdd,String roadAdd,String tel,String sector){
+    ,String carWash,String conStore,String lotNumberAdd,String roadAdd,String tel,String sector,String actDistance,String spendTime){
 
         this.Uid = Uid;
         this.oil_name = oil_name;
@@ -40,6 +43,9 @@ public class oil_list {
         this.roadAdd = roadAdd;
         this.tel = tel;
         this.sector = sector;
+
+        this.actDistance = actDistance;
+        this.spendTime = spendTime;
 
     }
 
@@ -78,6 +84,11 @@ public class oil_list {
     public String getTel(){return tel;}
 
     public String getSector(){return sector;}
+
+    public String getActDistance(){return actDistance;}
+
+    public String getSpendTime(){return spendTime;}
+
 
 
 }

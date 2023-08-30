@@ -16,7 +16,6 @@ public interface Kakao_RetrofitApi {
             @Query("origin") String origin,
             @Query("destination") String destination,
             @Query("departure_time") String departureTime
-
     );
 
 

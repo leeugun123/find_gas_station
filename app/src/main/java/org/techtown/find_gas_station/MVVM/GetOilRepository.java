@@ -83,6 +83,8 @@ public class GetOilRepository {
         opinet_retrofitApi = opinet_retrofit.create(Opinet_RetrofitApi.class);
         kakao_retrofitApi = kakao_retrofit.create(Kakao_RetrofitApi.class);
 
+
+
     }
 
     public static String doubleToInt(String price){
@@ -100,6 +102,241 @@ public class GetOilRepository {
 
         return temp;
     }
+    //가격에 소수점 제거 메소드
+
+    public void getOilList(
+            RecyclerView mRecyclerView,
+            GoogleMap mMap, ProgressBar progressBar, String strXpos, String strYpos, String radius, String sort, String oilKind) {
+
+        oil = oilKind;
+
+        opinet_retrofitApi.getOilList(opinet_apiKey, "json", strXpos, strYpos, radius,oilKind,sort)
+                .enqueue(new Callback<MyPojo>() {
+
+                    @Override
+                    public void onResponse(Call<MyPojo> call, Response<MyPojo> response) {
+
+                        moil_list = new ArrayList<>();
+                        //clear가 아닌 객체를 새로 생성
+
+                        if(response.isSuccessful()){
+
+                            MyPojo myPojo = response.body();
+                            RESULT result = myPojo.getRESULT();
+
+
+                            if(result.getOIL().length == 0){
+
+                                Log.e("TAG","데이터가 비었음");
+
+                                myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
+                                mRecyclerView.setAdapter(myRecyclerAdapter);
+                                myRecyclerAdapter.notifyDataSetChanged();
+
+
+                                progressBar.setVisibility(View.GONE);
+                                HomeFragment.empty = true;
+
+                            }//데이터가 존재하지 않는 경우 예외처리
+
+
+
+                            for(int i=0; i<result.getOIL().length; i++){
+
+                                String uid = result.getOIL()[i].getUNI_ID();
+                                //주유소 ID
+
+                                String distance = result.getOIL()[i].getDISTANCE();
+                                //주유소 거리
+
+                                String name = result.getOIL()[i].getOS_NM();
+                                //주유소 이름(상호명)
+
+                                String gas_price = result.getOIL()[i].getPRICE();
+                                //주유소 가격
+
+                                String inputOil;
+
+
+                                if(oil.equals("B027")){
+                                    inputOil = "휘발유";
+                                }
+                                else if(oil.equals("D047")){
+                                    inputOil = "경유";
+                                }
+                                else if(oil.equals("B034")){
+                                    inputOil = "고급휘발유";
+                                }
+                                else if(oil.equals("C004")){
+                                    inputOil = "실내등유";
+                                }
+                                else
+                                    inputOil = "자동차부탄";
+
+
+                                float xPos = Float.parseFloat(result.getOIL()[i].getGIS_X_COOR());
+                                //x좌표 위치
+
+                                float yPos = Float.parseFloat(result.getOIL()[i].getGIS_Y_COOR());
+                                //y좌표 위치
+
+                                GeoTransPoint point = new GeoTransPoint(xPos,yPos);
+
+                                GeoTransPoint out = GeoTrans.convert(GeoTrans.KATEC, GeoTrans.GEO,point);
+                                //KATEC -> Wgs84좌표계로 변경
+
+                                String trademark = result.getOIL()[i].getPOLL_DIV_CD();
+                                //트레이드 마크
+
+                                int imageResource;
+                                //이미지 리소스
+
+                                if(trademark.equals("SKE")){
+                                    imageResource = R.drawable.sk;
+                                }
+                                else if(trademark.equals("GSC")){
+                                    imageResource = R.drawable.gs;
+                                }
+                                else if(trademark.equals("HDO")){
+                                    imageResource = R.drawable.hdoil;
+                                }
+                                else if(trademark.equals("SOL")){
+                                    imageResource = R.drawable.so;
+                                }
+                                else if(trademark.equals("RTO")){
+                                    imageResource = R.drawable.rto;
+                                }//비슷
+                                else if(trademark.equals("RTX")){
+                                    imageResource = R.drawable.rto;
+                                }//비슷
+                                else if(trademark.equals("RTX")){
+                                    imageResource = R.drawable.rto;
+                                }
+                                else if(trademark.equals("NHO")){
+                                    imageResource = R.drawable.nho;
+                                }
+                                else if(trademark.equals("E1G")){
+                                    imageResource = R.drawable.e1;
+                                }
+                                else if(trademark.equals("SKG")){
+                                    imageResource = R.drawable.skgas;
+                                }
+                                else
+                                    imageResource = R.drawable.oil_2;
+
+                                getOilDetail(sort, result.getOIL().length, mRecyclerView,mMap, progressBar ,
+                                        uid , name, gas_price, distance, inputOil,
+                                        imageResource, (float)out.getX(), (float)out.getY() ,strXpos, strYpos);
+
+
+                            }
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<MyPojo> call, Throwable t) {
+
+
+                    }
+
+
+                });
+
+
+    }
+
+    public void getOilDetail(String sort, int size, RecyclerView mRecyclerView,
+                             GoogleMap mMap, ProgressBar progressBar , String uid, String name,
+                             String gas_price, String distance, String inputOil,
+                             int imageResource, float DestinationX, float DestinationY,
+                             String myX , String myY){
+
+
+
+        opinet_retrofitApi.getOilDetail(opinet_apiKey,"json",uid)
+                .enqueue(new Callback<OilDetail>() {
+
+                        @Override
+                        public void onResponse(Call<OilDetail> call, Response<OilDetail> response) {
+
+                            if(response.isSuccessful()){
+
+                                OilDetail oilDetail = response.body();
+                                org.techtown.find_gas_station.Retrofit.oilDetail.RESULT result = oilDetail.getRESULT();
+
+                                //세차장, 편의점 정보
+                                String carWash = result.getOIL()[0].getCAR_WASH_YN();
+                                String conStore = result.getOIL()[0].getCVS_YN();
+
+                                //상세 정보 받아오기
+                                String lotNumberAddress = result.getOIL()[0].getVAN_ADR();
+                                String roadAddress = result.getOIL()[0].getNEW_ADR();
+
+                                String tel = result.getOIL()[0].getTEL();
+                                String sector = result.getOIL()[0].getLPG_YN();
+
+                                int dis = (int)Double.parseDouble(distance);
+                                //소수점 짜르기
+
+                                moil_list.add(new oil_list(uid, name, gas_price, Integer.toString(dis),
+                                        inputOil,imageResource, DestinationX, DestinationY,carWash,conStore,lotNumberAddress,roadAddress,
+                                        tel,sector,"",""));
+
+                                if(moil_list.size() == size){
+
+                                    if(sort.equals("3") || sort.equals("4")){
+
+
+                                        return;
+                                    }
+
+
+
+                                    if(sort.equals("1")){
+                                        Collections.sort(moil_list,new OilPriceComparator());
+                                    }//가격순
+                                    else if(sort.equals("2")){
+                                        Collections.sort(moil_list,new OilDistanceComparator());
+                                    }//직경 거리순
+
+                                    //불필요한 정렬 생성
+
+                                    progressBar.setVisibility(View.GONE);
+                                    myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
+                                    mRecyclerView.setAdapter(myRecyclerAdapter);
+                                    myRecyclerAdapter.notifyDataSetChanged();
+
+                                }//데이터가 모두 도착 하면 실행
+
+                            }
+
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<OilDetail> call, Throwable t) {
+
+
+                        }
+
+
+                });
+
+
+    }
+
+    public void getOilKakaoApi(){
+
+
+
+
+
+    }
+    //카카오 api를 이용하여 추가정보를 가져옵니다.
+
+
 
     public void getOilAvg(LineChart lineChart, RecyclerView oilAvg_recyclerView, TextView priceText, String prodcd){
 
@@ -185,225 +422,9 @@ public class GetOilRepository {
 
 
 
-    public void getOilDetail(String sort, int size, RecyclerView mRecyclerView,
-                              GoogleMap mMap, ProgressBar progressBar ,String uid,String name,String gas_price,String distance,String inputOil,
-                             int imageResource,float getX,float getY){
 
-        opinet_retrofitApi.getOilDetail(opinet_apiKey,"json",uid)
-                .enqueue(new Callback<OilDetail>() {
 
-                    @Override
-                    public void onResponse(Call<OilDetail> call, Response<OilDetail> response) {
 
-                        if(response.isSuccessful()){
-
-                            OilDetail oilDetail = response.body();
-                            org.techtown.find_gas_station.Retrofit.oilDetail.RESULT result = oilDetail.getRESULT();
-
-                            //세차장, 편의점 정보
-                            String carWash = result.getOIL()[0].getCAR_WASH_YN();
-                            String conStore = result.getOIL()[0].getCVS_YN();
-
-                            //상세 정보 받아오기
-                            String lotNumberAddress = result.getOIL()[0].getVAN_ADR();
-                            String roadAddress = result.getOIL()[0].getNEW_ADR();
-
-                            String tel = result.getOIL()[0].getTEL();
-                            String sector = result.getOIL()[0].getLPG_YN();
-
-                            int dis = (int)Double.parseDouble(distance);
-                            //소수점 짜르기
-
-                            moil_list.add(new oil_list(uid,name,gas_price, Integer.toString(dis),
-                                    inputOil,imageResource,getX,getY,carWash,conStore,lotNumberAddress,roadAddress,
-                                    tel,sector));
-
-                            if(moil_list.size() == size){
-
-                                if(sort.equals("1")){
-                                    Collections.sort(moil_list,new OilPriceComparator());
-                                }//가격순
-                                else{
-                                    Collections.sort(moil_list,new OilDistanceComparator());
-                                }//거리순
-                                //불필요한 정렬 생성
-
-                                progressBar.setVisibility(View.GONE);
-
-                                myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
-                                mRecyclerView.setAdapter(myRecyclerAdapter);
-                                myRecyclerAdapter.notifyDataSetChanged();
-
-
-                            }
-
-
-                        }
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<OilDetail> call, Throwable t) {
-
-
-                    }
-
-
-                });
-
-
-    }
-
-    public void getOilList(
-            RecyclerView mRecyclerView,
-            GoogleMap mMap, ProgressBar progressBar, String xPos, String yPos, String radius, String sort, String oilKind) {
-
-
-        oil = oilKind;
-
-        opinet_retrofitApi.getOilList(opinet_apiKey, "json", xPos, yPos, radius,oilKind,sort)
-                .enqueue(new Callback<MyPojo>() {
-
-                    @Override
-                    public void onResponse(Call<MyPojo> call, Response<MyPojo> response) {
-
-                        moil_list = new ArrayList<>();
-                        //clear가 아닌 객체를 새로 생성
-
-                        if(response.isSuccessful()){
-
-                            MyPojo myPojo = response.body();
-                            RESULT result = myPojo.getRESULT();
-
-
-                            if(result.getOIL().length == 0){
-
-                                Log.e("TAG","데이터가 비었음");
-
-                                myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
-                                mRecyclerView.setAdapter(myRecyclerAdapter);
-                                myRecyclerAdapter.notifyDataSetChanged();
-
-
-                                progressBar.setVisibility(View.GONE);
-                                HomeFragment.empty = true;
-
-                            }//데이터가 존재하지 않는 경우 예외처리
-
-
-
-                            for(int i=0; i<result.getOIL().length; i++){
-
-                               String uid = result.getOIL()[i].getUNI_ID();
-                               //주유소 ID
-
-                               String distance = result.getOIL()[i].getDISTANCE();
-                               //주유소 거리
-
-                               String name = result.getOIL()[i].getOS_NM();
-                               //주유소 이름(상호명)
-
-                               String gas_price = result.getOIL()[i].getPRICE();
-                               //주유소 가격
-
-                               String inputOil;
-
-
-                               if(oil.equals("B027")){
-                                   inputOil = "휘발유";
-                               }
-                               else if(oil.equals("D047")){
-                                   inputOil = "경유";
-                               }
-                               else if(oil.equals("B034")){
-                                   inputOil = "고급휘발유";
-                               }
-                               else if(oil.equals("C004")){
-                                   inputOil = "실내등유";
-                               }
-                               else
-                                   inputOil = "자동차부탄";
-
-
-                               float xPos = Float.parseFloat(result.getOIL()[i].getGIS_X_COOR());
-                               //x좌표 위치
-
-                               float yPos = Float.parseFloat(result.getOIL()[i].getGIS_Y_COOR());
-                               //y좌표 위치
-
-                                GeoTransPoint point = new GeoTransPoint(xPos,yPos);
-
-                                GeoTransPoint out = GeoTrans.convert(GeoTrans.KATEC, GeoTrans.GEO,point);
-                                //KATEC -> Wgs84좌표계로 변경
-
-                                String trademark = result.getOIL()[i].getPOLL_DIV_CD();
-                               //트레이드 마크
-
-                                int imageResource;
-                                //이미지 리소스
-
-                                if(trademark.equals("SKE")){
-                                    imageResource = R.drawable.sk;
-                                }
-                                else if(trademark.equals("GSC")){
-                                    imageResource = R.drawable.gs;
-                                }
-                                else if(trademark.equals("HDO")){
-                                    imageResource = R.drawable.hdoil;
-                                }
-                                else if(trademark.equals("SOL")){
-                                    imageResource = R.drawable.so;
-                                }
-                                else if(trademark.equals("RTO")){
-                                    imageResource = R.drawable.rto;
-                                }//비슷
-                                else if(trademark.equals("RTX")){
-                                    imageResource = R.drawable.rto;
-                                }//비슷
-                                else if(trademark.equals("RTX")){
-                                    imageResource = R.drawable.rto;
-                                }
-                                else if(trademark.equals("NHO")){
-                                    imageResource = R.drawable.nho;
-                                }
-                                else if(trademark.equals("E1G")){
-                                    imageResource = R.drawable.e1;
-                                }
-                                else if(trademark.equals("SKG")){
-                                    imageResource = R.drawable.skgas;
-                                }
-                                else
-                                    imageResource = R.drawable.oil_2;
-
-
-                                getOilDetail(sort,result.getOIL().length,mRecyclerView,mMap, progressBar ,uid,name,gas_price,distance,inputOil,
-                                imageResource,(float)out.getX(),(float)out.getY());
-
-
-
-                            }
-
-
-
-
-                }
-
-    }
-
-    @Override
-    public void onFailure(Call<MyPojo> call, Throwable t) {
-
-
-
-
-                    }
-
-
-                });
-
-
-
-    }
 
 
 
