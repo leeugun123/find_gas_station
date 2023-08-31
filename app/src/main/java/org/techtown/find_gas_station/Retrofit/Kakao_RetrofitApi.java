@@ -11,7 +11,7 @@ import retrofit2.http.Query;
 public interface Kakao_RetrofitApi {
 
     @GET("v1/future/directions")
-    @Headers("Authorization: " + BuildConfig.KAKAO_API_KEY)
+    @Headers("Authorization: KakaoAK " + BuildConfig.KAKAO_API_KEY)
     Call<KakaoResponseModel> getDirections(
             @Query("origin") String origin,
             @Query("destination") String destination,

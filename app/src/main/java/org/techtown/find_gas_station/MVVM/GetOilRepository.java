@@ -1,5 +1,7 @@
 package org.techtown.find_gas_station.MVVM;
 
+import static org.techtown.find_gas_station.Fragment.HomeFragment.getWgsMyX;
+import static org.techtown.find_gas_station.Fragment.HomeFragment.getWgsMyY;
 import static org.techtown.find_gas_station.Fragment.HomeFragment.moil_list;
 import static org.techtown.find_gas_station.Retrofit.kakaoResponseModel.KakaoResponseModel.*;
 
@@ -22,6 +24,8 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.gms.maps.GoogleMap;
 
 import org.techtown.find_gas_station.BuildConfig;
+import org.techtown.find_gas_station.Comparator.OilRoadDistanceComparator;
+import org.techtown.find_gas_station.Comparator.OilSpendTimeComparator;
 import org.techtown.find_gas_station.Fragment.OilAvgRecyclerAdapter;
 import org.techtown.find_gas_station.GPS.GeoTrans;
 import org.techtown.find_gas_station.GPS.GeoTransPoint;
@@ -298,14 +302,8 @@ public class GetOilRepository {
 
                                     if(sort.equals("3") || sort.equals("4")){
 
-                                        Log.e("TAG","진입하였습니다.");
-
-
                                         for(int i = 0; i<moil_list.size(); i++){
-
-                                            Log.e("TAG",i + " ");
-                                            getOilKakaoApi(moil_list.get(i),myX,myY);
-
+                                            getOilKakaoApi(moil_list.get(i),size ,sort, progressBar ,mMap, mRecyclerView);
 
                                         }
 
@@ -348,13 +346,18 @@ public class GetOilRepository {
 
     }
 
-    public void getOilKakaoApi(OilList oilList,String myX, String myY){
+    //카카오 api는 wgs 좌표를 사용
+    public void getOilKakaoApi(OilList oilList,int size,String sort,ProgressBar progressBar,
+                               GoogleMap mMap, RecyclerView mRecyclerView){
+
+        //Api는 잘 가고 있음.. 매개변수가 이상함.
 
         Log.e("TAG","kakaoApi 진입");
 
-        kakao_retrofitApi.getDirections("127.11015314141542,37.39472714688412",
-                        "127.111202,37.394912"
-                ,"202109170000")
+
+        kakao_retrofitApi.getDirections(getWgsMyX+","+getWgsMyY,
+                        oilList.getWgs84X() + "," + oilList.getWgs84Y()
+                ,getCurrentDateTimeString())
 
                 .enqueue(new Callback<KakaoResponseModel>() {
                     @Override
@@ -364,15 +367,69 @@ public class GetOilRepository {
 
                             KakaoResponseModel kakoModel = response.body();
 
-                            String spendTime = Integer.toString(kakoModel.getRoutes().get(0).getSummary().getDuration());
-                            String actualDis = Integer.toString(kakoModel.getRoutes().get(0).getSummary().getDistance());
+                            String uid  = oilList.getUid();
+                            String oil_name = oilList.get_oil_name();
+                            String price = oilList.getPrice();
+                            String distance = oilList.getDistance();
+                            String oil_kind = oilList.getOil_kind();
+
+                            String carWash = oilList.getCarWash();
+                            //세차장 유무
+
+                            String conStore = oilList.getConStore();
+                            //편의점 유무
+
+                            String lotNumberAdd = oilList.getLotNumberAdd();
+                            //지번 주소
+
+                            String roadAdd = oilList.getRoadAdd();
+                            //도로명 주소
+
+                            String tel = oilList.getTel();
+                            // 전화번호
+
+                            String sector = oilList.getSector();
+                            // 업종 구분
+
+                            int image = oilList.get_image();
+
+                            float wgsX = oilList.getWgs84X();
+                            //wgs84 좌표 x
+                            float wgsY = oilList.getWgs84Y();
+                            //wgs84 좌표 y
+
+                            String spendTime = Integer.toString(kakoModel.getRoutes().get(0).getSummary().duration);
+                            String actualDis = Integer.toString(kakoModel.getRoutes().get(0).getSummary().distance);
 
 
-                            Log.e("TAG",spendTime + " " +actualDis);
+                            plusOilList.add(new OilList(uid, oil_name, price, distance, oil_kind, image, wgsX,wgsY,carWash,conStore,lotNumberAdd,
+                                    roadAdd,tel,sector,actualDis,spendTime));
+
+
+                            if(plusOilList.size() == size){
+
+                                if(sort.equals("3")){
+                                    Collections.sort(moil_list,new OilSpendTimeComparator());
+                                }//소요시간
+                                else{
+                                    Collections.sort(moil_list,new OilRoadDistanceComparator());
+                                }//실제 도로 거리
+
+                                progressBar.setVisibility(View.GONE);
+                                myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
+                                mRecyclerView.setAdapter(myRecyclerAdapter);
+                                myRecyclerAdapter.notifyDataSetChanged();
+
+
+                            }
+
 
                         }
-                        else
-                            Log.e("TAG","실패");
+                        else{
+                            //Log.e("TAG","실패");
+                        }
+
+
                     }
 
                     @Override

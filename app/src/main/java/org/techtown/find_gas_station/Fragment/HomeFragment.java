@@ -75,6 +75,10 @@ public class HomeFragment extends Fragment
     public static List<OilList> moil_list;
     private Button Setting;
     public static boolean empty;
+
+    public static String getWgsMyX = "";
+    public static String getWgsMyY = "";
+
     private GoogleMap mMap;//구글 맵
     private Marker currentMarker = null; //현재 마커
     private TextView array_first;
@@ -274,6 +278,11 @@ public class HomeFragment extends Fragment
 
 
         GeoTransPoint point = new GeoTransPoint(Longtitude,latitude);
+
+        getWgsMyX = String.valueOf(point.getX());
+        getWgsMyY = String.valueOf(point.getY());
+        //나의 위치 x,y wgs로 저장
+
         GeoTransPoint ge = GeoTrans.convert(GeoTrans.GEO,GeoTrans.KATEC,point);
         //GEO를 KATEC으로 변환
 

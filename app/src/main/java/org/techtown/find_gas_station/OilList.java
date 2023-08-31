@@ -2,7 +2,7 @@ package org.techtown.find_gas_station;
 
 public class OilList {
 
-    private String Uid;
+    private String uid;
     private String oil_name;
     private String price;
     private String distance;
@@ -24,10 +24,10 @@ public class OilList {
     private String actDistance; // 실제 거리
     private String spendTime; //소요시간
 
-    public OilList(String Uid,String oil_name, String price, String distance,String oil_kind,int image, float wgsX,float wgsY
+    public OilList(String uid,String oil_name, String price, String distance,String oil_kind,int image, float wgsX,float wgsY
             ,String carWash,String conStore,String lotNumberAdd,String roadAdd,String tel,String sector,String actDistance,String spendTime){
 
-        this.Uid = Uid;
+        this.uid = uid;
         this.oil_name = oil_name;
         this.price = price;
         this.distance = distance;
@@ -48,6 +48,8 @@ public class OilList {
         this.spendTime = spendTime;
 
     }
+
+    public String getUid(){return uid;}
 
     public String get_oil_name(){
         return oil_name;

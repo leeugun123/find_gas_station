@@ -6,13 +6,13 @@ import java.util.Comparator;
 
 public class OilDistanceComparator implements Comparator<OilList> {
     @Override
-    public int compare(OilList oil_list, OilList t1) {
+    public int compare(OilList t1, OilList t2) {
 
-        if(Integer.parseInt(oil_list.getDistance()) == Integer.parseInt(t1.getDistance())){
-            return Integer.parseInt(oil_list.getPrice())-Integer.parseInt(t1.getPrice());
+        if(Integer.parseInt(t1.getDistance()) == Integer.parseInt(t2.getDistance())){
+            return Integer.parseInt(t1.getPrice())-Integer.parseInt(t2.getPrice());
         }
         else{
-            return Integer.parseInt(oil_list.getDistance()) - Integer.parseInt(t1.getDistance());
+            return Integer.parseInt(t1.getDistance()) - Integer.parseInt(t2.getDistance());
         }
     }
 }

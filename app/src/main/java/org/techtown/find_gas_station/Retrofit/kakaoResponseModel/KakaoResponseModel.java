@@ -44,8 +44,8 @@ public class KakaoResponseModel {
         private String priority;
         private Bound bound;
         private Fare fare;
-        private int distance;
-        private int duration;
+        public int distance;
+        public int duration;
 
         public Location getOrigin() {
             return origin;
@@ -72,12 +72,13 @@ public class KakaoResponseModel {
         }
 
         public int getDistance() {
-            return distance;
+            return this.distance;
         }
 
         public int getDuration() {
-            return duration;
+            return this.duration;
         }
+
     }
 
     public static class Location {
