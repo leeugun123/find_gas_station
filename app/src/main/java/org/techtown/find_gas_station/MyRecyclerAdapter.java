@@ -124,9 +124,9 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             price.setText(oil_list.getPrice()+"원");
 
             if(sort.equals("3")){
-                distance.setText(oil_list.getSpendTime() + "초");
+                distance.setText(formatSeconds(Integer.parseInt(oil_list.getSpendTime())));
             }else if(sort.equals("4")){
-                distance.setText(oil_list.getActDistance() + "m");
+                distance.setText(changeKm(oil_list.getActDistance()) + "km");
             }else{
                 distance.setText(changeKm(oil_list.getDistance())+"km");
             }
@@ -270,8 +270,27 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             }); //intel 버튼을 눌렀을때
 
 
+        }
+
+        public String formatSeconds(int seconds) {
+
+            if (seconds < 0) {
+                throw new IllegalArgumentException("초는 음수일 수 없습니다.");
+            }
+
+            int minutes = seconds / 60;
+            seconds = seconds % 60;
+
+            if (minutes == 0) {
+                return seconds + "초";
+            } else if (seconds == 0) {
+                return minutes + "분";
+            } else {
+                return minutes + "분 " + seconds + "초";
+            }
 
         }
+
 
         public String changeKm(String distance){
 

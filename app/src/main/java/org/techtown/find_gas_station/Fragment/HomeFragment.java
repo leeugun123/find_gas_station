@@ -267,7 +267,7 @@ public class HomeFragment extends Fragment
         HomeFragment.empty = false;
 
         moil_list.clear();
-        MyRecyclerAdapter myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
+        MyRecyclerAdapter myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap,"1");
         mRecyclerView.setAdapter(myRecyclerAdapter);
         myRecyclerAdapter.notifyDataSetChanged();
         //어뎁터 및 데이터 초기화
