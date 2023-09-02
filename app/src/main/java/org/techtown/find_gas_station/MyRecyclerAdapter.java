@@ -44,9 +44,12 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
     private List<OilList> oilLists;
     private GoogleMap recyclerMap;
 
-    public MyRecyclerAdapter(List<OilList> Oil_lists,GoogleMap map){
+    private String sort;
+
+    public MyRecyclerAdapter(List<OilList> Oil_lists,GoogleMap map, String sort){
         oilLists = Oil_lists;
         recyclerMap = map;
+        this.sort = sort;
     }
 
     @NonNull
@@ -96,6 +99,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         String store;
         //편의점 존재 여부
 
+
         public ViewHolder(@NonNull View itemView) {
 
             super(itemView);
@@ -118,7 +122,15 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
             name.setText(oil_list.get_oil_name());
             price.setText(oil_list.getPrice()+"원");
-            distance.setText(changeKm(oil_list.getDistance())+"km");
+
+            if(sort.equals("3")){
+                distance.setText(oil_list.getSpendTime() + "초");
+            }else if(sort.equals("4")){
+                distance.setText(oil_list.getActDistance() + "m");
+            }else{
+                distance.setText(changeKm(oil_list.getDistance())+"km");
+            }
+
             oil_kind.setText(oil_list.getOil_kind());
             oil_image.setImageResource(oil_list.get_image());
 
@@ -129,6 +141,8 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             stAddress = oil_list.getRoadAdd();
             tel = oil_list.getTel();
             sector = oil_list.getSector();
+
+
 
             if(carWash.equals("Y")){
                 carWashImg.setImageResource(R.drawable.car_wash);

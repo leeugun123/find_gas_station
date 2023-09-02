@@ -144,7 +144,7 @@ public class GetOilRepository {
 
                                 Log.e("TAG","데이터가 비었음");
 
-                                myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
+                                myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap,sort);
                                 mRecyclerView.setAdapter(myRecyclerAdapter);
                                 myRecyclerAdapter.notifyDataSetChanged();
 
@@ -241,7 +241,7 @@ public class GetOilRepository {
 
                                 getOilDetail(sort, result.getOIL().length, mRecyclerView,mMap, progressBar ,
                                         uid , name, gas_price, distance, inputOil,
-                                        imageResource, (float)out.getX(), (float)out.getY() ,strXpos, strYpos);
+                                        imageResource, (float)out.getX(), (float)out.getY());
 
 
                             }
@@ -265,8 +265,7 @@ public class GetOilRepository {
     public void getOilDetail(String sort, int size, RecyclerView mRecyclerView,
                              GoogleMap mMap, ProgressBar progressBar , String uid, String name,
                              String gas_price, String distance, String inputOil,
-                             int imageResource, float DestinationX, float DestinationY,
-                             String myX , String myY){
+                             int imageResource, float DestinationX, float DestinationY){
 
 
         opinet_retrofitApi.getOilDetail(opinet_apiKey,"json",uid)
@@ -323,7 +322,7 @@ public class GetOilRepository {
                                     //불필요한 정렬 생성
 
                                     progressBar.setVisibility(View.GONE);
-                                    myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
+                                    myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap,sort);
                                     mRecyclerView.setAdapter(myRecyclerAdapter);
                                     myRecyclerAdapter.notifyDataSetChanged();
 
@@ -350,7 +349,7 @@ public class GetOilRepository {
     public void getOilKakaoApi(OilList oilList,int size,String sort,ProgressBar progressBar,
                                GoogleMap mMap, RecyclerView mRecyclerView){
 
-        //Api는 잘 가고 있음.. 매개변수가 이상함.
+        //통신에서는 이상 없음.
 
         Log.e("TAG","kakaoApi 진입");
 
@@ -401,24 +400,23 @@ public class GetOilRepository {
                             String spendTime = Integer.toString(kakoModel.getRoutes().get(0).getSummary().duration);
                             String actualDis = Integer.toString(kakoModel.getRoutes().get(0).getSummary().distance);
 
-
                             plusOilList.add(new OilList(uid, oil_name, price, distance, oil_kind, image, wgsX,wgsY,carWash,conStore,lotNumberAdd,
                                     roadAdd,tel,sector,actualDis,spendTime));
-
 
                             if(plusOilList.size() == size){
 
                                 if(sort.equals("3")){
-                                    Collections.sort(moil_list,new OilSpendTimeComparator());
+                                    Collections.sort(plusOilList,new OilSpendTimeComparator());
                                 }//소요시간
                                 else{
-                                    Collections.sort(moil_list,new OilRoadDistanceComparator());
+                                    Collections.sort(plusOilList,new OilRoadDistanceComparator());
                                 }//실제 도로 거리
 
                                 progressBar.setVisibility(View.GONE);
-                                myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap);
+                                myRecyclerAdapter = new MyRecyclerAdapter(plusOilList,mMap,sort);
                                 mRecyclerView.setAdapter(myRecyclerAdapter);
                                 myRecyclerAdapter.notifyDataSetChanged();
+
 
 
                             }
