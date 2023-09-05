@@ -39,6 +39,7 @@ public class Splash extends AppCompatActivity implements ActivityCompat.OnReques
         setViewModel.insert(new Set("B027","1000","1"));
         //null 값 방지1
 
+
         if (checkLocationPermission()) {
             // 위치 권한이 허용된 경우, 다음 화면으로 이동
             Handler handler = new Handler();

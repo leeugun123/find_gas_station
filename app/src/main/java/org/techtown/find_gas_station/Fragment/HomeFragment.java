@@ -60,7 +60,7 @@ import org.techtown.find_gas_station.MyRecyclerAdapter;
 import org.techtown.find_gas_station.OilList;
 import org.techtown.find_gas_station.R;
 import org.techtown.find_gas_station.set.Set;
-import org.techtown.find_gas_station.set.setting_Activity;
+import org.techtown.find_gas_station.setting_Activity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -168,11 +168,17 @@ public class HomeFragment extends Fragment
                 oil_intel[2] = set.getOil_name();
             //기름 종류
 
-            if(oil_intel[1].equals("1")){
+            if(oil_intel[1].equals("1"))
                 array_first.setText("가격순");
-            }
-            else
-                array_first.setText("거리순");
+            else if(oil_intel[1].equals("2"))
+                array_first.setText("직경 거리순");
+            else if(oil_intel[1].equals("3"))
+                array_first.setText("도로 거리순");
+            else if(oil_intel[1].equals("4"))
+                array_first.setText("소요 시간순");
+
+
+
 
             init_reset();
             upRecyclerView();
@@ -228,11 +234,14 @@ public class HomeFragment extends Fragment
                 oil_intel[2] = data.getStringExtra("2");
                 //기름 종류
 
-                if(oil_intel[1].equals("1")){
+                if(oil_intel[1].equals("1"))
                     array_first.setText("가격순");
-                }
-                else
-                    array_first.setText("거리순");
+                else if(oil_intel[1].equals("2"))
+                    array_first.setText("직경 거리순");
+                else if(oil_intel[1].equals("3"))
+                    array_first.setText("도로 거리순");
+                else if(oil_intel[1].equals("4"))
+                    array_first.setText("소요 시간순");
 
                 init_reset();
 
@@ -291,7 +300,7 @@ public class HomeFragment extends Fragment
             Log.e("TAG", "요청 중");
 
             getOilViewModel.getOilList(mRecyclerView, mMap, progressBar ,Double.toString(ge.getX()),Double.toString(ge.getY()),
-                    oil_intel[0],"3",oil_intel[2]);
+                    oil_intel[0],oil_intel[1],oil_intel[2]);
             notYet = true;
         }
 

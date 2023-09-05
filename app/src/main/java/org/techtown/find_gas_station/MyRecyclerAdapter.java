@@ -143,7 +143,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             sector = oil_list.getSector();
 
 
-
             if(carWash.equals("Y")){
                 carWashImg.setImageResource(R.drawable.car_wash);
             }

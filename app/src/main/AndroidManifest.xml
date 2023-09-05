@@ -31,7 +31,7 @@
             android:name=".IntelActivity"
             android:exported="false" />
         <activity
-            android:name=".set.setting_Activity"
+            android:name=".setting_Activity"
             android:exported="true" />
         <activity
             android:name=".Splash"
