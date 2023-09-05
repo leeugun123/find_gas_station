@@ -9,7 +9,7 @@ public class OilRoadDistanceComparator implements Comparator<OilList> {
     public int compare(OilList t1, OilList t2) {
 
         if(Integer.parseInt(t1.getActDistance()) == Integer.parseInt(t2.getActDistance())){
-            return Integer.parseInt(t1.getSpendTime()) - Integer.parseInt(t2.getSpendTime());
+            return Integer.parseInt(t1.getPrice()) - Integer.parseInt(t2.getPrice());
         }else{
             return Integer.parseInt(t1.getActDistance()) - Integer.parseInt(t2.getActDistance());
         }
