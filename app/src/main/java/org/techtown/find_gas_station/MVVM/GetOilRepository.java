@@ -132,7 +132,9 @@ public class GetOilRepository {
                     public void onResponse(Call<MyPojo> call, Response<MyPojo> response) {
 
                         moil_list = new ArrayList<>();
-                        //clear가 아닌 객체를 새로 생성
+                        plusOilList = new ArrayList<>();
+                        //oil_list 초기화
+
 
                         if(response.isSuccessful()){
 
@@ -151,6 +153,8 @@ public class GetOilRepository {
 
                                 progressBar.setVisibility(View.GONE);
                                 HomeFragment.empty = true;
+
+                                return;
 
                             }//데이터가 존재하지 않는 경우 예외처리
 
@@ -349,10 +353,6 @@ public class GetOilRepository {
     public void getOilKakaoApi(OilList oilList,int size,String sort,ProgressBar progressBar,
                                GoogleMap mMap, RecyclerView mRecyclerView){
 
-        //통신에서는 이상 없음.
-
-        Log.e("TAG","kakaoApi 진입");
-
 
         kakao_retrofitApi.getDirections(getWgsMyX+","+getWgsMyY,
                         oilList.getWgs84X() + "," + oilList.getWgs84Y()
@@ -399,6 +399,8 @@ public class GetOilRepository {
 
                             String spendTime = Integer.toString(kakoModel.getRoutes().get(0).getSummary().duration);
                             String actualDis = Integer.toString(kakoModel.getRoutes().get(0).getSummary().distance);
+
+                           // Log.e("TAG","소요시간" + spendTime + " " + plusOilList.size());
 
                             plusOilList.add(new OilList(uid, oil_name, price, distance, oil_kind, image, wgsX,wgsY,carWash,conStore,lotNumberAdd,
                                     roadAdd,tel,sector,actualDis,spendTime));

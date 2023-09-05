@@ -135,7 +135,7 @@ public class HomeFragment extends Fragment
         setViewModel = new ViewModelProvider(this).get(SetViewModel.class);
         getOilViewModel = new ViewModelProvider(this).get(GetOilViewModel.class);
         Red = BitmapFactory.decodeResource(getResources(), R.drawable.red_marker);
-        //초기화 부분
+        //viewModel 초기화 부분
 
         Handler handler = new Handler();
 
@@ -287,6 +287,9 @@ public class HomeFragment extends Fragment
         //GEO를 KATEC으로 변환
 
         if(mMap != null){
+
+            Log.e("TAG", "요청 중");
+
             getOilViewModel.getOilList(mRecyclerView, mMap, progressBar ,Double.toString(ge.getX()),Double.toString(ge.getY()),
                     oil_intel[0],"3",oil_intel[2]);
             notYet = true;
