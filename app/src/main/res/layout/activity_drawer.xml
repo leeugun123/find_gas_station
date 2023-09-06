@@ -55,15 +55,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
                 android:text="기름종류"
                 android:textColor="@color/black"
-                android:textSize="30sp"
+                android:textSize="25sp"
                 android:textStyle="bold" />
 
             <Spinner
                 android:id="@+id/spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:background="@drawable/spinner_background"
                 android:spinnerMode="dialog"
                 android:textColor="@color/black" />
@@ -80,14 +82,16 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
                 android:gravity="center"
                 android:text="내 주변 반경 설정"
                 android:textColor="#000000"
-                android:textSize="30sp"
+                android:textSize="25sp"
                 android:textStyle="bold" />
 
             <Spinner
                 android:id="@+id/distance_spinner"
+                android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/spinner_background"
@@ -106,15 +110,17 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
                 android:text="정렬 기준"
                 android:textColor="#000000"
-                android:textSize="30sp"
+                android:textSize="25sp"
                 android:textStyle="bold" />
 
             <Spinner
                 android:id="@+id/sort_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:background="@drawable/spinner_background"
                 android:spinnerMode="dialog"
                 android:textColor="@color/black" />
