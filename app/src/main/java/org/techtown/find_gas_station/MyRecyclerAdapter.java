@@ -124,9 +124,9 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             price.setText(oil_list.getPrice()+"원");
 
             if(sort.equals("3")){
-                distance.setText(formatSeconds(Integer.parseInt(oil_list.getSpendTime())));
-            }else if(sort.equals("4")){
                 distance.setText(changeKm(oil_list.getActDistance()) + "km");
+            }else if(sort.equals("4")){
+                distance.setText(formatSeconds(Integer.parseInt(oil_list.getSpendTime())));
             }else{
                 distance.setText(changeKm(oil_list.getDistance())+"km");
             }

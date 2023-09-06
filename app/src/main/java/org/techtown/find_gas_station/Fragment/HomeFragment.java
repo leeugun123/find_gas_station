@@ -168,6 +168,8 @@ public class HomeFragment extends Fragment
                 oil_intel[2] = set.getOil_name();
             //기름 종류
 
+
+
             if(oil_intel[1].equals("1"))
                 array_first.setText("가격순");
             else if(oil_intel[1].equals("2"))
@@ -176,9 +178,6 @@ public class HomeFragment extends Fragment
                 array_first.setText("도로 거리순");
             else if(oil_intel[1].equals("4"))
                 array_first.setText("소요 시간순");
-
-
-
 
             init_reset();
             upRecyclerView();

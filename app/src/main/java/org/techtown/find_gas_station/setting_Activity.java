@@ -258,7 +258,7 @@ public class setting_Activity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
+                    Log.e("TAG","터치 안함");
             }
         });
 

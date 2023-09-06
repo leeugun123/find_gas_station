@@ -307,7 +307,6 @@ public class GetOilRepository {
 
                                         for(int i = 0; i<moil_list.size(); i++){
                                             getOilKakaoApi(moil_list.get(i),size ,sort, progressBar ,mMap, mRecyclerView);
-
                                         }
 
 
@@ -408,10 +407,10 @@ public class GetOilRepository {
                             if(plusOilList.size() == size){
 
                                 if(sort.equals("3")){
-                                    Collections.sort(plusOilList,new OilSpendTimeComparator());
+                                    Collections.sort(plusOilList,new OilRoadDistanceComparator());
                                 }//소요시간
                                 else{
-                                    Collections.sort(plusOilList,new OilRoadDistanceComparator());
+                                    Collections.sort(plusOilList,new OilSpendTimeComparator());
                                 }//실제 도로 거리
 
                                 progressBar.setVisibility(View.GONE);
