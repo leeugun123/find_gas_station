@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.Retrofit.oilList;
+package org.techtown.find_gas_station.Data.kakaoResponseModel.oilList;
 
 import android.view.ViewDebug;
 

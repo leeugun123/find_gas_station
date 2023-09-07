@@ -1,8 +1,8 @@
 package org.techtown.find_gas_station.Retrofit;
 
-import org.techtown.find_gas_station.Retrofit.oilAvg.OilAvg;
-import org.techtown.find_gas_station.Retrofit.oilDetail.OilDetail;
-import org.techtown.find_gas_station.Retrofit.oilList.MyPojo;
+import org.techtown.find_gas_station.Data.kakaoResponseModel.oilAvg.OilAvg;
+import org.techtown.find_gas_station.Data.kakaoResponseModel.oilDetail.OilDetail;
+import org.techtown.find_gas_station.Data.kakaoResponseModel.oilList.MyPojo;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

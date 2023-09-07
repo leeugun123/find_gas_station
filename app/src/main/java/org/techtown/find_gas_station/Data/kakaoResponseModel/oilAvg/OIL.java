@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.Retrofit.oilAvg;
+package org.techtown.find_gas_station.Data.kakaoResponseModel.oilAvg;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

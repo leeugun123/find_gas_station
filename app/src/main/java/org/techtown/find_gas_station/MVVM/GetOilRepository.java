@@ -3,7 +3,6 @@ package org.techtown.find_gas_station.MVVM;
 import static org.techtown.find_gas_station.Fragment.HomeFragment.getWgsMyX;
 import static org.techtown.find_gas_station.Fragment.HomeFragment.getWgsMyY;
 import static org.techtown.find_gas_station.Fragment.HomeFragment.moil_list;
-import static org.techtown.find_gas_station.Retrofit.kakaoResponseModel.KakaoResponseModel.*;
 
 import android.app.Application;
 import android.graphics.Color;
@@ -37,14 +36,13 @@ import org.techtown.find_gas_station.OilList;
 import org.techtown.find_gas_station.R;
 import org.techtown.find_gas_station.Retrofit.Kakao_RetrofitApi;
 import org.techtown.find_gas_station.Retrofit.Opinet_RetrofitApi;
-import org.techtown.find_gas_station.Retrofit.kakaoResponseModel.KakaoResponseModel;
-import org.techtown.find_gas_station.Retrofit.oilAvg.OIL;
-import org.techtown.find_gas_station.Retrofit.oilAvg.OilAvg;
-import org.techtown.find_gas_station.Retrofit.oilDetail.OilDetail;
-import org.techtown.find_gas_station.Retrofit.oilList.MyPojo;
-import org.techtown.find_gas_station.Retrofit.oilList.RESULT;
+import org.techtown.find_gas_station.Data.kakaoResponseModel.OneRouteResponse;
+import org.techtown.find_gas_station.Data.kakaoResponseModel.oilAvg.OIL;
+import org.techtown.find_gas_station.Data.kakaoResponseModel.oilAvg.OilAvg;
+import org.techtown.find_gas_station.Data.kakaoResponseModel.oilDetail.OilDetail;
+import org.techtown.find_gas_station.Data.kakaoResponseModel.oilList.MyPojo;
+import org.techtown.find_gas_station.Data.kakaoResponseModel.oilList.RESULT;
 
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -281,7 +279,7 @@ public class GetOilRepository {
                             if(response.isSuccessful()){
 
                                 OilDetail oilDetail = response.body();
-                                org.techtown.find_gas_station.Retrofit.oilDetail.RESULT result = oilDetail.getRESULT();
+                                org.techtown.find_gas_station.Data.kakaoResponseModel.oilDetail.RESULT result = oilDetail.getRESULT();
 
                                 //세차장, 편의점 정보
                                 String carWash = result.getOIL()[0].getCAR_WASH_YN();
@@ -297,6 +295,8 @@ public class GetOilRepository {
                                 int dis = (int)Double.parseDouble(distance);
                                 //소수점 짜르기
 
+                                Log.e("TAG",name.toString());
+
                                 moil_list.add(new OilList(uid, name, gas_price, Integer.toString(dis),
                                         inputOil,imageResource, DestinationX, DestinationY,carWash,conStore,lotNumberAddress,roadAddress,
                                         tel,sector,"",""));
@@ -309,10 +309,9 @@ public class GetOilRepository {
                                             getOilKakaoApi(moil_list.get(i),size ,sort, progressBar ,mMap, mRecyclerView);
                                         }
 
-
                                         return;
-                                    }//추가적인 카카오 api를 요구하는 경우
 
+                                    }//추가적인 카카오 api를 요구하는 경우
 
 
                                     if(sort.equals("1")){
@@ -352,18 +351,17 @@ public class GetOilRepository {
     public void getOilKakaoApi(OilList oilList,int size,String sort,ProgressBar progressBar,
                                GoogleMap mMap, RecyclerView mRecyclerView){
 
-
-        kakao_retrofitApi.getDirections(getWgsMyX+","+getWgsMyY,
+        kakao_retrofitApi.getOneDirections(getWgsMyX+","+getWgsMyY,
                         oilList.getWgs84X() + "," + oilList.getWgs84Y()
                 ,getCurrentDateTimeString())
 
-                .enqueue(new Callback<KakaoResponseModel>() {
+                .enqueue(new Callback<OneRouteResponse>() {
                     @Override
-                    public void onResponse(Call<KakaoResponseModel> call, Response<KakaoResponseModel> response) {
+                    public void onResponse(Call<OneRouteResponse> call, Response<OneRouteResponse> response) {
 
                         if(response.isSuccessful()){
 
-                            KakaoResponseModel kakoModel = response.body();
+                            OneRouteResponse oneRouteResponse = response.body();
 
                             String uid  = oilList.getUid();
                             String oil_name = oilList.get_oil_name();
@@ -396,8 +394,8 @@ public class GetOilRepository {
                             float wgsY = oilList.getWgs84Y();
                             //wgs84 좌표 y
 
-                            String spendTime = Integer.toString(kakoModel.getRoutes().get(0).getSummary().duration);
-                            String actualDis = Integer.toString(kakoModel.getRoutes().get(0).getSummary().distance);
+                            String spendTime = Integer.toString(oneRouteResponse.getRoutes().get(0).getSummary().duration);
+                            String actualDis = Integer.toString(oneRouteResponse.getRoutes().get(0).getSummary().distance);
 
                            // Log.e("TAG","소요시간" + spendTime + " " + plusOilList.size());
 
@@ -432,7 +430,7 @@ public class GetOilRepository {
                     }
 
                     @Override
-                    public void onFailure(Call<KakaoResponseModel> call, Throwable t) {
+                    public void onFailure(Call<OneRouteResponse> call, Throwable t) {
 
 
                     }
@@ -457,7 +455,7 @@ public class GetOilRepository {
                         if(response.isSuccessful()){
 
                             OilAvg oilAvg = response.body();
-                            org.techtown.find_gas_station.Retrofit.oilAvg.RESULT result = oilAvg.getRESULT();
+                            org.techtown.find_gas_station.Data.kakaoResponseModel.oilAvg.RESULT result = oilAvg.getRESULT();
 
                             List<Entry> entries = new ArrayList<>();
                             ArrayList<OIL> Avg = new ArrayList<>();

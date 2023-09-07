@@ -1,15 +1,13 @@
-package org.techtown.find_gas_station.Retrofit.oilList;
+package org.techtown.find_gas_station.Data.kakaoResponseModel.oilDetail;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import org.techtown.find_gas_station.Retrofit.oilList.OIL;
+public class RESULT {
 
-public class RESULT
-{
     @SerializedName("OIL")
     @Expose
-    private org.techtown.find_gas_station.Retrofit.oilList.OIL[] OIL;
+    private OIL[] OIL;
 
     public OIL[] getOIL ()
     {

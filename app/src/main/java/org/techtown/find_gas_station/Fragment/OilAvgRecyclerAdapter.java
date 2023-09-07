@@ -1,7 +1,6 @@
 package org.techtown.find_gas_station.Fragment;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +11,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.techtown.find_gas_station.R;
-import org.techtown.find_gas_station.Retrofit.oilAvg.OIL;
-import org.techtown.find_gas_station.Retrofit.oilAvg.OilAvg;
-import org.w3c.dom.Text;
+import org.techtown.find_gas_station.Data.kakaoResponseModel.oilAvg.OIL;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

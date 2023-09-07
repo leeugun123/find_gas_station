@@ -1,7 +1,8 @@
-package org.techtown.find_gas_station.Retrofit.kakaoResponseModel;
+package org.techtown.find_gas_station.Data.kakaoResponseModel;
+
 import java.util.List;
 
-public class KakaoResponseModel {
+public class OneRouteResponse {
 
     private String trans_id;
     private List<Route> routes;
