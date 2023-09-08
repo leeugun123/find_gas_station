@@ -355,13 +355,13 @@ public class GetOilRepository {
 
         for(int i=0; i < destinations.length; i++){
 
-            String oilName = moil_list.get(i).get_oil_name();
+            String oilUid = moil_list.get(i).getUid();
             double x = moil_list.get(i).getWgs84X();
             double y = moil_list.get(i).getWgs84Y();
 
-            destinations[i] = new Destination(oilName, x , y);
+            destinations[i] = new Destination(oilUid, x , y);
 
-            map.put(oilName , moil_list.get(i));
+            map.put(oilUid, moil_list.get(i));
 
         }
 
@@ -372,30 +372,24 @@ public class GetOilRepository {
         else
             priority = "TIME";
 
-        Log.e("TAG",destinations[0].getX() + "");
 
-        //좌표 문제인듯... 카텍 - > wgs 로 변경
-
-
-
-        kakao_retrofitApi.getMultiDirections(new Origin("내 위치", Double.parseDouble(getWgsMyX) , Double.parseDouble(getWgsMyY)),
-                        destinations
-                        ,5000, priority)
-
+        kakao_retrofitApi.getMultiDirections(new Origin(Double.parseDouble(getWgsMyX) , Double.parseDouble(getWgsMyY)),
+                        destinations,5000, priority)
 
                 .enqueue(new Callback<MultiRouteResponse>() {
                     @Override
                     public void onResponse(Call<MultiRouteResponse> call, Response<MultiRouteResponse> response) {
 
+
                         if(response.isSuccessful()){
 
                             MultiRouteResponse multiRouteResponse = response.body();
 
-                            List<MultiRouteResponse.Route> routes = multiRouteResponse.getRoutes();
+                            MultiRouteResponse.Route[] routes = multiRouteResponse.getRoutes();
 
-                            for(int i=0; i<routes.size(); i++){
+                            for(int i=0; i<routes.length; i++){
 
-                                MultiRouteResponse.Route route = routes.get(i);
+                                MultiRouteResponse.Route route = routes[i];
                                 String key = route.getKey();
                                 OilList oilList = map.get(key);
 
@@ -427,7 +421,7 @@ public class GetOilRepository {
 
                     @Override
                     public void onFailure(Call<MultiRouteResponse> call, Throwable t) {
-
+                        Log.e("TAG"," 카카오 실패");
 
                     }
 

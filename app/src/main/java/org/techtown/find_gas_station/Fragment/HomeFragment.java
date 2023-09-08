@@ -169,7 +169,6 @@ public class HomeFragment extends Fragment
             //기름 종류
 
 
-
             if(oil_intel[1].equals("1"))
                 array_first.setText("가격순");
             else if(oil_intel[1].equals("2"))
@@ -221,7 +220,6 @@ public class HomeFragment extends Fragment
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Log.e("TAG","onActivityResult");
 
         if (requestCode == REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
