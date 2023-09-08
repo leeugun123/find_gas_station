@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.Data.kakaoResponseModel;
+package org.techtown.find_gas_station.Data.kakaoResponseModel.kakao;
 
 import java.util.List;
 

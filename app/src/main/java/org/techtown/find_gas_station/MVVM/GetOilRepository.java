@@ -23,8 +23,9 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.gms.maps.GoogleMap;
 
 import org.techtown.find_gas_station.BuildConfig;
-import org.techtown.find_gas_station.Comparator.OilRoadDistanceComparator;
-import org.techtown.find_gas_station.Comparator.OilSpendTimeComparator;
+import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.Destination;
+import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.MultiRouteResponse;
+import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.Origin;
 import org.techtown.find_gas_station.Fragment.OilAvgRecyclerAdapter;
 import org.techtown.find_gas_station.GPS.GeoTrans;
 import org.techtown.find_gas_station.GPS.GeoTransPoint;
@@ -36,7 +37,6 @@ import org.techtown.find_gas_station.OilList;
 import org.techtown.find_gas_station.R;
 import org.techtown.find_gas_station.Retrofit.Kakao_RetrofitApi;
 import org.techtown.find_gas_station.Retrofit.Opinet_RetrofitApi;
-import org.techtown.find_gas_station.Data.kakaoResponseModel.OneRouteResponse;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.oilAvg.OIL;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.oilAvg.OilAvg;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.oilDetail.OilDetail;
@@ -47,6 +47,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -295,8 +296,6 @@ public class GetOilRepository {
                                 int dis = (int)Double.parseDouble(distance);
                                 //소수점 짜르기
 
-                                Log.e("TAG",name.toString());
-
                                 moil_list.add(new OilList(uid, name, gas_price, Integer.toString(dis),
                                         inputOil,imageResource, DestinationX, DestinationY,carWash,conStore,lotNumberAddress,roadAddress,
                                         tel,sector,"",""));
@@ -305,9 +304,7 @@ public class GetOilRepository {
 
                                     if(sort.equals("3") || sort.equals("4")){
 
-                                        for(int i = 0; i<moil_list.size(); i++){
-                                            getOilKakaoApi(moil_list.get(i),size ,sort, progressBar ,mMap, mRecyclerView);
-                                        }
+                                        getOilKakaoApi(progressBar ,mMap, mRecyclerView,sort);
 
                                         return;
 
@@ -348,89 +345,88 @@ public class GetOilRepository {
     }
 
     //카카오 api는 wgs 좌표를 사용
-    public void getOilKakaoApi(OilList oilList,int size,String sort,ProgressBar progressBar,
-                               GoogleMap mMap, RecyclerView mRecyclerView){
+    public void getOilKakaoApi(ProgressBar progressBar, GoogleMap mMap, RecyclerView mRecyclerView, String sort){
 
-        kakao_retrofitApi.getOneDirections(getWgsMyX+","+getWgsMyY,
-                        oilList.getWgs84X() + "," + oilList.getWgs84Y()
-                ,getCurrentDateTimeString())
+        Destination[] destinations = new Destination[moil_list.size()];
+        HashMap<String , OilList> map = new HashMap<>();
+        //응답으로 섞인 OilList 객체들을 바로 잡기 위한 HashMap
 
-                .enqueue(new Callback<OneRouteResponse>() {
+        //여기까지 데이터는 옴.
+
+        for(int i=0; i < destinations.length; i++){
+
+            String oilName = moil_list.get(i).get_oil_name();
+            double x = moil_list.get(i).getWgs84X();
+            double y = moil_list.get(i).getWgs84Y();
+
+            destinations[i] = new Destination(oilName, x , y);
+
+            map.put(oilName , moil_list.get(i));
+
+        }
+
+        String priority = "";
+
+        if(sort.equals("3"))
+            priority = "DISTANCE";
+        else
+            priority = "TIME";
+
+        Log.e("TAG",destinations[0].getX() + "");
+
+        //좌표 문제인듯... 카텍 - > wgs 로 변경
+
+
+
+        kakao_retrofitApi.getMultiDirections(new Origin("내 위치", Double.parseDouble(getWgsMyX) , Double.parseDouble(getWgsMyY)),
+                        destinations
+                        ,5000, priority)
+
+
+                .enqueue(new Callback<MultiRouteResponse>() {
                     @Override
-                    public void onResponse(Call<OneRouteResponse> call, Response<OneRouteResponse> response) {
+                    public void onResponse(Call<MultiRouteResponse> call, Response<MultiRouteResponse> response) {
 
                         if(response.isSuccessful()){
 
-                            OneRouteResponse oneRouteResponse = response.body();
+                            MultiRouteResponse multiRouteResponse = response.body();
 
-                            String uid  = oilList.getUid();
-                            String oil_name = oilList.get_oil_name();
-                            String price = oilList.getPrice();
-                            String distance = oilList.getDistance();
-                            String oil_kind = oilList.getOil_kind();
+                            List<MultiRouteResponse.Route> routes = multiRouteResponse.getRoutes();
 
-                            String carWash = oilList.getCarWash();
-                            //세차장 유무
+                            for(int i=0; i<routes.size(); i++){
 
-                            String conStore = oilList.getConStore();
-                            //편의점 유무
+                                MultiRouteResponse.Route route = routes.get(i);
+                                String key = route.getKey();
+                                OilList oilList = map.get(key);
 
-                            String lotNumberAdd = oilList.getLotNumberAdd();
-                            //지번 주소
+                                String distance = Integer.toString(route.getSummary().getDistance());
+                                String spendTime = Integer.toString(route.getSummary().getDuration());
 
-                            String roadAdd = oilList.getRoadAdd();
-                            //도로명 주소
+                                Log.e("TAG",distance + "다중 카카오");
 
-                            String tel = oilList.getTel();
-                            // 전화번호
+                                oilList.insertActDistance(distance);
+                                oilList.insertSpendTime(spendTime);
 
-                            String sector = oilList.getSector();
-                            // 업종 구분
-
-                            int image = oilList.get_image();
-
-                            float wgsX = oilList.getWgs84X();
-                            //wgs84 좌표 x
-                            float wgsY = oilList.getWgs84Y();
-                            //wgs84 좌표 y
-
-                            String spendTime = Integer.toString(oneRouteResponse.getRoutes().get(0).getSummary().duration);
-                            String actualDis = Integer.toString(oneRouteResponse.getRoutes().get(0).getSummary().distance);
-
-                           // Log.e("TAG","소요시간" + spendTime + " " + plusOilList.size());
-
-                            plusOilList.add(new OilList(uid, oil_name, price, distance, oil_kind, image, wgsX,wgsY,carWash,conStore,lotNumberAdd,
-                                    roadAdd,tel,sector,actualDis,spendTime));
-
-                            if(plusOilList.size() == size){
-
-                                if(sort.equals("3")){
-                                    Collections.sort(plusOilList,new OilRoadDistanceComparator());
-                                }//소요시간
-                                else{
-                                    Collections.sort(plusOilList,new OilSpendTimeComparator());
-                                }//실제 도로 거리
-
-                                progressBar.setVisibility(View.GONE);
-                                myRecyclerAdapter = new MyRecyclerAdapter(plusOilList,mMap,sort);
-                                mRecyclerView.setAdapter(myRecyclerAdapter);
-                                myRecyclerAdapter.notifyDataSetChanged();
-
-
+                                plusOilList.add(oilList);
 
                             }
+
+                            progressBar.setVisibility(View.GONE);
+                            myRecyclerAdapter = new MyRecyclerAdapter(plusOilList,mMap,sort);
+                            mRecyclerView.setAdapter(myRecyclerAdapter);
+                            myRecyclerAdapter.notifyDataSetChanged();
 
 
                         }
                         else{
-                            //Log.e("TAG","실패");
+                            Log.e("TAG"," 카카오 실패");
                         }
 
 
                     }
 
                     @Override
-                    public void onFailure(Call<OneRouteResponse> call, Throwable t) {
+                    public void onFailure(Call<MultiRouteResponse> call, Throwable t) {
 
 
                     }

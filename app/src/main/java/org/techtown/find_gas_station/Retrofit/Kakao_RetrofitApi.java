@@ -1,13 +1,15 @@
 package org.techtown.find_gas_station.Retrofit;
 
 import org.techtown.find_gas_station.BuildConfig;
-import org.techtown.find_gas_station.Data.kakaoResponseModel.Location;
-import org.techtown.find_gas_station.Data.kakaoResponseModel.MultiRouteResponse;
-import org.techtown.find_gas_station.Data.kakaoResponseModel.OneRouteResponse;
+import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.Destination;
+import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.MultiRouteResponse;
+import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.OneRouteResponse;
+import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.Origin;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface Kakao_RetrofitApi {
@@ -22,12 +24,13 @@ public interface Kakao_RetrofitApi {
     //단일 목적지
 
 
-    @GET("v1/destinations/directions")
+    @POST("v1/destinations/directions")
     @Headers("Authorization: KakaoAK " + BuildConfig.KAKAO_API_KEY)
     Call<MultiRouteResponse> getMultiDirections(
-            @Query("origin")Location location,
-            @Query("destinations") Location[] locations,
-            @Query("radius") int radius
+            @Query("origin") Origin origin,
+            @Query("destinations") Destination[] destinations,
+            @Query("radius") int radius,
+            @Query("priority") String priority
     );
     //다중 목적지
 

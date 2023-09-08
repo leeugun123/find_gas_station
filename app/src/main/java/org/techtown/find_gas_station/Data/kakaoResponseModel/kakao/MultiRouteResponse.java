@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.Data.kakaoResponseModel;
+package org.techtown.find_gas_station.Data.kakaoResponseModel.kakao;
 
 import java.util.List;
 
@@ -36,6 +36,7 @@ public class MultiRouteResponse {
         public Summary getSummary() {
             return summary;
         }
+
     }
 
     public class Summary {

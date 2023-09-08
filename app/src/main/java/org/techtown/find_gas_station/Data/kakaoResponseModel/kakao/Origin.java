@@ -1,8 +1,8 @@
-package org.techtown.find_gas_station.Data.kakaoResponseModel;
+package org.techtown.find_gas_station.Data.kakaoResponseModel.kakao;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Location {
+public class Origin {
 
     @SerializedName("name")
     private String name;
@@ -13,7 +13,7 @@ public class Location {
     private double y;
 
 
-    Location(String name,double x,double y){
+    public Origin(String name,double x,double y){
         this.name = name;
         this.x = x;
         this.y = y;

@@ -91,6 +91,14 @@ public class OilList {
 
     public String getSpendTime(){return spendTime;}
 
+    public void insertActDistance(String actDistance){
+        this.actDistance = actDistance;
+    }
+
+    public void insertSpendTime(String spendTime){
+        this.spendTime = spendTime;
+    }
+
 
 
 }
