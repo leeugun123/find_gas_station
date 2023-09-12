@@ -24,8 +24,10 @@ import com.google.android.gms.maps.GoogleMap;
 
 import org.techtown.find_gas_station.BuildConfig;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.Destination;
-import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.MultiRouteResponse;
+import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.DirectionRequest;
+import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.DirectionResponse;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.Origin;
+import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.Route;
 import org.techtown.find_gas_station.Fragment.OilAvgRecyclerAdapter;
 import org.techtown.find_gas_station.GPS.GeoTrans;
 import org.techtown.find_gas_station.GPS.GeoTransPoint;
@@ -359,7 +361,7 @@ public class GetOilRepository {
             double x = moil_list.get(i).getWgs84X();
             double y = moil_list.get(i).getWgs84Y();
 
-            destinations[i] = new Destination(oilUid, x , y);
+            destinations[i] = new Destination(x , y , oilUid);
 
             map.put(oilUid, moil_list.get(i));
 
@@ -373,23 +375,22 @@ public class GetOilRepository {
             priority = "TIME";
 
 
-        kakao_retrofitApi.getMultiDirections(new Origin(Double.parseDouble(getWgsMyX) , Double.parseDouble(getWgsMyY)),
-                        destinations,5000, priority)
+        kakao_retrofitApi.getMultiDirections(new DirectionRequest(new Origin(Double.parseDouble(getWgsMyX) , Double.parseDouble(getWgsMyY)),
+                        destinations,5000, priority))
 
-                .enqueue(new Callback<MultiRouteResponse>() {
+                .enqueue(new Callback<DirectionResponse>() {
                     @Override
-                    public void onResponse(Call<MultiRouteResponse> call, Response<MultiRouteResponse> response) {
-
+                    public void onResponse(Call<DirectionResponse> call, Response<DirectionResponse> response) {
 
                         if(response.isSuccessful()){
 
-                            MultiRouteResponse multiRouteResponse = response.body();
+                            DirectionResponse multiRouteResponse = response.body();
 
-                            MultiRouteResponse.Route[] routes = multiRouteResponse.getRoutes();
+                            Route[] routes = multiRouteResponse.getRoutes();
 
                             for(int i=0; i<routes.length; i++){
 
-                                MultiRouteResponse.Route route = routes[i];
+                                Route route = routes[i];
                                 String key = route.getKey();
                                 OilList oilList = map.get(key);
 
@@ -420,8 +421,8 @@ public class GetOilRepository {
                     }
 
                     @Override
-                    public void onFailure(Call<MultiRouteResponse> call, Throwable t) {
-                        Log.e("TAG"," 카카오 실패");
+                    public void onFailure(Call<DirectionResponse> call, Throwable t) {
+
 
                     }
 
@@ -459,8 +460,6 @@ public class GetOilRepository {
                                         oil.getDate(),
                                         doubleToInt(oil.getPrice())
                                 ));
-
-                                Log.e("TAG",oil.getDate());
 
                                 entries.add(new Entry(i,
                                                      Integer.parseInt(doubleToInt(oil.getPrice()))));

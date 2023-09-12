@@ -214,6 +214,8 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                                 .setNaviOptions(options)
                                 .build();
 
+
+
                         KakaoNaviService.getInstance().navigate(view.getContext(),params);
 
                     }
