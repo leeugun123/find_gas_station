@@ -136,12 +136,10 @@ public class GetOilRepository {
                         plusOilList = new ArrayList<>();
                         //oil_list 초기화
 
-
                         if(response.isSuccessful()){
 
                             MyPojo myPojo = response.body();
                             RESULT result = myPojo.getRESULT();
-
 
                             if(result.getOIL().length == 0){
 
@@ -350,7 +348,7 @@ public class GetOilRepository {
     public void getOilKakaoApi(ProgressBar progressBar, GoogleMap mMap, RecyclerView mRecyclerView, String sort){
 
         Destination[] destinations = new Destination[moil_list.size()];
-        HashMap<String , OilList> map = new HashMap<>();
+        HashMap<String , OilList> hashMap = new HashMap<>();
         //응답으로 섞인 OilList 객체들을 바로 잡기 위한 HashMap
 
         //여기까지 데이터는 옴.
@@ -363,7 +361,7 @@ public class GetOilRepository {
 
             destinations[i] = new Destination(x , y , oilUid);
 
-            map.put(oilUid, moil_list.get(i));
+            hashMap.put(oilUid, moil_list.get(i));
 
         }
 
@@ -390,17 +388,16 @@ public class GetOilRepository {
 
                             for(int i=0; i<routes.length; i++){
 
-                                Route route = routes[i];
-                                String key = route.getKey();
-                                OilList oilList = map.get(key);
+                                String key = routes[i].getKey();
+                                OilList oilList = hashMap.get(key);
 
-                                String distance = Integer.toString(route.getSummary().getDistance());
-                                String spendTime = Integer.toString(route.getSummary().getDuration());
+                                String distance = Integer.toString(routes[i].getSummary().getDistance());
+                                String spendTime = Integer.toString(routes[i].getSummary().getDuration());
 
-                                Log.e("TAG",distance + "다중 카카오");
+                                Log.e("TAG",distance + "카카오 api");
 
-                                oilList.insertActDistance(distance);
-                                oilList.insertSpendTime(spendTime);
+                                oilList.setActDistance(distance);
+                                oilList.setSpendTime(spendTime);
 
                                 plusOilList.add(oilList);
 
