@@ -12,7 +12,6 @@ public class DirectionRequest {
     @SerializedName("destinations")
     private Destination[] destinations;
 
-
     @SerializedName("radius")
     private int radius;
 
