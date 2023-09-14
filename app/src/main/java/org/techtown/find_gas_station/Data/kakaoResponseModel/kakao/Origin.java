@@ -5,12 +5,12 @@ import com.google.gson.annotations.SerializedName;
 public class Origin {
 
     @SerializedName("x")
-    private Double x;
+    private double x;
 
     @SerializedName("y")
-    private Double y;
+    private double y;
 
-    public Origin(Double x, Double y) {
+    public Origin(double x, double y) {
         this.x = x;
         this.y = y;
     }

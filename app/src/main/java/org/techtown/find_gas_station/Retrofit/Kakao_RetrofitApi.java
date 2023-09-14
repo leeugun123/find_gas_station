@@ -15,7 +15,7 @@ public interface Kakao_RetrofitApi {
 
     @Headers({
             "Content-Type: application/json",
-            "Authorization: KakaoAK " + BuildConfig.KAKAO_API_KEY
+            "Authorization: KakaoAK 087efa22b8874111e44b386ebc24d525"
     })
     @POST("v1/destinations/directions")
     Call<DirectionResponse> getMultiDirections(@Body DirectionRequest request);
