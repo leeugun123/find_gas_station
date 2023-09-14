@@ -4,17 +4,20 @@ import com.google.gson.annotations.SerializedName;
 
 public class Destination {
 
-    @SerializedName("x")
-    private double x;
-    @SerializedName("y")
-    private double y;
 
-    @SerializedName("key")
     private String key;
+    private Double x;
 
-    public Destination(double x, double y, String key) {
+    private Double y;
+
+
+
+
+    public Destination(String key, Double x, Double y) {
         this.x = x;
         this.y = y;
         this.key = key;
     }
+
+
 }

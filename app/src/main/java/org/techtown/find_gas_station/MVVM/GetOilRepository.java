@@ -100,7 +100,6 @@ public class GetOilRepository {
         kakao_retrofitApi = kakao_retrofit.create(Kakao_RetrofitApi.class);
 
 
-
     }
 
     public static String doubleToInt(String price){
@@ -359,11 +358,14 @@ public class GetOilRepository {
             double x = moil_list.get(i).getWgs84X();
             double y = moil_list.get(i).getWgs84Y();
 
-            destinations[i] = new Destination(x , y , oilUid);
+            destinations[i] = new Destination(oilUid, x , y);
 
             hashMap.put(oilUid, moil_list.get(i));
 
+
+
         }
+
 
         String priority = "";
 
@@ -373,12 +375,13 @@ public class GetOilRepository {
             priority = "TIME";
 
 
-        kakao_retrofitApi.getMultiDirections(new DirectionRequest(new Origin(Double.parseDouble(getWgsMyX) , Double.parseDouble(getWgsMyY)),
+        kakao_retrofitApi.getMultiDirections(new DirectionRequest(new Origin(Double.parseDouble("127.13144306487084") , Double.parseDouble("37.44134209110179")),
                         destinations,5000, priority))
 
                 .enqueue(new Callback<DirectionResponse>() {
                     @Override
                     public void onResponse(Call<DirectionResponse> call, Response<DirectionResponse> response) {
+
 
                         if(response.isSuccessful()){
 
@@ -411,7 +414,10 @@ public class GetOilRepository {
 
                         }
                         else{
-                            Log.e("TAG"," 카카오 실패");
+
+                           int statusCode = response.code();
+                           Log.e("TAG",statusCode + "");
+
                         }
 
 
@@ -419,7 +425,6 @@ public class GetOilRepository {
 
                     @Override
                     public void onFailure(Call<DirectionResponse> call, Throwable t) {
-
 
                     }
 

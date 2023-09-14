@@ -4,10 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class Summary {
 
-    @SerializedName("distance")
+
     private int distance;
 
-    @SerializedName("duration")
     private int duration;
 
     public int  getDistance(){
@@ -17,4 +16,5 @@ public class Summary {
     public int getDuration(){
         return duration;
     }
+
 }

@@ -9,10 +9,9 @@ public class Route {
 
     @SerializedName("result_msg")
     private String result_msg;
-    @SerializedName("key")
+
     private String key;
 
-    @SerializedName("summary")
     private Summary summary;
 
     public int getResult_code() {

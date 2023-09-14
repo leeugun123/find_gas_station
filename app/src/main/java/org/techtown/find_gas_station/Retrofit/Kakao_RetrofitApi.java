@@ -15,11 +15,12 @@ public interface Kakao_RetrofitApi {
 
     @Headers({
             "Content-Type: application/json",
-            "Authorization: KakaoAK {" + BuildConfig.KAKAO_API_KEY + "}"
+            "Authorization: KakaoAK " + BuildConfig.KAKAO_API_KEY
     })
     @POST("v1/destinations/directions")
     Call<DirectionResponse> getMultiDirections(@Body DirectionRequest request);
     //다중 목적지
+
 
 
 }

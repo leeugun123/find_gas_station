@@ -4,10 +4,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class DirectionResponse {
 
-    @SerializedName("trans_id")
+
     private String trans_id;
 
-    @SerializedName("routes")
+
     private Route[] routes;
 
     public String getTrans_id() {
