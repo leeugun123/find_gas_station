@@ -67,13 +67,16 @@ public class GetOilRepository {
     Opinet_RetrofitApi opinet_retrofitApi;
     Kakao_RetrofitApi kakao_retrofitApi;
 
+    //--------------------- 레트로핏 변수 들
     private String opinet_apiKey = BuildConfig.GAS_API_KEY;
-
+    //------------- 오피넷 API key
     private MyRecyclerAdapter myRecyclerAdapter;
 
     String oil = "";
 
     private ArrayList<OilList> plusOilList;
+
+
 
 
 
@@ -159,6 +162,9 @@ public class GetOilRepository {
 
 
                             for(int i=0; i<result.getOIL().length; i++){
+
+                                if(i == 30)
+                                    break;
 
                                 String uid = result.getOIL()[i].getUNI_ID();
                                 //주유소 ID
@@ -299,7 +305,7 @@ public class GetOilRepository {
                                         inputOil,imageResource, DestinationX, DestinationY,carWash,conStore,lotNumberAddress,roadAddress,
                                         tel,sector,"",""));
 
-                                if(moil_list.size() == size){
+                                if(moil_list.size() == size || moil_list.size() == 30){
 
                                     if(sort.equals("3") || sort.equals("4")){
 
