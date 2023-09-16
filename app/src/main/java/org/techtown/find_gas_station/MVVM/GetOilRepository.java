@@ -23,6 +23,8 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.gms.maps.GoogleMap;
 
 import org.techtown.find_gas_station.BuildConfig;
+import org.techtown.find_gas_station.Comparator.OilRoadDistanceComparator;
+import org.techtown.find_gas_station.Comparator.OilSpendTimeComparator;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.Destination;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.DirectionRequest;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.DirectionResponse;
@@ -72,7 +74,8 @@ public class GetOilRepository {
     //------------- 오피넷 API key
     private MyRecyclerAdapter myRecyclerAdapter;
 
-    String oil = "";
+    private String oil = "";
+    private String priority = "";
 
     private ArrayList<OilList> plusOilList;
 
@@ -373,22 +376,18 @@ public class GetOilRepository {
             destinations[i] = new Destination( moil_list.get(i).getUid(), moil_list.get(i).getWgs84X(), moil_list.get(i).getWgs84Y());
         }
 
-
-        String priority = "";
-
         if(sort.equals("3"))
             priority = "DISTANCE";
         else
             priority = "TIME";
 
 
-        kakao_retrofitApi.getMultiDirections(new DirectionRequest(new Origin(Double.parseDouble("127.13144306487084") , Double.parseDouble("37.44134209110179")),
-                        destinations,5000, priority))
+        kakao_retrofitApi.getMultiDirections(new DirectionRequest(new Origin(Double.parseDouble(getWgsMyX) , Double.parseDouble(getWgsMyY)),
+                        destinations,10000,priority))
 
                 .enqueue(new Callback<DirectionResponse>() {
                     @Override
                     public void onResponse(Call<DirectionResponse> call, Response<DirectionResponse> response) {
-
 
                         if(response.isSuccessful()){
 
@@ -401,21 +400,22 @@ public class GetOilRepository {
                                 String key = routes[i].getKey();
                                 OilList oilList = hashMap.get(key);
 
-                                /*
                                 String distance = Integer.toString(routes[i].getSummary().getDistance());
                                 String spendTime = Integer.toString(routes[i].getSummary().getDuration());
 
-
-                                */
-
-                                Log.e("TAG", "카카오 api");
-
-                                oilList.setActDistance("123");
-                                oilList.setSpendTime("123");
+                                oilList.setActDistance(distance);
+                                oilList.setSpendTime(spendTime);
 
                                 plusOilList.add(oilList);
 
                             }
+
+                            if(priority.equals("TIME")){
+                                Collections.sort(plusOilList , new OilSpendTimeComparator());
+                            }else
+                                Collections.sort(plusOilList , new OilRoadDistanceComparator());
+
+
 
                             progressBar.setVisibility(View.GONE);
                             myRecyclerAdapter = new MyRecyclerAdapter(plusOilList,mMap,sort);
@@ -425,10 +425,7 @@ public class GetOilRepository {
 
                         }
                         else{
-
                            int statusCode = response.code();
-                           Log.e("TAG",statusCode + "");
-
                         }
 
 
