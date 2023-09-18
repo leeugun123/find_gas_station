@@ -17,4 +17,6 @@ public class RESULT {
     public String toString(){
         return "ClassPojo [OIL = "+ oil+"]";
     }
+
+
 }

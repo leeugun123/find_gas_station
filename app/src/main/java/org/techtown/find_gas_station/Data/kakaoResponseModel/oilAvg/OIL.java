@@ -4,8 +4,6 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class OIL {
-
-
     @SerializedName("DATE")
     @Expose
     private String DATE;
@@ -46,9 +44,6 @@ public class OIL {
         this.DATE = date;
         this.PRICE = price;
     }
-
-
-
 
 
 }

@@ -30,6 +30,7 @@ import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.DirectionRequ
 import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.DirectionResponse;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.Origin;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.Route;
+import org.techtown.find_gas_station.Data.kakaoResponseModel.oilList.GasStationData;
 import org.techtown.find_gas_station.Fragment.OilAvgRecyclerAdapter;
 import org.techtown.find_gas_station.GPS.GeoTrans;
 import org.techtown.find_gas_station.GPS.GeoTransPoint;
@@ -44,8 +45,6 @@ import org.techtown.find_gas_station.Retrofit.Opinet_RetrofitApi;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.oilAvg.OIL;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.oilAvg.OilAvg;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.oilDetail.OilDetail;
-import org.techtown.find_gas_station.Data.kakaoResponseModel.oilList.MyPojo;
-import org.techtown.find_gas_station.Data.kakaoResponseModel.oilList.RESULT;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -80,9 +79,6 @@ public class GetOilRepository {
     private ArrayList<OilList> plusOilList;
 
 
-
-
-
     public GetOilRepository(Application application){
         super();
 
@@ -100,7 +96,6 @@ public class GetOilRepository {
                 .baseUrl(OPINET_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
 
         opinet_retrofitApi = opinet_retrofit.create(Opinet_RetrofitApi.class);
         kakao_retrofitApi = kakao_retrofit.create(Kakao_RetrofitApi.class);
@@ -132,10 +127,10 @@ public class GetOilRepository {
         oil = oilKind;
 
         opinet_retrofitApi.getOilList(opinet_apiKey, "json", strXpos, strYpos, radius,oilKind,sort)
-                .enqueue(new Callback<MyPojo>() {
+                .enqueue(new Callback<GasStationData>() {
 
                     @Override
-                    public void onResponse(Call<MyPojo> call, Response<MyPojo> response) {
+                    public void onResponse(Call<GasStationData> call, Response<GasStationData> response) {
 
                         moil_list = new ArrayList<>();
                         plusOilList = new ArrayList<>();
@@ -143,17 +138,16 @@ public class GetOilRepository {
 
                         if(response.isSuccessful()){
 
-                            MyPojo myPojo = response.body();
-                            RESULT result = myPojo.getRESULT();
+                            GasStationData gasStationData = response.body();
+                            GasStationData.Result result = gasStationData.getRESULT();
 
-                            if(result.getOIL().length == 0){
+                            if(result.getOIL().size() == 0){
 
                                 Log.e("TAG","데이터가 비었음");
 
                                 myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap,sort);
                                 mRecyclerView.setAdapter(myRecyclerAdapter);
                                 myRecyclerAdapter.notifyDataSetChanged();
-
 
                                 progressBar.setVisibility(View.GONE);
                                 HomeFragment.empty = true;
@@ -163,22 +157,21 @@ public class GetOilRepository {
                             }//데이터가 존재하지 않는 경우 예외처리
 
 
-
-                            for(int i=0; i<result.getOIL().length; i++){
+                            for(int i=0; i<result.getOIL().size(); i++){
 
                                 if(i == 30)
                                     break;
 
-                                String uid = result.getOIL()[i].getUNI_ID();
+                                String uid = result.getOIL().get(i).getUNI_ID();
                                 //주유소 ID
 
-                                String distance = result.getOIL()[i].getDISTANCE();
+                                String distance = String.valueOf(result.getOIL().get(i).getDISTANCE());
                                 //주유소 거리
 
-                                String name = result.getOIL()[i].getOS_NM();
+                                String name = result.getOIL().get(i).getOS_NM();
                                 //주유소 이름(상호명)
 
-                                String gas_price = result.getOIL()[i].getPRICE();
+                                String gas_price = Integer.toString(result.getOIL().get(i).getPRICE());
                                 //주유소 가격
 
                                 String inputOil;
@@ -199,11 +192,9 @@ public class GetOilRepository {
                                 else
                                     inputOil = "자동차부탄";
 
-
-                                float xPos = Float.parseFloat(result.getOIL()[i].getGIS_X_COOR());
+                                float xPos = (float) result.getOIL().get(i).getGIS_X_COOR();
                                 //x좌표 위치
-
-                                float yPos = Float.parseFloat(result.getOIL()[i].getGIS_Y_COOR());
+                                float yPos = (float) result.getOIL().get(i).getGIS_Y_COOR();
                                 //y좌표 위치
 
                                 GeoTransPoint point = new GeoTransPoint(xPos,yPos);
@@ -211,7 +202,7 @@ public class GetOilRepository {
                                 GeoTransPoint out = GeoTrans.convert(GeoTrans.KATEC, GeoTrans.GEO,point);
                                 //KATEC -> Wgs84좌표계로 변경
 
-                                String trademark = result.getOIL()[i].getPOLL_DIV_CD();
+                                String trademark = result.getOIL().get(i).getPOLL_DIV_CD();
                                 //트레이드 마크
 
                                 int imageResource;
@@ -250,7 +241,7 @@ public class GetOilRepository {
                                 else
                                     imageResource = R.drawable.oil_2;
 
-                                getOilDetail(sort, result.getOIL().length, mRecyclerView,mMap, progressBar ,
+                                getOilDetail(sort, result.getOIL().size(), mRecyclerView,mMap, progressBar ,
                                         uid , name, gas_price, distance, inputOil,
                                         imageResource, (float)out.getX(), (float)out.getY());
 
@@ -262,7 +253,7 @@ public class GetOilRepository {
                     }
 
                     @Override
-                    public void onFailure(Call<MyPojo> call, Throwable t) {
+                    public void onFailure(Call<GasStationData> call, Throwable t) {
 
 
                     }
