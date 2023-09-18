@@ -30,6 +30,7 @@ import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.DirectionRequ
 import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.DirectionResponse;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.Origin;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.Route;
+import org.techtown.find_gas_station.Data.kakaoResponseModel.oilDetail.GasStationInfo;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.oilList.GasStationData;
 import org.techtown.find_gas_station.Fragment.OilAvgRecyclerAdapter;
 import org.techtown.find_gas_station.GPS.GeoTrans;
@@ -44,7 +45,6 @@ import org.techtown.find_gas_station.Retrofit.Kakao_RetrofitApi;
 import org.techtown.find_gas_station.Retrofit.Opinet_RetrofitApi;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.oilAvg.OIL;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.oilAvg.OilAvg;
-import org.techtown.find_gas_station.Data.kakaoResponseModel.oilDetail.OilDetail;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -271,26 +271,26 @@ public class GetOilRepository {
 
 
         opinet_retrofitApi.getOilDetail(opinet_apiKey,"json",uid)
-                .enqueue(new Callback<OilDetail>() {
+                .enqueue(new Callback<GasStationInfo>() {
 
                         @Override
-                        public void onResponse(Call<OilDetail> call, Response<OilDetail> response) {
+                        public void onResponse(Call<GasStationInfo> call, Response<GasStationInfo> response) {
 
                             if(response.isSuccessful()){
 
-                                OilDetail oilDetail = response.body();
-                                org.techtown.find_gas_station.Data.kakaoResponseModel.oilDetail.RESULT result = oilDetail.getRESULT();
+                                GasStationInfo gasDetail = response.body();
+                                GasStationInfo.Result result = gasDetail.getRESULT();
 
                                 //세차장, 편의점 정보
-                                String carWash = result.getOIL()[0].getCAR_WASH_YN();
-                                String conStore = result.getOIL()[0].getCVS_YN();
+                                String carWash = result.getOIL().get(0).getCAR_WASH_YN();
+                                String conStore = result.getOIL().get(0).getCVS_YN();
 
                                 //상세 정보 받아오기
-                                String lotNumberAddress = result.getOIL()[0].getVAN_ADR();
-                                String roadAddress = result.getOIL()[0].getNEW_ADR();
+                                String lotNumberAddress = result.getOIL().get(0).getVAN_ADR();
+                                String roadAddress = result.getOIL().get(0).getNEW_ADR();
 
-                                String tel = result.getOIL()[0].getTEL();
-                                String sector = result.getOIL()[0].getLPG_YN();
+                                String tel = result.getOIL().get(0).getTEL();
+                                String sector = result.getOIL().get(0).getLPG_YN();
 
                                 int dis = (int)Double.parseDouble(distance);
                                 //소수점 짜르기
@@ -332,7 +332,7 @@ public class GetOilRepository {
                         }
 
                         @Override
-                        public void onFailure(Call<OilDetail> call, Throwable t) {
+                        public void onFailure(Call<GasStationInfo> call, Throwable t) {
 
 
                         }

@@ -1,7 +1,7 @@
 package org.techtown.find_gas_station.Retrofit;
 
 import org.techtown.find_gas_station.Data.kakaoResponseModel.oilAvg.OilAvg;
-import org.techtown.find_gas_station.Data.kakaoResponseModel.oilDetail.OilDetail;
+import org.techtown.find_gas_station.Data.kakaoResponseModel.oilDetail.GasStationInfo;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.oilList.GasStationData;
 
 import retrofit2.Call;
@@ -21,7 +21,7 @@ public interface Opinet_RetrofitApi {
 
 
     @GET("api/detailById.do")
-    Call<OilDetail> getOilDetail(@Query("code") String code, @Query("out") String out, @Query("id") String id);
+    Call<GasStationInfo> getOilDetail(@Query("code") String code, @Query("out") String out, @Query("id") String id);
 
     @GET("api/avgRecentPrice.do")
     Call<OilAvg> getAvgRecentPrice(@Query("code") String code, @Query("out") String out,
