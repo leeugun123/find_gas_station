@@ -10,8 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.techtown.find_gas_station.Data.kakaoResponseModel.oilAvg.OilPriceInfo;
 import org.techtown.find_gas_station.R;
-import org.techtown.find_gas_station.Data.kakaoResponseModel.oilAvg.OIL;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,10 +20,10 @@ import java.util.Date;
 
 public class OilAvgRecyclerAdapter extends RecyclerView.Adapter<OilAvgRecyclerAdapter.ViewHolder> {
 
-    private ArrayList<OIL> oilAvg_List;
+    private ArrayList<OilPriceInfo.OilPrice> oilAvg_List;
 
 
-    public OilAvgRecyclerAdapter(ArrayList<OIL> oilAvg_List){
+    public OilAvgRecyclerAdapter(ArrayList<OilPriceInfo.OilPrice> oilAvg_List){
         this.oilAvg_List = oilAvg_List;
     }
 
@@ -46,10 +46,7 @@ public class OilAvgRecyclerAdapter extends RecyclerView.Adapter<OilAvgRecyclerAd
 
         TextView day;
         TextView price;
-
         TextView priceGap;
-
-
 
         public ViewHolder(@NonNull View itemView){
 
@@ -62,11 +59,11 @@ public class OilAvgRecyclerAdapter extends RecyclerView.Adapter<OilAvgRecyclerAd
 
         }
 
-        @SuppressLint("ResourceAsColor")
-        public void onBind(OIL oilAvg, int pos){
+        @SuppressLint({"ResourceAsColor", "SetTextI18n"})
+        public void onBind(OilPriceInfo.OilPrice oilAvg, int pos){
 
-            day.setText(convertDateString(oilAvg.getDate()));
-            price.setText(oilAvg.getPrice());
+            day.setText(convertDateString(oilAvg.getDATE()));
+            price.setText(Integer.toString( (int) oilAvg.getPRICE()));
 
             if(pos == oilAvg_List.size() - 1){
                 priceGap.setText("-");
@@ -116,9 +113,8 @@ public class OilAvgRecyclerAdapter extends RecyclerView.Adapter<OilAvgRecyclerAd
 
         public int priceGap(int pos){
 
-            return Integer.parseInt(oilAvg_List.get(pos).getPrice()) -
-                          Integer.parseInt(oilAvg_List.get(pos+1).getPrice());
-
+            return (int) oilAvg_List.get(pos).getPRICE() -
+                          (int) oilAvg_List.get(pos+1).getPRICE();
 
         }
 

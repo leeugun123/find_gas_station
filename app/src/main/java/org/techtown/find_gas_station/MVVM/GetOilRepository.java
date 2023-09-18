@@ -4,6 +4,7 @@ import static org.techtown.find_gas_station.Fragment.HomeFragment.getWgsMyX;
 import static org.techtown.find_gas_station.Fragment.HomeFragment.getWgsMyY;
 import static org.techtown.find_gas_station.Fragment.HomeFragment.moil_list;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.graphics.Color;
 import android.util.Log;
@@ -30,6 +31,7 @@ import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.DirectionRequ
 import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.DirectionResponse;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.Origin;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.Route;
+import org.techtown.find_gas_station.Data.kakaoResponseModel.oilAvg.OilPriceInfo;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.oilDetail.GasStationInfo;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.oilList.GasStationData;
 import org.techtown.find_gas_station.Fragment.OilAvgRecyclerAdapter;
@@ -43,8 +45,6 @@ import org.techtown.find_gas_station.OilList;
 import org.techtown.find_gas_station.R;
 import org.techtown.find_gas_station.Retrofit.Kakao_RetrofitApi;
 import org.techtown.find_gas_station.Retrofit.Opinet_RetrofitApi;
-import org.techtown.find_gas_station.Data.kakaoResponseModel.oilAvg.OIL;
-import org.techtown.find_gas_station.Data.kakaoResponseModel.oilAvg.OilAvg;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -102,23 +102,6 @@ public class GetOilRepository {
 
 
     }
-
-    public static String doubleToInt(String price){
-
-        String temp = "";
-
-        for(int i=0; i<price.length(); i++){
-
-            if(price.charAt(i) == '.')
-                break;
-
-            temp += price.charAt(i);
-
-        }
-
-        return temp;
-    }
-    //가격에 소수점 제거 메소드
 
     public void getOilList(
             RecyclerView mRecyclerView,
@@ -439,31 +422,31 @@ public class GetOilRepository {
     public void getOilAvg(LineChart lineChart, RecyclerView oilAvg_recyclerView, TextView priceText, String prodcd){
 
         opinet_retrofitApi.getAvgRecentPrice(opinet_apiKey,"json",prodcd)
-                .enqueue(new Callback<OilAvg>() {
+                .enqueue(new Callback<OilPriceInfo>() {
 
+                    @SuppressLint("SetTextI18n")
                     @Override
-                    public void onResponse(Call<OilAvg> call, Response<OilAvg> response) {
+                    public void onResponse(Call<OilPriceInfo> call, Response<OilPriceInfo> response) {
 
                         if(response.isSuccessful()){
 
-                            OilAvg oilAvg = response.body();
-                            org.techtown.find_gas_station.Data.kakaoResponseModel.oilAvg.RESULT result = oilAvg.getRESULT();
+                            OilPriceInfo oilPriceInfo = response.body();
+                            OilPriceInfo.Result result = oilPriceInfo.getRESULT();
 
                             List<Entry> entries = new ArrayList<>();
-                            ArrayList<OIL> Avg = new ArrayList<>();
+                            ArrayList<OilPriceInfo.OilPrice> Avg = new ArrayList<>();
 
-                            for(int i=0; i<result.getOil().length; i++){
+                            for(int i=0; i<result.getOIL().size(); i++){
 
-                                OIL oil = result.getOil()[i];
+                                OilPriceInfo.OilPrice oilPrice = result.getOIL().get(i);
 
                                 //recyclerView에 담을 ArrayList<Oil>
-                                Avg.add(new OIL(
-                                        oil.getDate(),
-                                        doubleToInt(oil.getPrice())
+                                Avg.add(new OilPriceInfo.OilPrice(
+                                        oilPrice.getDATE(),
+                                        (int) oilPrice.getPRICE()
                                 ));
 
-                                entries.add(new Entry(i,
-                                                     Integer.parseInt(doubleToInt(oil.getPrice()))));
+                                entries.add(new Entry(i, (int) oilPrice.getPRICE()));
                             }
 
                             LineDataSet dataSet = new LineDataSet(entries, "주유소 가격");
@@ -493,7 +476,7 @@ public class GetOilRepository {
                             //역순 뒤집기
 
                             if(Avg.size() > 0)
-                                priceText.setText(Avg.get(0).getPrice());
+                                priceText.setText(Integer.toString( (int) Avg.get(0).getPRICE()));
 
                             oilAvg_recyclerView.setAdapter(new OilAvgRecyclerAdapter(Avg));
 
@@ -503,7 +486,7 @@ public class GetOilRepository {
                     }
 
                     @Override
-                    public void onFailure(Call<OilAvg> call, Throwable t) {
+                    public void onFailure(Call<OilPriceInfo> call, Throwable t) {
 
 
 
