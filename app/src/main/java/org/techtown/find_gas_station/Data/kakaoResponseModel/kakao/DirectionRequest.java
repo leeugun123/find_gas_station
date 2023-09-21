@@ -15,14 +15,14 @@ public class DirectionRequest {
     @SerializedName("radius")
     private int radius;
 
-    @SerializedName("priority")
-    private String priority;
 
-    public DirectionRequest(Origin origin, Destination[] destinations, int radius , String priority) {
+
+    public DirectionRequest(Origin origin, Destination[] destinations, int radius) {
+
         this.origin = origin;
         this.destinations = destinations;
         this.radius = radius;
-        this.priority = priority;
+
     }
 
 }

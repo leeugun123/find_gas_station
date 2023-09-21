@@ -72,7 +72,6 @@ public class GetOilRepository {
     private MyRecyclerAdapter myRecyclerAdapter;
 
     private String oil = "";
-    private String priority = "";
 
     private ArrayList<OilList> plusOilList;
 
@@ -328,34 +327,14 @@ public class GetOilRepository {
     public void getOilKakaoApi(ProgressBar progressBar, GoogleMap mMap, RecyclerView mRecyclerView, String sort){
 
 
-        HashMap<String , OilList> hashMap = new HashMap<>();
-        //응답으로 섞인 OilList 객체들을 바로 잡기 위한 HashMap
+        Destination[] destinations = new Destination[moil_list.size()];
 
-        //여기까지 데이터는 옴.
-
-        for(int i=0; i < moil_list.size(); i++){
-
-            if(i == 30)
-                break;
-
-            hashMap.put(moil_list.get(i).getUid(), moil_list.get(i));
-
+        for(int i=0; i<moil_list.size(); i++){
+            destinations[i] = new Destination(moil_list.get(i).getUid(), moil_list.get(i).getWgs84X(), moil_list.get(i).getWgs84Y());
         }
-
-        Destination[] destinations = new Destination[hashMap.size()];
-
-        for(int i=0; i<hashMap.size(); i++){
-            destinations[i] = new Destination( moil_list.get(i).getUid(), moil_list.get(i).getWgs84X(), moil_list.get(i).getWgs84Y());
-        }
-
-        if(sort.equals("3"))
-            priority = "DISTANCE";
-        else
-            priority = "TIME";
-
 
         kakao_retrofitApi.getMultiDirections(new DirectionRequest(new Origin(Double.parseDouble(getWgsMyX) , Double.parseDouble(getWgsMyY)),
-                        destinations,10000,priority))
+                        destinations,10000))
 
                 .enqueue(new Callback<DirectionResponse>() {
                     @Override
@@ -367,10 +346,9 @@ public class GetOilRepository {
 
                             Route[] routes = multiRouteResponse.getRoutes();
 
-                            for(int i=0; i < hashMap.size(); i++){
+                            for(int i=0; i < moil_list.size(); i++){
 
-                                String key = routes[i].getKey();
-                                OilList oilList = hashMap.get(key);
+                                OilList oilList = moil_list.get(i);
 
                                 String distance = Integer.toString(routes[i].getSummary().getDistance());
                                 String spendTime = Integer.toString(routes[i].getSummary().getDuration());
@@ -382,7 +360,7 @@ public class GetOilRepository {
 
                             }
 
-                            if(priority.equals("TIME")){
+                            if(sort.equals("4")){
                                 Collections.sort(plusOilList , new OilSpendTimeComparator());
                             }else
                                 Collections.sort(plusOilList , new OilRoadDistanceComparator());
