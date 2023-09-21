@@ -1,13 +1,9 @@
-package org.techtown.find_gas_station;
-
-import static android.content.ContentValues.TAG;
+package org.techtown.find_gas_station.Adapter;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,9 +29,11 @@ import com.kakao.kakaonavi.options.RpOption;
 import com.kakao.kakaonavi.options.VehicleType;
 import com.kakao.sdk.navi.Constants;
 import com.kakao.sdk.navi.NaviClient;
-import com.skt.Tmap.TMapTapi;
 
-import java.util.ArrayList;
+import org.techtown.find_gas_station.IntelActivity;
+import org.techtown.find_gas_station.OilList;
+import org.techtown.find_gas_station.R;
+
 import java.util.List;
 
 
@@ -245,7 +243,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                 public void onClick(View view) {
 
 
-                    Intent intent = new Intent(itemView.getContext(),IntelActivity.class);
+                    Intent intent = new Intent(itemView.getContext(), IntelActivity.class);
 
                     intent.putExtra("wgsY",oil_list.getWgs84Y());
                     intent.putExtra("wgsX",oil_list.getWgs84X());

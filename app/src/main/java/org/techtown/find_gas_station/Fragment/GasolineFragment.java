@@ -33,9 +33,6 @@ public class GasolineFragment extends Fragment {
         getOilViewModel = new ViewModelProvider(this).get(GetOilViewModel.class);
         //getOilViewModel 초기화
 
-
-
-
     }
 
     @Override

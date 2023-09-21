@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.Fragment;
+package org.techtown.find_gas_station.Adapter;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
@@ -68,7 +68,8 @@ public class OilAvgRecyclerAdapter extends RecyclerView.Adapter<OilAvgRecyclerAd
             if(pos == oilAvg_List.size() - 1){
                 priceGap.setText("-");
                 priceGap.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.gray));
-            }else{
+            }//7일전인 경우 이전 날짜 데이터가 없으므로 차이를 0으로 설정
+            else{
 
                 int gap = priceGap(pos);
 
@@ -77,19 +78,24 @@ public class OilAvgRecyclerAdapter extends RecyclerView.Adapter<OilAvgRecyclerAd
                 if(gap > 0){
                     priceGap.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.orange));
                     priceGap.setText("+"+ priceText);
-                }else{
+                }else if(gap < 0){
                     priceGap.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.purple_700));
                     priceGap.setText(priceText);
+                }else{
+                    priceGap.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.gray));
+                    priceGap.setText(priceText);
                 }
-
-
-
 
 
             }
 
 
+        }
 
+        public int priceGap(int pos){
+
+            return (int) oilAvg_List.get(pos).getPRICE() -
+                    (int) oilAvg_List.get(pos+1).getPRICE();
 
         }
 
@@ -108,17 +114,6 @@ public class OilAvgRecyclerAdapter extends RecyclerView.Adapter<OilAvgRecyclerAd
             return "";
 
         }
-
-
-
-        public int priceGap(int pos){
-
-            return (int) oilAvg_List.get(pos).getPRICE() -
-                          (int) oilAvg_List.get(pos+1).getPRICE();
-
-        }
-
-
 
     }
 

@@ -34,11 +34,11 @@ import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.Route;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.oilAvg.OilPriceInfo;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.oilDetail.GasStationInfo;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.oilList.GasStationData;
-import org.techtown.find_gas_station.Fragment.OilAvgRecyclerAdapter;
+import org.techtown.find_gas_station.Adapter.OilAvgRecyclerAdapter;
 import org.techtown.find_gas_station.GPS.GeoTrans;
 import org.techtown.find_gas_station.GPS.GeoTransPoint;
 import org.techtown.find_gas_station.Fragment.HomeFragment;
-import org.techtown.find_gas_station.MyRecyclerAdapter;
+import org.techtown.find_gas_station.Adapter.MyRecyclerAdapter;
 import org.techtown.find_gas_station.Comparator.OilDistanceComparator;
 import org.techtown.find_gas_station.Comparator.OilPriceComparator;
 import org.techtown.find_gas_station.OilList;
@@ -46,10 +46,8 @@ import org.techtown.find_gas_station.R;
 import org.techtown.find_gas_station.Retrofit.Kakao_RetrofitApi;
 import org.techtown.find_gas_station.Retrofit.Opinet_RetrofitApi;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -389,8 +387,6 @@ public class GetOilRepository {
                             }else
                                 Collections.sort(plusOilList , new OilRoadDistanceComparator());
 
-
-
                             progressBar.setVisibility(View.GONE);
                             myRecyclerAdapter = new MyRecyclerAdapter(plusOilList,mMap,sort);
                             mRecyclerView.setAdapter(myRecyclerAdapter);
@@ -398,9 +394,7 @@ public class GetOilRepository {
 
 
                         }
-                        else{
-                           int statusCode = response.code();
-                        }
+
 
 
                     }
@@ -498,20 +492,6 @@ public class GetOilRepository {
 
 
     }
-
-
-    public String getCurrentDateTimeString() {
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmm");
-        return dateFormat.format(new Date());
-
-    }
-
-
-
-
-
-
 
 
 

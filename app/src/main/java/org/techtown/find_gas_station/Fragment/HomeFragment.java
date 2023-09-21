@@ -56,7 +56,7 @@ import org.techtown.find_gas_station.GPS.GeoTransPoint;
 import org.techtown.find_gas_station.GPS.GpsTracker;
 import org.techtown.find_gas_station.MVVM.GetOilViewModel;
 import org.techtown.find_gas_station.MVVM.SetViewModel;
-import org.techtown.find_gas_station.MyRecyclerAdapter;
+import org.techtown.find_gas_station.Adapter.MyRecyclerAdapter;
 import org.techtown.find_gas_station.OilList;
 import org.techtown.find_gas_station.R;
 import org.techtown.find_gas_station.set.Set;
@@ -115,7 +115,7 @@ public class HomeFragment extends Fragment
         //화면이 꺼지지 않도록 유지
 
 
-        Log.e("TAG","onCreate");
+        Log.e("TAG","HomeFragment onCreate");
 
 
         locationRequest = new LocationRequest()
@@ -549,6 +549,8 @@ public class HomeFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        Log.e("TAG","HomeFragment onCreateView");
+
 
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
@@ -559,7 +561,7 @@ public class HomeFragment extends Fragment
             getChildFragmentManager().beginTransaction()
                     .replace(R.id.map, mapFragment)
                     .commit();
-        }
+        }//googleMap UI 추가
 
         mapFragment.getMapAsync(this);
 

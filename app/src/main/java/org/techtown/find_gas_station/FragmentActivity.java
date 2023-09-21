@@ -17,7 +17,6 @@ import org.techtown.find_gas_station.Fragment.HomeFragment;
 
 public class FragmentActivity extends AppCompatActivity {
 
-
     private long pressedTime = 0;
     private Fragment fa,fb;
     private FragmentManager fragmentManager;
