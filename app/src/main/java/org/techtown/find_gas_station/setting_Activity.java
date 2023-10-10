@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import org.techtown.find_gas_station.MVVM.SetViewModel;
@@ -41,15 +42,26 @@ public class setting_Activity extends AppCompatActivity {
         setViewModel = new ViewModelProvider(this).get(SetViewModel.class);
         //viewModel 초기화
 
+        spinner = findViewById(R.id.spinner);
+        sort_spinner = findViewById(R.id.sort_spinner);
+        distance_spinner = findViewById(R.id.distance_spinner);
 
-        Set set = setViewModel.getAllSets();
+        setViewModel.getSetLiveData().observe(this, new Observer<Set>() {
+            @Override
+            public void onChanged(Set set) {
 
-        oil_intel_setting[0] = set.getOil_rad();
-        //반경
-        oil_intel_setting[1] = set.getOil_sort();
-        //정렬 기준
-        oil_intel_setting[2] = set.getOil_name();
-        //기름 종류
+                if (set != null) {
+                    // LiveData가 변경될 때마다 UI 업데이트
+                    oil_intel_setting[0] = set.getOil_rad() != null ? set.getOil_rad() : "1000";
+                    oil_intel_setting[1] = set.getOil_sort() != null ? set.getOil_sort() : "1";
+                    oil_intel_setting[2] = set.getOil_name() != null ? set.getOil_name() : "B027";
+                }
+
+                updateUI();
+
+            }
+        });
+
 
 
         close = findViewById(R.id.go_back);
@@ -70,35 +82,17 @@ public class setting_Activity extends AppCompatActivity {
         stringCategory.add("실내 등유");
         stringCategory.add("자동차 부탄");
 
-        spinner = findViewById(R.id.spinner);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this,R.layout.support_simple_spinner_dropdown_item,stringCategory);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-        if(oil_intel_setting[2].equals("B027")){
-            spinner.setSelection(0);
-        }
-        else if(oil_intel_setting[2].equals("D047")){
-            spinner.setSelection(1);
-        }
-        else if(oil_intel_setting[2].equals("B034")){
-            spinner.setSelection(2);
-        }
-        else if(oil_intel_setting[2].equals("C004")){
-            spinner.setSelection(3);
-        }
-        else{
-            spinner.setSelection(4);
-        }
-        //자신이 설정했던 spinner를 가져옴
 
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 ((TextView)adapterView.getChildAt(0)).setTextColor(Color.BLACK);
-
 
                 if(i == 0){
                     oil_intel_setting[2] = "B027";
@@ -147,22 +141,11 @@ public class setting_Activity extends AppCompatActivity {
         distance_string.add("3km");
         distance_string.add("5km");
 
-        distance_spinner = findViewById(R.id.distance_spinner);
-
         ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(
                 this,R.layout.support_simple_spinner_dropdown_item,distance_string);
         adapter1.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         distance_spinner.setAdapter(adapter1);
 
-        if(oil_intel_setting[0].equals("1000")){
-            distance_spinner.setSelection(0);
-        }
-        else if(oil_intel_setting[0].equals("3000")){
-            distance_spinner.setSelection(1);
-        }
-        else{
-            distance_spinner.setSelection(2);
-        }//이전 액티비티에서 설정한 Intent 가져오기
 
         distance_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -199,10 +182,6 @@ public class setting_Activity extends AppCompatActivity {
         });
 
 
-
-
-
-
         //3. 정렬 기준 설정
         ArrayList<String> sort_string = new ArrayList<String>();
 
@@ -211,22 +190,10 @@ public class setting_Activity extends AppCompatActivity {
         sort_string.add("도로 거리순");
         sort_string.add("소요시간 순");
 
-        sort_spinner = findViewById(R.id.sort_spinner);
-
         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(
                 this,R.layout.support_simple_spinner_dropdown_item,sort_string);
         adapter2.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         sort_spinner.setAdapter(adapter2);
-
-        if(oil_intel_setting[1].equals("1"))
-            sort_spinner.setSelection(0);
-        else if(oil_intel_setting[1].equals("2"))
-            sort_spinner.setSelection(1);
-        else if(oil_intel_setting[1].equals("3"))
-            sort_spinner.setSelection(2);
-        else if(oil_intel_setting[1].equals("4"))
-            sort_spinner.setSelection(3);
-
 
         sort_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -264,7 +231,49 @@ public class setting_Activity extends AppCompatActivity {
 
     }
 
+    private void updateUI() {
 
+        if(oil_intel_setting[2].equals("B027")){
+            spinner.setSelection(0);
+        }
+        else if(oil_intel_setting[2].equals("D047")){
+            spinner.setSelection(1);
+        }
+        else if(oil_intel_setting[2].equals("B034")){
+            spinner.setSelection(2);
+        }
+        else if(oil_intel_setting[2].equals("C004")){
+            spinner.setSelection(3);
+        }
+        else{
+            spinner.setSelection(4);
+        }
+
+        //자신이 설정했던 spinner를 가져옴
+        if(oil_intel_setting[0].equals("1000")){
+            distance_spinner.setSelection(0);
+        }
+        else if(oil_intel_setting[0].equals("3000")){
+            distance_spinner.setSelection(1);
+        }
+        else{
+            distance_spinner.setSelection(2);
+        }
+
+
+        if(oil_intel_setting[1].equals("1"))
+            sort_spinner.setSelection(0);
+        else if(oil_intel_setting[1].equals("2"))
+            sort_spinner.setSelection(1);
+        else if(oil_intel_setting[1].equals("3"))
+            sort_spinner.setSelection(2);
+        else if(oil_intel_setting[1].equals("4"))
+            sort_spinner.setSelection(3);
+
+
+
+
+    }
 
 
 }

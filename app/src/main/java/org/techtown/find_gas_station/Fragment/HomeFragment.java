@@ -19,6 +19,7 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
@@ -130,12 +131,12 @@ public class HomeFragment extends Fragment
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
 
-
         moil_list = new ArrayList<>();
         setViewModel = new ViewModelProvider(this).get(SetViewModel.class);
         getOilViewModel = new ViewModelProvider(this).get(GetOilViewModel.class);
         Red = BitmapFactory.decodeResource(getResources(), R.drawable.red_marker);
         //viewModel 초기화 부분
+
 
         Handler handler = new Handler();
 
@@ -143,43 +144,29 @@ public class HomeFragment extends Fragment
 
             //싱글톤 패턴을 사용하지 않고 무조건 강제 실행
             //나중에 문제가 생길 수 있음
-            setViewModel.insert(new Set("B027","1000","1"));
-            //null 값 방지
+            setViewModel.getSetLiveData().observe(this, new Observer<Set>() {
+                @Override
+                public void onChanged(Set set) {
+                    if (set != null) {
+                        // LiveData가 변경될 때마다 UI 업데이트
+                        String oil_rad = set.getOil_rad() != null ? set.getOil_rad() : "1000";
+                        String oil_sort = set.getOil_sort() != null ? set.getOil_sort() : "1";
+                        String oil_name = set.getOil_name() != null ? set.getOil_name() : "B027";
 
-            Set set = setViewModel.getAllSets();
+                        oil_intel[0] = oil_rad;
+                        oil_intel[1] = oil_sort;
+                        oil_intel[2] = oil_name;
 
-            if(set.getOil_rad() == null)
-                oil_intel[0] = "1000";
-            else
-                oil_intel[0] = set.getOil_rad();
-            //반경
+                        updateUI();
 
-            if(set.getOil_sort() == null){
-                oil_intel[1] = "1";
-            }
-            else
-                oil_intel[1] = set.getOil_sort();
-            //정렬 기준
+                        init_reset();
+                        upRecyclerView();
 
-            if(set.getOil_name() == null){
-                oil_intel[2] = "B027";
-            }
-            else
-                oil_intel[2] = set.getOil_name();
-            //기름 종류
+                    }
+                }
+            });
 
 
-            if(oil_intel[1].equals("1"))
-                array_first.setText("가격순");
-            else if(oil_intel[1].equals("2"))
-                array_first.setText("직경 거리순");
-            else if(oil_intel[1].equals("3"))
-                array_first.setText("도로 거리순");
-            else if(oil_intel[1].equals("4"))
-                array_first.setText("소요 시간순");
-
-            init_reset();
-            upRecyclerView();
 
 
 
@@ -200,8 +187,19 @@ public class HomeFragment extends Fragment
         },500);
         //onMap이 초기화되지 않아 데이터를 가져오지 못하는 경우, 보험으로 실행
 
+    }
 
-
+    // 비동기로 업데이트된 데이터를 사용하여 UI 업데이트
+    private void updateUI() {
+        if (oil_intel[1].equals("1")) {
+            array_first.setText("가격순");
+        } else if (oil_intel[1].equals("2")) {
+            array_first.setText("직경 거리순");
+        } else if (oil_intel[1].equals("3")) {
+            array_first.setText("도로 거리순");
+        } else if (oil_intel[1].equals("4")) {
+            array_first.setText("소요 시간순");
+        }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")

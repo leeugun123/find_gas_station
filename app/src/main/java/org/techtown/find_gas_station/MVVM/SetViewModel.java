@@ -15,16 +15,15 @@ import java.util.List;
 public class SetViewModel extends AndroidViewModel {
 
     private SetRepository setRepository;
-    private Set sets;
+    private LiveData<Set> setLiveData;
 
     public SetViewModel(@NonNull Application application) {
         super(application);
         setRepository = new SetRepository(application);
-        sets = setRepository.getSets();
-
+        setLiveData = setRepository.getAllSets();
     }
 
-    public void insert(Set set){
+    public void insert(Set set) {
         setRepository.insert(set);
     }
 
@@ -33,17 +32,17 @@ public class SetViewModel extends AndroidViewModel {
     }
 
     public void delete(){
-        setRepository.delete();
+        setRepository.deleteAll();
     }
 
-    public Set getAllSets(){
-        return sets;
+    public LiveData<Set> getSetLiveData() {
+        return setLiveData;
     }
-
-
-
-
-
 
 
 }
+
+
+    // ViewModel 클래스 내에서 LiveData 정의
+
+
