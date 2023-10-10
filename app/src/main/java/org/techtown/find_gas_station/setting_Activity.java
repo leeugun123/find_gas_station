@@ -23,13 +23,9 @@ import java.util.ArrayList;
 public class setting_Activity extends AppCompatActivity {
 
     private Button close;
-
     private Spinner spinner;//기름 스피너
-
     private Spinner distance_spinner;//반경 스피너
-
     private Spinner sort_spinner;//정렬 스피너
-
     String[] oil_intel_setting = new String[3];
 
     private SetViewModel setViewModel;
@@ -63,7 +59,6 @@ public class setting_Activity extends AppCompatActivity {
         });
 
 
-
         close = findViewById(R.id.go_back);
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +68,7 @@ public class setting_Activity extends AppCompatActivity {
         });//닫기 버튼
 
 
-        //1. 기름 종류 설정
+        //========================== 1. 기름 종류 설정 ===============
         ArrayList<String> stringCategory = new ArrayList<String>();
 
         stringCategory.add("휘발유");
@@ -110,16 +105,19 @@ public class setting_Activity extends AppCompatActivity {
                     oil_intel_setting[2] = "K015";
                 }
 
+                updateUI();
+
                 setViewModel.delete();
                 setViewModel.insert(new Set(oil_intel_setting[2],oil_intel_setting[0],oil_intel_setting[1]));
 
+                /*
                 Intent intent = new Intent();
                 intent.putExtra("0",oil_intel_setting[0]);
                 intent.putExtra("1",oil_intel_setting[1]);
                 intent.putExtra("2",oil_intel_setting[2]);
 
                 setResult(RESULT_OK,intent);
-
+                   */
 
             }
 
@@ -134,7 +132,7 @@ public class setting_Activity extends AppCompatActivity {
 
 
 
-        //2. 반경 설정
+        //================= 2. 반경 설정 =============================
         ArrayList<String> distance_string = new ArrayList<String>();
 
         distance_string.add("1km");
@@ -163,15 +161,18 @@ public class setting_Activity extends AppCompatActivity {
                     oil_intel_setting[0] = "5000";
                 }//5km
 
+                updateUI();
+
                 setViewModel.delete();
                 setViewModel.insert(new Set(oil_intel_setting[2],oil_intel_setting[0],oil_intel_setting[1]));
 
-
+                /*
                 Intent intent = new Intent();
                 intent.putExtra("0",oil_intel_setting[0]);
                 intent.putExtra("1",oil_intel_setting[1]);
                 intent.putExtra("2",oil_intel_setting[2]);
                 setResult(RESULT_OK,intent);
+                */
 
             }
 
@@ -209,17 +210,18 @@ public class setting_Activity extends AppCompatActivity {
                 else if(i == 3)
                     oil_intel_setting[1] = "4";//소요시간 순
 
+                updateUI();
 
                 setViewModel.delete();
                 setViewModel.insert(new Set(oil_intel_setting[2],oil_intel_setting[0],oil_intel_setting[1]));
 
-
+                /*
                 Intent intent = new Intent();
                 intent.putExtra("0",oil_intel_setting[0]);
                 intent.putExtra("1",oil_intel_setting[1]);
                 intent.putExtra("2",oil_intel_setting[2]);
                 setResult(RESULT_OK,intent);
-
+                */
 
             }
 

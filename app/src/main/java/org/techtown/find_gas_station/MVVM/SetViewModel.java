@@ -42,7 +42,6 @@ public class SetViewModel extends AndroidViewModel {
 
 }
 
-
-    // ViewModel 클래스 내에서 LiveData 정의
+// ViewModel 클래스 내에서 LiveData 정의
 
 

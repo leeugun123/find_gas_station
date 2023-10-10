@@ -212,6 +212,7 @@ public class HomeFragment extends Fragment
 
     }//getData메소드 호출하여 ArrayList 값들 채우기
 
+    /*
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -260,7 +261,7 @@ public class HomeFragment extends Fragment
         }
 
     }
-
+    */
 
     public void getData(float latitude,float Longtitude){
 
@@ -596,7 +597,7 @@ public class HomeFragment extends Fragment
             public void onClick(View view) {
 
                 Intent intent = new Intent(requireActivity(), setting_Activity.class);
-                startActivityForResult(intent,REQUEST_CODE);
+                startActivity(intent);
 
             }//Setting activity로 전환
 

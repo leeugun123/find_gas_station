@@ -13,7 +13,6 @@ public abstract class RoomDB extends RoomDatabase {
 
     public abstract SetDao setDao();
 
-
     public static RoomDB getAppDatabase(Context context){
 
         if(INSTANCE == null){
@@ -24,8 +23,9 @@ public abstract class RoomDB extends RoomDatabase {
 
         return INSTANCE;
 
-
     }
+
+
 
 
 

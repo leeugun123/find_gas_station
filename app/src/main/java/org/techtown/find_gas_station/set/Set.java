@@ -14,20 +14,16 @@ public class Set {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
-
     @ColumnInfo(name = "oil_name")
     private String oil_name = "B027"; // 기름 종류
-
     @ColumnInfo(name = "oil_rad")
     private String oil_rad = "1000"; // 반경 범위
-
     @ColumnInfo(name = "oil_sort")
     private String oil_sort = "1"; // 정렬기준
 
     public Set(){
 
     }
-
     public Set(String oil_name,String oil_rad, String oil_sort){
         this.oil_name = oil_name;
         this.oil_rad = oil_rad;
