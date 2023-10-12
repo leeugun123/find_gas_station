@@ -18,6 +18,7 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -62,6 +63,7 @@ import org.techtown.find_gas_station.R;
 import org.techtown.find_gas_station.set.Set;
 import org.techtown.find_gas_station.setting_Activity;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,7 +74,6 @@ public class HomeFragment extends Fragment
 
     //받아오는 list들
     private RecyclerView mRecyclerView;
-    public static List<OilList> moil_list;
     private Button Setting;
     public static boolean empty;
 
@@ -114,23 +115,18 @@ public class HomeFragment extends Fragment
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         //화면이 꺼지지 않도록 유지
 
-
-        Log.e("TAG","HomeFragment onCreate");
-
-
         locationRequest = new LocationRequest()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(UPDATE_INTERVAL_MS)
                 .setFastestInterval(FASTEST_UPDATE_INTERVAL_MS);
         //위치요청
-
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
-
         builder.addLocationRequest(locationRequest);
-
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
 
-        moil_list = new ArrayList<>();
+
+
+
         setViewModel = new ViewModelProvider(this).get(SetViewModel.class);
         getOilViewModel = new ViewModelProvider(this).get(GetOilViewModel.class);
         Red = BitmapFactory.decodeResource(getResources(), R.drawable.red_marker);
@@ -140,12 +136,12 @@ public class HomeFragment extends Fragment
         Handler handler = new Handler();
 
         handler.postDelayed(() -> {
-
             //싱글톤 패턴을 사용하지 않고 무조건 강제 실행
             //나중에 문제가 생길 수 있음
             setViewModel.getSetLiveData().observe(this, new Observer<Set>() {
                 @Override
                 public void onChanged(Set set) {
+
                     if (set != null && setFlag) {
                         // LiveData가 변경될 때마다 UI 업데이트
                         String oil_rad = set.getOil_rad() != null ? set.getOil_rad() : "1000";
@@ -162,7 +158,8 @@ public class HomeFragment extends Fragment
                         updateUI();
 
                         init_reset();
-                        upRecyclerView();
+
+
 
                     }
                 }
@@ -172,24 +169,38 @@ public class HomeFragment extends Fragment
         },200);
 
 
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
+        getOilViewModel.getSetOilList().observe(this, new Observer<ArrayList<OilList>> () {
 
-                if(!notYet){
-                    init_reset();
-                    upRecyclerView();
-                    notYet = true;
+                @Override
+                public void onChanged(ArrayList<OilList> list) {
+
+                    if(list != null){
+
+                        HomeFragment.empty = false;
+
+                        ArrayList<OilList> moil_list = new ArrayList<>();
+                        MyRecyclerAdapter myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap,oil_intel[1]);
+                        mRecyclerView.setAdapter(myRecyclerAdapter);
+                        myRecyclerAdapter.notifyDataSetChanged();
+
+                        progressBar.setVisibility(View.GONE);
+
+                        upRecyclerView(moil_list);
+
+                    }
+
+
                 }
 
-            }
-        },500);
-        //onMap이 초기화되지 않아 데이터를 가져오지 못하는 경우, 보험으로 실행
+
+        });
+
 
     }
 
     // 비동기로 업데이트된 데이터를 사용하여 UI 업데이트
     private void updateUI() {
+
         if (oil_intel[1].equals("1")) {
             array_first.setText("가격순");
         } else if (oil_intel[1].equals("2")) {
@@ -218,12 +229,9 @@ public class HomeFragment extends Fragment
         //gpsTransfer 클래스를 이용하여 location 매개변수를 사용해 위도,경도 -> x,y좌표로 초기화
         Log.e("TAG","getData");
 
-        HomeFragment.empty = false;
+        HomeFragment.empty = true;
 
-        moil_list.clear();
-        MyRecyclerAdapter myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap,"1");
-        mRecyclerView.setAdapter(myRecyclerAdapter);
-        myRecyclerAdapter.notifyDataSetChanged();
+
         //어뎁터 및 데이터 초기화
         progressBar.setVisibility(View.VISIBLE);
 
@@ -239,11 +247,11 @@ public class HomeFragment extends Fragment
 
         if(mMap != null){
 
-            Log.e("TAG", "요청 중");
-
-            getOilViewModel.getOilList(mRecyclerView, mMap, progressBar ,Double.toString(ge.getX()),Double.toString(ge.getY()),
+            getOilViewModel.insertOilList(Double.toString(ge.getX()),Double.toString(ge.getY()),
                     oil_intel[0],oil_intel[1],oil_intel[2]);
+
             notYet = true;
+
         }
 
         Handler handler = new Handler();
@@ -253,8 +261,13 @@ public class HomeFragment extends Fragment
             public void run() {
 
                 if(HomeFragment.empty){
+
                     Toast.makeText(requireContext(),"데이터가 비어있거나 서버가 점검 중입니다.",
                             Toast.LENGTH_SHORT).show();
+
+                    progressBar.setVisibility(View.GONE);
+
+
                 }
 
             }
@@ -266,7 +279,7 @@ public class HomeFragment extends Fragment
 
     //위치가 조회되지 않을때 발생하는 메소드
 
-    public void upRecyclerView(){
+    public void upRecyclerView(ArrayList<OilList> moil_list){
 
 
         Handler handler = new Handler();
@@ -282,7 +295,8 @@ public class HomeFragment extends Fragment
                     }
                 };
 
-                smoothScroller.setTargetPosition(moil_list.size()); //itemPosition - 이동시키고자 하는 Item의 Position
+
+                smoothScroller.setTargetPosition(0); //itemPosition - 이동시키고자 하는 Item의 Position
                 //마지막 배열 = 사용자 View 첫번째 List
                 mRecyclerView.getLayoutManager().startSmoothScroll(smoothScroller);
 
@@ -530,10 +544,11 @@ public class HomeFragment extends Fragment
             public void onClick(View view) {
 
                 init_reset();
-                upRecyclerView();
 
             }
         });
+
+
 
         Setting = rootView.findViewById(R.id.setting);
 

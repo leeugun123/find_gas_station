@@ -2,7 +2,7 @@ package org.techtown.find_gas_station.MVVM;
 
 import static org.techtown.find_gas_station.Fragment.HomeFragment.getWgsMyX;
 import static org.techtown.find_gas_station.Fragment.HomeFragment.getWgsMyY;
-import static org.techtown.find_gas_station.Fragment.HomeFragment.moil_list;
+
 
 import android.annotation.SuppressLint;
 import android.app.Application;
@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -72,16 +74,15 @@ public class GetOilRepository {
     private MyRecyclerAdapter myRecyclerAdapter;
 
     private String oil = "";
-
+    private ArrayList<OilList> tempList = new ArrayList<>();
     private ArrayList<OilList> plusOilList;
 
+    private MutableLiveData<ArrayList<OilList>> moil_list;
 
     public GetOilRepository(Application application){
         super();
 
-        moil_list = new ArrayList<>();
-        plusOilList = new ArrayList<>();
-        //카카오api를 활용한 추가적인 정보가 필요할때 사용
+        moil_list = new MutableLiveData<>();
 
         kakao_retrofit = new Retrofit.Builder()
                 .baseUrl(KAKAO_BASE_URL)
@@ -100,19 +101,25 @@ public class GetOilRepository {
 
     }
 
-    public void getOilList(
-            RecyclerView mRecyclerView,
-            GoogleMap mMap, ProgressBar progressBar, String strXpos, String strYpos, String radius, String sort, String oilKind) {
+    public MutableLiveData<ArrayList<OilList>> getOilList() {
+        return moil_list;
+    }
+
+    public void insert(String xPos, String yPos, String radius, String sort, String oilKind){
 
         oil = oilKind;
 
-        opinet_retrofitApi.getOilList(opinet_apiKey, "json", strXpos, strYpos, radius,oilKind,sort)
+        Log.e("TAG","insert");
+
+
+        opinet_retrofitApi.getOilList(opinet_apiKey, "json", xPos, yPos, radius, oilKind, sort)
                 .enqueue(new Callback<GasStationData>() {
 
                     @Override
                     public void onResponse(Call<GasStationData> call, Response<GasStationData> response) {
 
-                        moil_list = new ArrayList<>();
+
+                        tempList = new ArrayList<>();
                         plusOilList = new ArrayList<>();
                         //oil_list 초기화
 
@@ -120,21 +127,6 @@ public class GetOilRepository {
 
                             GasStationData gasStationData = response.body();
                             GasStationData.Result result = gasStationData.getRESULT();
-
-                            if(result.getOIL().size() == 0){
-
-                                Log.e("TAG","데이터가 비었음");
-
-                                myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap,sort);
-                                mRecyclerView.setAdapter(myRecyclerAdapter);
-                                myRecyclerAdapter.notifyDataSetChanged();
-
-                                progressBar.setVisibility(View.GONE);
-                                HomeFragment.empty = true;
-
-                                return;
-
-                            }//데이터가 존재하지 않는 경우 예외처리
 
 
                             for(int i=0; i<result.getOIL().size(); i++){
@@ -221,8 +213,7 @@ public class GetOilRepository {
                                 else
                                     imageResource = R.drawable.oil_2;
 
-                                getOilDetail(sort, result.getOIL().size(), mRecyclerView,mMap, progressBar ,
-                                        uid , name, gas_price, distance, inputOil,
+                                getOilDetail(sort, result.getOIL().size(), uid , name, gas_price, distance, inputOil,
                                         imageResource, (float)out.getX(), (float)out.getY());
 
 
@@ -242,12 +233,14 @@ public class GetOilRepository {
                 });
 
 
+
+
     }
 
-    public void getOilDetail(String sort, int size, RecyclerView mRecyclerView,
-                             GoogleMap mMap, ProgressBar progressBar , String uid, String name,
+    public void getOilDetail(String sort, int size, String uid, String name,
                              String gas_price, String distance, String inputOil,
                              int imageResource, float DestinationX, float DestinationY){
+
 
 
         opinet_retrofitApi.getOilDetail(opinet_apiKey,"json",uid)
@@ -275,62 +268,58 @@ public class GetOilRepository {
                                 int dis = (int)Double.parseDouble(distance);
                                 //소수점 짜르기
 
-                                moil_list.add(new OilList(uid, name, gas_price, Integer.toString(dis),
+                                tempList.add(new OilList(uid, name, gas_price, Integer.toString(dis),
                                         inputOil,imageResource, DestinationX, DestinationY,carWash,conStore,lotNumberAddress,roadAddress,
                                         tel,sector,"",""));
 
-                                if(moil_list.size() == size || moil_list.size() == 30){
+                                if(tempList.size() == size || tempList.size() == 30){
 
                                     if(sort.equals("3") || sort.equals("4")){
 
-                                        getOilKakaoApi(progressBar ,mMap, mRecyclerView,sort);
-
+                                        getOilKakaoApi(sort);
                                         return;
-
                                     }//추가적인 카카오 api를 요구하는 경우
 
-
                                     if(sort.equals("1")){
-                                        Collections.sort(moil_list,new OilPriceComparator());
+                                        Collections.sort(tempList,new OilPriceComparator());
                                     }//가격순
                                     else if(sort.equals("2")){
-                                        Collections.sort(moil_list,new OilDistanceComparator());
+                                        Collections.sort(tempList,new OilDistanceComparator());
                                     }//직경 거리순
 
-                                    //불필요한 정렬 생성
-
-                                    progressBar.setVisibility(View.GONE);
-                                    myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap,sort);
-                                    mRecyclerView.setAdapter(myRecyclerAdapter);
-                                    myRecyclerAdapter.notifyDataSetChanged();
+                                    moil_list.setValue(tempList);
 
                                 }//데이터가 모두 도착 하면 실행
 
                             }
-
 
                         }
 
                         @Override
                         public void onFailure(Call<GasStationInfo> call, Throwable t) {
 
-
                         }
-
 
                 });
 
-
     }
 
+
+
     //카카오 api는 wgs 좌표를 사용
-    public void getOilKakaoApi(ProgressBar progressBar, GoogleMap mMap, RecyclerView mRecyclerView, String sort){
+    public void getOilKakaoApi(String sort){
 
 
-        Destination[] destinations = new Destination[moil_list.size()];
+        Destination[] destinations = new Destination[tempList.size()];
 
-        for(int i=0; i<moil_list.size(); i++){
-            destinations[i] = new Destination(moil_list.get(i).getUid(), moil_list.get(i).getWgs84X(), moil_list.get(i).getWgs84Y());
+        for(int i=0; i<tempList.size(); i++){
+
+            String uid = tempList.get(i).getUid();
+            double WgsX = tempList.get(i).getWgs84X();
+            double WgsY = tempList.get(i).getWgs84Y();
+
+            destinations[i] = new Destination(uid, WgsX, WgsY);
+
         }
 
         kakao_retrofitApi.getMultiDirections(new DirectionRequest(new Origin(Double.parseDouble(getWgsMyX) , Double.parseDouble(getWgsMyY)),
@@ -346,9 +335,9 @@ public class GetOilRepository {
 
                             Route[] routes = multiRouteResponse.getRoutes();
 
-                            for(int i=0; i < moil_list.size(); i++){
+                            for(int i=0; i < tempList.size(); i++){
 
-                                OilList oilList = moil_list.get(i);
+                                OilList oilList = tempList.get(i);
 
                                 String distance = Integer.toString(routes[i].getSummary().getDistance());
                                 //null이 나옴
@@ -366,15 +355,10 @@ public class GetOilRepository {
                             }else
                                 Collections.sort(plusOilList , new OilRoadDistanceComparator());
 
-                            progressBar.setVisibility(View.GONE);
-                            myRecyclerAdapter = new MyRecyclerAdapter(plusOilList,mMap,sort);
-                            mRecyclerView.setAdapter(myRecyclerAdapter);
-                            myRecyclerAdapter.notifyDataSetChanged();
+                            moil_list.setValue(plusOilList);
 
 
                         }
-
-
 
                     }
 
@@ -383,13 +367,11 @@ public class GetOilRepository {
 
                     }
 
-
-
                 });
-
 
     }
     //카카오 api 이용하여 추가정보(실제 거리 , 소요시간)를 가져옴.
+
 
 
     public void getOilAvg(LineChart lineChart, RecyclerView oilAvg_recyclerView, TextView priceText, String prodcd){
