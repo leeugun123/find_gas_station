@@ -351,6 +351,7 @@ public class GetOilRepository {
                                 OilList oilList = moil_list.get(i);
 
                                 String distance = Integer.toString(routes[i].getSummary().getDistance());
+                                //null이 나옴
                                 String spendTime = Integer.toString(routes[i].getSummary().getDuration());
 
                                 oilList.setActDistance(distance);

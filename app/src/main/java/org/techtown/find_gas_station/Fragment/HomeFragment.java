@@ -4,7 +4,6 @@ import static android.content.Context.LOCATION_SERVICE;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -80,19 +79,19 @@ public class HomeFragment extends Fragment
     public static String getWgsMyX = "";
     public static String getWgsMyY = "";
 
+    public static boolean setFlag = true;
+    //setting activity가 종료된후 변경을 허용하는 flag
+
     private GoogleMap mMap;//구글 맵
     private Marker currentMarker = null; //현재 마커
     private TextView array_first;
     private Bitmap Red;
     private ProgressBar progressBar;
     private boolean notYet = false;
-
-    public static final int REQUEST_CODE = 100;
-    private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int UPDATE_INTERVAL_MS = 1000;  // 1초
     private static final int FASTEST_UPDATE_INTERVAL_MS = 500; // 0.5초
     private static final int PERMISSIONS_REQUEST_CODE = 100;
-    boolean needRequest = false;
+
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationRequest locationRequest;
     private GpsTracker gpsTracker;
@@ -147,7 +146,7 @@ public class HomeFragment extends Fragment
             setViewModel.getSetLiveData().observe(this, new Observer<Set>() {
                 @Override
                 public void onChanged(Set set) {
-                    if (set != null) {
+                    if (set != null && setFlag) {
                         // LiveData가 변경될 때마다 UI 업데이트
                         String oil_rad = set.getOil_rad() != null ? set.getOil_rad() : "1000";
                         String oil_sort = set.getOil_sort() != null ? set.getOil_sort() : "1";
@@ -157,6 +156,9 @@ public class HomeFragment extends Fragment
                         oil_intel[1] = oil_sort;
                         oil_intel[2] = oil_name;
 
+
+                        Log.e("TAG", "데이터 전달");
+
                         updateUI();
 
                         init_reset();
@@ -165,9 +167,6 @@ public class HomeFragment extends Fragment
                     }
                 }
             });
-
-
-
 
 
         },200);
@@ -212,56 +211,6 @@ public class HomeFragment extends Fragment
 
     }//getData메소드 호출하여 ArrayList 값들 채우기
 
-    /*
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-
-        if (requestCode == REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-
-                oil_intel[0] = data.getStringExtra("0");
-                //반경
-                oil_intel[1] = data.getStringExtra("1");
-                //정렬 기준
-                oil_intel[2] = data.getStringExtra("2");
-                //기름 종류
-
-                if(oil_intel[1].equals("1"))
-                    array_first.setText("가격순");
-                else if(oil_intel[1].equals("2"))
-                    array_first.setText("직경 거리순");
-                else if(oil_intel[1].equals("3"))
-                    array_first.setText("도로 거리순");
-                else if(oil_intel[1].equals("4"))
-                    array_first.setText("소요 시간순");
-
-                init_reset();
-
-                switch (requestCode) {
-
-                    case GPS_ENABLE_REQUEST_CODE:
-
-                        //사용자가 GPS 활성 시켰는지 검사
-                        if (checkLocationServicesStatus() && checkLocationServicesStatus()) {
-                            needRequest = true;
-                            return;
-                        }
-
-                        break;
-
-                }
-
-
-            }
-
-        }
-
-    }
-    */
 
     public void getData(float latitude,float Longtitude){
 
@@ -276,9 +225,6 @@ public class HomeFragment extends Fragment
         mRecyclerView.setAdapter(myRecyclerAdapter);
         myRecyclerAdapter.notifyDataSetChanged();
         //어뎁터 및 데이터 초기화
-
-
-
         progressBar.setVisibility(View.VISIBLE);
 
 
@@ -596,6 +542,7 @@ public class HomeFragment extends Fragment
             @Override
             public void onClick(View view) {
 
+                setFlag = false;
                 Intent intent = new Intent(requireActivity(), setting_Activity.class);
                 startActivity(intent);
 

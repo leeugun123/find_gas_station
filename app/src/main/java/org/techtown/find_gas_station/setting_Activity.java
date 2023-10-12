@@ -1,6 +1,5 @@
 package org.techtown.find_gas_station;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,8 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import org.techtown.find_gas_station.Fragment.HomeFragment;
 import org.techtown.find_gas_station.MVVM.SetViewModel;
-import org.techtown.find_gas_station.R;
 import org.techtown.find_gas_station.set.Set;
 
 import java.util.ArrayList;
@@ -63,6 +62,7 @@ public class setting_Activity extends AppCompatActivity {
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                HomeFragment.setFlag = true;
                 finish();
             }
         });//닫기 버튼
@@ -109,15 +109,6 @@ public class setting_Activity extends AppCompatActivity {
 
                 setViewModel.delete();
                 setViewModel.insert(new Set(oil_intel_setting[2],oil_intel_setting[0],oil_intel_setting[1]));
-
-                /*
-                Intent intent = new Intent();
-                intent.putExtra("0",oil_intel_setting[0]);
-                intent.putExtra("1",oil_intel_setting[1]);
-                intent.putExtra("2",oil_intel_setting[2]);
-
-                setResult(RESULT_OK,intent);
-                   */
 
             }
 
@@ -166,14 +157,6 @@ public class setting_Activity extends AppCompatActivity {
                 setViewModel.delete();
                 setViewModel.insert(new Set(oil_intel_setting[2],oil_intel_setting[0],oil_intel_setting[1]));
 
-                /*
-                Intent intent = new Intent();
-                intent.putExtra("0",oil_intel_setting[0]);
-                intent.putExtra("1",oil_intel_setting[1]);
-                intent.putExtra("2",oil_intel_setting[2]);
-                setResult(RESULT_OK,intent);
-                */
-
             }
 
             @Override
@@ -215,13 +198,6 @@ public class setting_Activity extends AppCompatActivity {
                 setViewModel.delete();
                 setViewModel.insert(new Set(oil_intel_setting[2],oil_intel_setting[0],oil_intel_setting[1]));
 
-                /*
-                Intent intent = new Intent();
-                intent.putExtra("0",oil_intel_setting[0]);
-                intent.putExtra("1",oil_intel_setting[1]);
-                intent.putExtra("2",oil_intel_setting[2]);
-                setResult(RESULT_OK,intent);
-                */
 
             }
 
@@ -273,8 +249,12 @@ public class setting_Activity extends AppCompatActivity {
             sort_spinner.setSelection(3);
 
 
+    }
 
-
+    @Override
+    public void onBackPressed() {
+        HomeFragment.setFlag = true;
+        finish();
     }
 
 
