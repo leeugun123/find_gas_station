@@ -3,16 +3,12 @@ package org.techtown.find_gas_station.MVVM;
 import static org.techtown.find_gas_station.Fragment.HomeFragment.getWgsMyX;
 import static org.techtown.find_gas_station.Fragment.HomeFragment.getWgsMyY;
 
-
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.graphics.Color;
 import android.util.Log;
-import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,9 +19,12 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.google.android.gms.maps.GoogleMap;
 
+import org.techtown.find_gas_station.Adapter.MyRecyclerAdapter;
+import org.techtown.find_gas_station.Adapter.OilAvgRecyclerAdapter;
 import org.techtown.find_gas_station.BuildConfig;
+import org.techtown.find_gas_station.Comparator.OilDistanceComparator;
+import org.techtown.find_gas_station.Comparator.OilPriceComparator;
 import org.techtown.find_gas_station.Comparator.OilRoadDistanceComparator;
 import org.techtown.find_gas_station.Comparator.OilSpendTimeComparator;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.Destination;
@@ -36,13 +35,8 @@ import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.Route;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.oilAvg.OilPriceInfo;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.oilDetail.GasStationInfo;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.oilList.GasStationData;
-import org.techtown.find_gas_station.Adapter.OilAvgRecyclerAdapter;
 import org.techtown.find_gas_station.GPS.GeoTrans;
 import org.techtown.find_gas_station.GPS.GeoTransPoint;
-import org.techtown.find_gas_station.Fragment.HomeFragment;
-import org.techtown.find_gas_station.Adapter.MyRecyclerAdapter;
-import org.techtown.find_gas_station.Comparator.OilDistanceComparator;
-import org.techtown.find_gas_station.Comparator.OilPriceComparator;
 import org.techtown.find_gas_station.OilList;
 import org.techtown.find_gas_station.R;
 import org.techtown.find_gas_station.Retrofit.Kakao_RetrofitApi;
@@ -50,7 +44,6 @@ import org.techtown.find_gas_station.Retrofit.Opinet_RetrofitApi;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -267,6 +260,8 @@ public class GetOilRepository {
 
                                 int dis = (int)Double.parseDouble(distance);
                                 //소수점 짜르기
+
+                                Log.e("TAG", uid);
 
                                 tempList.add(new OilList(uid, name, gas_price, Integer.toString(dis),
                                         inputOil,imageResource, DestinationX, DestinationY,carWash,conStore,lotNumberAddress,roadAddress,

@@ -11,20 +11,6 @@ import android.graphics.BitmapFactory;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSmoothScroller;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -36,6 +22,18 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -52,20 +50,18 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.techtown.find_gas_station.Adapter.MyRecyclerAdapter;
 import org.techtown.find_gas_station.GPS.GeoTrans;
 import org.techtown.find_gas_station.GPS.GeoTransPoint;
 import org.techtown.find_gas_station.GPS.GpsTracker;
 import org.techtown.find_gas_station.MVVM.GetOilViewModel;
 import org.techtown.find_gas_station.MVVM.SetViewModel;
-import org.techtown.find_gas_station.Adapter.MyRecyclerAdapter;
 import org.techtown.find_gas_station.OilList;
 import org.techtown.find_gas_station.R;
 import org.techtown.find_gas_station.set.Set;
 import org.techtown.find_gas_station.setting_Activity;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class HomeFragment extends Fragment
@@ -177,15 +173,13 @@ public class HomeFragment extends Fragment
                     if(list != null){
 
                         HomeFragment.empty = false;
-
-                        ArrayList<OilList> moil_list = new ArrayList<>();
-                        MyRecyclerAdapter myRecyclerAdapter = new MyRecyclerAdapter(moil_list,mMap,oil_intel[1]);
+                        MyRecyclerAdapter myRecyclerAdapter = new MyRecyclerAdapter(list,mMap,oil_intel[1]);
                         mRecyclerView.setAdapter(myRecyclerAdapter);
                         myRecyclerAdapter.notifyDataSetChanged();
 
                         progressBar.setVisibility(View.GONE);
 
-                        upRecyclerView(moil_list);
+                        upRecyclerView(list);
 
                     }
 
@@ -271,7 +265,7 @@ public class HomeFragment extends Fragment
                 }
 
             }
-        },500);
+        },3000);
 
 
 
