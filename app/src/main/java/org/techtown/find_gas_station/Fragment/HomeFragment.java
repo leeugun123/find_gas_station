@@ -179,7 +179,7 @@ public class HomeFragment extends Fragment
 
                         progressBar.setVisibility(View.GONE);
 
-                        upRecyclerView(list);
+                        upRecyclerView();
 
                     }
 
@@ -273,7 +273,7 @@ public class HomeFragment extends Fragment
 
     //위치가 조회되지 않을때 발생하는 메소드
 
-    public void upRecyclerView(ArrayList<OilList> moil_list){
+    public void upRecyclerView(){
 
 
         Handler handler = new Handler();
