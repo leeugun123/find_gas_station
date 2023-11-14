@@ -6,16 +6,14 @@ import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.DirectionResp
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
 
 public interface Kakao_RetrofitApi {
 
     @Headers({
             "Content-Type: application/json",
-            "Authorization: KakaoAK 087efa22b8874111e44b386ebc24d525"
+            "Authorization: KakaoAK " + BuildConfig.KAKAO_API_KEY
     })
     @POST("v1/destinations/directions")
     Call<DirectionResponse> getMultiDirections(@Body DirectionRequest request);
