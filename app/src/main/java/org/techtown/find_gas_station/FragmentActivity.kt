@@ -1,111 +1,79 @@
-package org.techtown.find_gas_station;
+package org.techtown.find_gas_station
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
+import android.content.res.Configuration
+import android.os.Bundle
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import org.techtown.find_gas_station.Fragment.DailyFragment
+import org.techtown.find_gas_station.Fragment.HomeFragment
+import org.techtown.find_gas_station.databinding.ActivityFragmentBinding
 
-import android.content.res.Configuration;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.widget.Toast;
+class FragmentActivity : AppCompatActivity() {
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+    private var pressedTime = 0
+    private lateinit var mBinding : ActivityFragmentBinding
+    private lateinit var fa : Fragment
+    private lateinit var fb : Fragment
+    private lateinit var fragmentManager : FragmentManager
 
-import org.techtown.find_gas_station.Fragment.DailyFragment;
-import org.techtown.find_gas_station.Fragment.HomeFragment;
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_fragment)
 
-public class FragmentActivity extends AppCompatActivity {
+        fragmentInit()
 
-    private long pressedTime = 0;
-    private Fragment fa,fb;
-    private FragmentManager fragmentManager;
-    BottomNavigationView bottomNavigationView;
-    //바텀 네비게이션 뷰
+        mBinding.bottomNav.setOnNavigationItemSelectedListener { menuItem ->
 
+            when (menuItem.itemId) {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fragment);
+                R.id.Home_fragment -> {
 
-        bottomNavigationView = findViewById(R.id.bottomNav);
+                    if (fa == null) {
+                        fa = HomeFragment()
+                        fragmentManager!!.beginTransaction().add(R.id.main_frame, fa!!).commit()
+                    }
+                    fragmentManager!!.beginTransaction().show(fa!!).commit()
+                    fragmentManager!!.beginTransaction().hide(fb).commit()
 
-        //처음화면
-
-        fragmentManager = getSupportFragmentManager();
-
-        fa = new HomeFragment();
-        fragmentManager.beginTransaction().add(R.id.main_frame, fa).commit();
-
-        //바텀 네비게이션뷰 안의 아이템 설정
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-
-                    case R.id.Home_fragment:
-
-                        if(fa == null){
-                            fa = new HomeFragment();
-                            fragmentManager.beginTransaction().add(R.id.main_frame,fa).commit();
-                        }
-
-                        if(fa != null)
-                            fragmentManager.beginTransaction().show(fa).commit();
-                        if(fb != null)
-                            fragmentManager.beginTransaction().hide(fb).commit();
-
-                        break;
-
-                    case R.id.Daily_fragment:
-
-                        if(fb == null){
-                            fb = new DailyFragment();
-                            fragmentManager.beginTransaction().add(R.id.main_frame, fb).commit();
-                        }
-
-                        if(fa != null)
-                            fragmentManager.beginTransaction().hide(fa).commit();
-                        if(fb != null)
-                            fragmentManager.beginTransaction().show(fb).commit();
-
-                        break;
                 }
 
-                return true;
+                R.id.Daily_fragment -> {
+
+                    if (fb == null) {
+                        fb = DailyFragment()
+                        fragmentManager!!.beginTransaction().add(R.id.main_frame, fb!!).commit()
+                    }
+
+                    fragmentManager!!.beginTransaction().show(fb!!).commit()
+                    fragmentManager!!.beginTransaction().hide(fa).commit()
+
+                }
+                else -> throw IllegalArgumentException("Invalid itemId")
             }
-        });
-
-
-
-
-    }
-
-
-
-    @Override
-    public void onBackPressed(){
-
-
-        if(System.currentTimeMillis() > pressedTime + 2000){
-            pressedTime = System.currentTimeMillis();
-            Toast.makeText(this,"한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
-        }
-        else {
-
-            Toast.makeText(this, "종료 완료", Toast.LENGTH_SHORT).show();
-            finish();
-
+            true
         }
 
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        // Add any specific handling for configuration changes here
-        // For example, you can adjust the layout or UI elements based on the new configuration.
+    private fun fragmentInit() {
+        fragmentManager = supportFragmentManager
+        fa = HomeFragment()
+        fragmentManager!!.beginTransaction().add(R.id.main_frame, fa).commit()
     }
+
+    override fun onBackPressed() {
+        if (System.currentTimeMillis() > pressedTime + 2000) {
+            pressedTime = System.currentTimeMillis().toInt()
+            Toast.makeText(this, "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "종료 완료", Toast.LENGTH_SHORT).show()
+            finish()
+        }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) { super.onConfigurationChanged(newConfig) }
 
 }
