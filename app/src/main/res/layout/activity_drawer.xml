@@ -61,13 +61,14 @@
                 android:textStyle="bold" />
 
             <Spinner
-                android:id="@+id/spinner"
+                android:id="@+id/type_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:background="@drawable/spinner_background"
                 android:spinnerMode="dialog"
                 android:textColor="@color/black" />
+
 
         </LinearLayout>
 

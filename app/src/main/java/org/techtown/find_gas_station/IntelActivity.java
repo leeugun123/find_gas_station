@@ -1,8 +1,5 @@
 package org.techtown.find_gas_station;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Application;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -13,6 +10,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -29,6 +29,7 @@ public class IntelActivity extends AppCompatActivity implements OnMapReadyCallba
 
     private ActivityIntelBinding binding;
     private GoogleMap detailMap;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

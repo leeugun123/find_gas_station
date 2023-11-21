@@ -19,10 +19,9 @@ class FragmentActivity : AppCompatActivity() {
     private lateinit var fb : Fragment
     private lateinit var fragmentManager : FragmentManager
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_fragment)
-
         fragmentInit()
 
         mBinding.bottomNav.setOnNavigationItemSelectedListener { menuItem ->
@@ -59,6 +58,8 @@ class FragmentActivity : AppCompatActivity() {
     }
 
     private fun fragmentInit() {
+        mBinding = ActivityFragmentBinding.inflate(layoutInflater)
+        setContentView(mBinding.root)
         fragmentManager = supportFragmentManager
         fa = HomeFragment()
         fragmentManager!!.beginTransaction().add(R.id.main_frame, fa).commit()

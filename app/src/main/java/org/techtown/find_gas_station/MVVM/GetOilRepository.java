@@ -163,7 +163,6 @@ public class GetOilRepository {
                                 //y좌표 위치
 
                                 GeoTransPoint point = new GeoTransPoint(xPos,yPos);
-
                                 GeoTransPoint out = GeoTrans.convert(GeoTrans.KATEC, GeoTrans.GEO,point);
                                 //KATEC -> Wgs84좌표계로 변경
 
@@ -207,7 +206,7 @@ public class GetOilRepository {
                                     imageResource = R.drawable.oil_2;
 
                                 getOilDetail(sort, result.getOIL().size(), uid , name, gas_price, distance, inputOil,
-                                        imageResource, (float)out.getX(), (float)out.getY());
+                                        imageResource, (float) out.getX(), (float) out.getY());
 
 
                             }

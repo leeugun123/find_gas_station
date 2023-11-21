@@ -64,6 +64,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
         var getWgsMyY = ""
         @JvmField
         var setFlag = true
+
         private const val UPDATE_INTERVAL_MS = 1000 // 1초
         private const val FASTEST_UPDATE_INTERVAL_MS = 500 // 0.5초
         private const val PERMISSIONS_REQUEST_CODE = 100
