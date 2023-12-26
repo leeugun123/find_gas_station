@@ -98,6 +98,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
         // 싱글톤 패턴을 사용하지 않고 무조건 강제 실행
         // 나중에 문제가 생길 수 있음
         Handler().postDelayed({
+
             setViewModel!!.setLiveData.observe(this, Observer { set ->
 
                 if (setFlag) {
@@ -248,17 +249,13 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
 
     private val locationCallback : LocationCallback = object : LocationCallback() {
-        override fun onLocationResult(locationResult: LocationResult) {
-            super.onLocationResult(locationResult)
-            Log.e("TAG", "onLocationResult")
-        }
+        override fun onLocationResult(locationResult: LocationResult) { super.onLocationResult(locationResult) }
     }
 
     //시작 위치 업데이트
     @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("MissingPermission")
     private fun startLocationUpdates() {
-        Log.e("TAG", "startLocationUpdates")
 
         if (checkPermission()) {
             mFusedLocationClient!!.requestLocationUpdates(locationRequest!!, locationCallback, Looper.myLooper())

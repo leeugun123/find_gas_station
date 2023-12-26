@@ -58,14 +58,17 @@ class FragmentActivity : AppCompatActivity() {
     }
 
     private fun fragmentInit() {
+
         mBinding = ActivityFragmentBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
+
         fragmentManager = supportFragmentManager
         fa = HomeFragment()
         fragmentManager!!.beginTransaction().add(R.id.main_frame, fa).commit()
     }
 
     override fun onBackPressed() {
+
         if (System.currentTimeMillis() > pressedTime + 2000) {
             pressedTime = System.currentTimeMillis().toInt()
             Toast.makeText(this, "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()

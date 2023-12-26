@@ -19,7 +19,7 @@ import org.techtown.find_gas_station.set.Set
 class setting_Activity : AppCompatActivity() {
 
 
-    private lateinit var mBinding: ActivityDrawerBinding
+    private lateinit var mBinding : ActivityDrawerBinding
     private val setViewModel by lazy { ViewModelProvider(this)[SetViewModel::class.java] }
 
     private var oilIntelSetting = arrayOfNulls<String>(3)
@@ -95,6 +95,7 @@ class setting_Activity : AppCompatActivity() {
             "4" -> 3
             else -> 0 // 기본값으로 설정
         })
+
     }
 
 
@@ -104,10 +105,10 @@ class setting_Activity : AppCompatActivity() {
         val adapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, options)
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
 
-
         spinner.adapter = adapter
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+
             override fun onItemSelected(adapterView: AdapterView<*>, view: View, i: Int, l: Long) {
                 (adapterView.getChildAt(0) as TextView).setTextColor(Color.BLACK)
                 onSelect(options.getOrElse(i) { "" })
