@@ -21,4 +21,14 @@ data class OilList(
     private var actDistance : String, //소요시간
     private var spendTime : String
 
-)
+){
+
+    fun getDistance() = distance
+
+    fun getPrice() = price
+
+    fun getActDistance() = actDistance
+
+    fun getSpendTime() = spendTime
+
+}

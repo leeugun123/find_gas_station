@@ -1,20 +1,13 @@
-package org.techtown.find_gas_station.Util.Comparator;
+package org.techtown.find_gas_station.Util.Comparator
 
-import org.techtown.find_gas_station.OilList;
+import org.techtown.find_gas_station.OilList
 
-import java.util.Comparator;
-
-public class OilSpendTimeComparator implements Comparator<OilList> {
-    @Override
-    public int compare(OilList t1, OilList t2) {
-
-        if(Integer.parseInt(t1.spendTime) == Integer.parseInt(t2.spendTime)){
-            return Integer.parseInt(t1.price) - Integer.parseInt(t2.price);
+class OilSpendTimeComparator : Comparator<OilList> {
+    override fun compare(t1 : OilList, t2 : OilList) =
+        if (t1.getSpendTime().toInt() == t2.getSpendTime().toInt()) {
+            t1.getPrice().toInt() - t2.getPrice().toInt()
+        } else {
+            t1.getSpendTime().toInt() - t2.getSpendTime().toInt()
         }
-        else{
-            return Integer.parseInt(t1.spendTime)-Integer.parseInt(t2.spendTime);
-        }
-    }
-
 
 }
