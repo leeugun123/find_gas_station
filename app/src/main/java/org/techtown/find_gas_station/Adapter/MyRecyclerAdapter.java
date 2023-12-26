@@ -119,26 +119,26 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         public void onBind(OilList oil_list) {
 
             name.setText(oil_list.get_oil_name());
-            price.setText(oil_list.getPrice()+"원");
+            price.setText(oil_list.price +"원");
 
             if(sort.equals("3")){
-                distance.setText(changeKm(oil_list.getActDistance()) + "km");
+                distance.setText(changeKm(oil_list.actDistance) + "km");
             }else if(sort.equals("4")){
-                distance.setText(formatSeconds(Integer.parseInt(oil_list.getSpendTime())));
+                distance.setText(formatSeconds(Integer.parseInt(oil_list.spendTime)));
             }else{
-                distance.setText(changeKm(oil_list.getDistance())+"km");
+                distance.setText(changeKm(oil_list.distance)+"km");
             }
 
-            oil_kind.setText(oil_list.getOil_kind());
+            oil_kind.setText(oil_list.oil_kind);
             oil_image.setImageResource(oil_list.get_image());
 
-            carWash = oil_list.getCarWash();
-            store = oil_list.getConStore();
+            carWash = oil_list.carWash;
+            store = oil_list.conStore;
 
-            lotAddress = oil_list.getLotNumberAdd();
-            stAddress = oil_list.getRoadAdd();
-            tel = oil_list.getTel();
-            sector = oil_list.getSector();
+            lotAddress = oil_list.lotNumberAdd;
+            stAddress = oil_list.roadAdd;
+            tel = oil_list.tel;
+            sector = oil_list.sector;
 
 
             if(carWash.equals("Y")){
@@ -167,7 +167,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             Bitmap b = bitmapdraw.getBitmap();
             Bitmap smallMarker = Bitmap.createScaledBitmap(b,80,80,false);
 
-            markerOptions.position(pos).title(oil_list.get_oil_name()).snippet("현 위치로부터 거리 " + oil_list.getDistance() + "m")
+            markerOptions.position(pos).title(oil_list.get_oil_name()).snippet("현 위치로부터 거리 " + oil_list.distance + "m")
                     .icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
 
             recyclerMap.addMarker(markerOptions);

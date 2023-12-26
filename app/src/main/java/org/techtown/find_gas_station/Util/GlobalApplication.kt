@@ -1,7 +1,8 @@
-package org.techtown.find_gas_station
+package org.techtown.find_gas_station.Util
 
 import android.app.Application
 import com.kakao.sdk.common.KakaoSdk
+import org.techtown.find_gas_station.BuildConfig
 
 class GlobalApplication : Application() {
 

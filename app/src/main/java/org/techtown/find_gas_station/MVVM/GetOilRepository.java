@@ -23,10 +23,10 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import org.techtown.find_gas_station.Adapter.MyRecyclerAdapter;
 import org.techtown.find_gas_station.Adapter.OilAvgRecyclerAdapter;
 import org.techtown.find_gas_station.BuildConfig;
-import org.techtown.find_gas_station.Comparator.OilDistanceComparator;
-import org.techtown.find_gas_station.Comparator.OilPriceComparator;
-import org.techtown.find_gas_station.Comparator.OilRoadDistanceComparator;
-import org.techtown.find_gas_station.Comparator.OilSpendTimeComparator;
+import org.techtown.find_gas_station.Util.Comparator.OilDistanceComparator;
+import org.techtown.find_gas_station.Util.Comparator.OilPriceComparator;
+import org.techtown.find_gas_station.Util.Comparator.OilRoadDistanceComparator;
+import org.techtown.find_gas_station.Util.Comparator.OilSpendTimeComparator;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.Destination;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.DirectionRequest;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.DirectionResponse;
@@ -308,7 +308,7 @@ public class GetOilRepository {
 
         for(int i=0; i<tempList.size(); i++){
 
-            String uid = tempList.get(i).getUid();
+            String uid = tempList.get(i).uid;
             double WgsX = tempList.get(i).getWgs84X();
             double WgsY = tempList.get(i).getWgs84Y();
 
@@ -337,8 +337,8 @@ public class GetOilRepository {
                                 //null이 나옴
                                 String spendTime = Integer.toString(routes[i].getSummary().getDuration());
 
-                                oilList.setActDistance(distance);
-                                oilList.setSpendTime(spendTime);
+                                oilList.actDistance = distance;
+                                oilList.spendTime = spendTime;
 
                                 plusOilList.add(oilList);
 

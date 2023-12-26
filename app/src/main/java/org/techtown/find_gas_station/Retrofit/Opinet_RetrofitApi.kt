@@ -1,31 +1,35 @@
-package org.techtown.find_gas_station.Retrofit;
+package org.techtown.find_gas_station.Retrofit
 
-import org.techtown.find_gas_station.Data.kakaoResponseModel.oilAvg.OilPriceInfo;
-import org.techtown.find_gas_station.Data.kakaoResponseModel.oilDetail.GasStationInfo;
-import org.techtown.find_gas_station.Data.kakaoResponseModel.oilList.GasStationData;
+import org.techtown.find_gas_station.Data.kakaoResponseModel.oilAvg.OilPriceInfo
+import org.techtown.find_gas_station.Data.kakaoResponseModel.oilDetail.GasStationInfo
+import org.techtown.find_gas_station.Data.kakaoResponseModel.oilList.GasStationData
+import retrofit2.Call
+import retrofit2.http.GET
+import retrofit2.http.Query
 
-import retrofit2.Call;
-import retrofit2.http.GET;
-import retrofit2.http.Query;
-
-public interface Opinet_RetrofitApi {
-
+interface Opinet_RetrofitApi {
     @GET("api/aroundAll.do")
-    Call<GasStationData> getOilList(@Query("code") String code,
-                                    @Query("out") String out,
-                                    @Query("x") String x,
-                                    @Query("y") String y,
-                                    @Query("radius") String radius,
-                                    @Query("prodcd") String prodcd,
-                                    @Query("sort") String sort);
-
+    fun getOilList(
+        @Query("code") code : String,
+        @Query("out") out : String,
+        @Query("x") x : String,
+        @Query("y") y : String,
+        @Query("radius") radius : String,
+        @Query("prodcd") prodcd : String,
+        @Query("sort") sort : String
+    ): Call<GasStationData>
 
     @GET("api/detailById.do")
-    Call<GasStationInfo> getOilDetail(@Query("code") String code, @Query("out") String out, @Query("id") String id);
+    fun getOilDetail(
+        @Query("code") code : String,
+        @Query("out") out : String,
+        @Query("id") id : String
+    ): Call<GasStationInfo>
 
     @GET("api/avgRecentPrice.do")
-    Call<OilPriceInfo> getAvgRecentPrice(@Query("code") String code, @Query("out") String out,
-                                         @Query("prodcd") String prodcd);
-
+    fun getAvgRecentPrice(@Query("code") code: String,
+                          @Query("out") out: String,
+                          @Query("prodcd") prodcd: String
+    ): Call<OilPriceInfo>
 
 }

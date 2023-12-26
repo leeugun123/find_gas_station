@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.Comparator;
+package org.techtown.find_gas_station.Util.Comparator;
 
 import org.techtown.find_gas_station.OilList;
 
@@ -9,11 +9,11 @@ public class OilPriceComparator implements Comparator<OilList> {
     @Override
     public int compare(OilList t1, OilList t2) {
 
-        if(Integer.parseInt(t1.getPrice()) == Integer.parseInt(t2.getPrice())){
-            return Integer.parseInt(t1.getDistance()) - Integer.parseInt(t2.getDistance());
+        if(Integer.parseInt(t1.price) == Integer.parseInt(t2.price)){
+            return Integer.parseInt(t1.distance) - Integer.parseInt(t2.distance);
         }
         else{
-            return Integer.parseInt(t1.getPrice())-Integer.parseInt(t2.getPrice());
+            return Integer.parseInt(t1.price)-Integer.parseInt(t2.price);
         }
 
     }
