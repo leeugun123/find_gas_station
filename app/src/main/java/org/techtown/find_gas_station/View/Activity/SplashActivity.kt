@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station
+package org.techtown.find_gas_station.View.Activity
 
 import android.Manifest
 import android.content.Intent
@@ -8,16 +8,15 @@ import android.os.Handler
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import org.techtown.find_gas_station.MVVM.SetViewModel
+import org.techtown.find_gas_station.ViewModel.SetViewModel
+import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.set.Set
 
-class Splash : AppCompatActivity(), OnRequestPermissionsResultCallback {
+class SplashActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallback {
 
-
-    private var setViewModel: SetViewModel? = null
+    private val setViewModel by lazy { ViewModelProvider(this)[SetViewModel::class.java]}
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.splash)
@@ -31,7 +30,6 @@ class Splash : AppCompatActivity(), OnRequestPermissionsResultCallback {
     }
 
     private fun setViewModelInit(){
-        setViewModel = ViewModelProvider(this)[SetViewModel::class.java]
         setViewModel!!.insert(Set("B027", "1000", "1"))
     }
 

@@ -1,6 +1,6 @@
-package org.techtown.find_gas_station
+package org.techtown.find_gas_station.Data.kakaoResponseModel
 
-data class OilList(
+data class OilTotalList(
 
     private val uid : String,
     private val oilName : String,

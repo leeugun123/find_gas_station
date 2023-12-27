@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.GPS
+package org.techtown.find_gas_station.Util.GPS
 
 import android.Manifest
 import android.content.Context

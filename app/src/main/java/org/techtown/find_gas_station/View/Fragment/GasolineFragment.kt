@@ -1,33 +1,28 @@
-package org.techtown.find_gas_station.Fragment
+package org.techtown.find_gas_station.View.Fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.github.mikephil.charting.charts.LineChart
-import org.techtown.find_gas_station.MVVM.GetOilViewModel
-import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.databinding.FragmentDieselBinding
+import org.techtown.find_gas_station.ViewModel.GetOilViewModel
+import org.techtown.find_gas_station.databinding.FragmentGasolineBinding
 
-class DieselFragment : Fragment() {
+class GasolineFragment : Fragment() {
 
     private val getOilViewModel by lazy { ViewModelProvider(this)[GetOilViewModel::class.java] }
-    private lateinit var mBinding : FragmentDieselBinding
+    private lateinit var mBinding : FragmentGasolineBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        mBinding = FragmentDieselBinding.inflate(layoutInflater, container,false)
+        mBinding = FragmentGasolineBinding.inflate(layoutInflater, container,false)
         mBinding.oilAvgRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
-        getOilViewModel!!.getOilAvg(mBinding.lineChart, mBinding.oilAvgRecyclerView, mBinding.priceText, "D047")
+        getOilViewModel!!.getOilAvg(mBinding.lineChart, mBinding.oilAvgRecyclerView, mBinding.priceText, "B027")
 
         return mBinding.root
 

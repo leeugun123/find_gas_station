@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.MVVM;
+package org.techtown.find_gas_station.Repository;
 
 import android.app.Application;
 import android.os.AsyncTask;

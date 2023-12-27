@@ -14,33 +14,35 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
-        android:name=".IntelActivity$GlobalApplication"
         android:allowBackup="true"
         android:icon="@mipmap/main_icon"
-        android:label="파인딩오일"
+        android:label="파인딩 오일"
         android:roundIcon="@mipmap/main_icon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar"
         android:usesCleartextTraffic="true"
-        tools:targetApi="m">
+        tools:targetApi="m"
+        tools:ignore="Instantiatable">
+
         <activity
-            android:name=".FragmentActivity"
+            android:name=".View.Activity.FragmentActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false" />
         <activity
-            android:name=".IntelActivity"
+            android:name=".View.Activity.IntelActivity"
             android:exported="false" />
         <activity
-            android:name=".setting_Activity"
+            android:name=".View.Activity.setting_Activity"
             android:exported="true" />
         <activity
-            android:name=".Splash"
+            android:name=".View.Activity.SplashActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
 
         <meta-data

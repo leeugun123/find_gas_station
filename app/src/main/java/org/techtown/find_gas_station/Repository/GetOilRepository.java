@@ -1,7 +1,7 @@
-package org.techtown.find_gas_station.MVVM;
+package org.techtown.find_gas_station.Repository;
 
-import static org.techtown.find_gas_station.Fragment.HomeFragment.getWgsMyX;
-import static org.techtown.find_gas_station.Fragment.HomeFragment.getWgsMyY;
+import static org.techtown.find_gas_station.View.Fragment.HomeFragment.getWgsMyX;
+import static org.techtown.find_gas_station.View.Fragment.HomeFragment.getWgsMyY;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
@@ -35,8 +35,8 @@ import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.Route;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.oilAvg.OilPriceInfo;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.oilDetail.GasStationInfo;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.oilList.GasStationData;
-import org.techtown.find_gas_station.GPS.GeoTrans;
-import org.techtown.find_gas_station.GPS.GeoTransPoint;
+import org.techtown.find_gas_station.Util.GPS.GeoTrans;
+import org.techtown.find_gas_station.Util.GPS.GeoTransPoint;
 import org.techtown.find_gas_station.OilList;
 import org.techtown.find_gas_station.R;
 import org.techtown.find_gas_station.Retrofit.Kakao_RetrofitApi;

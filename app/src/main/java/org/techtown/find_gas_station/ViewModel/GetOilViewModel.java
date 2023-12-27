@@ -1,19 +1,16 @@
-package org.techtown.find_gas_station.MVVM;
+package org.techtown.find_gas_station.ViewModel;
 
 import android.app.Application;
-import android.util.Log;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.google.android.gms.maps.GoogleMap;
 
+import org.techtown.find_gas_station.Repository.GetOilRepository;
 import org.techtown.find_gas_station.OilList;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station
+package org.techtown.find_gas_station.View.Activity
 
 import android.content.Intent
 import android.graphics.Bitmap
@@ -7,8 +7,6 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
-import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -18,6 +16,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.ActivityIntelBinding
 
 class IntelActivity : AppCompatActivity(), OnMapReadyCallback {

@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.Fragment
+package org.techtown.find_gas_station.View.Fragment
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -44,15 +44,15 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.material.snackbar.Snackbar
 import org.techtown.find_gas_station.Adapter.MyRecyclerAdapter
-import org.techtown.find_gas_station.GPS.GeoTrans
-import org.techtown.find_gas_station.GPS.GeoTrans.convert
-import org.techtown.find_gas_station.GPS.GeoTransPoint
-import org.techtown.find_gas_station.GPS.GpsTracker
-import org.techtown.find_gas_station.MVVM.GetOilViewModel
-import org.techtown.find_gas_station.MVVM.SetViewModel
+import org.techtown.find_gas_station.Util.GPS.GeoTrans
+import org.techtown.find_gas_station.Util.GPS.GeoTrans.convert
+import org.techtown.find_gas_station.Util.GPS.GeoTransPoint
+import org.techtown.find_gas_station.Util.GPS.GpsTracker
+import org.techtown.find_gas_station.ViewModel.GetOilViewModel
+import org.techtown.find_gas_station.ViewModel.SetViewModel
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.FragmentHomeBinding
-import org.techtown.find_gas_station.setting_Activity
+import org.techtown.find_gas_station.View.Activity.setting_Activity
 
 class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 

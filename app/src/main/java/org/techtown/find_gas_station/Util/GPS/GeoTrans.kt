@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.GPS
+package org.techtown.find_gas_station.Util.GPS
 
 import kotlin.math.abs
 import kotlin.math.asin

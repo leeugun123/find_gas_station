@@ -1,16 +1,13 @@
-package org.techtown.find_gas_station.MVVM;
+package org.techtown.find_gas_station.ViewModel;
 
 import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
+import org.techtown.find_gas_station.Repository.SetRepository;
 import org.techtown.find_gas_station.set.Set;
-
-import java.util.List;
 
 public class SetViewModel extends AndroidViewModel {
 

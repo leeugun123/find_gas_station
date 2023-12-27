@@ -1,23 +1,21 @@
-package org.techtown.find_gas_station
+package org.techtown.find_gas_station.View.Activity
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import org.techtown.find_gas_station.Fragment.HomeFragment
-import org.techtown.find_gas_station.MVVM.SetViewModel
+import org.techtown.find_gas_station.R
+import org.techtown.find_gas_station.View.Fragment.HomeFragment
+import org.techtown.find_gas_station.ViewModel.SetViewModel
 import org.techtown.find_gas_station.databinding.ActivityDrawerBinding
 import org.techtown.find_gas_station.set.Set
 
-class setting_Activity : AppCompatActivity() {
-
+class SettingActivity : AppCompatActivity() {
 
     private lateinit var mBinding : ActivityDrawerBinding
     private val setViewModel by lazy { ViewModelProvider(this)[SetViewModel::class.java] }
@@ -28,14 +26,14 @@ class setting_Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         settingActivityInit()
 
-        setViewModel.setLiveData.observe(this, Observer { set ->
+        setViewModel.setLiveData.observe(this) { set ->
             set?.let {
                 oilIntelSetting[0] = set.oil_rad ?: "1000"
                 oilIntelSetting[1] = set.oil_sort ?: "1"
                 oilIntelSetting[2] = set.oil_name ?: "B027"
                 updateUI()
             }
-        })
+        }
 
         mBinding.goBack.setOnClickListener {
             HomeFragment.setFlag = true

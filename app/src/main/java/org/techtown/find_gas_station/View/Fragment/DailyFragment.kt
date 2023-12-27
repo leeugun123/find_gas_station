@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.Fragment
+package org.techtown.find_gas_station.View.Fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater

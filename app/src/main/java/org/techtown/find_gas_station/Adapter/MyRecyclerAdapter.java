@@ -30,7 +30,7 @@ import com.kakao.kakaonavi.options.VehicleType;
 import com.kakao.sdk.navi.Constants;
 import com.kakao.sdk.navi.NaviClient;
 
-import org.techtown.find_gas_station.IntelActivity;
+import org.techtown.find_gas_station.View.Activity.IntelActivity;
 import org.techtown.find_gas_station.OilList;
 import org.techtown.find_gas_station.R;
 
