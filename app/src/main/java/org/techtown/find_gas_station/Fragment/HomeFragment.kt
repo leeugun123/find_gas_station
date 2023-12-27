@@ -70,10 +70,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
         private const val PERMISSIONS_REQUEST_CODE = 100
     }
 
-    private val mBinding : FragmentHomeBinding by lazy {
-        FragmentHomeBinding.inflate(layoutInflater)
-    }
-
+    private lateinit var mBinding : FragmentHomeBinding
     private lateinit var mMap : GoogleMap
     private lateinit var currentMarker : Marker //현재 마커
     private lateinit var Red : Bitmap
@@ -190,7 +187,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
         getWgsMyX = point.x.toString()
         getWgsMyY = point.y.toString()
-        //나의 위치 x,y wgs로 저장
+
 
         val ge = convert(GeoTrans.GEO, GeoTrans.KATEC, point)//GEO를 KATEC으로 변환
         getOilViewModel!!.insertOilList(ge.x.toString(), ge.y.toString(), oil_intel[0], oil_intel[1], oil_intel[2])
@@ -209,7 +206,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
     }
 
-    //위치가 조회되지 않을때 발생하는 메소드
+
     private fun upRecyclerView() {
 
         Handler().postDelayed(Runnable {
@@ -222,10 +219,12 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
             mBinding.listRecycle!!.layoutManager!!.startSmoothScroll(smoothScroller)
         }, 500)
 
-    }//핸들러를 사용하여 리사이클러뷰가 완전히 형성된 후 최상단으로 리사이클러뷰 올리기
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         Log.e("TAG", "HomeFragment onCreateView")
+
+        mBinding = FragmentHomeBinding.inflate(inflater,container,false)
 
         val mapFragment: SupportMapFragment by lazy { SupportMapFragment.newInstance() }
 

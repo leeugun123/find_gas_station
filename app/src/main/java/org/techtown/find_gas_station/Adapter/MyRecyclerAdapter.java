@@ -118,6 +118,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
         public void onBind(OilList oil_list) {
 
+
             name.setText(oil_list.get_oil_name());
             price.setText(oil_list.price +"원");
 

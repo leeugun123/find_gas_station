@@ -1,52 +1,32 @@
-package org.techtown.find_gas_station.Fragment;
+package org.techtown.find_gas_station.Fragment
 
-import android.os.Bundle;
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import org.techtown.find_gas_station.MVVM.GetOilViewModel
+import org.techtown.find_gas_station.databinding.FragmentButaneBinding
 
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+class ButaneFragment : Fragment() {
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+    private val getOilViewModel by lazy { ViewModelProvider(this)[GetOilViewModel::class.java] }
+    private lateinit var mBinding : FragmentButaneBinding
 
-import com.github.mikephil.charting.charts.LineChart;
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
 
-import org.techtown.find_gas_station.MVVM.GetOilViewModel;
-import org.techtown.find_gas_station.R;
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
 
-
-public class ButaneFragment extends Fragment {
-
-    private GetOilViewModel getOilViewModel;
-    private LineChart lineChart;
-    private RecyclerView oilAvg_recyclerView;
-    private TextView priceText;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        getOilViewModel = new ViewModelProvider(this).get(GetOilViewModel.class);
-        //getOilViewModel 초기화
+        mBinding = FragmentButaneBinding.inflate(layoutInflater, container,false)
+        mBinding.oilAvgRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        getOilViewModel!!.getOilAvg(mBinding.lineChart, mBinding.oilAvgRecyclerView, mBinding.priceText, "K015")
+        return mBinding.root
 
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        View rootView =  inflater.inflate(R.layout.fragment_butane, container, false);
-
-        oilAvg_recyclerView = rootView.findViewById(R.id.oilAvg_recyclerView);
-        oilAvg_recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
-
-        priceText = rootView.findViewById(R.id.priceText);
-        lineChart = rootView.findViewById(R.id.line_chart);
-        getOilViewModel.getOilAvg(lineChart,oilAvg_recyclerView,priceText,"D047");
-
-        return rootView;
-    }
 }

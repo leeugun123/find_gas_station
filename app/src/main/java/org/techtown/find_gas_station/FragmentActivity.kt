@@ -53,6 +53,7 @@ class FragmentActivity : AppCompatActivity() {
                 else -> throw IllegalArgumentException("Invalid itemId")
             }
             true
+
         }
 
     }
@@ -76,6 +77,7 @@ class FragmentActivity : AppCompatActivity() {
             Toast.makeText(this, "종료 완료", Toast.LENGTH_SHORT).show()
             finish()
         }
+
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) { super.onConfigurationChanged(newConfig) }
