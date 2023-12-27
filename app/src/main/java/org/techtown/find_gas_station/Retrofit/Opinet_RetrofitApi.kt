@@ -1,8 +1,8 @@
 package org.techtown.find_gas_station.Retrofit
 
+import org.techtown.find_gas_station.Data.kakaoResponseModel.OilList.GasStationDataResult
 import org.techtown.find_gas_station.Data.kakaoResponseModel.oilAvg.OilPriceInfo
 import org.techtown.find_gas_station.Data.kakaoResponseModel.oilDetail.GasStationInfo
-import org.techtown.find_gas_station.Data.kakaoResponseModel.oilList.GasStationData
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -17,7 +17,7 @@ interface Opinet_RetrofitApi {
         @Query("radius") radius : String,
         @Query("prodcd") prodcd : String,
         @Query("sort") sort : String
-    ): Call<GasStationData>
+    ): Call<GasStationDataResult>
 
     @GET("api/detailById.do")
     fun getOilDetail(
