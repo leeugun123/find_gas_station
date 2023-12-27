@@ -51,8 +51,9 @@ import org.techtown.find_gas_station.Util.GPS.GpsTracker
 import org.techtown.find_gas_station.ViewModel.GetOilViewModel
 import org.techtown.find_gas_station.ViewModel.SetViewModel
 import org.techtown.find_gas_station.R
+import org.techtown.find_gas_station.View.Activity.SettingActivity
 import org.techtown.find_gas_station.databinding.FragmentHomeBinding
-import org.techtown.find_gas_station.View.Activity.setting_Activity
+
 
 class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
@@ -240,7 +241,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
         mBinding.setting.setOnClickListener {
             setFlag = false
-            startActivity(Intent(requireActivity(), setting_Activity::class.java))
+            startActivity(Intent(requireActivity(), SettingActivity::class.java))
         }
 
         return mBinding.root

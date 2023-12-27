@@ -28,12 +28,15 @@
             android:name=".View.Activity.FragmentActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false" />
+
         <activity
             android:name=".View.Activity.IntelActivity"
             android:exported="false" />
+
         <activity
-            android:name=".View.Activity.setting_Activity"
+            android:name=".View.Activity.SettingActivity"
             android:exported="true" />
+
         <activity
             android:name=".View.Activity.SplashActivity"
             android:exported="true">
