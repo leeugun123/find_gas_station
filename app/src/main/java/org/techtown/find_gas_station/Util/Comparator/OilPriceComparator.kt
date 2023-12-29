@@ -1,6 +1,6 @@
 package org.techtown.find_gas_station.Util.Comparator
 
-import org.techtown.find_gas_station.Data.kakaoResponseModel.TotalOilInfo
+import org.techtown.find_gas_station.Data.TotalOilInfo
 
 
 class OilPriceComparator : Comparator<TotalOilInfo> {

@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.Data.kakaoResponseModel.OilList
+package org.techtown.find_gas_station.Data.OilList
 
 import com.google.gson.annotations.SerializedName
 

@@ -27,11 +27,11 @@ import org.techtown.find_gas_station.Util.Comparator.OilDistanceComparator;
 import org.techtown.find_gas_station.Util.Comparator.OilPriceComparator;
 import org.techtown.find_gas_station.Util.Comparator.OilRoadDistanceComparator;
 import org.techtown.find_gas_station.Util.Comparator.OilSpendTimeComparator;
-import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.Destination;
-import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.DirectionRequest;
-import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.DirectionResponse;
-import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.Origin;
-import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.Route;
+import org.techtown.find_gas_station.Data.kakao.Request.Destination;
+import org.techtown.find_gas_station.Data.kakao.Request.DirectionRequest;
+import org.techtown.find_gas_station.Data.kakao.Response.DirectionResponse;
+import org.techtown.find_gas_station.Data.kakao.Request.Origin;
+import org.techtown.find_gas_station.Data.kakao.Response.Route;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.oilList.GasStationData;
 import org.techtown.find_gas_station.Util.GPS.GeoTrans;
 import org.techtown.find_gas_station.Util.GPS.GeoTransPoint;
@@ -325,15 +325,15 @@ public class GetOilRepository {
 
                             DirectionResponse multiRouteResponse = response.body();
 
-                            Route[] routes = multiRouteResponse.getRoutes();
+                            Route[] routes = multiRouteResponse.routes;
 
                             for(int i=0; i < tempList.size(); i++){
 
                                 OilList oilList = tempList.get(i);
 
-                                String distance = Integer.toString(routes[i].getSummary().getDistance());
+                                String distance = Integer.toString(routes[i].summary.distance);
                                 //null이 나옴
-                                String spendTime = Integer.toString(routes[i].getSummary().getDuration());
+                                String spendTime = Integer.toString(routes[i].summary.duration);
 
                                 oilList.actDistance = distance;
                                 oilList.spendTime = spendTime;

@@ -1,8 +1,8 @@
 package org.techtown.find_gas_station.Retrofit
 
 import org.techtown.find_gas_station.BuildConfig
-import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.DirectionRequest
-import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.DirectionResponse
+import org.techtown.find_gas_station.Data.kakao.Request.DirectionRequest
+import org.techtown.find_gas_station.Data.kakao.Response.DirectionResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Headers

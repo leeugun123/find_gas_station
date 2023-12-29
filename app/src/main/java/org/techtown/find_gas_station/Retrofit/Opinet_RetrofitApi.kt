@@ -1,8 +1,8 @@
 package org.techtown.find_gas_station.Retrofit
 
-import org.techtown.find_gas_station.Data.kakaoResponseModel.OilList.GasStationInfoResult
-import org.techtown.find_gas_station.Data.kakaoResponseModel.oilAvg.OilAveragePriceInfoResult
-import org.techtown.find_gas_station.Data.kakaoResponseModel.oilDetail.GasStationDetailInfoResult
+import org.techtown.find_gas_station.Data.OilList.GasStationInfoResult
+import org.techtown.find_gas_station.Data.oilAvg.OilAveragePriceInfoResult
+import org.techtown.find_gas_station.Data.oilDetail.GasStationDetailInfoResult
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
