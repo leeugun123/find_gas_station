@@ -2,9 +2,10 @@ package org.techtown.find_gas_station.Data.kakaoResponseModel.OilList
 
 import com.google.gson.annotations.SerializedName
 
-data class GasStationDataResult(
+data class GasStationInfoResult(
 
     @SerializedName("OIL")
-    val oil : List<StationIntel>
+    val oilInfoList : List<StationInfo>
 
 )
+
