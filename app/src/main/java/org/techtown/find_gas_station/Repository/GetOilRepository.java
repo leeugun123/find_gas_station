@@ -32,7 +32,6 @@ import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.DirectionRequ
 import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.DirectionResponse;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.Origin;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.kakao.Route;
-import org.techtown.find_gas_station.Data.kakaoResponseModel.oilAvg.OilPriceInfo;
 import org.techtown.find_gas_station.Data.kakaoResponseModel.oilList.GasStationData;
 import org.techtown.find_gas_station.Util.GPS.GeoTrans;
 import org.techtown.find_gas_station.Util.GPS.GeoTransPoint;

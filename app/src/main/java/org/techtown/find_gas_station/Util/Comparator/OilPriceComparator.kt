@@ -1,9 +1,10 @@
 package org.techtown.find_gas_station.Util.Comparator
 
-import org.techtown.find_gas_station.OilList
+import org.techtown.find_gas_station.Data.kakaoResponseModel.TotalOilInfo
 
-class OilPriceComparator : Comparator<OilList> {
-    override fun compare(t1: OilList, t2: OilList) =
+
+class OilPriceComparator : Comparator<TotalOilInfo> {
+    override fun compare(t1: TotalOilInfo, t2: TotalOilInfo) =
         if (t1.getPrice().toInt() == t2.getPrice().toInt()) {
             t1.getDistance().toInt() - t2.getDistance().toInt()
         } else {

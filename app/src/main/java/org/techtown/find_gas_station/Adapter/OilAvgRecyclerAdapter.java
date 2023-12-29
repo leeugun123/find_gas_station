@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.techtown.find_gas_station.Data.kakaoResponseModel.oilAvg.OilPriceInfo;
 import org.techtown.find_gas_station.R;
 
 import java.text.ParseException;
