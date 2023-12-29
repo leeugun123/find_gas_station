@@ -14,7 +14,7 @@ class DailyFragment : Fragment() {
 
     private val gasolFragment by lazy { GasolineFragment() }
     private val diselFragment by lazy { DieselFragment() }
-    private val HighGasolFragment by lazy { High_GasolineFragment() }
+    private val highGasolFragment by lazy { High_GasolineFragment() }
     private val keroseneFragment by lazy { KeroseneFragment() }
     private val butanFragment by lazy { ButaneFragment() }
 
@@ -40,7 +40,7 @@ class DailyFragment : Fragment() {
                 val selectedFragment = when (tab.position) {
                     0 -> gasolFragment
                     1 -> diselFragment
-                    2 -> HighGasolFragment
+                    2 -> highGasolFragment
                     3 -> keroseneFragment
                     else -> butanFragment
                 }
