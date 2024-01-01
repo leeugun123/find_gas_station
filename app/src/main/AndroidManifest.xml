@@ -30,7 +30,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".View.Activity.IntelActivity"
+            android:name=".View.Activity.OilDetailActivity"
             android:exported="false" />
 
         <activity

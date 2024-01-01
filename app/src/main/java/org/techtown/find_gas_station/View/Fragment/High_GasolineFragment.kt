@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import org.techtown.find_gas_station.ViewModel.GetOilViewModel
 import org.techtown.find_gas_station.databinding.FragmentHighGasolineBinding
 
 class High_GasolineFragment : Fragment() {

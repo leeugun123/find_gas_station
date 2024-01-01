@@ -32,6 +32,10 @@ data class GasStationDetailInfo(
     val gisX : String,
 
     @SerializedName("GIS_Y_COOR")
-    val gisY : String
+    val gisY : String,
+
+    @SerializedName("LPG_YN")
+    val sector : String
+    //업종 구분
 
 )

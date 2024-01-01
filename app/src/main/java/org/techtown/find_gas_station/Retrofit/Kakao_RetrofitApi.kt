@@ -14,5 +14,7 @@ interface Kakao_RetrofitApi {
         "Authorization: KakaoAK " + BuildConfig.KAKAO_API_KEY
     )
     @POST("v1/destinations/directions")
-    fun getMultiDirections(@Body request: DirectionRequest?): Call<DirectionResponse?>? //다중 목적지
+    fun getMultiDirections(@Body request : DirectionRequest): Call<DirectionResponse>
+    //다중 목적지
+
 }

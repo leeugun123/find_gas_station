@@ -12,16 +12,18 @@ data class TotalOilInfo(
     private val wgs84X : Float,
     private val wgs84Y : Float,
 
-    private val carWash : String, //편의점 유무
-    private val conStore : String, //지번 주소
-    private val lotNumberAdd : String, //도로명 주소
-    private val roadAdd : String, // 전화번호
-    private val tel : String, // 업종 구분
-    private val sector : String, // 실제 거리
-    private var actDistance : String, //소요시간
+    private val carWash : String,
+    private val conStore : String,
+    private val lotNumberAdd : String,
+    private val roadAdd : String,
+    private val tel : String,
+    private val sector : String, //업종구분
+    private var actDistance : String,
     private var spendTime : String
 
 ){
+
+    fun getUid() = uid
 
     fun getDistance() = distance
 
@@ -30,5 +32,14 @@ data class TotalOilInfo(
     fun getActDistance() = actDistance
 
     fun getSpendTime() = spendTime
+
+    fun getWgs84X() = wgs84X
+
+    fun getWgs84Y() = wgs84Y
+
+    fun setActDistance(actDistance : String){this.actDistance = actDistance}
+
+    fun setSpendTime(spendTime : String){this.spendTime = spendTime}
+
 
 }

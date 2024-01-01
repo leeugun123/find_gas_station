@@ -48,10 +48,10 @@ import org.techtown.find_gas_station.Util.GPS.GeoTrans
 import org.techtown.find_gas_station.Util.GPS.GeoTrans.convert
 import org.techtown.find_gas_station.Util.GPS.GeoTransPoint
 import org.techtown.find_gas_station.Util.GPS.GpsTracker
-import org.techtown.find_gas_station.ViewModel.GetOilViewModel
 import org.techtown.find_gas_station.ViewModel.SetViewModel
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.View.Activity.SettingActivity
+import org.techtown.find_gas_station.ViewModel.GetOilListViewModel
 import org.techtown.find_gas_station.databinding.FragmentHomeBinding
 
 
@@ -83,7 +83,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
     private var REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
 
     private lateinit var setViewModel : SetViewModel
-    private lateinit var getOilViewModel: GetOilViewModel
+    private lateinit var getOilListViewModel : GetOilListViewModel
     private var oil_intel = arrayOfNulls<String>(3)
     private var notYet = false
 
@@ -113,15 +113,19 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
             })
         }, 200)
 
+        getOilListViewMo
 
-        getOilViewModel!!.setOilList.observe(this, Observer { list ->
+
+        getOilListViewModel.observe(this, Observer { list ->
 
             empty = false
             val myRecyclerAdapter = MyRecyclerAdapter(list!!, mMap, oil_intel[1])
-            mBinding.listRecycle!!.adapter = myRecyclerAdapter
+            mBinding.listRecycler.adapter = myRecyclerAdapter
             myRecyclerAdapter.notifyDataSetChanged()
 
-            mBinding.progressBar!!.visibility = View.GONE
+
+            mBinding.progressBar.visibility = View.GONE
+
             upRecyclerView()
 
         })
@@ -134,7 +138,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
         windowSetInit() //화면이 꺼지지 않도록 유지
         locationRequestInit() //위치요청 세팅
         setViewModel = ViewModelProvider(this).get(SetViewModel::class.java)
-        getOilViewModel = ViewModelProvider(this).get(GetOilViewModel::class.java)
+        getOilListViewModel = ViewModelProvider(this).get(GetOilViewModel::class.java)
         Red = BitmapFactory.decodeResource(resources, R.drawable.red_marker)
     }
 
@@ -191,7 +195,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
 
         val ge = convert(GeoTrans.GEO, GeoTrans.KATEC, point)//GEO를 KATEC으로 변환
-        getOilViewModel!!.insertOilList(ge.x.toString(), ge.y.toString(), oil_intel[0], oil_intel[1], oil_intel[2])
+        getOilListViewModel!!.insertOilList(ge.x.toString(), ge.y.toString(), oil_intel[0], oil_intel[1], oil_intel[2])
 
 
         Handler().postDelayed(Runnable {

@@ -19,9 +19,9 @@ import com.google.android.gms.maps.model.MarkerOptions
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.ActivityIntelBinding
 
-class IntelActivity : AppCompatActivity(), OnMapReadyCallback {
+class OilDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
-    private val binding by lazy {ActivityIntelBinding.inflate(layoutInflater)}
+    private val binding by lazy { ActivityIntelBinding.inflate(layoutInflater)}
     private val title by lazy { intent.getStringExtra("title") }
     private val image by lazy { intent.getIntExtra("gas_img", R.drawable.oil_2) }
     private val lotAddress by lazy { intent.getStringExtra("lotAddress") }
