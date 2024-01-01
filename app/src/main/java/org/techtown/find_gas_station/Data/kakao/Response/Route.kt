@@ -10,8 +10,10 @@ data class Route(
     @SerializedName("result_msg")
     var resultMsg : String,
 
+    @SerializedName("key")
     var key : String,
 
+    @SerializedName("summary")
     var summary : Summary
 
 )
