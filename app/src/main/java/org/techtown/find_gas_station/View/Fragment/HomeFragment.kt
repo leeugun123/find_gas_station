@@ -43,7 +43,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.material.snackbar.Snackbar
-import org.techtown.find_gas_station.Adapter.MyRecyclerAdapter
+import org.techtown.find_gas_station.Adapter.OilInfoAdapter
 import org.techtown.find_gas_station.Util.GPS.GeoTrans
 import org.techtown.find_gas_station.Util.GPS.GeoTrans.convert
 import org.techtown.find_gas_station.Util.GPS.GeoTransPoint
@@ -83,7 +83,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
     private var REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
 
     private lateinit var setViewModel : SetViewModel
-    private lateinit var getOilListViewModel : GetOilListViewModel
+
+    private val getOilListViewModel by lazy { ViewModelProvider(this).get(GetOilListViewModel::class.java) }
     private var oil_intel = arrayOfNulls<String>(3)
     private var notYet = false
 
@@ -113,16 +114,14 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
             })
         }, 200)
 
-        getOilListViewMo
 
 
-        getOilListViewModel.observe(this, Observer { list ->
+        getOilListViewModel.getOilList().observe(this, Observer { list ->
 
             empty = false
-            val myRecyclerAdapter = MyRecyclerAdapter(list!!, mMap, oil_intel[1])
+            val myRecyclerAdapter = OilInfoAdapter(list!!, mMap, oil_intel[1].toString())
             mBinding.listRecycler.adapter = myRecyclerAdapter
             myRecyclerAdapter.notifyDataSetChanged()
-
 
             mBinding.progressBar.visibility = View.GONE
 
@@ -138,7 +137,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
         windowSetInit() //화면이 꺼지지 않도록 유지
         locationRequestInit() //위치요청 세팅
         setViewModel = ViewModelProvider(this).get(SetViewModel::class.java)
-        getOilListViewModel = ViewModelProvider(this).get(GetOilViewModel::class.java)
         Red = BitmapFactory.decodeResource(resources, R.drawable.red_marker)
     }
 
@@ -195,7 +193,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
 
         val ge = convert(GeoTrans.GEO, GeoTrans.KATEC, point)//GEO를 KATEC으로 변환
-        getOilListViewModel!!.insertOilList(ge.x.toString(), ge.y.toString(), oil_intel[0], oil_intel[1], oil_intel[2])
+
+        getOilListViewModel.requestOilList(ge.x.toString(), ge.y.toString(), oil_intel[0].toString(), oil_intel[1].toString(), oil_intel[2].toString())
 
 
         Handler().postDelayed(Runnable {
@@ -216,12 +215,12 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
         Handler().postDelayed(Runnable {
 
-            val smoothScroller: SmoothScroller = object : LinearSmoothScroller(mBinding.listRecycle!!.context) {
+            val smoothScroller: SmoothScroller = object : LinearSmoothScroller(mBinding.listRecycler!!.context) {
                     override fun getVerticalSnapPreference() = SNAP_TO_START
             }
 
             smoothScroller.targetPosition = 0
-            mBinding.listRecycle!!.layoutManager!!.startSmoothScroll(smoothScroller)
+            mBinding.listRecycler!!.layoutManager!!.startSmoothScroll(smoothScroller)
         }, 500)
 
     }
@@ -239,7 +238,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
         mapFragment.getMapAsync(this)
 
-        mBinding.listRecycle.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
+        mBinding.listRecycler.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
 
         mBinding.reset.setOnClickListener { init_reset() }
 

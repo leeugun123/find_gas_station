@@ -1,9 +1,7 @@
 package org.techtown.find_gas_station.Repository
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import org.techtown.find_gas_station.BuildConfig
 import org.techtown.find_gas_station.Data.OilList.GasStationInfoResult
 import org.techtown.find_gas_station.Data.TotalOilInfo
 import org.techtown.find_gas_station.Data.kakao.Request.Destination
@@ -120,7 +118,7 @@ class GetOilRepository(application : Application) {
                                 Collections.sort(tempList, OilDistanceComparator())
                             } //직경 거리순
 
-                            oilListLiveData.setValue(tempList)
+                            oilListLiveData.value = tempList
 
 
                         }
@@ -176,7 +174,7 @@ class GetOilRepository(application : Application) {
                         } else
                             Collections.sort(plusList, OilRoadDistanceComparator())
 
-                        oilListLiveData.setValue(plusList)
+                        oilListLiveData.value = plusList
 
                     }
 

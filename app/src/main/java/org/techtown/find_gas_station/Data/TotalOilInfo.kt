@@ -3,10 +3,10 @@ package org.techtown.find_gas_station.Data
 data class TotalOilInfo(
 
     private val uid : String,
-    private val oilName : String,
+    private val name : String,
     private val price: String,
     private val distance: String,
-    private val oilKind: String,
+    private val oilKind : String,
     private val image : Int,
 
     private val wgs84X : Float,
@@ -22,6 +22,14 @@ data class TotalOilInfo(
     private var spendTime : String
 
 ){
+
+    fun getCarWash() = carWash
+    fun getConStore() = conStore
+
+    fun getOilImg() = image
+    fun getOilKind() = oilKind
+
+    fun getName() = name
 
     fun getUid() = uid
 

@@ -16,11 +16,12 @@ class GetOilListViewModel(application: Application) : AndroidViewModel(applicati
         oilListLiveData = getOilRepository.getOilListLiveData()
     }
 
-    fun requestOilList(xPos: String , yPos : String , radius : String , sort : String, oilKind: String) {
+    fun requestOilList(xPos: String , yPos : String , radius : String , sort : String, oilKind : String) {
         getOilRepository.searchOilList(xPos, yPos, radius, sort, oilKind)
     }
 
     fun getOilList() = oilListLiveData
+
 
 
 
