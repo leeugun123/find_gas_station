@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.techtown.find_gas_station.Data.oilAvg.OilAveragePriceInfo;
+import org.techtown.find_gas_station.Data.oilAvg.OilAveragePriceInfoResult;
 import org.techtown.find_gas_station.R;
 
 import java.text.ParseException;
@@ -22,7 +24,7 @@ public class OilAvgRecyclerAdapter extends RecyclerView.Adapter<OilAvgRecyclerAd
     private ArrayList<OilPriceInfo.OilPrice> oilAvg_List;
 
 
-    public OilAvgRecyclerAdapter(ArrayList<OilPriceInfo.OilPrice> oilAvg_List){
+    public OilAvgRecyclerAdapter(List<OilAveragePriceInfo> oilAvg_List){
         this.oilAvg_List = oilAvg_List;
     }
 
