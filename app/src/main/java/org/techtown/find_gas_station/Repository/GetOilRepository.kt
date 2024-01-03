@@ -27,10 +27,6 @@ import java.util.Collections
 
 class GetOilRepository(application : Application) {
 
-
-    //------------- 오피넷 API key
-
-
     private var oilListLiveData : MutableLiveData<List<TotalOilInfo>> = MutableLiveData()
     private var tempList : MutableList<TotalOilInfo> = mutableListOf()
     private var plusList : MutableList<TotalOilInfo> = mutableListOf()
@@ -209,87 +205,6 @@ class GetOilRepository(application : Application) {
         }
 
 
-    /*
-    public void getOilAvg(LineChart lineChart, RecyclerView oilAvg_recyclerView, TextView priceText, String prodcd){
-
-        opinet_retrofitApi.getAvgRecentPrice(opinet_apiKey,"json",prodcd)
-                .enqueue(new Callback<OilPriceInfo>() {
-
-                    @SuppressLint("SetTextI18n")
-                    @Override
-                    public void onResponse(Call<OilPriceInfo> call, Response<OilPriceInfo> response) {
-
-                        if(response.isSuccessful()){
-
-                            OilPriceInfo oilPriceInfo = response.body();
-                            OilPriceInfo.Result result = oilPriceInfo.getRESULT();
-
-                            List<Entry> entries = new ArrayList<>();
-                            ArrayList<OilPriceInfo.OilPrice> Avg = new ArrayList<>();
-
-                            for(int i=0; i<result.getOIL().size(); i++){
-
-                                OilPriceInfo.OilPrice oilPrice = result.getOIL().get(i);
-
-                                //recyclerView에 담을 ArrayList<Oil>
-                                Avg.add(new OilPriceInfo.OilPrice(
-                                        oilPrice.getDATE(),
-                                        (int) oilPrice.getPRICE()
-                                ));
-
-                                entries.add(new Entry(i, (int) oilPrice.getPRICE()));
-                            }
-
-                            LineDataSet dataSet = new LineDataSet(entries, "주유소 가격");
-                            dataSet.setColor(Color.rgb(255,153,000));
-                            dataSet.setLineWidth(2f);
-                            dataSet.setCircleColor(Color.rgb(255,153,000));
-                            dataSet.setCircleRadius(4f);
-                            dataSet.setDrawCircleHole(false);
-
-                            // Example: Customize the x-axis labels
-                            XAxis xAxis = lineChart.getXAxis();
-                            xAxis.setValueFormatter(new IndexAxisValueFormatter(new String[]{"7일전", "6일전", "5일전", "4일전", "3일전",
-                            "2일전","1일전"}));
-
-                            List<ILineDataSet> dataSets = new ArrayList<>();
-                            dataSets.add(dataSet);
-
-                            LineData lineData = new LineData(dataSets);
-
-                            lineChart.setData(lineData);
-                            lineChart.getDescription().setText("최근 일주일 전국 유가 가격");
-                            lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-                            lineChart.getAxisRight().setEnabled(false);
-                            lineChart.invalidate();
-
-                            Collections.reverse(Avg);
-                            //역순 뒤집기
-
-                            if(Avg.size() > 0)
-                                priceText.setText(Integer.toString( (int) Avg.get(0).getPRICE()));
-
-                            oilAvg_recyclerView.setAdapter(new OilAvgRecyclerAdapter(Avg));
-
-                        }
-
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<OilPriceInfo> call, Throwable t) {
-
-
-
-                    }
-
-
-
-                });
-
-
-    }
-    */
 
 
 

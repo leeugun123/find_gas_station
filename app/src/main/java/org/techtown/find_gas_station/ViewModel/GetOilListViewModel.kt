@@ -22,16 +22,4 @@ class GetOilListViewModel(application: Application) : AndroidViewModel(applicati
 
     fun getOilList() = oilListLiveData
 
-
-
-
-    /*
-        fun getOilAvg(lineChart: LineChart?, oilAvg_recyclerView: RecyclerView?, priceText: TextView?, prodcd: String?) {
-            getOilRepository.getOilAvg(lineChart, oilAvg_recyclerView, priceText, prodcd)
-        }
-
-     */
-
-
-
 }

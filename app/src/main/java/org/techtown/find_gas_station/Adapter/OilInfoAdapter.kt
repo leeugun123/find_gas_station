@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
-import android.location.Location
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
