@@ -29,55 +29,49 @@ class DieselFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        mBinding = FragmentDieselBinding.inflate(layoutInflater, container,false)
+        mBinding = FragmentDieselBinding.inflate(layoutInflater, container, false)
         mBinding.oilAvgRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
 
         getOilAvgViewModel.requestOilAvg("D047")
 
-        getOilAvgViewModel.getOilAvg().observe(requireActivity() , Observer { oilAvgPriceInfoList ->
-
-            val entries = mutableListOf<Entry>()
-
-            oilAvgPriceInfoList.forEachIndexed { index , it ->
-                entries.add(Entry(index.toFloat(), it.oilPrice.toFloat()))
+        getOilAvgViewModel.getOilAvg().observe(requireActivity(), Observer { oilAvgPriceInfoList ->
+            val entries = oilAvgPriceInfoList.mapIndexed { index, it ->
+                Entry(index.toFloat(), it.oilPrice.toFloat())
             }
 
-            val dataSet = LineDataSet(entries, "주유소 가격")
-            dataSet.color = Color.rgb(255, 153, 0)
-            dataSet.lineWidth = 2f
-            dataSet.setCircleColor(Color.rgb(253, 153, 0)) // 수정된 부분
-            dataSet.circleRadius = 4f
-            dataSet.setDrawCircleHole(false)
-
+            val dataSet = LineDataSet(entries, "주유소 가격").apply {
+                color = Color.rgb(255, 153, 0)
+                lineWidth = 2f
+                setCircleColor(Color.rgb(253, 153, 0))
+                circleRadius = 4f
+                setDrawCircleHole(false)
+            }
 
             mBinding.lineChart.xAxis.valueFormatter = IndexAxisValueFormatter(
                 arrayOf("7일전", "6일전", "5일전", "4일전", "3일전", "2일전", "1일전")
             )
 
-            val dataSets = mutableListOf<ILineDataSet>()
-            dataSets.add(dataSet)
+            val lineData = LineData(dataSet)
 
-            val lineData = LineData(dataSets)
-
-            mBinding.lineChart.data = lineData
-            mBinding.lineChart.description.text = "최근 일주일 전국 유가 가격"
-            mBinding.lineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
-            mBinding.lineChart.axisRight.isEnabled = false
-            mBinding.lineChart.invalidate()
+            with(mBinding.lineChart) {
+                data = lineData
+                description.text = "최근 일주일 전국 유가 가격"
+                xAxis.position = XAxis.XAxisPosition.BOTTOM
+                axisRight.isEnabled = false
+                invalidate()
+            }
 
             oilAvgPriceInfoList.reversed()
 
             if (oilAvgPriceInfoList.isNotEmpty()) {
-                mBinding.priceText.text = oilAvgPriceInfoList[0].oilPrice
+                mBinding.priceText.text = oilAvgPriceInfoList.first().oilPrice
             }
 
             mBinding.oilAvgRecyclerView.adapter = OilAvgRecyclerAdapter(oilAvgPriceInfoList)
-
-
         })
 
-
         return mBinding.root
+
 
     }
 }
