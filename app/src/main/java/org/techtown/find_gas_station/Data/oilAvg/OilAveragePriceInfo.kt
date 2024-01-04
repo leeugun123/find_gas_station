@@ -5,12 +5,20 @@ import com.google.gson.annotations.SerializedName
 data class OilAveragePriceInfo(
 
     @SerializedName("DATE")
-    val date : String,
+    private val date : String,
 
     @SerializedName("PRODCD")
-    val oilKind : String,
+    private val oilKind : String,
 
     @SerializedName("PRICE")
-    val oilPrice : String
+    private val oilPrice : String
 
-)
+){
+
+    fun getDate() = date
+
+    fun getOilKind() = oilKind
+
+    fun getOilPrice() = oilPrice
+
+}

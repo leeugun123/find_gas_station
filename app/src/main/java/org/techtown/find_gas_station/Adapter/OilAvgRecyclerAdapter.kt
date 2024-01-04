@@ -1,0 +1,81 @@
+package org.techtown.find_gas_station.Adapter
+
+import android.annotation.SuppressLint
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
+import org.techtown.find_gas_station.Data.oilAvg.OilAveragePriceInfo
+import org.techtown.find_gas_station.R
+import org.techtown.find_gas_station.databinding.OilavgBinding
+import java.text.ParseException
+import java.text.SimpleDateFormat
+
+class OilAvgRecyclerAdapter(private val oilAvgList: List<OilAveragePriceInfo>) : RecyclerView.Adapter<OilAvgRecyclerAdapter.ViewHolder>() {
+
+    inner class ViewHolder(val binding : OilavgBinding) : RecyclerView.ViewHolder(binding.root)
+
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
+                    = ViewHolder(OilavgBinding.inflate(LayoutInflater.from(parent.context),parent,false))
+
+    override fun getItemCount() = oilAvgList.size
+
+    @SuppressLint("SetTextI18n")
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
+        val oilAvg = oilAvgList[position]
+
+        holder.binding.day.text = convertDateString(oilAvg.getDate())
+        holder.binding.price.text = oilAvg.getOilPrice().toString()
+
+        if (position == oilAvgList.size - 1) {
+            holder.binding.priceGap.text = "-"
+            holder.binding.priceGap.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.gray))
+        } else {
+
+            val gap = priceGap(position)
+            val priceText = gap.toString()
+
+            with(holder.binding.priceGap) {
+                text = priceText
+                setTextColor(
+                    ContextCompat.getColor(
+                        holder.itemView.context,
+                        when {
+                            gap > 0 -> R.color.orange
+                            gap < 0 -> R.color.purple_700
+                            else -> R.color.gray
+                        }
+                    )
+                )
+            }
+        }
+
+
+
+    }
+
+
+
+    private fun priceGap(pos: Int) = oilAvgList[pos].getOilPrice() as Int - oilAvgList[pos + 1].getOilPrice() as Int
+
+    private fun convertDateString(inputDate: String?): String {
+
+        val inputFormat = SimpleDateFormat("yyyyMMdd")
+        val outputFormat = SimpleDateFormat("MM월 dd일")
+
+        try {
+            val date = inputFormat.parse(inputDate)
+            return outputFormat.format(date)
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+
+        return ""
+
+    }
+
+}
