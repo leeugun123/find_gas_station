@@ -50,9 +50,12 @@ import org.techtown.find_gas_station.Util.GPS.GeoTransPoint
 import org.techtown.find_gas_station.Util.GPS.GpsTracker
 import org.techtown.find_gas_station.ViewModel.SetViewModel
 import org.techtown.find_gas_station.R
+import org.techtown.find_gas_station.Repository.SetRepository
 import org.techtown.find_gas_station.View.Activity.SettingActivity
 import org.techtown.find_gas_station.ViewModel.GetOilListViewModel
+import org.techtown.find_gas_station.ViewModel.SetViewModelFactory
 import org.techtown.find_gas_station.databinding.FragmentHomeBinding
+import org.techtown.find_gas_station.set.RoomDB
 
 
 class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
@@ -83,9 +86,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
     private var REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
 
     private lateinit var setViewModel : SetViewModel
+    private val getOilListViewModel by lazy { ViewModelProvider(this)[GetOilListViewModel::class.java] }
 
-    private val getOilListViewModel by lazy { ViewModelProvider(this).get(GetOilListViewModel::class.java) }
-    private var oil_intel = arrayOfNulls<String>(3)
+    private var oilIntel = arrayOfNulls<String>(3)
     private var notYet = false
 
 
@@ -94,40 +97,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
         initSetting()
 
-        // 싱글톤 패턴을 사용하지 않고 무조건 강제 실행
-        // 나중에 문제가 생길 수 있음
-        Handler().postDelayed({
-
-            setViewModel!!.setLiveData.observe(this, Observer { set ->
-
-                if (setFlag) {
-                    Log.e("TAG", "데이터 전달")
-                    // LiveData가 변경될 때마다 UI 업데이트
-                    oil_intel[0] = set.oil_rad ?: "1000"
-                    oil_intel[1] = set.oil_sort ?: "1"
-                    oil_intel[2] = set.oil_name ?: "B027"
-                    updateUI()
-                    init_reset()
-
-                }
-
-            })
-        }, 200)
-
-
-
-        getOilListViewModel.getOilList().observe(this, Observer { list ->
-
-            empty = false
-            val myRecyclerAdapter = OilInfoAdapter(list!!, mMap, oil_intel[1].toString())
-            mBinding.listRecycler.adapter = myRecyclerAdapter
-            myRecyclerAdapter.notifyDataSetChanged()
-
-            mBinding.progressBar.visibility = View.GONE
-
-            upRecyclerView()
-
-        })
 
 
 
@@ -136,7 +105,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
     private fun initSetting() {
         windowSetInit() //화면이 꺼지지 않도록 유지
         locationRequestInit() //위치요청 세팅
-        setViewModel = ViewModelProvider(this).get(SetViewModel::class.java)
         Red = BitmapFactory.decodeResource(resources, R.drawable.red_marker)
     }
 
@@ -160,7 +128,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
     // 비동기로 업데이트된 데이터를 사용하여 UI 업데이트
     private fun updateUI() {
 
-        mBinding.arrayFirst!!.text = when (oil_intel[1]) {
+        mBinding.arrayFirst!!.text = when (oilIntel[1]) {
             "1" -> "가격순"
             "2" -> "직경 거리순"
             "3" -> "도로 거리순"
@@ -194,7 +162,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
         val ge = convert(GeoTrans.GEO, GeoTrans.KATEC, point)//GEO를 KATEC으로 변환
 
-        getOilListViewModel.requestOilList(ge.x.toString(), ge.y.toString(), oil_intel[0].toString(), oil_intel[1].toString(), oil_intel[2].toString())
+        getOilListViewModel.requestOilList(ge.x.toString(), ge.y.toString(), oilIntel[0].toString(), oilIntel[1].toString(), oilIntel[2].toString())
 
 
         Handler().postDelayed(Runnable {
@@ -237,6 +205,39 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
             .commit()
 
         mapFragment.getMapAsync(this)
+
+
+        getOilListViewModel.getOilList().observe(viewLifecycleOwner, Observer { list ->
+
+            empty = false
+            val myRecyclerAdapter = OilInfoAdapter(list!!, mMap, oilIntel[1].toString())
+            mBinding.listRecycler.adapter = myRecyclerAdapter
+            myRecyclerAdapter.notifyDataSetChanged()
+
+            mBinding.progressBar.visibility = View.GONE
+
+            upRecyclerView()
+
+        })
+
+
+        val oilDao = RoomDB.getAppDatabase(requireContext()).setDao()
+        val repository = SetRepository(oilDao)
+        setViewModel = ViewModelProvider(owner = this, SetViewModelFactory(repository))
+            .get(SetViewModel::class.java)
+
+        setViewModel.oilLocalData.observe(viewLifecycleOwner, Observer { oilLocalData ->
+
+            oilIntel[0] = oilLocalData.getOilName()
+            oilIntel[1] = oilLocalData.getOilRad()
+            oilIntel[1] = oilLocalData.getOilSort()
+            //확인해봐야 함.
+
+        })
+
+
+
+
 
         mBinding.listRecycler.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
 
