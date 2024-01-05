@@ -16,12 +16,12 @@ import org.techtown.find_gas_station.set.Set
 
 class SplashActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallback {
 
-    private val setViewModel by lazy { ViewModelProvider(this)[SetViewModel::class.java]}
+   // private val setViewModel by lazy { ViewModelProvider(this)[SetViewModel::class.java]}
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.splash)
 
-        setViewModelInit()
+       // setViewModelInit()
 
         if (checkLocationPermission()) {
             Handler().postDelayed(Runnable { startNextActivity() }, 500) // 위치 권한이 허용된 경우, 다음 화면으로 이동
@@ -30,7 +30,7 @@ class SplashActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsR
     }
 
     private fun setViewModelInit(){
-        setViewModel!!.insert(Set("B027", "1000", "1"))
+       // setViewModel!!.insert(Set("B027", "1000", "1"))
     }
 
     override fun onPause() {

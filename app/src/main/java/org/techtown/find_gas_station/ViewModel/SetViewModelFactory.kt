@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import org.techtown.find_gas_station.Repository.SetRepository
 
+/*
 class SetViewModelFactory(private val repository: SetRepository) : ViewModelProvider.Factory {
     fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SetViewModel::class.java)) {
@@ -12,4 +13,4 @@ class SetViewModelFactory(private val repository: SetRepository) : ViewModelProv
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
-}
+}*/

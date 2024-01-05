@@ -1,7 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
-
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
 }
 
 //선언 및 키 값을 불러옴

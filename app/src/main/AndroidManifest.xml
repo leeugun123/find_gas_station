@@ -27,7 +27,8 @@
         <activity
             android:name=".View.Activity.FragmentActivity"
             android:configChanges="orientation|screenSize"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="MissingClass" />
 
         <activity
             android:name=".View.Activity.OilDetailActivity"
@@ -37,8 +38,7 @@
             android:name=".View.Activity.SettingActivity"
             android:exported="true" />
 
-        <activity
-            android:name=".View.Activity.SplashActivity"
+        <activity android:name=".View.Activity.SplashActivity"
             android:exported="true">
 
             <intent-filter>
@@ -48,6 +48,7 @@
 
         </activity>
 
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${google_api_key}" />
@@ -56,7 +57,7 @@
             android:name="com.kakao.sdk.AppKey"
             android:value="${kakao_api_key}" />
 
-
     </application>
+
 
 </manifest>

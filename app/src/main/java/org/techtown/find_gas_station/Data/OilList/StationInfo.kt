@@ -25,6 +25,4 @@ data class StationInfo(
     @SerializedName("GIS_Y_COOR")
     val gisY : String
 
-){
-    fun getId() = id
-}
+)

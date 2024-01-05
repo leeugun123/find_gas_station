@@ -53,7 +53,7 @@ import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.Repository.SetRepository
 import org.techtown.find_gas_station.View.Activity.SettingActivity
 import org.techtown.find_gas_station.ViewModel.GetOilListViewModel
-import org.techtown.find_gas_station.ViewModel.SetViewModelFactory
+//import org.techtown.find_gas_station.ViewModel.SetViewModelFactory
 import org.techtown.find_gas_station.databinding.FragmentHomeBinding
 import org.techtown.find_gas_station.set.RoomDB
 
@@ -223,18 +223,18 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
         val oilDao = RoomDB.getAppDatabase(requireContext()).setDao()
         val repository = SetRepository(oilDao)
+        /*
         setViewModel = ViewModelProvider(owner = this, SetViewModelFactory(repository))
             .get(SetViewModel::class.java)
 
         setViewModel.oilLocalData.observe(viewLifecycleOwner, Observer { oilLocalData ->
 
-            oilIntel[0] = oilLocalData.getOilName()
-            oilIntel[1] = oilLocalData.getOilRad()
+            oilIntel[0] = oilLocalData.getOilRad()
             oilIntel[1] = oilLocalData.getOilSort()
-            //확인해봐야 함.
+            oilIntel[2] = oilLocalData.getOilName()
 
         })
-
+        */
 
 
 

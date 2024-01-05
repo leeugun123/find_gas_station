@@ -18,7 +18,7 @@ import org.techtown.find_gas_station.set.Set
 class SettingActivity : AppCompatActivity() {
 
     private lateinit var mBinding : ActivityDrawerBinding
-    private val setViewModel by lazy { ViewModelProvider(this)[SetViewModel::class.java] }
+   // private val setViewModel by lazy { ViewModelProvider(this)[SetViewModel::class.java] }
 
     private var oilIntelSetting = arrayOfNulls<String>(3)
 
@@ -26,6 +26,8 @@ class SettingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         settingActivityInit()
 
+
+        /*
         setViewModel.setLiveData.observe(this) { set ->
             set?.let {
                 oilIntelSetting[0] = set.oil_rad ?: "1000"
@@ -34,6 +36,7 @@ class SettingActivity : AppCompatActivity() {
                 updateUI()
             }
         }
+        */
 
         mBinding.goBack.setOnClickListener {
             HomeFragment.setFlag = true
@@ -111,8 +114,8 @@ class SettingActivity : AppCompatActivity() {
                 (adapterView.getChildAt(0) as TextView).setTextColor(Color.BLACK)
                 onSelect(options.getOrElse(i) { "" })
                 updateUI()
-                setViewModel.delete()
-                setViewModel.insert(Set(oilIntelSetting[2], oilIntelSetting[0], oilIntelSetting[1]))
+               // setViewModel.delete()
+               // setViewModel.insert(Set(oilIntelSetting[2], oilIntelSetting[0], oilIntelSetting[1]))
             }
 
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
