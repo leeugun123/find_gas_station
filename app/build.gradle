@@ -3,6 +3,7 @@ plugins {
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
     id 'kotlin-android'
     id 'kotlin-android-extensions'
+    id 'org.jetbrains.kotlin.kapt'
 }
 
 //선언 및 키 값을 불러옴
@@ -11,6 +12,7 @@ properties.load(project.rootProject.file('local.properties').newDataInputStream(
 
 android {
     compileSdk 33
+
 
     defaultConfig {
         applicationId "com.roid.androidApp"
@@ -42,6 +44,10 @@ android {
     //Android Studio 버전 4.0 이상
     buildFeatures {
         viewBinding = true
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
 
 }
@@ -82,7 +88,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel:2.5.0"
     implementation "androidx.lifecycle:lifecycle-livedata:2.5.0"
     implementation "androidx.lifecycle:lifecycle-common-java8:2.5.0"
-
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
 
     // 카카오내비 sdk를 사용하기 위해 필요
     implementation group: 'com.kakao.sdk', name: 'kakaonavi', version: project.KAKAO_SDK_VERSION

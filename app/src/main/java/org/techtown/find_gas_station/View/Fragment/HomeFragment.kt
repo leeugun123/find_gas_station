@@ -48,14 +48,11 @@ import org.techtown.find_gas_station.Util.GPS.GeoTrans
 import org.techtown.find_gas_station.Util.GPS.GeoTrans.convert
 import org.techtown.find_gas_station.Util.GPS.GeoTransPoint
 import org.techtown.find_gas_station.Util.GPS.GpsTracker
-import org.techtown.find_gas_station.ViewModel.SetViewModel
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.Repository.SetRepository
 import org.techtown.find_gas_station.View.Activity.SettingActivity
 import org.techtown.find_gas_station.ViewModel.GetOilListViewModel
-//import org.techtown.find_gas_station.ViewModel.SetViewModelFactory
+import org.techtown.find_gas_station.ViewModel.SetViewModel
 import org.techtown.find_gas_station.databinding.FragmentHomeBinding
-import org.techtown.find_gas_station.set.RoomDB
 
 
 class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
@@ -97,6 +94,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
         initSetting()
 
+        init_reset()
 
 
 
@@ -198,7 +196,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
         mBinding = FragmentHomeBinding.inflate(inflater,container,false)
 
-        val mapFragment: SupportMapFragment by lazy { SupportMapFragment.newInstance() }
+        val mapFragment : SupportMapFragment by lazy { SupportMapFragment.newInstance() }
 
         childFragmentManager.beginTransaction()
             .replace(R.id.map, mapFragment)
@@ -216,16 +214,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
             mBinding.progressBar.visibility = View.GONE
 
-            upRecyclerView()
-
         })
 
-
-        val oilDao = RoomDB.getAppDatabase(requireContext()).setDao()
-        val repository = SetRepository(oilDao)
-        /*
-        setViewModel = ViewModelProvider(owner = this, SetViewModelFactory(repository))
-            .get(SetViewModel::class.java)
+        setViewModel = ViewModelProvider(this)[SetViewModel::class.java]
 
         setViewModel.oilLocalData.observe(viewLifecycleOwner, Observer { oilLocalData ->
 
@@ -233,8 +224,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
             oilIntel[1] = oilLocalData.getOilSort()
             oilIntel[2] = oilLocalData.getOilName()
 
+            init_reset()
+
         })
-        */
+
 
 
 
@@ -250,6 +243,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
         return mBinding.root
     }
+
 
 
     private val locationCallback : LocationCallback = object : LocationCallback() {

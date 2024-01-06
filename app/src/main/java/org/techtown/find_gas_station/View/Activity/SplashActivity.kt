@@ -10,18 +10,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import org.techtown.find_gas_station.ViewModel.SetViewModel
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.techtown.find_gas_station.R
+import org.techtown.find_gas_station.ViewModel.SetViewModel
 import org.techtown.find_gas_station.set.Set
 
 class SplashActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallback {
 
-   // private val setViewModel by lazy { ViewModelProvider(this)[SetViewModel::class.java]}
+    private lateinit var setViewModel : SetViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.splash)
 
-       // setViewModelInit()
+       setViewModelInit()
 
         if (checkLocationPermission()) {
             Handler().postDelayed(Runnable { startNextActivity() }, 500) // 위치 권한이 허용된 경우, 다음 화면으로 이동
@@ -30,7 +33,15 @@ class SplashActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsR
     }
 
     private fun setViewModelInit(){
-       // setViewModel!!.insert(Set("B027", "1000", "1"))
+
+
+        setViewModel = ViewModelProvider(this)[SetViewModel::class.java]
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            setViewModel.insert(Set(0,"B027", "1000", "1"))
+        }
+
+
     }
 
     override fun onPause() {

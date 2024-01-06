@@ -13,30 +13,27 @@ import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.View.Fragment.HomeFragment
 import org.techtown.find_gas_station.ViewModel.SetViewModel
 import org.techtown.find_gas_station.databinding.ActivityDrawerBinding
-import org.techtown.find_gas_station.set.Set
 
 class SettingActivity : AppCompatActivity() {
 
     private lateinit var mBinding : ActivityDrawerBinding
-   // private val setViewModel by lazy { ViewModelProvider(this)[SetViewModel::class.java] }
+    private lateinit var setViewModel : SetViewModel
 
     private var oilIntelSetting = arrayOfNulls<String>(3)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         settingActivityInit()
 
+        setViewModel.oilLocalData.observe(this) {
 
-        /*
-        setViewModel.setLiveData.observe(this) { set ->
-            set?.let {
-                oilIntelSetting[0] = set.oil_rad ?: "1000"
-                oilIntelSetting[1] = set.oil_sort ?: "1"
-                oilIntelSetting[2] = set.oil_name ?: "B027"
-                updateUI()
-            }
+            oilIntelSetting[0] = it.getOilRad()
+            oilIntelSetting[1] = it.getOilSort()
+            oilIntelSetting[2] = it.getOilName()
+
         }
-        */
+
 
         mBinding.goBack.setOnClickListener {
             HomeFragment.setFlag = true
@@ -69,7 +66,9 @@ class SettingActivity : AppCompatActivity() {
     private fun settingActivityInit() {
         mBinding = ActivityDrawerBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
+        setViewModel = ViewModelProvider(this)[SetViewModel::class.java]
     }
+
 
     private fun updateUI() {
         // 기름 종류 설정
@@ -114,8 +113,12 @@ class SettingActivity : AppCompatActivity() {
                 (adapterView.getChildAt(0) as TextView).setTextColor(Color.BLACK)
                 onSelect(options.getOrElse(i) { "" })
                 updateUI()
+
+
                // setViewModel.delete()
                // setViewModel.insert(Set(oilIntelSetting[2], oilIntelSetting[0], oilIntelSetting[1]))
+
+
             }
 
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}

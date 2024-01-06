@@ -35,6 +35,7 @@ class DieselFragment : Fragment() {
         getOilAvgViewModel.requestOilAvg("D047")
 
         getOilAvgViewModel.getOilAvg().observe(requireActivity(), Observer { oilAvgPriceInfoList ->
+
             val entries = oilAvgPriceInfoList.mapIndexed { index, it ->
                 Entry(index.toFloat(), it.getOilPrice().toFloat())
             }
@@ -68,6 +69,7 @@ class DieselFragment : Fragment() {
             }
 
             mBinding.oilAvgRecyclerView.adapter = OilAvgRecyclerAdapter(oilAvgPriceInfoList)
+
         })
 
         return mBinding.root
