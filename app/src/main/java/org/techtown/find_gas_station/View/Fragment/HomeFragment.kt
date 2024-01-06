@@ -2,6 +2,7 @@ package org.techtown.find_gas_station.View.Fragment
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -82,7 +83,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
     // 앱을 실행하기 위해 필요한 퍼미션을 정의
     private var REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
 
-    private lateinit var setViewModel : SetViewModel
+    private val setViewModel by lazy {
+        ViewModelProvider(this, SetViewModel.Factory(requireContext() as Application))[SetViewModel::class.java]
+    }
     private val getOilListViewModel by lazy { ViewModelProvider(this)[GetOilListViewModel::class.java] }
 
     private var oilIntel = arrayOfNulls<String>(3)
@@ -205,7 +208,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
         mapFragment.getMapAsync(this)
 
 
-        getOilListViewModel.getOilList().observe(viewLifecycleOwner, Observer { list ->
+        getOilListViewModel.getOilList().observe(viewLifecycleOwner) { list ->
 
             empty = false
             val myRecyclerAdapter = OilInfoAdapter(list!!, mMap, oilIntel[1].toString())
@@ -214,11 +217,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
             mBinding.progressBar.visibility = View.GONE
 
-        })
+        }
 
-        setViewModel = ViewModelProvider(this)[SetViewModel::class.java]
 
-        setViewModel.oilLocalData.observe(viewLifecycleOwner, Observer { oilLocalData ->
+        setViewModel.oilLocalData.observe(viewLifecycleOwner) { oilLocalData ->
 
             oilIntel[0] = oilLocalData.getOilRad()
             oilIntel[1] = oilLocalData.getOilSort()
@@ -226,7 +228,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
             init_reset()
 
-        })
+        }
 
 
 

@@ -19,7 +19,10 @@ import org.techtown.find_gas_station.set.Set
 
 class SplashActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallback {
 
-    private lateinit var setViewModel : SetViewModel
+    private val setViewModel by lazy {
+        ViewModelProvider(this, SetViewModel.Factory(application)).get(SetViewModel::class.java)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.splash)
@@ -34,8 +37,6 @@ class SplashActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsR
 
     private fun setViewModelInit(){
 
-
-        setViewModel = ViewModelProvider(this)[SetViewModel::class.java]
 
         lifecycleScope.launch(Dispatchers.IO) {
             setViewModel.insert(Set(0,"B027", "1000", "1"))

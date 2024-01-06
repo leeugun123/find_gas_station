@@ -9,15 +9,21 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.View.Fragment.HomeFragment
 import org.techtown.find_gas_station.ViewModel.SetViewModel
 import org.techtown.find_gas_station.databinding.ActivityDrawerBinding
+import org.techtown.find_gas_station.set.Set
 
 class SettingActivity : AppCompatActivity() {
 
     private lateinit var mBinding : ActivityDrawerBinding
-    private lateinit var setViewModel : SetViewModel
+    private val setViewModel by lazy {
+        ViewModelProvider(this, SetViewModel.Factory(application)).get(SetViewModel::class.java)
+    }
 
     private var oilIntelSetting = arrayOfNulls<String>(3)
 
@@ -66,7 +72,6 @@ class SettingActivity : AppCompatActivity() {
     private fun settingActivityInit() {
         mBinding = ActivityDrawerBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
-        setViewModel = ViewModelProvider(this)[SetViewModel::class.java]
     }
 
 
@@ -115,8 +120,12 @@ class SettingActivity : AppCompatActivity() {
                 updateUI()
 
 
-               // setViewModel.delete()
-               // setViewModel.insert(Set(oilIntelSetting[2], oilIntelSetting[0], oilIntelSetting[1]))
+                lifecycleScope.launch(Dispatchers.IO) {
+                    setViewModel.delete()
+                    setViewModel.insert(Set(0, oilIntelSetting[2].toString(), oilIntelSetting[0].toString(), oilIntelSetting[1].toString()))
+                }
+
+
 
 
             }

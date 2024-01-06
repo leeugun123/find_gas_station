@@ -3,6 +3,8 @@ package org.techtown.find_gas_station.ViewModel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.coroutineScope
 import org.techtown.find_gas_station.Repository.SetRepository
 import org.techtown.find_gas_station.set.RoomDB
@@ -27,6 +29,13 @@ class SetViewModel(application : Application) : AndroidViewModel(application) {
 
     suspend fun delete() = coroutineScope {
         setRepository.deleteAll()
+    }
+
+    class Factory(val application: Application) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return SetViewModel(application) as T
+        }
+
     }
 
 
