@@ -96,10 +96,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
         super.onCreate(savedInstanceState)
 
         initSetting()
-
         init_reset()
-
-
 
     }
 

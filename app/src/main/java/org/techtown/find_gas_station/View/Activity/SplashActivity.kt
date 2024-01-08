@@ -19,8 +19,13 @@ import org.techtown.find_gas_station.set.Set
 
 class SplashActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallback {
 
+    companion object {
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 1001
+    }
+
+
     private val setViewModel by lazy {
-        ViewModelProvider(this, SetViewModel.Factory(application)).get(SetViewModel::class.java)
+        ViewModelProvider(this, SetViewModel.Factory(application))[SetViewModel::class.java]
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,31 +35,25 @@ class SplashActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsR
        setViewModelInit()
 
         if (checkLocationPermission()) {
-            Handler().postDelayed(Runnable { startNextActivity() }, 500) // 위치 권한이 허용된 경우, 다음 화면으로 이동
-        } else { requestLocationPermission() }// 위치 권한 요청
+            splashAction()
+        }// 위치 권한이 허용된 경우 , 다음 화면으로 이동
+        else { requestLocationPermission() }
+        // 위치 권한 요청
 
     }
 
     private fun setViewModelInit(){
 
-
         lifecycleScope.launch(Dispatchers.IO) {
             setViewModel.insert(Set(0,"B027", "1000", "1"))
         }
 
-
-    }
-
-    override fun onPause() {
-        super.onPause()
     }
 
     // 위치 권한이 허용되었는지 확인하는 메소드
     private fun checkLocationPermission() = (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
             && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
 
-
-    // 위치 권한 요청 메소드
     private fun requestLocationPermission() {
 
         ActivityCompat.requestPermissions(
@@ -62,6 +61,7 @@ class SplashActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsR
             LOCATION_PERMISSION_REQUEST_CODE)
 
     }
+    // 위치 권한 요청 메소드
 
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -70,7 +70,7 @@ class SplashActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsR
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
 
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Handler().postDelayed(Runnable { startNextActivity() }, 500)
+                splashAction()
             } else {
                 Toast.makeText(this, "위치 권한이 거부되었습니다. 앱을 종료합니다.", Toast.LENGTH_SHORT).show()
                 finish()
@@ -86,8 +86,8 @@ class SplashActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsR
         finish()
     }
 
-    companion object {
-        private const val LOCATION_PERMISSION_REQUEST_CODE = 1001
+    private fun splashAction(){
+        Handler().postDelayed(Runnable { startNextActivity() }, 500)
     }
 
 }
