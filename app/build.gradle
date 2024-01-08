@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
-    id 'kotlin-android'
+    id 'org.jetbrains.kotlin.android'
     id 'kotlin-android-extensions'
     id 'org.jetbrains.kotlin.kapt'
 }
@@ -47,6 +47,7 @@ android {
     }
 
     kotlinOptions {
+        freeCompilerArgs = ['-Xjvm-default=enable']
         jvmTarget = '1.8'
     }
 

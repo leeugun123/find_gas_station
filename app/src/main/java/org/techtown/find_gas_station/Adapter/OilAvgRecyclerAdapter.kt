@@ -62,6 +62,7 @@ class OilAvgRecyclerAdapter(private val oilAvgList: List<OilAveragePriceInfo>) :
 
     private fun priceGap(pos: Int) = oilAvgList[pos].getOilPrice() as Int - oilAvgList[pos + 1].getOilPrice() as Int
 
+    @SuppressLint("SimpleDateFormat")
     private fun convertDateString(inputDate: String?): String {
 
         val inputFormat = SimpleDateFormat("yyyyMMdd")

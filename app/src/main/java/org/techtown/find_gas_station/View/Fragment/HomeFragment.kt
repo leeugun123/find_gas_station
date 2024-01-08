@@ -182,14 +182,15 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
     private fun upRecyclerView() {
 
-        Handler().postDelayed(Runnable {
+        Handler().postDelayed({
 
-            val smoothScroller: SmoothScroller = object : LinearSmoothScroller(mBinding.listRecycler!!.context) {
+            val smoothScroller : SmoothScroller = object : LinearSmoothScroller(mBinding.listRecycler!!.context) {
                     override fun getVerticalSnapPreference() = SNAP_TO_START
             }
 
             smoothScroller.targetPosition = 0
             mBinding.listRecycler!!.layoutManager!!.startSmoothScroll(smoothScroller)
+
         }, 500)
 
     }
@@ -217,6 +218,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
             mBinding.progressBar.visibility = View.GONE
 
+            init_reset()
+            upRecyclerView()
+
         }
 
 
@@ -229,10 +233,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
             init_reset()
 
         }
-
-
-
-
 
         mBinding.listRecycler.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
 

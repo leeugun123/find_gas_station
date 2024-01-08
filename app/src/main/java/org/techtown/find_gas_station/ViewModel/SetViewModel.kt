@@ -32,9 +32,7 @@ class SetViewModel(application : Application) : AndroidViewModel(application) {
     }
 
     class Factory(val application: Application) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return SetViewModel(application) as T
-        }
+        override fun <T : ViewModel> create(modelClass: Class<T>) = SetViewModel(application) as T
 
     }
 
