@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.set
+package org.techtown.find_gas_station.Data.set
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao

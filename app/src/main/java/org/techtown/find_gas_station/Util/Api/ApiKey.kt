@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.Util
+package org.techtown.find_gas_station.Util.Api
 
 import org.techtown.find_gas_station.BuildConfig
 

@@ -1,13 +1,11 @@
 package org.techtown.find_gas_station.Repository
 
-import android.annotation.SuppressLint
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import org.techtown.find_gas_station.Data.oilAvg.OilAveragePriceInfo
 import org.techtown.find_gas_station.Data.oilAvg.OilAveragePriceInfoResult
-import org.techtown.find_gas_station.Retrofit.Opinet_RetrofitApi
-import org.techtown.find_gas_station.Util.ApiKey
-import org.techtown.find_gas_station.Util.Api_Instance
+import org.techtown.find_gas_station.Util.Api.ApiKey
+import org.techtown.find_gas_station.Util.Api.Api_Instance
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

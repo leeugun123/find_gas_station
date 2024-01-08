@@ -1,9 +1,9 @@
-package org.techtown.find_gas_station.Util
+package org.techtown.find_gas_station.Util.Api
 
 import org.techtown.find_gas_station.Retrofit.Kakao_RetrofitApi
 import org.techtown.find_gas_station.Retrofit.Opinet_RetrofitApi
-import org.techtown.find_gas_station.Util.ApiBaseUrl.KAKAO_BASE_URL
-import org.techtown.find_gas_station.Util.ApiBaseUrl.OPINET_BASE_URL
+import org.techtown.find_gas_station.Util.Api.ApiBaseUrl.KAKAO_BASE_URL
+import org.techtown.find_gas_station.Util.Api.ApiBaseUrl.OPINET_BASE_URL
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

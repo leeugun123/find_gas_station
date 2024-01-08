@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.set
+package org.techtown.find_gas_station.Data.set
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -20,14 +20,10 @@ data class Set(
     private var oilSort : String = "1", // 정렬기준
 
 ) {
-
-    fun getId() = id
-
     fun getOilName() = oilName
 
     fun getOilRad() = oilRad
 
     fun getOilSort() = oilSort
-
 
 }

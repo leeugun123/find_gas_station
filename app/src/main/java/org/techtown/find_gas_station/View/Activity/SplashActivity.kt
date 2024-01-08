@@ -14,14 +14,13 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.techtown.find_gas_station.R
+import org.techtown.find_gas_station.Util.Constants.LOCATION_PERMISSION_REQUEST_CODE
+import org.techtown.find_gas_station.Util.Constants.SPLASH_WAIT_TIME
 import org.techtown.find_gas_station.ViewModel.SetViewModel
-import org.techtown.find_gas_station.set.Set
+import org.techtown.find_gas_station.Data.set.Set
 
 class SplashActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallback {
 
-    companion object {
-        private const val LOCATION_PERMISSION_REQUEST_CODE = 1001
-    }
 
 
     private val setViewModel by lazy {
@@ -87,7 +86,7 @@ class SplashActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsR
     }
 
     private fun splashAction(){
-        Handler().postDelayed(Runnable { startNextActivity() }, 500)
+        Handler().postDelayed(Runnable { startNextActivity() }, SPLASH_WAIT_TIME)
     }
 
 }

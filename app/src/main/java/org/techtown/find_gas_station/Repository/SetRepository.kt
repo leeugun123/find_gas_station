@@ -1,13 +1,14 @@
 package org.techtown.find_gas_station.Repository
 
 import androidx.lifecycle.LiveData
-import org.techtown.find_gas_station.set.SetDao
+import org.techtown.find_gas_station.Data.set.Set
+import org.techtown.find_gas_station.Data.set.SetDao
 
 class SetRepository(private val setDao : SetDao) {
 
-    val allSets : LiveData<org.techtown.find_gas_station.set.Set> = setDao.getOilLocalData()
+    val allSets : LiveData<Set> = setDao.getOilLocalData()
 
-    suspend fun insert(set : org.techtown.find_gas_station.set.Set) {
+    suspend fun insert(set : Set) {
         setDao.insert(set)
     }
 
@@ -15,7 +16,7 @@ class SetRepository(private val setDao : SetDao) {
         setDao.deleteAll()
     }
 
-    suspend fun update(set : org.techtown.find_gas_station.set.Set) {
+    suspend fun update(set : Set) {
         setDao.update(set)
     }
 

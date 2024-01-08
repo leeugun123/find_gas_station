@@ -10,9 +10,9 @@ import org.techtown.find_gas_station.Data.kakao.Request.Origin
 import org.techtown.find_gas_station.Data.kakao.Response.DirectionResponse
 import org.techtown.find_gas_station.Data.oilDetail.GasStationDetailInfoResult
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.Util.ApiKey.opiApiKey
-import org.techtown.find_gas_station.Util.Api_Instance.kakaoRetrofitApi
-import org.techtown.find_gas_station.Util.Api_Instance.opiRetrofitApi
+import org.techtown.find_gas_station.Util.Api.ApiKey.opiApiKey
+import org.techtown.find_gas_station.Util.Api.Api_Instance.kakaoRetrofitApi
+import org.techtown.find_gas_station.Util.Api.Api_Instance.opiRetrofitApi
 import org.techtown.find_gas_station.Util.Comparator.OilDistanceComparator
 import org.techtown.find_gas_station.Util.Comparator.OilPriceComparator
 import org.techtown.find_gas_station.Util.Comparator.OilRoadDistanceComparator

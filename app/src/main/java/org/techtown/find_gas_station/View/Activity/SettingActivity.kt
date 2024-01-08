@@ -16,7 +16,7 @@ import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.View.Fragment.HomeFragment
 import org.techtown.find_gas_station.ViewModel.SetViewModel
 import org.techtown.find_gas_station.databinding.ActivityDrawerBinding
-import org.techtown.find_gas_station.set.Set
+import org.techtown.find_gas_station.Data.set.Set
 
 class SettingActivity : AppCompatActivity() {
 
