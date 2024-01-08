@@ -4,6 +4,6 @@ import org.techtown.find_gas_station.BuildConfig
 
 object ApiKey {
 
-    val opiApiKey = BuildConfig.GAS_API_KEY
+    const val OPI_API_KEY = BuildConfig.GAS_API_KEY
 
 }

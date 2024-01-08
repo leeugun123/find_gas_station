@@ -18,7 +18,7 @@ class GetOilAvgRepository(application: Application){
 
     fun getOilAvg(prodcd : String) {
 
-        Api_Instance.opiRetrofitApi.getAvgRecentPrice(ApiKey.opiApiKey , "json", prodcd)
+        Api_Instance.opiRetrofitApi.getAvgRecentPrice(ApiKey.OPI_API_KEY , "json", prodcd)
 
             .enqueue(object : Callback<OilAveragePriceInfoResult> {
 

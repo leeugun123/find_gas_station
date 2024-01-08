@@ -10,7 +10,7 @@ import org.techtown.find_gas_station.Data.kakao.Request.Origin
 import org.techtown.find_gas_station.Data.kakao.Response.DirectionResponse
 import org.techtown.find_gas_station.Data.oilDetail.GasStationDetailInfoResult
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.Util.Api.ApiKey.opiApiKey
+import org.techtown.find_gas_station.Util.Api.ApiKey.OPI_API_KEY
 import org.techtown.find_gas_station.Util.Api.Api_Instance.kakaoRetrofitApi
 import org.techtown.find_gas_station.Util.Api.Api_Instance.opiRetrofitApi
 import org.techtown.find_gas_station.Util.Comparator.OilDistanceComparator
@@ -35,7 +35,7 @@ class GetOilRepository(application : Application) {
 
     fun searchOilList(xPos : String, yPos : String, radius : String, sort : String, oilKind : String) {
 
-        opiRetrofitApi.getOilList(opiApiKey, "json", xPos, yPos, radius, oilKind, sort)
+        opiRetrofitApi.getOilList(OPI_API_KEY, "json", xPos, yPos, radius, oilKind, sort)
             .enqueue(object : Callback<GasStationInfoResult> {
 
                 override fun onResponse(call: Call<GasStationInfoResult>, response: Response<GasStationInfoResult>) {
@@ -81,7 +81,7 @@ class GetOilRepository(application : Application) {
         imageResource : Int, destinationX : Float, destinationY : Float) {
 
 
-        opiRetrofitApi.getOilDetail(opiApiKey, "json", uid)
+        opiRetrofitApi.getOilDetail(OPI_API_KEY, "json", uid)
             .enqueue(object : Callback<GasStationDetailInfoResult> {
                 override fun onResponse(call: Call<GasStationDetailInfoResult>, response: Response<GasStationDetailInfoResult>) {
 
