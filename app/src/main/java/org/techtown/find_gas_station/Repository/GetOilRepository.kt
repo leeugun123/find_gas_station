@@ -1,6 +1,7 @@
 package org.techtown.find_gas_station.Repository
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import org.techtown.find_gas_station.Data.OilList.GasStationInfoResult
 import org.techtown.find_gas_station.Data.TotalOilInfo
@@ -40,6 +41,9 @@ class GetOilRepository(application : Application) {
 
                 override fun onResponse(call: Call<GasStationInfoResult>, response: Response<GasStationInfoResult>) {
 
+
+                    Log.e("TAG","searchOilList")
+
                     if (response.isSuccessful) {
 
                         val gasStationData = response.body()
@@ -49,6 +53,8 @@ class GetOilRepository(application : Application) {
 
                             if (i == 30)
                                 break
+
+                            Log.e("TAG",result[i].id)
 
                             val uid = result[i].id
                             val distance = result[i].distance
@@ -89,17 +95,16 @@ class GetOilRepository(application : Application) {
 
                         val oilDetailInfo = response.body()!!.gasStationDetailInfoResult.gasStationDetailInfo
 
-                        val carWash = oilDetailInfo.carWashExist
-                        val conStore = oilDetailInfo.conStoreExist
-                        val lotNumberAddress = oilDetailInfo.address
-                        val roadAddress =  oilDetailInfo.streetAddress
-                        val tel = oilDetailInfo.calNumber
-                        val sector = oilDetailInfo.sector
+                        val carWash = oilDetailInfo[0].carWashExist
+                        val conStore = oilDetailInfo[0].conStoreExist
+                        val lotNumberAddress = oilDetailInfo[0].address
+                        val roadAddress =  oilDetailInfo[0].streetAddress
+                        val tel = oilDetailInfo[0].calNumber
+                        val sector = oilDetailInfo[0].sector
                         val dis = distance.toDouble().toInt()
 
                         tempList.add(TotalOilInfo(uid, name, gasPrice, dis.toString(), inputOil, imageResource, destinationX, destinationY,
                                 carWash, conStore, lotNumberAddress, roadAddress, tel, sector, "", "" ))
-
 
                         if (tempList.size == size || tempList.size == 30) {
 
@@ -121,10 +126,21 @@ class GetOilRepository(application : Application) {
                     //데이터가 모두 도착 하면 실행
 
                     }
+                    else
+                        //가격순
+                        //직경 거리순
+                        //데이터가 모두 도착 하면 실행
+//추가적인 카카오 api를 요구하는 경우
+                    {
+                        Log.e("TAG","oilDetail 실패")
+                    }
 
                 }
 
-                override fun onFailure(call: Call<GasStationDetailInfoResult>, t: Throwable) {}
+                override fun onFailure(call: Call<GasStationDetailInfoResult>, t: Throwable) {
+                    Log.e("TAG",t.message.toString())
+
+                }
 
             })
 

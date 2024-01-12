@@ -1,6 +1,7 @@
 package org.techtown.find_gas_station.ViewModel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import org.techtown.find_gas_station.Data.TotalOilInfo
@@ -17,6 +18,7 @@ class GetOilListViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     fun requestOilList(xPos: String , yPos : String , radius : String , sort : String, oilKind : String) {
+        Log.e("TAG","requestOilList")
         getOilRepository.searchOilList(xPos, yPos, radius, sort, oilKind)
     }
 

@@ -40,16 +40,16 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.material.snackbar.Snackbar
 import org.techtown.find_gas_station.Adapter.OilInfoAdapter
-import org.techtown.find_gas_station.Util.GPS.GeoTrans
-import org.techtown.find_gas_station.Util.GPS.GeoTrans.convert
-import org.techtown.find_gas_station.Util.GPS.GeoTransPoint
-import org.techtown.find_gas_station.Util.GPS.GpsTracker
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.Util.Constants.FASTEST_UPDATE_INTERVAL_MS
 import org.techtown.find_gas_station.Util.Constants.IF_EMPTY_DATA_TIME
 import org.techtown.find_gas_station.Util.Constants.PERMISSIONS_REQUEST_CODE
 import org.techtown.find_gas_station.Util.Constants.UPDATE_INTERVAL_MS
 import org.techtown.find_gas_station.Util.Constants.UP_RECYCLERVIEW_TIME
+import org.techtown.find_gas_station.Util.GPS.GeoTrans
+import org.techtown.find_gas_station.Util.GPS.GeoTrans.convert
+import org.techtown.find_gas_station.Util.GPS.GeoTransPoint
+import org.techtown.find_gas_station.Util.GPS.GpsTracker
 import org.techtown.find_gas_station.View.Activity.SettingActivity
 import org.techtown.find_gas_station.ViewModel.GetOilListViewModel
 import org.techtown.find_gas_station.ViewModel.SetViewModel
@@ -78,13 +78,13 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
             .setFastestInterval(FASTEST_UPDATE_INTERVAL_MS.toLong())}
 
     private val setViewModel by lazy {
-        ViewModelProvider(this, SetViewModel.Factory(requireContext() as Application))[SetViewModel::class.java]
+        ViewModelProvider(this, SetViewModel.Factory((requireContext().applicationContext as Application)))[SetViewModel::class.java]
     }
     private val getOilListViewModel by lazy { ViewModelProvider(this)[GetOilListViewModel::class.java] }
 
     private lateinit var mBinding : FragmentHomeBinding
     private lateinit var mMap : GoogleMap
-    private lateinit var currentMarker : Marker
+    //private lateinit var currentMarker : Marker
     private val requiredPermission = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
     // 앱을 실행하기 위해 필요한 퍼미션을 정의
 
@@ -130,7 +130,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
     //getData메소드 호출하여 ArrayList 값들 채우기
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun searchData() {
-        Log.e("TAG", "init_reset")
         getData(gpsTracker.getLatitude().toFloat(), gpsTracker.getLongitude().toFloat())
     }
 
@@ -187,6 +186,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
         mBinding = FragmentHomeBinding.inflate(inflater,container,false)
 
+
         childFragmentManager.beginTransaction()
             .replace(R.id.map, mapFragment)
             .commit()
@@ -216,6 +216,12 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
             oilIntel[1] = oilLocalData.oilSort
             oilIntel[2] = oilLocalData.oilName
 
+
+            Log.e("TAG", oilIntel[0].toString())
+            Log.e("TAG", oilIntel[1].toString())
+            Log.e("TAG", oilIntel[2].toString())
+
+
             searchData()
             updateTextUi()
         }
@@ -228,6 +234,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
         }
 
         return mBinding.root
+
     }
 
 
@@ -243,7 +250,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
         if (checkPermission()) {
             mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
-            mMap.isMyLocationEnabled = true
         }
 
     }
@@ -253,6 +259,16 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
         Log.e("TAG", "onMapReady")
 
         mMap = googleMap
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude()), 15f))
+        mMap.isMyLocationEnabled = true
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15f))
+        mMap.uiSettings.apply {
+            isZoomControlsEnabled = true
+            isZoomGesturesEnabled = true
+            isMyLocationButtonEnabled = true
+        }
+
         setStartLocation()
 
         if (checkPermission()) {
@@ -260,22 +276,14 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
         } else {
             handleLocationPermissionRequest()
         }
-        configureMapSettings()
+
+       // configureMapSettings()
         // 현재 오동작을 해서 주석처리
         mMap.setOnMapClickListener(OnMapClickListener { })
     }
 
-    private fun configureMapSettings() {
 
-        mMap.uiSettings.apply {
-            isZoomControlsEnabled = true
-            isZoomGesturesEnabled = true
-            isMyLocationButtonEnabled = true
-        }
-
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(15f))
-
-    }
+    // private fun configureMapSettings() {}
 
     private fun handleLocationPermissionRequest() {
 
@@ -312,7 +320,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
         if (checkPermission()) {
             mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
-            mMap.isMyLocationEnabled = true
         }
 
     }
@@ -327,8 +334,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
     //앱이 시작할때 자기 위치로 이동 시켜주는 메소드
     private fun setStartLocation() {
         Log.e("TAG", "setStartLocation")
-        currentMarker.remove()
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude()), 15f))
+       // currentMarker.remove()
     }
 
     override fun onMarkerClick(marker: Marker) = false
