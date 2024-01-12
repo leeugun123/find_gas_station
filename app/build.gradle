@@ -4,6 +4,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-android-extensions'
     id 'org.jetbrains.kotlin.kapt'
+
 }
 
 //선언 및 키 값을 불러옴
@@ -78,10 +79,10 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
 
-    def room_version = "2.2.5"
     // Room components
-    implementation "androidx.room:room-runtime:2.4.2"
-    annotationProcessor "androidx.room:room-compiler:2.4.2"
+    implementation "androidx.room:room-ktx:2.4.3"
+    kapt "androidx.room:room-compiler:2.4.3"
+
     //noinspection GradleDependency
     androidTestImplementation "androidx.room:room-testing:2.2.5"
 

@@ -27,6 +27,7 @@ class DailyFragment : Fragment() {
         currentFragment = gasolFragment
         parentFragmentManager.beginTransaction().add(R.id.frame, currentFragment).commit()
 
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

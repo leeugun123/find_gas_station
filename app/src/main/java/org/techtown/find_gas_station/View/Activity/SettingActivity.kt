@@ -12,17 +12,17 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.techtown.find_gas_station.Data.set.OilData
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.View.Fragment.HomeFragment
 import org.techtown.find_gas_station.ViewModel.SetViewModel
 import org.techtown.find_gas_station.databinding.ActivityDrawerBinding
-import org.techtown.find_gas_station.Data.set.Set
 
 class SettingActivity : AppCompatActivity() {
 
     private lateinit var mBinding : ActivityDrawerBinding
     private val setViewModel by lazy {
-        ViewModelProvider(this, SetViewModel.Factory(application)).get(SetViewModel::class.java)
+        ViewModelProvider(this, SetViewModel.Factory(application))[SetViewModel::class.java]
     }
 
     private var oilIntelSetting = arrayOfNulls<String>(3)
@@ -34,9 +34,9 @@ class SettingActivity : AppCompatActivity() {
 
         setViewModel.oilLocalData.observe(this) {
 
-            oilIntelSetting[0] = it.getOilRad()
-            oilIntelSetting[1] = it.getOilSort()
-            oilIntelSetting[2] = it.getOilName()
+            oilIntelSetting[0] = it.oilRad
+            oilIntelSetting[1] = it.oilSort
+            oilIntelSetting[2] = it.oilName
 
         }
 
@@ -122,7 +122,7 @@ class SettingActivity : AppCompatActivity() {
 
                 lifecycleScope.launch(Dispatchers.IO) {
                     setViewModel.delete()
-                    setViewModel.insert(Set(0, oilIntelSetting[2].toString(), oilIntelSetting[0].toString(), oilIntelSetting[1].toString()))
+                    setViewModel.insert(OilData(oilIntelSetting[2].toString(), oilIntelSetting[0].toString(), oilIntelSetting[1].toString()))
                 }
 
 

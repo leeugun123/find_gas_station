@@ -13,25 +13,21 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.techtown.find_gas_station.Data.set.OilData
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.Util.Constants.LOCATION_PERMISSION_REQUEST_CODE
 import org.techtown.find_gas_station.Util.Constants.SPLASH_WAIT_TIME
 import org.techtown.find_gas_station.ViewModel.SetViewModel
-import org.techtown.find_gas_station.Data.set.Set
 
 class SplashActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallback {
 
-
-
-    private val setViewModel by lazy {
-        ViewModelProvider(this, SetViewModel.Factory(application))[SetViewModel::class.java]
-    }
+    private val setViewModel by lazy { ViewModelProvider(this, SetViewModel.Factory(application))[SetViewModel::class.java]}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.splash)
 
-       setViewModelInit()
+        setViewModelInit()
 
         if (checkLocationPermission()) {
             splashAction()
@@ -44,7 +40,7 @@ class SplashActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsR
     private fun setViewModelInit(){
 
         lifecycleScope.launch(Dispatchers.IO) {
-            setViewModel.insert(Set(0,"B027", "1000", "1"))
+            setViewModel.insert(OilData("B027", "1000", "1"))
         }
 
     }

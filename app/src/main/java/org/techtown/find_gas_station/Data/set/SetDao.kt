@@ -11,17 +11,17 @@ import androidx.room.Update
 @Dao
 interface SetDao {
 
-    @Query("SELECT * FROM set_table")
-    fun getOilLocalData() : LiveData<Set>
+    @Query("SELECT * FROM OilData")
+    fun getOilLocalData() : LiveData<OilData>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(set : Set)
+    suspend fun insert(oilData : OilData)
 
-    @Query("DELETE FROM set_table")
+    @Query("DELETE FROM OilData")
     suspend fun deleteAll()
 
     @Update
-    suspend fun update(set : Set)
+    suspend fun update(oilData : OilData)
 
 
 }

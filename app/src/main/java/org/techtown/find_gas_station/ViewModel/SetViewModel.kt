@@ -6,13 +6,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.coroutineScope
+import org.techtown.find_gas_station.Data.set.OilData
 import org.techtown.find_gas_station.Repository.SetRepository
 import org.techtown.find_gas_station.Data.set.RoomDB
-import org.techtown.find_gas_station.Data.set.Set
 
 class SetViewModel(application : Application) : AndroidViewModel(application) {
 
-    val oilLocalData : LiveData<Set>
+    val oilLocalData : LiveData<OilData>
     private val setRepository : SetRepository
 
     init {
@@ -21,10 +21,10 @@ class SetViewModel(application : Application) : AndroidViewModel(application) {
         oilLocalData = setRepository.allSets
     }
 
-    suspend fun insert(set: Set) = coroutineScope {
+    suspend fun insert(set: OilData) = coroutineScope {
         setRepository.insert(set)
     }
-    suspend fun update(set : Set) = coroutineScope {
+    suspend fun update(set : OilData) = coroutineScope {
         setRepository.update(set)
     }
 

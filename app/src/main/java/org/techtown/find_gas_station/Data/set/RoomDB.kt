@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import kotlin.collections.Set
 
-@Database(entities = [Set::class], version = 1, exportSchema = true)
+@Database(entities = [OilData::class], version = 1, exportSchema = false)
 abstract class RoomDB : RoomDatabase() {
 
     abstract fun setDao(): SetDao
