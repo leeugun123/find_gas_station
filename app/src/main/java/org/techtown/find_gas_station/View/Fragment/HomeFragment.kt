@@ -198,7 +198,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
         mapFragment.getMapAsync(this)
 
         initSetting()
-        searchData()
 
 
         getOilListViewModel.getOilList().observe(viewLifecycleOwner) { list ->

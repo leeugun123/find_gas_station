@@ -36,6 +36,8 @@ class GetOilRepository(application : Application) {
 
     fun searchOilList(xPos : String, yPos : String, radius : String, sort : String, oilKind : String) {
 
+        listClear()
+
         opiRetrofitApi.getOilList(OPI_API_KEY, "json", xPos, yPos, radius, oilKind, sort)
             .enqueue(object : Callback<GasStationInfoResult> {
 
@@ -83,6 +85,11 @@ class GetOilRepository(application : Application) {
             })
     }
 
+    private fun listClear() {
+        tempList.clear()
+        plusList.clear()
+    }
+
     private fun getOilDetail(sort: String, size : Int, uid : String, name: String, gasPrice: String, distance: String, inputOil: String,
         imageResource : Int, destinationX : Float, destinationY : Float) {
 
@@ -126,12 +133,7 @@ class GetOilRepository(application : Application) {
                     //데이터가 모두 도착 하면 실행
 
                     }
-                    else
-                        //가격순
-                        //직경 거리순
-                        //데이터가 모두 도착 하면 실행
-//추가적인 카카오 api를 요구하는 경우
-                    {
+                    else {
                         Log.e("TAG","oilDetail 실패")
                     }
 
