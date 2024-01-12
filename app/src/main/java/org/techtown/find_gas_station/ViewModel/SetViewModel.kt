@@ -24,9 +24,13 @@ class SetViewModel(application : Application) : AndroidViewModel(application) {
     suspend fun insert(set: OilData) = coroutineScope {
         setRepository.insert(set)
     }
+
+
+
     suspend fun update(set : OilData) = coroutineScope {
         setRepository.update(set)
     }
+
 
     suspend fun delete() = coroutineScope {
         setRepository.deleteAll()

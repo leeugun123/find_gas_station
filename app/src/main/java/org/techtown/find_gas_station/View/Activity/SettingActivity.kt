@@ -2,6 +2,7 @@ package org.techtown.find_gas_station.View.Activity
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -14,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.techtown.find_gas_station.Data.set.OilData
 import org.techtown.find_gas_station.R
+import org.techtown.find_gas_station.Util.OilParser
 import org.techtown.find_gas_station.View.Fragment.HomeFragment
 import org.techtown.find_gas_station.ViewModel.SetViewModel
 import org.techtown.find_gas_station.databinding.ActivityDrawerBinding
@@ -25,7 +27,7 @@ class SettingActivity : AppCompatActivity() {
         ViewModelProvider(this, SetViewModel.Factory(application))[SetViewModel::class.java]
     }
 
-    private var oilIntelSetting = arrayOfNulls<String>(3)
+    private var oilIntelSetting = mutableListOf("", "", "")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,15 +36,24 @@ class SettingActivity : AppCompatActivity() {
 
         setViewModel.oilLocalData.observe(this) {
 
-            oilIntelSetting[0] = it.oilRad
-            oilIntelSetting[1] = it.oilSort
-            oilIntelSetting[2] = it.oilName
+            oilIntelSetting[0] = OilParser.calRad(it.oilRad)
+            oilIntelSetting[1] = OilParser.calOilSort(it.oilSort)
+            oilIntelSetting[2] = OilParser.calOilName(it.oilName)
+
+            /*
+            Log.e("TAG", oilIntelSetting[0])
+            Log.e("TAG", oilIntelSetting[1])
+            Log.e("TAG", oilIntelSetting[2])
+            */
+
+            updateUI()
 
         }
 
 
         mBinding.goBack.setOnClickListener {
             HomeFragment.setFlag = true
+            insertOilData()
             finish()
         }
 
@@ -50,22 +61,47 @@ class SettingActivity : AppCompatActivity() {
 
     }
 
-    private fun spinnerSet(){
+    private fun spinnerSet() {
 
         setupSpinner(
             mBinding.typeSpinner,
             listOf("휘발유", "경유", "고급 휘발유", "실내 등유", "자동차 부탄")
-        ) { oilIntelSetting[2] = it }
+        ) { selectedValue ->
+            oilIntelSetting[2] = selectedValue
+           // Log.e("TAG",selectedValue)
+        }
 
         setupSpinner(
             mBinding.distanceSpinner,
             listOf("1km", "3km", "5km")
-        ) { oilIntelSetting[0] = it }
+        ) { selectedValue ->
+            oilIntelSetting[0] = selectedValue
+           // Log.e("TAG",selectedValue)
+        }
 
         setupSpinner(
             mBinding.sortSpinner,
-            listOf("가격순", "직경 거리순", "도로 거리순", "소요시간 순")
-        ) { oilIntelSetting[1] = it }
+            listOf("가격순", "직경 거리순", "도로 거리순", "소요 시간순")
+        ) { selectedValue ->
+            oilIntelSetting[1] = selectedValue
+            //Log.e("TAG",selectedValue)
+        }
+    }
+
+    private fun insertOilData() {
+
+        /*
+        Log.e("TAG","insertOilData()")
+        Log.e("TAG",oilIntelSetting[0])
+        Log.e("TAG",oilIntelSetting[1])
+        Log.e("TAG",oilIntelSetting[2])
+        */
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            setViewModel.delete()
+            setViewModel.insert(OilData(oilIntelSetting[2], oilIntelSetting[0], oilIntelSetting[1]))
+        }
+
 
     }
 
@@ -97,8 +133,7 @@ class SettingActivity : AppCompatActivity() {
             "1" -> 0
             "2" -> 1
             "3" -> 2
-            "4" -> 3
-            else -> 0 // 기본값으로 설정
+            else -> 3
         })
 
     }
@@ -114,19 +149,11 @@ class SettingActivity : AppCompatActivity() {
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 
-            override fun onItemSelected(adapterView: AdapterView<*>, view: View, i: Int, l: Long) {
-                (adapterView.getChildAt(0) as TextView).setTextColor(Color.BLACK)
-                onSelect(options.getOrElse(i) { "" })
-                updateUI()
+            override fun onItemSelected(adapterView: AdapterView<*>, view: View, position : Int, id : Long) {
 
-
-                lifecycleScope.launch(Dispatchers.IO) {
-                    setViewModel.delete()
-                    setViewModel.insert(OilData(oilIntelSetting[2].toString(), oilIntelSetting[0].toString(), oilIntelSetting[1].toString()))
-                }
-
-
-
+               (adapterView.getChildAt(0) as TextView).setTextColor(Color.BLACK)
+                onSelect(options.getOrElse(position) { "" })
+                //updateUI()
 
             }
 
@@ -136,6 +163,7 @@ class SettingActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         HomeFragment.setFlag = true
+        insertOilData()
         finish()
     }
 

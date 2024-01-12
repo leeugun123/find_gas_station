@@ -92,7 +92,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
     private val requiredPermission = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
     // 앱을 실행하기 위해 필요한 퍼미션을 정의
 
-    private var oilIntel = arrayOfNulls<String>(3)
+    private var oilIntel = mutableListOf("", "", "")
     private var notYet = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -216,11 +216,23 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
         setViewModel.oilLocalData.observe(viewLifecycleOwner) { oilLocalData ->
 
+            /*
+            Log.e("TAG","HomeFragment")
+            Log.e("TAG",oilLocalData.oilName)
+            Log.e("TAG",oilLocalData.oilSort)
+            Log.e("TAG",oilLocalData.oilRad)
+            */
+
             oilIntel[0] = calRad(oilLocalData.oilRad)
             oilIntel[1] = calOilSort(oilLocalData.oilSort)
             oilIntel[2] = calOilName(oilLocalData.oilName)
 
-
+            /*
+            Log.e("TAG","파싱 후")
+            Log.e("TAG",oilIntel[0])
+            Log.e("TAG",oilIntel[1])
+            Log.e("TAG",oilIntel[2])
+            */
 
             searchData()
             updateTextUi()
