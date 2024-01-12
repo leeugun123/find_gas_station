@@ -50,6 +50,10 @@ import org.techtown.find_gas_station.Util.GPS.GeoTrans
 import org.techtown.find_gas_station.Util.GPS.GeoTrans.convert
 import org.techtown.find_gas_station.Util.GPS.GeoTransPoint
 import org.techtown.find_gas_station.Util.GPS.GpsTracker
+import org.techtown.find_gas_station.Util.OilParser
+import org.techtown.find_gas_station.Util.OilParser.calOilName
+import org.techtown.find_gas_station.Util.OilParser.calOilSort
+import org.techtown.find_gas_station.Util.OilParser.calRad
 import org.techtown.find_gas_station.View.Activity.SettingActivity
 import org.techtown.find_gas_station.ViewModel.GetOilListViewModel
 import org.techtown.find_gas_station.ViewModel.SetViewModel
@@ -212,14 +216,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
         setViewModel.oilLocalData.observe(viewLifecycleOwner) { oilLocalData ->
 
-            oilIntel[0] = oilLocalData.oilRad
-            oilIntel[1] = oilLocalData.oilSort
-            oilIntel[2] = oilLocalData.oilName
+            oilIntel[0] = calRad(oilLocalData.oilRad)
+            oilIntel[1] = calOilSort(oilLocalData.oilSort)
+            oilIntel[2] = calOilName(oilLocalData.oilName)
 
-
-            Log.e("TAG", oilIntel[0].toString())
-            Log.e("TAG", oilIntel[1].toString())
-            Log.e("TAG", oilIntel[2].toString())
 
 
             searchData()
@@ -236,6 +236,11 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
         return mBinding.root
 
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+    }
+
 
 
 
