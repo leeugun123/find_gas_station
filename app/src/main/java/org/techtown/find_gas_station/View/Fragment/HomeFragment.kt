@@ -93,8 +93,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initSetting()
-        searchData()
     }
 
     private fun initSetting() {
@@ -194,6 +192,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
             .commit()
 
         mapFragment.getMapAsync(this)
+
+        initSetting()
+        searchData()
 
 
         getOilListViewModel.getOilList().observe(viewLifecycleOwner) { list ->
