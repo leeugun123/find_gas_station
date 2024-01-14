@@ -47,7 +47,7 @@ class OilInfoAdapter(private val oilInfoList : List<TotalOilInfo>, private val g
                 holder.binding.distance.text = changeKm(oilInfo.getActDistance()) + "km"
             }
             "4" -> {
-                holder.binding.distance.text = formatSeconds(oilInfo.getSpendTime().toInt()) + "km"
+                holder.binding.distance.text = formatSeconds(oilInfo.getSpendTime().toInt())
             }
             else -> {
                 holder.binding.distance.text = changeKm(oilInfo.getDistance()) + "km"

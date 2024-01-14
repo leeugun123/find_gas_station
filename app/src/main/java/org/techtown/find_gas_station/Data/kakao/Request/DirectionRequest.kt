@@ -5,13 +5,13 @@ import com.google.gson.annotations.SerializedName
 data class DirectionRequest(
 
     @SerializedName("origin")
-    private val origin : Origin,
+    private val origin: Origin,
 
     @SerializedName("destinations")
-    private val destinations : List<Destination>,
+    private val destinations: Array<Destination?>,
 
     @SerializedName("radius")
-    private val radius : Int
+    private val radius: Int
 
 
 )

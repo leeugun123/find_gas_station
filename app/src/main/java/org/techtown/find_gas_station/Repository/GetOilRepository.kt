@@ -158,7 +158,7 @@ class GetOilRepository(application : Application) {
     //카카오 api는 wgs 좌표를 사용
     fun getOilKakaoApi(sort: String) {
 
-        val destinations = arrayListOf<Destination>()
+        val destinations = arrayOfNulls<Destination>(tempList.size)
 
         for (i in tempList.indices) {
             val uid = tempList[i].getUid()

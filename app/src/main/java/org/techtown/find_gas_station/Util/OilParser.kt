@@ -12,6 +12,8 @@ object OilParser {
     fun calOilSort(sort : String) = when(sort){
         "가격순" -> "1"
         "직경 거리순" -> "2"
+        "도로 거리순" -> "3"
+        "소요 시간순" -> "4"
         else -> sort
     }
 
