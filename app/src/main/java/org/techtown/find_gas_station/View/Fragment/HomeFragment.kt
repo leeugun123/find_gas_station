@@ -125,7 +125,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
             "2" -> "직경 거리순"
             "3" -> "도로 거리순"
             "4" -> "소요 시간순"
-            else -> "Unknown"
+            else -> oilIntel[1]
         }
 
     }

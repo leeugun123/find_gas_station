@@ -32,7 +32,6 @@ class OilInfoAdapter(private val oilInfoList : List<TotalOilInfo>, private val g
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
                 = ViewHolder(ItemRecyclerviewBinding.inflate(LayoutInflater.from(parent.context) , parent, false))
 
-
     override fun getItemCount() = oilInfoList.size
 
     @SuppressLint("SetTextI18n")

@@ -28,9 +28,15 @@ import java.util.Collections
 
 class GetOilRepository(application : Application) {
 
-    private var oilListLiveData : MutableLiveData<List<TotalOilInfo>> = MutableLiveData()
-    private var tempList : MutableList<TotalOilInfo> = mutableListOf()
-    private var plusList : MutableList<TotalOilInfo> = mutableListOf()
+    private var oilListLiveData : MutableLiveData<List<TotalOilInfo>>
+    private var tempList : MutableList<TotalOilInfo>
+    private var plusList : MutableList<TotalOilInfo>
+
+    init {
+        oilListLiveData = MutableLiveData()
+        tempList = mutableListOf()
+        plusList = mutableListOf()
+    }
 
     fun getOilListLiveData() = this.oilListLiveData
 
@@ -213,6 +219,8 @@ class GetOilRepository(application : Application) {
             else -> R.drawable.oil_2
         }
 
+
+
     private fun getOilType(oilKind: String) =
         when (oilKind) {
             "B027" -> "휘발유"
@@ -221,9 +229,6 @@ class GetOilRepository(application : Application) {
             "C004" -> "실내등유"
             else -> "자동차부탄"
         }
-
-
-
 
 
 
