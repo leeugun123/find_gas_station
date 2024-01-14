@@ -91,10 +91,6 @@ class GetOilRepository(application : Application) {
             })
     }
 
-    private fun listClear() {
-        tempList.clear()
-        plusList.clear()
-    }
 
     private fun getOilDetail(sort: String, size : Int, uid : String, name: String, gasPrice: String, distance: String, inputOil: String,
         imageResource : Int, destinationX : Float, destinationY : Float) {
@@ -119,9 +115,13 @@ class GetOilRepository(application : Application) {
                         tempList.add(TotalOilInfo(uid, name, gasPrice, dis.toString(), inputOil, imageResource, destinationX, destinationY,
                                 carWash, conStore, lotNumberAddress, roadAddress, tel, sector, "", "" ))
 
+
                         if (tempList.size == size || tempList.size == 30) {
 
+                            Log.e("TAG", "sort" + sort)
+
                             if (sort == "3" || sort == "4") {
+                                Log.e("TAG","카카오 api 요구")
                                 getOilKakaoApi(sort)
                                 return
                             } //추가적인 카카오 api를 요구하는 경우
@@ -230,6 +230,10 @@ class GetOilRepository(application : Application) {
             else -> "자동차부탄"
         }
 
+    private fun listClear() {
+        tempList.clear()
+        plusList.clear()
+    }
 
 
 }

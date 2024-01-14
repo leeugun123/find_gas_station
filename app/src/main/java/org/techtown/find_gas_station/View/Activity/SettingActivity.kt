@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import org.techtown.find_gas_station.Data.set.OilData
 import org.techtown.find_gas_station.R
@@ -36,25 +37,20 @@ class SettingActivity : AppCompatActivity() {
 
         setViewModel.oilLocalData.observe(this) {
 
-            oilIntelSetting[0] = OilParser.calRad(it.oilRad)
-            oilIntelSetting[1] = OilParser.calOilSort(it.oilSort)
-            oilIntelSetting[2] = OilParser.calOilName(it.oilName)
+            if(it != null){
 
-            /*
-            Log.e("TAG", oilIntelSetting[0])
-            Log.e("TAG", oilIntelSetting[1])
-            Log.e("TAG", oilIntelSetting[2])
-            */
+                oilIntelSetting[0] = OilParser.calRad(it.oilRad)
+                oilIntelSetting[1] = OilParser.calOilSort(it.oilSort)
+                oilIntelSetting[2] = OilParser.calOilName(it.oilName)
 
-            updateUI()
+                updateUI()
 
+            }
         }
 
 
         mBinding.goBack.setOnClickListener {
-            HomeFragment.setFlag = true
-            insertOilData()
-            finish()
+            endProcess()
         }
 
         spinnerSet()
@@ -86,23 +82,6 @@ class SettingActivity : AppCompatActivity() {
             oilIntelSetting[1] = selectedValue
             //Log.e("TAG",selectedValue)
         }
-    }
-
-    private fun insertOilData() {
-
-        /*
-        Log.e("TAG","insertOilData()")
-        Log.e("TAG",oilIntelSetting[0])
-        Log.e("TAG",oilIntelSetting[1])
-        Log.e("TAG",oilIntelSetting[2])
-        */
-
-        lifecycleScope.launch(Dispatchers.IO) {
-            setViewModel.delete()
-            setViewModel.insert(OilData(oilIntelSetting[2], oilIntelSetting[0], oilIntelSetting[1]))
-        }
-
-
     }
 
     private fun settingActivityInit() {
@@ -162,9 +141,28 @@ class SettingActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        endProcess()
+    }
+
+    private fun endProcess(){
         HomeFragment.setFlag = true
         insertOilData()
-        finish()
+    }
+
+    private fun insertOilData() {
+
+        lifecycleScope.launch(Dispatchers.IO) {
+
+            val job = async {
+                setViewModel.delete()
+                setViewModel.insert(OilData(oilIntelSetting[2], oilIntelSetting[0], oilIntelSetting[1]))
+            }
+
+            job.await()
+            finish()
+
+        }
+
     }
 
 

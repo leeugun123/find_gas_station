@@ -150,7 +150,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
         getWgsMyY = point.y.toString()
         val ge = convert(GeoTrans.GEO, GeoTrans.KATEC, point)//GEO를 KATEC으로 변환
 
-        getOilListViewModel.requestOilList(ge.x.toString(), ge.y.toString(), oilIntel[0].toString(), oilIntel[1].toString(), oilIntel[2].toString())
+        getOilListViewModel.requestOilList(ge.x.toString(), ge.y.toString(), oilIntel[0], oilIntel[1], oilIntel[2])
 
         checkEmpty()
 
@@ -215,23 +215,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
         setViewModel.oilLocalData.observe(viewLifecycleOwner) { oilLocalData ->
 
-            /*
-            Log.e("TAG","HomeFragment")
-            Log.e("TAG",oilLocalData.oilName)
-            Log.e("TAG",oilLocalData.oilSort)
-            Log.e("TAG",oilLocalData.oilRad)
-            */
-
             oilIntel[0] = calRad(oilLocalData.oilRad)
             oilIntel[1] = calOilSort(oilLocalData.oilSort)
             oilIntel[2] = calOilName(oilLocalData.oilName)
-
-            /*
-            Log.e("TAG","파싱 후")
-            Log.e("TAG",oilIntel[0])
-            Log.e("TAG",oilIntel[1])
-            Log.e("TAG",oilIntel[2])
-            */
 
             searchData()
             updateTextUi()
