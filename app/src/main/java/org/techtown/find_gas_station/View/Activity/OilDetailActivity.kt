@@ -32,20 +32,27 @@ class OilDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
 
         setContentView(binding.root)
-        textInit()
+        uiInit()
 
         binding.call!!.setOnClickListener {
             startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:${oilInfoData.tel}")))
         }
 
+    }
+
+    private fun uiInit() {
+        mapFragmentInit()
+        textInit()
+    }
+
+    private fun mapFragmentInit() {
         val mapFragment = supportFragmentManager.findFragmentById(R.id.detailMap) as? SupportMapFragment
         mapFragment!!.getMapAsync(this)
-
     }
 
 
     private fun textInit() {
-        Log.e("TAG","textInit")
+
         binding.gasImage!!.setImageResource(oilInfoData.image)
         binding.lotAddress.text = oilInfoData.lotNumberAdd
         binding.stAddress.text = oilInfoData.roadAdd
@@ -69,8 +76,6 @@ class OilDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
 
-        Log.e("TAG","onMapReady")
-
         detailMap = googleMap
 
         val pos = LatLng(oilInfoData.wgs84Y.toDouble(), oilInfoData.wgs84X.toDouble())
@@ -87,7 +92,6 @@ class OilDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun mapInit() {
 
-        Log.e("TAG","mapInit")
         val pos = LatLng(oilInfoData.wgs84Y.toDouble(), oilInfoData.wgs84X.toDouble())
         val bitmapDraw = binding.gasImage!!.resources.getDrawable(oilInfoData.image) as BitmapDrawable
         val smallMarker = Bitmap.createScaledBitmap(bitmapDraw.bitmap, 120, 120, false)
