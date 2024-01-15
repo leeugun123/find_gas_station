@@ -2,52 +2,27 @@ package org.techtown.find_gas_station.Data
 
 data class TotalOilInfo(
 
-    private val uid : String,
-    private val name : String,
-    private val price: String,
-    private val distance: String,
-    private val oilKind : String,
-    private val image : Int,
+    val uid : String,
+    val name : String,
+    val price: String,
+    val distance: String,
+    val oilKind : String,
+    val image : Int,
 
-    private val wgs84X : Float,
-    private val wgs84Y : Float,
+    val wgs84X : Float,
+    val wgs84Y : Float,
 
-    private val carWash : String,
-    private val conStore : String,
-    private val lotNumberAdd : String,
-    private val roadAdd : String,
-    private val tel : String,
-    private val sector : String, //업종구분
-    private var actDistance : String,
-    private var spendTime : String
+    val carWash : String,
+    val conStore : String,
+    val lotNumberAdd : String,
+    val roadAdd : String,
+    val tel : String,
+    val sector : String, //업종구분
+    var actDistance : String,
+    var spendTime : String
 
 ){
 
-    fun getCarWash() = carWash
-    fun getConStore() = conStore
-
-    fun getOilImg() = image
-    fun getOilKind() = oilKind
-
-    fun getName() = name
-
-    fun getUid() = uid
-
-    fun getDistance() = distance
-
-    fun getPrice() = price
-
-    fun getActDistance() = actDistance
-
-    fun getSpendTime() = spendTime
-
-    fun getWgs84X() = wgs84X
-
-    fun getWgs84Y() = wgs84Y
-
-    fun setActDistance(actDistance : String){this.actDistance = actDistance}
-
-    fun setSpendTime(spendTime : String){this.spendTime = spendTime}
 
 
 }

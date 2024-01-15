@@ -161,9 +161,9 @@ class GetOilRepository(application : Application) {
         val destinations = arrayOfNulls<Destination>(tempList.size)
 
         for (i in tempList.indices) {
-            val uid = tempList[i].getUid()
-            val wgsX = tempList[i].getWgs84X().toDouble()
-            val wgsY = tempList[i].getWgs84Y().toDouble()
+            val uid = tempList[i].uid
+            val wgsX = tempList[i].wgs84X.toDouble()
+            val wgsY = tempList[i].wgs84Y.toDouble()
             destinations[i] = Destination(uid, wgsX, wgsY)
         }
 
@@ -185,8 +185,8 @@ class GetOilRepository(application : Application) {
                         for (i in tempList.indices) {
 
                             val oilList = tempList[i]
-                            oilList.setActDistance(routes[i].summary.distance)
-                            oilList.setSpendTime(routes[i].summary.duration)
+                            oilList.actDistance = routes[i].summary.distance
+                            oilList.spendTime = routes[i].summary.duration
                             plusList.add(oilList)
                         }
                         if (sort == "4") {

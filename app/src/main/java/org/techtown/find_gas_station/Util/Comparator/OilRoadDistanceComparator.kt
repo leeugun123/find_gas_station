@@ -5,10 +5,10 @@ import org.techtown.find_gas_station.Data.TotalOilInfo
 
 class OilRoadDistanceComparator : Comparator<TotalOilInfo> {
     override fun compare(t1 : TotalOilInfo, t2 : TotalOilInfo) =
-        if (t1.getActDistance().toInt() == t2.getActDistance().toInt()) {
-            t1.getPrice().toInt() - t2.getPrice().toInt()
+        if (t1.actDistance.toInt() == t2.actDistance.toInt()) {
+            t1.price.toInt() - t2.price.toInt()
         } else {
-            t1.getActDistance().toInt() - t2.getActDistance().toInt()
+            t1.actDistance.toInt() - t2.actDistance.toInt()
         }
 
 }

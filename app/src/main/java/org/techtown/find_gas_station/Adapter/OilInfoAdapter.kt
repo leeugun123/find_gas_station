@@ -23,6 +23,7 @@ import com.kakao.sdk.navi.Constants.WEB_NAVI_INSTALL
 import com.kakao.sdk.navi.NaviClient
 import org.techtown.find_gas_station.Data.TotalOilInfo
 import org.techtown.find_gas_station.R
+import org.techtown.find_gas_station.View.Activity.OilDetailActivity
 import org.techtown.find_gas_station.databinding.ItemRecyclerviewBinding
 
 class OilInfoAdapter(private val oilInfoList : List<TotalOilInfo>, private val googleMap : GoogleMap, private val sort : String) : RecyclerView.Adapter<OilInfoAdapter.ViewHolder>() {
@@ -39,36 +40,36 @@ class OilInfoAdapter(private val oilInfoList : List<TotalOilInfo>, private val g
 
         val oilInfo = oilInfoList[position]
 
-        holder.binding.name.text = oilInfo.getName()
-        holder.binding.price.text = oilInfo.getPrice() + "원"
+        holder.binding.name.text = oilInfo.name
+        holder.binding.price.text = oilInfo.price + "원"
 
         when (sort) {
             "3" -> {
-                holder.binding.distance.text = changeKm(oilInfo.getActDistance()) + "km"
+                holder.binding.distance.text = changeKm(oilInfo.actDistance) + "km"
             }
             "4" -> {
-                holder.binding.distance.text = formatSeconds(oilInfo.getSpendTime().toInt())
+                holder.binding.distance.text = formatSeconds(oilInfo.spendTime.toInt())
             }
             else -> {
-                holder.binding.distance.text = changeKm(oilInfo.getDistance()) + "km"
+                holder.binding.distance.text = changeKm(oilInfo.distance) + "km"
             }
         }
 
-        holder.binding.oilKind.text = oilInfo.getOilKind()
-        holder.binding.oilImage.setImageResource(oilInfo.getOilImg())
+        holder.binding.oilKind.text = oilInfo.oilKind
+        holder.binding.oilImage.setImageResource(oilInfo.image)
 
-        if(oilInfo.getCarWash() == "Y"){
+        if(oilInfo.carWash == "Y"){
             holder.binding.carWashStore!!.setImageResource(R.drawable.car_wash)
         }else
             holder.binding.carWashStore!!.setImageResource(R.color.white)
 
-        if(oilInfo.getConStore() == "Y"){
+        if(oilInfo.conStore == "Y"){
             holder.binding.conStore!!.setImageResource(R.drawable.convenstore)
         }else
             holder.binding.conStore!!.setImageResource(R.color.white)
 
         holder.binding.root.setOnClickListener{
-            navigateToLocation(oilInfo.getWgs84Y().toDouble(), oilInfo.getWgs84X().toDouble())
+            navigateToLocation(oilInfo.wgs84Y.toDouble(), oilInfo.wgs84X.toDouble())
         }
 
         addMarkerToMap(oilInfo , holder)
@@ -78,12 +79,12 @@ class OilInfoAdapter(private val oilInfoList : List<TotalOilInfo>, private val g
             if (NaviClient.instance.isKakaoNaviInstalled(holder.itemView.context)) {
 
                 val destination = com.kakao.kakaonavi.Location.newBuilder(
-                    oilInfo.getName(),
-                    oilInfo.getWgs84X().toDouble(),
-                    oilInfo.getWgs84Y().toDouble()
+                    oilInfo.name,
+                    oilInfo.wgs84X.toDouble(),
+                    oilInfo.wgs84Y.toDouble()
                 ).build()
 
-                //현재 위치는 고려할 필요가 없는가?? 목적지 주유소 이름 ,x,y좌표
+
                 val options = NaviOptions.newBuilder().setCoordType(CoordType.WGS84).setVehicleType(VehicleType.FIRST)
                                 .setRpOption(RpOption.FAST).build()
 
@@ -96,14 +97,25 @@ class OilInfoAdapter(private val oilInfoList : List<TotalOilInfo>, private val g
             } else {
 
                 holder.itemView.context.startActivity(
-                    Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse(WEB_NAVI_INSTALL)
-                    ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    Intent(Intent.ACTION_VIEW, Uri.parse(WEB_NAVI_INSTALL)).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 )
 
             }
 
+        }
+
+        holder.binding.intelButton!!.setOnClickListener {
+
+            val intent = Intent(holder.itemView.context, OilDetailActivity::class.java)
+
+            intent.putExtra("title", oilInfo.name)
+            intent.putExtra("gas_img", oilInfo.image)
+            intent.putExtra("lotAddress",oilInfo.lotNumberAdd)
+            intent.putExtra("stAddress",oilInfo.roadAdd)
+            intent.putExtra("tel",oilInfo.tel)
+            intent.putExtra("oil_kind",oilInfo.oilKind)
+
+            holder.itemView.context.startActivity(intent)
 
         }
 
@@ -120,14 +132,14 @@ class OilInfoAdapter(private val oilInfoList : List<TotalOilInfo>, private val g
 
     private fun addMarkerToMap(oilInfo : TotalOilInfo , holder : OilInfoAdapter.ViewHolder) {
 
-        val pos = LatLng(oilInfo.getWgs84Y().toDouble(), oilInfo.getWgs84X().toDouble())
+        val pos = LatLng(oilInfo.wgs84Y.toDouble(), oilInfo.wgs84X.toDouble())
         val markerOptions = MarkerOptions()
-        val bitmapDraw = holder.binding.oilImage.resources.getDrawable(oilInfo.getOilImg()) as BitmapDrawable
+        val bitmapDraw = holder.binding.oilImage.resources.getDrawable(oilInfo.image) as BitmapDrawable
         val smallMarker = Bitmap.createScaledBitmap(bitmapDraw.bitmap, 80, 80, false)
 
         markerOptions.position(pos)
-            .title(oilInfo.getName())
-            .snippet("현 위치로부터 거리 " + oilInfo.getDistance() + "m")
+            .title(oilInfo.name)
+            .snippet("현 위치로부터 거리 " + oilInfo.distance + "m")
             .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
 
         googleMap.addMarker(markerOptions)
