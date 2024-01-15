@@ -50,7 +50,6 @@ import org.techtown.find_gas_station.Util.GPS.GeoTrans
 import org.techtown.find_gas_station.Util.GPS.GeoTrans.convert
 import org.techtown.find_gas_station.Util.GPS.GeoTransPoint
 import org.techtown.find_gas_station.Util.GPS.GpsTracker
-import org.techtown.find_gas_station.Util.OilParser
 import org.techtown.find_gas_station.Util.OilParser.calOilName
 import org.techtown.find_gas_station.Util.OilParser.calOilSort
 import org.techtown.find_gas_station.Util.OilParser.calRad
@@ -137,15 +136,14 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
         getData(gpsTracker.getLatitude().toFloat(), gpsTracker.getLongitude().toFloat())
     }
 
-    private fun getData(latitude : Float, Longtitude : Float) {
-        Log.e("TAG", "getData")
+    private fun getData(latitude : Float, longtitude : Float) {
 
         empty = true
         notYet = true
 
         mBinding.progressBar.visibility = View.VISIBLE
 
-        val point = GeoTransPoint(Longtitude.toDouble(), latitude.toDouble())
+        val point = GeoTransPoint(longtitude.toDouble(), latitude.toDouble())
         getWgsMyX = point.x.toString()
         getWgsMyY = point.y.toString()
         val ge = convert(GeoTrans.GEO, GeoTrans.KATEC, point)//GEO를 KATEC으로 변환
@@ -186,7 +184,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        Log.e("TAG", "HomeFragment onCreateView")
 
         mBinding = FragmentHomeBinding.inflate(inflater,container,false)
 
@@ -204,7 +201,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
             empty = false
 
-            val myRecyclerAdapter = OilInfoAdapter(list, mMap, oilIntel[1].toString())
+            val myRecyclerAdapter = OilInfoAdapter(list, mMap, oilIntel[1])
             mBinding.listRecycler.adapter = myRecyclerAdapter
             myRecyclerAdapter.notifyDataSetChanged()
 
@@ -258,12 +255,12 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     override fun onMapReady(googleMap : GoogleMap) {
-        Log.e("TAG", "onMapReady")
 
         mMap = googleMap
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude()), 15f))
         mMap.isMyLocationEnabled = true
+
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15f))
         mMap.uiSettings.apply {
             isZoomControlsEnabled = true
@@ -271,21 +268,14 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
             isMyLocationButtonEnabled = true
         }
 
-        setStartLocation()
-
         if (checkPermission()) {
             startLocationUpdates()
         } else {
             handleLocationPermissionRequest()
         }
 
-       // configureMapSettings()
-        // 현재 오동작을 해서 주석처리
         mMap.setOnMapClickListener(OnMapClickListener { })
     }
-
-
-    // private fun configureMapSettings() {}
 
     private fun handleLocationPermissionRequest() {
 
@@ -328,15 +318,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
     //백그라운드에서도 화면이 계속 유지
     override fun onStop() {
-        Log.e("TAG", "onStop")
         super.onStop()
         mFusedLocationClient.removeLocationUpdates(locationCallback)
-    }
-
-    //앱이 시작할때 자기 위치로 이동 시켜주는 메소드
-    private fun setStartLocation() {
-        Log.e("TAG", "setStartLocation")
-       // currentMarker.remove()
     }
 
     override fun onMarkerClick(marker: Marker) = false

@@ -107,14 +107,7 @@ class OilInfoAdapter(private val oilInfoList : List<TotalOilInfo>, private val g
         holder.binding.intelButton!!.setOnClickListener {
 
             val intent = Intent(holder.itemView.context, OilDetailActivity::class.java)
-
-            intent.putExtra("title", oilInfo.name)
-            intent.putExtra("gas_img", oilInfo.image)
-            intent.putExtra("lotAddress",oilInfo.lotNumberAdd)
-            intent.putExtra("stAddress",oilInfo.roadAdd)
-            intent.putExtra("tel",oilInfo.tel)
-            intent.putExtra("oil_kind",oilInfo.oilKind)
-
+            intent.putExtra("oilDetailInfo",oilInfo)
             holder.itemView.context.startActivity(intent)
 
         }
@@ -133,9 +126,9 @@ class OilInfoAdapter(private val oilInfoList : List<TotalOilInfo>, private val g
     private fun addMarkerToMap(oilInfo : TotalOilInfo , holder : OilInfoAdapter.ViewHolder) {
 
         val pos = LatLng(oilInfo.wgs84Y.toDouble(), oilInfo.wgs84X.toDouble())
-        val markerOptions = MarkerOptions()
         val bitmapDraw = holder.binding.oilImage.resources.getDrawable(oilInfo.image) as BitmapDrawable
         val smallMarker = Bitmap.createScaledBitmap(bitmapDraw.bitmap, 80, 80, false)
+        val markerOptions = MarkerOptions()
 
         markerOptions.position(pos)
             .title(oilInfo.name)
@@ -143,7 +136,6 @@ class OilInfoAdapter(private val oilInfoList : List<TotalOilInfo>, private val g
             .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
 
         googleMap.addMarker(markerOptions)
-
 
     }
 

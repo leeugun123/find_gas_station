@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -16,18 +17,14 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import org.techtown.find_gas_station.Data.TotalOilInfo
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.ActivityIntelBinding
 
 class OilDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
+    private val oilInfoData by lazy { intent.getSerializableExtra("oilDetailInfo") as TotalOilInfo}
     private val binding by lazy { ActivityIntelBinding.inflate(layoutInflater)}
-    private val title by lazy { intent.getStringExtra("title") }
-    private val image by lazy { intent.getIntExtra("gas_img", R.drawable.oil_2) }
-    private val lotAddress by lazy { intent.getStringExtra("lotAddress") }
-    private val stAddress by lazy { intent.getStringExtra("stAddress") }
-    private val tel by lazy { intent.getStringExtra("tel") }
-    private val oilKind by lazy { intent.getStringExtra("oil_kind") }
 
     private lateinit var detailMap : GoogleMap
 
@@ -35,73 +32,74 @@ class OilDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
 
         setContentView(binding.root)
-        uiInit()
+        textInit()
 
         binding.call!!.setOnClickListener {
-            startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:$tel")))
+            startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:${oilInfoData.tel}")))
         }
 
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.detailMap) as? SupportMapFragment
+        mapFragment!!.getMapAsync(this)
+
     }
 
-    private fun uiInit(){
-        textInit()
-        mapInit()
-    }
 
     private fun textInit() {
+        Log.e("TAG","textInit")
+        binding.gasImage!!.setImageResource(oilInfoData.image)
+        binding.lotAddress.text = oilInfoData.lotNumberAdd
+        binding.stAddress.text = oilInfoData.roadAdd
+        binding.tel.text = oilInfoData.tel
 
-        binding.gasImage!!.setImageResource(image)
-        binding.lotAddress.text = lotAddress
-        binding.stAddress.text = stAddress
-        binding.tel.text = tel
-
-        binding.oilKind.text = when (oilKind) {
+        binding.oilKind.text = when (oilInfoData.oilKind) {
             "N" -> "주유소"
             "Y" -> "자동차 주유소"
             else -> "주유소/충전소 겸업"
         }
 
-        setFeatureStatus(binding.carWash, intent.getStringExtra("carWash"))
-        setFeatureStatus(binding.store, intent.getStringExtra("store"))
+        setFeatureStatus(binding.carWash, oilInfoData.carWash)
+        setFeatureStatus(binding.store, oilInfoData.conStore)
     }
 
     private fun setFeatureStatus(textView : TextView, feature : String?) {
+
         textView.text = if (feature == "Y") "O" else "X"
         textView.setTextColor(if (feature == "Y") Color.parseColor("#009900") else Color.parseColor("#ff0000"))
     }
 
+    override fun onMapReady(googleMap: GoogleMap) {
+
+        Log.e("TAG","onMapReady")
+
+        detailMap = googleMap
+
+        val pos = LatLng(oilInfoData.wgs84Y.toDouble(), oilInfoData.wgs84X.toDouble())
+        detailMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 18f))
+
+        detailMap.uiSettings.apply {
+            isZoomControlsEnabled = true
+            isZoomGesturesEnabled = true
+            isMyLocationButtonEnabled = true
+        }
+
+        mapInit()
+    }
+
     private fun mapInit() {
 
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.detailMap) as? SupportMapFragment
-        mapFragment?.getMapAsync(this)
-
-        val wgsY = intent.getFloatExtra("wgsY", 0f).toDouble()
-        val wgsX = intent.getFloatExtra("wgsX", 0f).toDouble()
-        val pos = LatLng(wgsY, wgsX)
-
-        val bitmapDraw = binding.gasImage!!.resources.getDrawable(image) as BitmapDrawable
+        Log.e("TAG","mapInit")
+        val pos = LatLng(oilInfoData.wgs84Y.toDouble(), oilInfoData.wgs84X.toDouble())
+        val bitmapDraw = binding.gasImage!!.resources.getDrawable(oilInfoData.image) as BitmapDrawable
         val smallMarker = Bitmap.createScaledBitmap(bitmapDraw.bitmap, 120, 120, false)
         val markerOptions = MarkerOptions()
 
         markerOptions.position(pos)
-            .title(title)
-            .snippet("현 위치로부터 거리 2.4km")
+            .title(oilInfoData.name)
+            .snippet("현 위치로부터 거리 " + oilInfoData.distance + "m")
             .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
 
-        Handler().postDelayed({
-            detailMap.addMarker(markerOptions)
-            detailMap.animateCamera(CameraUpdateFactory.newLatLng(pos), 600, null)
-        }, 500)
+        detailMap.addMarker(markerOptions)
 
-    }
-
-
-    override fun onMapReady(googleMap: GoogleMap) {
-        detailMap = googleMap
-        detailMap.uiSettings.isZoomControlsEnabled = true
-        detailMap.uiSettings.isZoomGesturesEnabled = true
-        detailMap.animateCamera(CameraUpdateFactory.zoomTo(18f))
-        detailMap.uiSettings.isMyLocationButtonEnabled = true
     }
 
 }

@@ -1,5 +1,7 @@
 package org.techtown.find_gas_station.Data
 
+import java.io.Serializable
+
 data class TotalOilInfo(
 
     val uid : String,
@@ -21,8 +23,4 @@ data class TotalOilInfo(
     var actDistance : String,
     var spendTime : String
 
-){
-
-
-
-}
+) : Serializable
