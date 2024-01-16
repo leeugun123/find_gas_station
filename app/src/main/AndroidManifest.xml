@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
+        android:name=".GlobalApplication"
         android:allowBackup="true"
         android:icon="@mipmap/main_icon"
         android:label="파인딩 오일"
