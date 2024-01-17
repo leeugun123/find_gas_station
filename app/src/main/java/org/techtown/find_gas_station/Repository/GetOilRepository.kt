@@ -49,9 +49,6 @@ class GetOilRepository(application : Application) {
 
                 override fun onResponse(call: Call<GasStationInfoResult>, response: Response<GasStationInfoResult>) {
 
-
-                    Log.e("TAG","searchOilList")
-
                     if (response.isSuccessful) {
 
                         val gasStationData = response.body()
@@ -61,8 +58,6 @@ class GetOilRepository(application : Application) {
 
                             if (i == 30)
                                 break
-
-                            Log.e("TAG",result[i].id)
 
                             val uid = result[i].id
                             val distance = result[i].distance
@@ -118,10 +113,7 @@ class GetOilRepository(application : Application) {
 
                         if (tempList.size == size || tempList.size == 30) {
 
-                            Log.e("TAG", "sort" + sort)
-
                             if (sort == "3" || sort == "4") {
-                                Log.e("TAG","카카오 api 요구")
                                 getOilKakaoApi(sort)
                                 return
                             } //추가적인 카카오 api를 요구하는 경우

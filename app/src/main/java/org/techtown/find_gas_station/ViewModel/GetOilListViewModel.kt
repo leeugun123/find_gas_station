@@ -18,7 +18,6 @@ class GetOilListViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     fun requestOilList(xPos: String , yPos : String , radius : String , sort : String, oilKind : String) {
-        Log.e("TAG","requestOilList")
         getOilRepository.searchOilList(xPos, yPos, radius, sort, oilKind)
     }
 
