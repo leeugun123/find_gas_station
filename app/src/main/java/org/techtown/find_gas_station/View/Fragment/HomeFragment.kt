@@ -212,9 +212,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
         setViewModel.oilLocalData.observe(viewLifecycleOwner) { oilLocalData ->
 
-            oilIntel[0] = calRad(oilLocalData.oilRad)
-            oilIntel[1] = calOilSort(oilLocalData.oilSort)
-            oilIntel[2] = calOilName(oilLocalData.oilName)
+            oilIntel[0] = oilLocalData.oilRad
+            oilIntel[1] = oilLocalData.oilSort
+            oilIntel[2] = oilLocalData.oilName
 
             searchData()
             updateTextUi()

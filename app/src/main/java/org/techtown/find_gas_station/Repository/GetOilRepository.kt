@@ -139,15 +139,11 @@ class GetOilRepository(application : Application) {
                     //데이터가 모두 도착 하면 실행
 
                     }
-                    else {
-                        Log.e("TAG","oilDetail 실패")
-                    }
+
 
                 }
 
                 override fun onFailure(call: Call<GasStationDetailInfoResult>, t: Throwable) {
-                    Log.e("TAG",t.message.toString())
-
                 }
 
             })
