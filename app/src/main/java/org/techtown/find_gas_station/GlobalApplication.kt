@@ -4,7 +4,7 @@ import android.app.Application
 import com.kakao.sdk.common.KakaoSdk
 import org.techtown.find_gas_station.BuildConfig
 
-object GlobalApplication : Application() {
+class GlobalApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()

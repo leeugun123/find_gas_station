@@ -1,6 +1,6 @@
 package org.techtown.find_gas_station.Util
 
-object Constants {
+object ConstantsTime {
 
     const val UPDATE_INTERVAL_MS = 1000 // 1초
     const val FASTEST_UPDATE_INTERVAL_MS = 500 // 0.5초

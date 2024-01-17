@@ -15,8 +15,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.techtown.find_gas_station.Data.set.OilData
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.Util.Constants.LOCATION_PERMISSION_REQUEST_CODE
-import org.techtown.find_gas_station.Util.Constants.SPLASH_WAIT_TIME
+import org.techtown.find_gas_station.Util.ConstantsTime.LOCATION_PERMISSION_REQUEST_CODE
+import org.techtown.find_gas_station.Util.ConstantsTime.SPLASH_WAIT_TIME
 import org.techtown.find_gas_station.ViewModel.SetViewModel
 
 class SplashActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallback {

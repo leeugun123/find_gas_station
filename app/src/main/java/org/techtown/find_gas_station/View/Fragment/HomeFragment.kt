@@ -41,11 +41,11 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.material.snackbar.Snackbar
 import org.techtown.find_gas_station.Adapter.OilInfoAdapter
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.Util.Constants.FASTEST_UPDATE_INTERVAL_MS
-import org.techtown.find_gas_station.Util.Constants.IF_EMPTY_DATA_TIME
-import org.techtown.find_gas_station.Util.Constants.PERMISSIONS_REQUEST_CODE
-import org.techtown.find_gas_station.Util.Constants.UPDATE_INTERVAL_MS
-import org.techtown.find_gas_station.Util.Constants.UP_RECYCLERVIEW_TIME
+import org.techtown.find_gas_station.Util.ConstantsTime.FASTEST_UPDATE_INTERVAL_MS
+import org.techtown.find_gas_station.Util.ConstantsTime.IF_EMPTY_DATA_TIME
+import org.techtown.find_gas_station.Util.ConstantsTime.PERMISSIONS_REQUEST_CODE
+import org.techtown.find_gas_station.Util.ConstantsTime.UPDATE_INTERVAL_MS
+import org.techtown.find_gas_station.Util.ConstantsTime.UP_RECYCLERVIEW_TIME
 import org.techtown.find_gas_station.Util.GPS.GeoTrans
 import org.techtown.find_gas_station.Util.GPS.GeoTrans.convert
 import org.techtown.find_gas_station.Util.GPS.GeoTransPoint
