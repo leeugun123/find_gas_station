@@ -18,6 +18,21 @@ import org.techtown.find_gas_station.Util.Comparator.OilDistanceComparator
 import org.techtown.find_gas_station.Util.Comparator.OilPriceComparator
 import org.techtown.find_gas_station.Util.Comparator.OilRoadDistanceComparator
 import org.techtown.find_gas_station.Util.Comparator.OilSpendTimeComparator
+import org.techtown.find_gas_station.Util.Constant.ConstantGuide.JSON_FORMAT
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.CAR_BUTANE
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.CHECK_FOUR_SPEND_TIME
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.CHECK_PRICE_CONDITION
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.CHECK_THREE_ROAD_DISTANCE
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.CHECK_TWO_DIRECT_DISTANCE
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.GASOLINE_GUIDE
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.GASOLINE_GUIDE_ENGLISH
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.INDOOR_KEROSENE
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.INDOOR_KEROSENE_ENGLISH
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.PREMIUM_GASOLINE
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.PREMIUM_GASOLINE_ENGLISH
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.VIA_GUIDE
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.VIA_GUIDE_ENGLISH
+import org.techtown.find_gas_station.Util.Constant.ConstantsTime.KAKAO_REQUEST_RADIUS
 import org.techtown.find_gas_station.Util.GPS.GeoTrans
 import org.techtown.find_gas_station.Util.GPS.GeoTransPoint
 import org.techtown.find_gas_station.View.Fragment.HomeFragment
@@ -28,15 +43,9 @@ import java.util.Collections
 
 class GetOilRepository(application : Application) {
 
-    private var oilListLiveData : MutableLiveData<List<TotalOilInfo>>
-    private var tempList : MutableList<TotalOilInfo>
-    private var plusList : MutableList<TotalOilInfo>
-
-    init {
-        oilListLiveData = MutableLiveData()
-        tempList = mutableListOf()
-        plusList = mutableListOf()
-    }
+    private var oilListLiveData : MutableLiveData<List<TotalOilInfo>> = MutableLiveData()
+    private var tempList : MutableList<TotalOilInfo> = mutableListOf()
+    private var plusList : MutableList<TotalOilInfo> = mutableListOf()
 
     fun getOilListLiveData() = this.oilListLiveData
 
@@ -44,7 +53,7 @@ class GetOilRepository(application : Application) {
 
         listClear()
 
-        opiRetrofitApi.getOilList(OPI_API_KEY, "json", xPos, yPos, radius, oilKind, sort)
+        opiRetrofitApi.getOilList(OPI_API_KEY, JSON_FORMAT, xPos, yPos, radius, oilKind, sort)
             .enqueue(object : Callback<GasStationInfoResult> {
 
                 override fun onResponse(call: Call<GasStationInfoResult>, response: Response<GasStationInfoResult>) {
@@ -91,7 +100,7 @@ class GetOilRepository(application : Application) {
         imageResource : Int, destinationX : Float, destinationY : Float) {
 
 
-        opiRetrofitApi.getOilDetail(OPI_API_KEY, "json", uid)
+        opiRetrofitApi.getOilDetail(OPI_API_KEY, JSON_FORMAT, uid)
             .enqueue(object : Callback<GasStationDetailInfoResult> {
                 override fun onResponse(call: Call<GasStationDetailInfoResult>, response: Response<GasStationDetailInfoResult>) {
 
@@ -113,14 +122,14 @@ class GetOilRepository(application : Application) {
 
                         if (tempList.size == size || tempList.size == 30) {
 
-                            if (sort == "3" || sort == "4") {
+                            if (sort == CHECK_THREE_ROAD_DISTANCE || sort == CHECK_FOUR_SPEND_TIME) {
                                 getOilKakaoApi(sort)
                                 return
                             } //추가적인 카카오 api를 요구하는 경우
-                            if (sort == "1") {
+                            if (sort == CHECK_PRICE_CONDITION) {
                                 Collections.sort(tempList, OilPriceComparator())
                             } //가격순
-                            else if (sort == "2") {
+                            else if (sort == CHECK_TWO_DIRECT_DISTANCE) {
                                 Collections.sort(tempList, OilDistanceComparator())
                             } //직경 거리순
 
@@ -160,7 +169,7 @@ class GetOilRepository(application : Application) {
                     HomeFragment.getWgsMyX.toDouble(),
                     HomeFragment.getWgsMyY.toDouble()
                 ),
-                destinations, 10000
+                destinations, KAKAO_REQUEST_RADIUS
             )
         ).enqueue(object : Callback<DirectionResponse> {
 
@@ -177,7 +186,7 @@ class GetOilRepository(application : Application) {
                             oilList.spendTime = routes[i].summary.duration
                             plusList.add(oilList)
                         }
-                        if (sort == "4") {
+                        if (sort == CHECK_FOUR_SPEND_TIME) {
                             Collections.sort(plusList, OilSpendTimeComparator())
                         } else
                             Collections.sort(plusList, OilRoadDistanceComparator())
@@ -211,11 +220,11 @@ class GetOilRepository(application : Application) {
 
     private fun getOilType(oilKind: String) =
         when (oilKind) {
-            "B027" -> "휘발유"
-            "D047" -> "경유"
-            "B034" -> "고급휘발유"
-            "C004" -> "실내등유"
-            else -> "자동차부탄"
+            GASOLINE_GUIDE_ENGLISH -> GASOLINE_GUIDE
+            VIA_GUIDE_ENGLISH -> VIA_GUIDE
+            PREMIUM_GASOLINE_ENGLISH -> PREMIUM_GASOLINE
+            INDOOR_KEROSENE_ENGLISH -> INDOOR_KEROSENE
+            else -> CAR_BUTANE
         }
 
     private fun listClear() {

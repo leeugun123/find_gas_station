@@ -41,18 +41,26 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.material.snackbar.Snackbar
 import org.techtown.find_gas_station.Adapter.OilInfoAdapter
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.Util.ConstantsTime.FASTEST_UPDATE_INTERVAL_MS
-import org.techtown.find_gas_station.Util.ConstantsTime.IF_EMPTY_DATA_TIME
-import org.techtown.find_gas_station.Util.ConstantsTime.PERMISSIONS_REQUEST_CODE
-import org.techtown.find_gas_station.Util.ConstantsTime.UPDATE_INTERVAL_MS
-import org.techtown.find_gas_station.Util.ConstantsTime.UP_RECYCLERVIEW_TIME
+import org.techtown.find_gas_station.Util.Constant.ConstantGuide.CHECK_DATA_EMPTY_GUIDE
+import org.techtown.find_gas_station.Util.Constant.ConstantGuide.CONFIRM_GUIDE
+import org.techtown.find_gas_station.Util.Constant.ConstantGuide.REQUIRE_LOCATION_PERMISSION_GUIDE
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.CHECK_FOUR_SPEND_TIME
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.CHECK_PRICE_CONDITION
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.CHECK_THREE_ROAD_DISTANCE
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.CHECK_TWO_DIRECT_DISTANCE
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.DIRECT_DISTANCE_GUIDE
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.PRICE_CONDITION_GUIDE
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.ROAD_DISTANCE_GUIDE
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.SPEND_TIME_GUIDE
+import org.techtown.find_gas_station.Util.Constant.ConstantsTime.FASTEST_UPDATE_INTERVAL_MS
+import org.techtown.find_gas_station.Util.Constant.ConstantsTime.IF_EMPTY_DATA_TIME
+import org.techtown.find_gas_station.Util.Constant.ConstantsTime.PERMISSIONS_REQUEST_CODE
+import org.techtown.find_gas_station.Util.Constant.ConstantsTime.UPDATE_INTERVAL_MS
+import org.techtown.find_gas_station.Util.Constant.ConstantsTime.UP_RECYCLERVIEW_TIME
 import org.techtown.find_gas_station.Util.GPS.GeoTrans
 import org.techtown.find_gas_station.Util.GPS.GeoTrans.convert
 import org.techtown.find_gas_station.Util.GPS.GeoTransPoint
 import org.techtown.find_gas_station.Util.GPS.GpsTracker
-import org.techtown.find_gas_station.Util.OilParser.calOilName
-import org.techtown.find_gas_station.Util.OilParser.calOilSort
-import org.techtown.find_gas_station.Util.OilParser.calRad
 import org.techtown.find_gas_station.View.Activity.SettingActivity
 import org.techtown.find_gas_station.ViewModel.GetOilListViewModel
 import org.techtown.find_gas_station.ViewModel.SetViewModel
@@ -120,10 +128,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
     private fun updateTextUi() {
 
         mBinding.arrayFirst.text = when (oilIntel[1]) {
-            "1" -> "가격순"
-            "2" -> "직경 거리순"
-            "3" -> "도로 거리순"
-            "4" -> "소요 시간순"
+            CHECK_PRICE_CONDITION -> PRICE_CONDITION_GUIDE
+            CHECK_TWO_DIRECT_DISTANCE -> DIRECT_DISTANCE_GUIDE
+            CHECK_THREE_ROAD_DISTANCE -> ROAD_DISTANCE_GUIDE
+            CHECK_FOUR_SPEND_TIME -> SPEND_TIME_GUIDE
             else -> oilIntel[1]
         }
 
@@ -162,7 +170,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
     }
 
     private fun showEmpty(){
-        Toast.makeText(requireContext(), "데이터가 비어있거나 서버가 점검 중입니다.", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), CHECK_DATA_EMPTY_GUIDE, Toast.LENGTH_SHORT).show()
         mBinding.progressBar.visibility = View.GONE
     }
 
@@ -281,7 +289,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
         if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), requiredPermission[0])) {
 
-            Snackbar.make(mBinding.layoutMain, "이 앱을 실행하려면 위치 접근 권한이 필요합니다.", Snackbar.LENGTH_INDEFINITE).setAction("확인") {
+            Snackbar.make(mBinding.layoutMain, REQUIRE_LOCATION_PERMISSION_GUIDE, Snackbar.LENGTH_INDEFINITE).setAction(CONFIRM_GUIDE) {
                 ActivityCompat.requestPermissions(
                     requireActivity(), requiredPermission,
                     PERMISSIONS_REQUEST_CODE

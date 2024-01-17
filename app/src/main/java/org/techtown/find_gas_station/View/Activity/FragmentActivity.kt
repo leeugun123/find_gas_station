@@ -10,6 +10,9 @@ import androidx.fragment.app.FragmentManager
 import org.techtown.find_gas_station.View.Fragment.DailyFragment
 import org.techtown.find_gas_station.View.Fragment.HomeFragment
 import org.techtown.find_gas_station.R
+import org.techtown.find_gas_station.Util.Constant.ConstantGuide.BACK_PRESS_EXIT_GUIDE
+import org.techtown.find_gas_station.Util.Constant.ConstantGuide.INVALID_GUIDE
+import org.techtown.find_gas_station.Util.Constant.ConstantsTime.BACK_PRESS_WAIT_TIME
 import org.techtown.find_gas_station.databinding.ActivityFragmentBinding
 
 class FragmentActivity : AppCompatActivity() {
@@ -51,7 +54,7 @@ class FragmentActivity : AppCompatActivity() {
                     fragmentManager!!.beginTransaction().hide(fa).commit()
 
                 }
-                else -> throw IllegalArgumentException("Invalid itemId")
+                else -> throw IllegalArgumentException(INVALID_GUIDE)
             }
             true
 
@@ -77,11 +80,11 @@ class FragmentActivity : AppCompatActivity() {
         }
 
         this.doubleBackToExitPressedOnce = true
-        Toast.makeText(this, "한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, BACK_PRESS_EXIT_GUIDE, Toast.LENGTH_SHORT).show()
 
         Handler().postDelayed({
             doubleBackToExitPressedOnce = false
-        }, 2000)  // 2초간 뒤로가기 버튼을 두 번 눌러야 종료되도록 설정
+        }, BACK_PRESS_WAIT_TIME)  // 2초간 뒤로가기 버튼을 두 번 눌러야 종료되도록 설정
 
     }
 

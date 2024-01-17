@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.Util
+package org.techtown.find_gas_station.Util.Constant
 
 object ConstantsTime {
 
@@ -9,5 +9,8 @@ object ConstantsTime {
     const val SPLASH_WAIT_TIME : Long = 1500 //1.5초
     const val IF_EMPTY_DATA_TIME : Long = 3000
     const val UP_RECYCLERVIEW_TIME : Long = 500
+    const val BACK_PRESS_WAIT_TIME : Long = 2000
+
+    const val KAKAO_REQUEST_RADIUS = 10000
 
 }

@@ -16,6 +16,27 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import org.techtown.find_gas_station.Data.set.OilData
 import org.techtown.find_gas_station.R
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.CAR_BUTANE
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.CHECK_PRICE_CONDITION
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.CHECK_THREE_ROAD_DISTANCE
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.CHECK_TWO_DIRECT_DISTANCE
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.DIRECT_DISTANCE_GUIDE
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.FIVE_KM
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.GASOLINE_GUIDE
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.GASOLINE_GUIDE_ENGLISH
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.INDOOR_KEROSENE
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.INDOOR_KEROSENE_ENGLISH
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.ONE_KM
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.ONE_KM_IN_METERS
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.PREMIUM_GASOLINE
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.PREMIUM_GASOLINE_ENGLISH
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.PRICE_CONDITION_GUIDE
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.ROAD_DISTANCE_GUIDE
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.SPEND_TIME_GUIDE
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.THREE_KM
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.THREE_KM_IN_METERS
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.VIA_GUIDE
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.VIA_GUIDE_ENGLISH
 import org.techtown.find_gas_station.Util.OilParser
 import org.techtown.find_gas_station.Util.OilParser.calOilName
 import org.techtown.find_gas_station.Util.OilParser.calOilSort
@@ -69,27 +90,25 @@ class SettingActivity : AppCompatActivity() {
 
         setupSpinner(
             mBinding.typeSpinner,
-            listOf("휘발유", "경유", "고급 휘발유", "실내 등유", "자동차 부탄")
+            listOf(GASOLINE_GUIDE, VIA_GUIDE, PREMIUM_GASOLINE, INDOOR_KEROSENE, CAR_BUTANE)
         ) { selectedValue ->
             newIntelSetting[2] = calOilName(selectedValue)
-           // Log.e("TAG",selectedValue)
         }
 
         setupSpinner(
             mBinding.distanceSpinner,
-            listOf("1km", "3km", "5km")
+            listOf(ONE_KM, THREE_KM, FIVE_KM)
         ) { selectedValue ->
             newIntelSetting[0] = calRad(selectedValue)
-           // Log.e("TAG",selectedValue)
         }
 
         setupSpinner(
             mBinding.sortSpinner,
-            listOf("가격순", "직경 거리순", "도로 거리순", "소요 시간순")
+            listOf(PRICE_CONDITION_GUIDE, DIRECT_DISTANCE_GUIDE, ROAD_DISTANCE_GUIDE, SPEND_TIME_GUIDE)
         ) { selectedValue ->
             newIntelSetting[1] = calOilSort(selectedValue)
-            //Log.e("TAG",selectedValue)
         }
+
     }
 
     private fun settingActivityInit() {
@@ -101,25 +120,25 @@ class SettingActivity : AppCompatActivity() {
     private fun updateUI() {
         // 기름 종류 설정
         mBinding.typeSpinner.setSelection(when (newIntelSetting[2]) {
-            "B027" -> 0
-            "D047" -> 1
-            "B034" -> 2
-            "C004" -> 3
+            GASOLINE_GUIDE_ENGLISH -> 0 //휘발유
+            VIA_GUIDE_ENGLISH -> 1 //경유
+            PREMIUM_GASOLINE_ENGLISH -> 2 //고급 휘발유
+            INDOOR_KEROSENE_ENGLISH -> 3 //실내 등유
             else -> 4
         })
 
         // 거리 설정
         mBinding.distanceSpinner.setSelection(when (newIntelSetting[0]) {
-            "1000" -> 0
-            "3000" -> 1
+            ONE_KM_IN_METERS -> 0
+            THREE_KM_IN_METERS -> 1
             else -> 2
         })
 
         // 정렬 설정
         mBinding.sortSpinner.setSelection(when (newIntelSetting[1]) {
-            "1" -> 0
-            "2" -> 1
-            "3" -> 2
+            CHECK_PRICE_CONDITION -> 0
+            CHECK_TWO_DIRECT_DISTANCE -> 1
+            CHECK_THREE_ROAD_DISTANCE -> 2
             else -> 3
         })
 
