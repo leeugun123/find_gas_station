@@ -2,6 +2,7 @@ package org.techtown.find_gas_station.View.Activity
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.os.Handler
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -13,12 +14,12 @@ import org.techtown.find_gas_station.databinding.ActivityFragmentBinding
 
 class FragmentActivity : AppCompatActivity() {
 
-    private var pressedTime = 0
+    private var doubleBackToExitPressedOnce = false
+
     private lateinit var mBinding : ActivityFragmentBinding
     private lateinit var fa : Fragment
     private lateinit var fb : Fragment
     private lateinit var fragmentManager : FragmentManager
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,13 +71,17 @@ class FragmentActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
 
-        if (System.currentTimeMillis() > pressedTime + 2000) {
-            pressedTime = System.currentTimeMillis().toInt()
-            Toast.makeText(this, "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, "종료 완료", Toast.LENGTH_SHORT).show()
-            finish()
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed()
+            return
         }
+
+        this.doubleBackToExitPressedOnce = true
+        Toast.makeText(this, "한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+
+        Handler().postDelayed({
+            doubleBackToExitPressedOnce = false
+        }, 2000)  // 2초간 뒤로가기 버튼을 두 번 눌러야 종료되도록 설정
 
     }
 
