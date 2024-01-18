@@ -20,8 +20,8 @@ class FragmentActivity : AppCompatActivity() {
     private var doubleBackToExitPressedOnce = false
 
     private lateinit var mBinding : ActivityFragmentBinding
-    private lateinit var fa : Fragment
-    private lateinit var fb : Fragment
+    private val fa by lazy { HomeFragment() }
+    private val fb by lazy { DailyFragment() }
     private lateinit var fragmentManager : FragmentManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,21 +34,12 @@ class FragmentActivity : AppCompatActivity() {
 
                 R.id.Home_fragment -> {
 
-                    if (fa == null) {
-                        fa = HomeFragment()
-                        fragmentManager!!.beginTransaction().add(R.id.main_frame, fa!!).commit()
-                    }
                     fragmentManager!!.beginTransaction().show(fa!!).commit()
                     fragmentManager!!.beginTransaction().hide(fb).commit()
 
                 }
 
                 R.id.Daily_fragment -> {
-
-                    if (fb == null) {
-                        fb = DailyFragment()
-                        fragmentManager!!.beginTransaction().add(R.id.main_frame, fb!!).commit()
-                    }
 
                     fragmentManager!!.beginTransaction().show(fb!!).commit()
                     fragmentManager!!.beginTransaction().hide(fa).commit()
@@ -68,8 +59,8 @@ class FragmentActivity : AppCompatActivity() {
         setContentView(mBinding.root)
 
         fragmentManager = supportFragmentManager
-        fa = HomeFragment()
         fragmentManager!!.beginTransaction().add(R.id.main_frame, fa).commit()
+        fragmentManager!!.beginTransaction().add(R.id.main_frame, fb!!).commit()
     }
 
     override fun onBackPressed() {

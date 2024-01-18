@@ -37,7 +37,7 @@ class DieselFragment : Fragment() {
         getOilAvgViewModel.getOilAvg().observe(requireActivity(), Observer { oilAvgPriceInfoList ->
 
             val entries = oilAvgPriceInfoList.mapIndexed { index, it ->
-                Entry(index.toFloat(), it.getOilPrice().toFloat())
+                Entry(index.toFloat(), it.oilPrice.toFloat())
             }
 
             val dataSet = LineDataSet(entries, "주유소 가격").apply {
@@ -65,7 +65,7 @@ class DieselFragment : Fragment() {
             oilAvgPriceInfoList.reversed()
 
             if (oilAvgPriceInfoList.isNotEmpty()) {
-                mBinding.priceText.text = oilAvgPriceInfoList.first().getOilPrice()
+                mBinding.priceText.text = oilAvgPriceInfoList.first().oilPrice
             }
 
             mBinding.oilAvgRecyclerView.adapter = OilAvgRecyclerAdapter(oilAvgPriceInfoList)

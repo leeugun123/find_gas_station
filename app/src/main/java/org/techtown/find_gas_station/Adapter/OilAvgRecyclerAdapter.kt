@@ -28,8 +28,8 @@ class OilAvgRecyclerAdapter(private val oilAvgList: List<OilAveragePriceInfo>) :
 
         val oilAvg = oilAvgList[position]
 
-        holder.binding.day.text = convertDateString(oilAvg.getDate())
-        holder.binding.price.text = oilAvg.getOilPrice().toString()
+        holder.binding.day.text = convertDateString(oilAvg.date)
+        holder.binding.price.text = oilAvg.oilPrice.toString()
 
         if (position == oilAvgList.size - 1) {
             holder.binding.priceGap.text = "-"
@@ -60,7 +60,7 @@ class OilAvgRecyclerAdapter(private val oilAvgList: List<OilAveragePriceInfo>) :
 
 
 
-    private fun priceGap(pos: Int) = oilAvgList[pos].getOilPrice() as Int - oilAvgList[pos + 1].getOilPrice() as Int
+    private fun priceGap(pos: Int) = oilAvgList[pos].oilPrice as Int - oilAvgList[pos + 1].oilPrice as Int
 
     @SuppressLint("SimpleDateFormat")
     private fun convertDateString(inputDate: String?): String {
