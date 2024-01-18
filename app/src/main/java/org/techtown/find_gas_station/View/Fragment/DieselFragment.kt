@@ -16,6 +16,7 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import org.techtown.find_gas_station.Adapter.OilAvgRecyclerAdapter
+import org.techtown.find_gas_station.Util.RidRoundMath
 import org.techtown.find_gas_station.ViewModel.GetOilAvgViewModel
 import org.techtown.find_gas_station.databinding.FragmentDieselBinding
 
@@ -65,7 +66,8 @@ class DieselFragment : Fragment() {
             oilAvgPriceInfoList.reversed()
 
             if (oilAvgPriceInfoList.isNotEmpty()) {
-                mBinding.priceText.text = oilAvgPriceInfoList.first().oilPrice
+                mBinding.priceText.text =
+                    RidRoundMath.roundStringToInteger(oilAvgPriceInfoList.first().oilPrice).toString()
             }
 
             mBinding.oilAvgRecyclerView.adapter = OilAvgRecyclerAdapter(oilAvgPriceInfoList)

@@ -9,9 +9,11 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import org.techtown.find_gas_station.Data.oilAvg.OilAveragePriceInfo
 import org.techtown.find_gas_station.R
+import org.techtown.find_gas_station.Util.RidRoundMath.roundStringToInteger
 import org.techtown.find_gas_station.databinding.OilavgBinding
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import kotlin.math.roundToInt
 
 class OilAvgRecyclerAdapter(private val oilAvgList: List<OilAveragePriceInfo>) : RecyclerView.Adapter<OilAvgRecyclerAdapter.ViewHolder>() {
 
@@ -29,7 +31,7 @@ class OilAvgRecyclerAdapter(private val oilAvgList: List<OilAveragePriceInfo>) :
         val oilAvg = oilAvgList[position]
 
         holder.binding.day.text = convertDateString(oilAvg.date)
-        holder.binding.price.text = oilAvg.oilPrice.toString()
+        holder.binding.price.text = roundStringToInteger(oilAvg.oilPrice).toString()
 
         if (position == oilAvgList.size - 1) {
             holder.binding.priceGap.text = "-"
@@ -59,8 +61,7 @@ class OilAvgRecyclerAdapter(private val oilAvgList: List<OilAveragePriceInfo>) :
     }
 
 
-
-    private fun priceGap(pos: Int) = oilAvgList[pos].oilPrice as Int - oilAvgList[pos + 1].oilPrice as Int
+    private fun priceGap(pos: Int) = roundStringToInteger(oilAvgList[pos].oilPrice) - roundStringToInteger(oilAvgList[pos + 1].oilPrice)
 
     @SuppressLint("SimpleDateFormat")
     private fun convertDateString(inputDate: String?): String {
@@ -78,5 +79,9 @@ class OilAvgRecyclerAdapter(private val oilAvgList: List<OilAveragePriceInfo>) :
         return ""
 
     }
+
+
+
+
 
 }
