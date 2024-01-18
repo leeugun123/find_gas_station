@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mikephil.charting.components.XAxis
@@ -14,8 +13,8 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import org.techtown.find_gas_station.Adapter.OilAvgRecyclerAdapter
+import org.techtown.find_gas_station.Util.UnitConverter.RidRoundMath
 import org.techtown.find_gas_station.ViewModel.GetOilAvgViewModel
 import org.techtown.find_gas_station.databinding.FragmentButaneBinding
 
@@ -36,7 +35,8 @@ class ButaneFragment : Fragment() {
 
         getOilAvgViewModel.requestOilAvg("K015")
 
-        getOilAvgViewModel.getOilAvg().observe(requireActivity(), Observer { oilAvgPriceInfoList ->
+        getOilAvgViewModel.getOilAvg().observe(requireActivity()) { oilAvgPriceInfoList ->
+
             val entries = oilAvgPriceInfoList.mapIndexed { index, it ->
                 Entry(index.toFloat(), it.oilPrice.toFloat())
             }
@@ -66,11 +66,12 @@ class ButaneFragment : Fragment() {
             oilAvgPriceInfoList.reversed()
 
             if (oilAvgPriceInfoList.isNotEmpty()) {
-                mBinding.priceText.text = oilAvgPriceInfoList.first().oilPrice
+                mBinding.priceText.text =
+                    RidRoundMath.roundStringToInteger(oilAvgPriceInfoList.first().oilPrice).toString()
             }
 
             mBinding.oilAvgRecyclerView.adapter = OilAvgRecyclerAdapter(oilAvgPriceInfoList)
-        })
+        }
 
 
         return mBinding.root

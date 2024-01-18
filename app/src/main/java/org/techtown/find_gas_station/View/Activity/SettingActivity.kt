@@ -2,7 +2,6 @@ package org.techtown.find_gas_station.View.Activity
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -37,10 +36,9 @@ import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.THREE_KM
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.THREE_KM_IN_METERS
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.VIA_GUIDE
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.VIA_GUIDE_ENGLISH
-import org.techtown.find_gas_station.Util.OilParser
-import org.techtown.find_gas_station.Util.OilParser.calOilName
-import org.techtown.find_gas_station.Util.OilParser.calOilSort
-import org.techtown.find_gas_station.Util.OilParser.calRad
+import org.techtown.find_gas_station.Util.Parser.OilParser.calOilName
+import org.techtown.find_gas_station.Util.Parser.OilParser.calOilSort
+import org.techtown.find_gas_station.Util.Parser.OilParser.calRad
 import org.techtown.find_gas_station.View.Fragment.HomeFragment
 import org.techtown.find_gas_station.ViewModel.SetViewModel
 import org.techtown.find_gas_station.databinding.ActivityDrawerBinding

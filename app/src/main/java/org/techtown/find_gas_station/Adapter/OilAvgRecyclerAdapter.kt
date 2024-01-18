@@ -2,18 +2,15 @@ package org.techtown.find_gas_station.Adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import org.techtown.find_gas_station.Data.oilAvg.OilAveragePriceInfo
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.Util.RidRoundMath.roundStringToInteger
+import org.techtown.find_gas_station.Util.UnitConverter.RidRoundMath.roundStringToInteger
 import org.techtown.find_gas_station.databinding.OilavgBinding
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import kotlin.math.roundToInt
 
 class OilAvgRecyclerAdapter(private val oilAvgList: List<OilAveragePriceInfo>) : RecyclerView.Adapter<OilAvgRecyclerAdapter.ViewHolder>() {
 
