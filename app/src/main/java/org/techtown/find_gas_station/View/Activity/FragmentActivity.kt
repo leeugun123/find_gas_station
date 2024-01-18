@@ -22,7 +22,7 @@ class FragmentActivity : AppCompatActivity() {
     private lateinit var mBinding : ActivityFragmentBinding
     private val fa by lazy { HomeFragment() }
     private val fb by lazy { DailyFragment() }
-    private lateinit var fragmentManager : FragmentManager
+    private val fragmentManager by lazy { supportFragmentManager }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,34 +31,35 @@ class FragmentActivity : AppCompatActivity() {
         mBinding.bottomNav.setOnNavigationItemSelectedListener { menuItem ->
 
             when (menuItem.itemId) {
-
-                R.id.Home_fragment -> {
-
-                    fragmentManager!!.beginTransaction().show(fa!!).commit()
-                    fragmentManager!!.beginTransaction().hide(fb).commit()
-
-                }
-
-                R.id.Daily_fragment -> {
-
-                    fragmentManager!!.beginTransaction().show(fb!!).commit()
-                    fragmentManager!!.beginTransaction().hide(fa).commit()
-
-                }
+                R.id.Home_fragment -> { showFa() }
+                R.id.Daily_fragment -> { showFb() }
                 else -> throw IllegalArgumentException(INVALID_GUIDE)
             }
+
             true
 
         }
 
     }
 
+    private fun showFa() {
+        fragmentManager!!.beginTransaction().show(fa!!).commit()
+        fragmentManager!!.beginTransaction().hide(fb).commit()
+    }
+
+    private fun showFb(){
+        fragmentManager!!.beginTransaction().show(fb!!).commit()
+        fragmentManager!!.beginTransaction().hide(fa).commit()
+    }
+
     private fun fragmentInit() {
 
         mBinding = ActivityFragmentBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
+        addFragment()
+    }
 
-        fragmentManager = supportFragmentManager
+    private fun addFragment() {
         fragmentManager!!.beginTransaction().add(R.id.main_frame, fa).commit()
         fragmentManager!!.beginTransaction().add(R.id.main_frame, fb!!).commit()
     }
