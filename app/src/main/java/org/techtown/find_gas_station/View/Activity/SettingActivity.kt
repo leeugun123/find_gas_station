@@ -15,26 +15,26 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import org.techtown.find_gas_station.Data.set.OilData
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.CAR_BUTANE
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.CAR_BUTANE_KOREAN
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.CHECK_PRICE_CONDITION
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.CHECK_THREE_ROAD_DISTANCE
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.CHECK_TWO_DIRECT_DISTANCE
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.DIRECT_DISTANCE_GUIDE
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.FIVE_KM
-import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.GASOLINE_GUIDE
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.GASOLINE_KOREAN
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.GASOLINE_GUIDE_ENGLISH
-import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.INDOOR_KEROSENE
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.INDOOR_KEROSENE_KOREAN
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.INDOOR_KEROSENE_ENGLISH
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.ONE_KM
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.ONE_KM_IN_METERS
-import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.PREMIUM_GASOLINE
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.PREMIUM_GASOLINE_KOREAN
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.PREMIUM_GASOLINE_ENGLISH
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.PRICE_CONDITION_GUIDE
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.ROAD_DISTANCE_GUIDE
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.SPEND_TIME_GUIDE
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.THREE_KM
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.THREE_KM_IN_METERS
-import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.VIA_GUIDE
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.VIA_KOREAN
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.VIA_GUIDE_ENGLISH
 import org.techtown.find_gas_station.Util.Parser.OilParser.calOilName
 import org.techtown.find_gas_station.Util.Parser.OilParser.calOilSort
@@ -88,7 +88,7 @@ class SettingActivity : AppCompatActivity() {
 
         setupSpinner(
             mBinding.typeSpinner,
-            listOf(GASOLINE_GUIDE, VIA_GUIDE, PREMIUM_GASOLINE, INDOOR_KEROSENE, CAR_BUTANE)
+            listOf(GASOLINE_KOREAN, VIA_KOREAN, PREMIUM_GASOLINE_KOREAN, INDOOR_KEROSENE_KOREAN, CAR_BUTANE_KOREAN)
         ) { selectedValue ->
             newIntelSetting[2] = calOilName(selectedValue)
         }

@@ -12,11 +12,11 @@ object ConstantOilCondition {
     const val CHECK_THREE_ROAD_DISTANCE = "3"
     const val CHECK_FOUR_SPEND_TIME = "4"
 
-    const val GASOLINE_GUIDE = "휘발유"
-    const val VIA_GUIDE = "경유"
-    const val PREMIUM_GASOLINE = "고급 휘발유"
-    const val INDOOR_KEROSENE ="실내 등유"
-    const val CAR_BUTANE = "자동차 부탄"
+    const val GASOLINE_KOREAN = "휘발유"
+    const val VIA_KOREAN = "경유"
+    const val PREMIUM_GASOLINE_KOREAN = "고급 휘발유"
+    const val INDOOR_KEROSENE_KOREAN ="실내 등유"
+    const val CAR_BUTANE_KOREAN = "자동차 부탄"
 
     const val ONE_KM = "1km"
     const val THREE_KM = "3km"

@@ -43,25 +43,24 @@ class FragmentActivity : AppCompatActivity() {
     }
 
     private fun showFa() {
-        fragmentManager!!.beginTransaction().show(fa!!).commit()
-        fragmentManager!!.beginTransaction().hide(fb).commit()
+        fragmentManager.beginTransaction().show(fa).commit()
+        fragmentManager.beginTransaction().hide(fb).commit()
     }
 
     private fun showFb(){
-        fragmentManager!!.beginTransaction().show(fb!!).commit()
-        fragmentManager!!.beginTransaction().hide(fa).commit()
+        fragmentManager.beginTransaction().show(fb).commit()
+        fragmentManager.beginTransaction().hide(fa).commit()
     }
 
     private fun fragmentInit() {
-
         mBinding = ActivityFragmentBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
         addFragment()
     }
 
     private fun addFragment() {
-        fragmentManager!!.beginTransaction().add(R.id.main_frame, fa).commit()
-        fragmentManager!!.beginTransaction().add(R.id.main_frame, fb!!).commit()
+        fragmentManager.beginTransaction().add(R.id.main_frame, fa).commit()
+        fragmentManager.beginTransaction().add(R.id.main_frame, fb).commit()
     }
 
     override fun onBackPressed() {

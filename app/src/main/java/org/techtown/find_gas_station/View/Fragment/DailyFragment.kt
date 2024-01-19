@@ -19,20 +19,25 @@ class DailyFragment : Fragment() {
     private val butanFragment by lazy { ButaneFragment() }
 
     private lateinit var mBinding : FragmentDailyBinding
-    private lateinit var currentFragment : Fragment
-    // 현재 보여지고 있는 프래그먼트를 저장하는 변수
+    private lateinit var currentFragment : Fragment // 현재 보여지고 있는 프래그먼트를 저장하는 변수
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         currentFragment = gasolFragment
         parentFragmentManager.beginTransaction().add(R.id.frame, currentFragment).commit()
 
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         mBinding = FragmentDailyBinding.inflate(layoutInflater, container, false)
+        return mBinding.root
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         mBinding.tabs.addOnTabSelectedListener(object : OnTabSelectedListener {
 
@@ -67,7 +72,6 @@ class DailyFragment : Fragment() {
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
 
-        return mBinding.root
 
     }
 
