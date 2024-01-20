@@ -1,7 +1,10 @@
 package org.techtown.find_gas_station.Repository
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.Data.OilList.GasStationInfoResult
 import org.techtown.find_gas_station.Data.OilList.Result
 import org.techtown.find_gas_station.Data.OilList.StationInfo
@@ -50,35 +53,35 @@ class GetOilRepository(application : Application) {
 
     fun getOilListLiveData() = this.oilListLiveData
 
-    fun searchOilList(xPos : String, yPos : String, radius : String, sort : String, oilKind : String) {
+    suspend fun searchOilList(xPos : String, yPos : String, radius : String, sort : String, oilKind : String) {
         listClear()
 
-        opiRetrofitApi.getOilList(OPI_API_KEY, JSON_FORMAT, xPos, yPos, radius, oilKind, sort)
-            .enqueue(object : Callback<GasStationInfoResult> {
-                override fun onResponse(call: Call<GasStationInfoResult>, response: Response<GasStationInfoResult>) {
-                    if (response.isSuccessful) {
-                        handleOilListResponse(response.body(), oilKind ,sort)
-                    }
-                }
-                override fun onFailure(call: Call<GasStationInfoResult?>, t: Throwable) {}
-            })
+        try {
+            val response = withContext(Dispatchers.IO) {
+                opiRetrofitApi.getOilList(OPI_API_KEY, JSON_FORMAT, xPos, yPos, radius, oilKind, sort)
+            }
+
+            if (response.isSuccessful) {
+                val gasStationData = response.body()
+                gasStationData?.let { handleOilListResponse(it, oilKind, sort) }
+            }
+
+        } catch (e: Exception) {
+        }
+
     }
 
-    private fun handleOilListResponse(gasStationData: GasStationInfoResult? , oilKind : String , sort : String){
+    private suspend fun handleOilListResponse(gasStationData: GasStationInfoResult? , oilKind : String , sort : String){
 
-        gasStationData?.let {
+        val result = gasStationData?.let { adjustSize(it) }
+        val inputOil = getOilType(oilKind)
 
-            val result = adjustSize(it)
-            val inputOil = getOilType(oilKind)
-
-            result.forEach { oilInfo ->
-
-                val out = GeoTrans.convert(GeoTrans.KATEC, GeoTrans.GEO, GeoTransPoint(oilInfo.gisX.toDouble(), oilInfo.gisY.toDouble()))
-                getOilDetail(sort, result.size, oilInfo.id , oilInfo.osName, oilInfo.price, oilInfo.distance, inputOil,
-                    getTrademarkImageResource(oilInfo.pollDivCd), out.x.toFloat(), out.y.toFloat())
-
-            }
+        result?.forEach { oilInfo ->
+            val out = GeoTrans.convert(GeoTrans.KATEC, GeoTrans.GEO, GeoTransPoint(oilInfo.gisX.toDouble(), oilInfo.gisY.toDouble()))
+            getOilDetail(sort, result.size, oilInfo.id, oilInfo.osName, oilInfo.price, oilInfo.distance, inputOil,
+                getTrademarkImageResource(oilInfo.pollDivCd), out.x.toFloat(), out.y.toFloat())
         }
+
     }
 
     private fun adjustSize(it : GasStationInfoResult) = if (30 < it.oilInfoListResult.oilInfoList.size)
@@ -86,20 +89,23 @@ class GetOilRepository(application : Application) {
     else
         it.oilInfoListResult.oilInfoList
 
-    private fun getOilDetail(sort: String, size : Int, uid : String, name: String, gasPrice: String, distance: String, inputOil: String,
+    private suspend fun getOilDetail(sort: String, size : Int, uid : String, name: String, gasPrice: String, distance: String, inputOil: String,
         imageResource : Int, destinationX : Float, destinationY : Float) {
 
-        opiRetrofitApi.getOilDetail(OPI_API_KEY, JSON_FORMAT, uid)
-            .enqueue(object : Callback<GasStationDetailInfoResult> {
+        try {
+            val response = withContext(Dispatchers.IO) {
+                opiRetrofitApi.getOilDetail(OPI_API_KEY, JSON_FORMAT, uid)
+            }
 
-                override fun onResponse(call: Call<GasStationDetailInfoResult>, response: Response<GasStationDetailInfoResult>) {
-                    if (response.isSuccessful)
-                        handleOilDetailResponse(response.body(), sort, size, uid, name, gasPrice, distance, inputOil, imageResource, destinationX, destinationY)
-
+            if (response.isSuccessful) {
+                val gasStationDetailInfo = response.body()
+                gasStationDetailInfo?.let {
+                    handleOilDetailResponse(it, sort, size, uid, name, gasPrice, distance, inputOil, imageResource, destinationX, destinationY)
                 }
-                override fun onFailure(call: Call<GasStationDetailInfoResult>, t: Throwable) {}
+            }
 
-            })
+        } catch (e: Exception) { }
+
     }
 
     private fun handleOilDetailResponse(gasStationDetailInfo: GasStationDetailInfoResult?, sort: String, size: Int,
@@ -109,12 +115,15 @@ class GetOilRepository(application : Application) {
 
             val oilDetailInfo = it.gasStationDetailInfoResult.gasStationDetailInfo
 
-            tempList.add(TotalOilInfo(uid, name, gasPrice, distance.toDouble().toInt().toString(), inputOil, imageResource, destinationX, destinationY,
-                oilDetailInfo[0].carWashExist, oilDetailInfo[0].conStoreExist, oilDetailInfo[0].address, oilDetailInfo[0].streetAddress,
-                oilDetailInfo[0].calNumber, oilDetailInfo[0].sector, "", ""))
+            tempList.add(
+                TotalOilInfo(
+                    uid, name, gasPrice, distance.toDouble().toInt().toString(), inputOil, imageResource, destinationX,
+                    destinationY, oilDetailInfo[0].carWashExist, oilDetailInfo[0].conStoreExist, oilDetailInfo[0].address,
+                    oilDetailInfo[0].streetAddress, oilDetailInfo[0].calNumber, oilDetailInfo[0].sector, "", ""
+                )
+            )
 
-            checkTempListSize(size,sort)
-
+            checkTempListSize(size, sort)
         }
 
     }
@@ -183,9 +192,9 @@ class GetOilRepository(application : Application) {
             }
 
             if (sort == CHECK_FOUR_SPEND_TIME) {
-                Collections.sort(plusList, OilSpendTimeComparator())
+               // Collections.sort(plusList, OilSpendTimeComparator())
             } else {
-                Collections.sort(plusList, OilRoadDistanceComparator())
+              //  Collections.sort(plusList, OilRoadDistanceComparator())
             }
 
             oilListLiveData.value = plusList

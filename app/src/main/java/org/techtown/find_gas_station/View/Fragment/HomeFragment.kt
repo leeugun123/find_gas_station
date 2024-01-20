@@ -22,6 +22,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
@@ -39,6 +40,10 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.Adapter.OilInfoAdapter
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.Util.Constant.ConstantGuide.CHECK_DATA_EMPTY_GUIDE
@@ -156,7 +161,16 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
         getWgsMyY = point.y.toString()
         val ge = convert(GeoTrans.GEO, GeoTrans.KATEC, point)//GEO를 KATEC으로 변환
 
-        getOilListViewModel.requestOilList(ge.x.toString(), ge.y.toString(), oilIntel[0], oilIntel[1], oilIntel[2])
+        lifecycleScope.launch(Dispatchers.IO) {
+
+            withContext(Dispatchers.Main) {
+                getOilListViewModel.requestOilList(ge.x.toString(), ge.y.toString(), oilIntel[0], oilIntel[1], oilIntel[2])
+            }
+
+        }
+
+
+
 
         checkEmpty()
 
@@ -192,9 +206,11 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-
         mBinding = FragmentHomeBinding.inflate(inflater,container,false)
+        return mBinding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         childFragmentManager.beginTransaction()
             .replace(R.id.map, mapFragment)
@@ -203,7 +219,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
         mapFragment.getMapAsync(this)
 
         initSetting()
-
 
         getOilListViewModel.getOilList().observe(viewLifecycleOwner) { list ->
 
@@ -234,12 +249,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
             setFlag = false
             startActivity(Intent(requireActivity(), SettingActivity::class.java))
         }
-
-        return mBinding.root
-
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
     }
 

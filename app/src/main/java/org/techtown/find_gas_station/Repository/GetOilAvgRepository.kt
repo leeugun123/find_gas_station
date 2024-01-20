@@ -25,12 +25,9 @@ class GetOilAvgRepository(application: Application){
                 override fun onResponse(call: Call<OilAveragePriceInfoResult>, response: Response<OilAveragePriceInfoResult>) {
 
                     if (response.isSuccessful) {
-
                         val result = response.body()!!.oilAveragePriceInfoResult.oilAveragePriceInfo
                         oilAvgInfoLiveData.value = result
-
                     }
-
 
                 }
 
