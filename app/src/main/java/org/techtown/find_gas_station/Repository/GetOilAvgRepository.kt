@@ -2,6 +2,8 @@ package org.techtown.find_gas_station.Repository
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.Data.oilAvg.OilAveragePriceInfo
 import org.techtown.find_gas_station.Data.oilAvg.OilAveragePriceInfoResult
 import org.techtown.find_gas_station.Util.Api.ApiKey
@@ -16,26 +18,25 @@ class GetOilAvgRepository(application: Application){
 
     fun getOilAvgInfoLiveData() = this.oilAvgInfoLiveData
 
-    fun getOilAvg(prodcd : String) {
+    suspend fun getOilAvg(prodcd : String) {
 
-        Api_Instance.opiRetrofitApi.getAvgRecentPrice(ApiKey.OPI_API_KEY , "json", prodcd)
+        try {
+            val response = withContext(Dispatchers.IO) {
+                Api_Instance.opiRetrofitApi.getAvgRecentPrice(ApiKey.OPI_API_KEY , "json", prodcd)
+            }
 
-            .enqueue(object : Callback<OilAveragePriceInfoResult> {
+            if (response.isSuccessful)
+                oilAvgInfoLiveData.value = response.body()!!.oilAveragePriceInfoResult.oilAveragePriceInfo
 
-                override fun onResponse(call: Call<OilAveragePriceInfoResult>, response: Response<OilAveragePriceInfoResult>) {
 
-                    if (response.isSuccessful) {
-                        val result = response.body()!!.oilAveragePriceInfoResult.oilAveragePriceInfo
-                        oilAvgInfoLiveData.value = result
-                    }
+        } catch (e: Exception) { }
 
-                }
-
-                override fun onFailure(call: Call<OilAveragePriceInfoResult>, t: Throwable) {}
-
-            })
 
     }
+
+
+
+
 
 
 

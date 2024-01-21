@@ -16,7 +16,7 @@ class GetOilAvgViewModel(application : Application) : AndroidViewModel(applicati
         oilAvgLiveData = getOilAvgRepository.getOilAvgInfoLiveData()
     }
 
-    fun requestOilAvg(prodcd : String) {
+    suspend fun requestOilAvg(prodcd : String) {
         getOilAvgRepository.getOilAvg(prodcd)
     }
 

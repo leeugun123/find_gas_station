@@ -29,9 +29,9 @@ interface Opinet_RetrofitApi {
 
 
     @GET("api/avgRecentPrice.do")
-    fun getAvgRecentPrice(@Query("code") code: String,
+    suspend fun getAvgRecentPrice(@Query("code") code: String,
                           @Query("out") out: String,
                           @Query("prodcd") prodcd: String
-    ): Call<OilAveragePriceInfoResult>
+    ) : Response<OilAveragePriceInfoResult>
 
 }

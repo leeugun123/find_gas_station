@@ -8,12 +8,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.Adapter.OilAvgRecyclerAdapter
 import org.techtown.find_gas_station.Util.UnitConverter.RidRoundMath
 import org.techtown.find_gas_station.ViewModel.GetOilAvgViewModel
@@ -37,7 +41,13 @@ class KeroseneFragment : Fragment() {
 
         mBinding.oilAvgRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
 
-        getOilAvgViewModel.requestOilAvg("C004")
+        lifecycleScope.launch(Dispatchers.IO) {
+
+            withContext(Dispatchers.Main) {
+                getOilAvgViewModel.requestOilAvg("C004")
+            }
+
+        }
 
         getOilAvgViewModel.getOilAvg().observe(requireActivity()) { oilAvgPriceInfoList ->
             val entries = oilAvgPriceInfoList.mapIndexed { index, it ->
@@ -60,7 +70,7 @@ class KeroseneFragment : Fragment() {
 
             with(mBinding.lineChart) {
                 data = lineData
-                description.text = "최근 일주일 전국 유가 가격"
+                description.text = "최근 일주일 성전국 유가 가격"
                 xAxis.position = XAxis.XAxisPosition.BOTTOM
                 axisRight.isEnabled = false
                 invalidate()
