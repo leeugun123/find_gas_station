@@ -31,6 +31,12 @@ class ButaneFragment : Fragment() {
     ): View {
 
         mBinding = FragmentButaneBinding.inflate(layoutInflater, container,false)
+        return mBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         mBinding.oilAvgRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
 
         getOilAvgViewModel.requestOilAvg("K015")
@@ -73,8 +79,6 @@ class ButaneFragment : Fragment() {
             mBinding.oilAvgRecyclerView.adapter = OilAvgRecyclerAdapter(oilAvgPriceInfoList)
         }
 
-
-        return mBinding.root
 
     }
 

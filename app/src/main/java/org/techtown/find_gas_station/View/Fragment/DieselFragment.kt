@@ -28,8 +28,13 @@ class DieselFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
         mBinding = FragmentDieselBinding.inflate(layoutInflater, container, false)
+        return mBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         mBinding.oilAvgRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
 
         getOilAvgViewModel.requestOilAvg("D047")
@@ -74,8 +79,8 @@ class DieselFragment : Fragment() {
 
         }
 
-        return mBinding.root
-
 
     }
+
+
 }

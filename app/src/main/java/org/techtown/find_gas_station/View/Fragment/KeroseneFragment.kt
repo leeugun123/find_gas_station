@@ -28,8 +28,13 @@ class KeroseneFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
         mBinding = FragmentKeroseneBinding.inflate(layoutInflater, container,false)
+        return mBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         mBinding.oilAvgRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
 
         getOilAvgViewModel.requestOilAvg("C004")
@@ -70,9 +75,8 @@ class KeroseneFragment : Fragment() {
             }
 
             mBinding.oilAvgRecyclerView.adapter = OilAvgRecyclerAdapter(oilAvgPriceInfoList)
-        }
 
-        return mBinding.root
+        }
 
     }
 

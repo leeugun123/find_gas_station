@@ -25,20 +25,12 @@ class SetViewModel(application : Application) : AndroidViewModel(application) {
         setRepository.insert(set)
     }
 
-
-
-    suspend fun update(set : OilData) = coroutineScope {
-        setRepository.update(set)
-    }
-
-
     suspend fun delete() = coroutineScope {
         setRepository.deleteAll()
     }
 
     class Factory(val application: Application) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>) = SetViewModel(application) as T
-
     }
 
 
