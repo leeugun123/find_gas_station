@@ -159,11 +159,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
         val ge = transFormPoint(gpsTracker.getLatitude().toFloat(), gpsTracker.getLongitude().toFloat())
 
         lifecycleScope.launch(Dispatchers.IO) {
-
             withContext(Dispatchers.Main) {
                 getOilListViewModel.requestOilList(ge.x.toString(), ge.y.toString(), oilIntel[0], oilIntel[1], oilIntel[2])
             }
-
         }
 
         checkEmpty()

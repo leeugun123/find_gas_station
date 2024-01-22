@@ -10,6 +10,7 @@ import org.techtown.find_gas_station.Data.kakao.Request.Destination
 import org.techtown.find_gas_station.Data.kakao.Request.DirectionRequest
 import org.techtown.find_gas_station.Data.kakao.Request.Origin
 import org.techtown.find_gas_station.Data.kakao.Response.DirectionResponse
+import org.techtown.find_gas_station.Data.kakao.Response.Route
 import org.techtown.find_gas_station.Data.oilDetail.GasStationDetailInfoResult
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.Util.Api.ApiKey.OPI_API_KEY
@@ -49,20 +50,15 @@ class GetOilRepository(application : Application) {
     fun getOilListLiveData() = this.oilListLiveData
 
     suspend fun searchOilList(xPos : String, yPos : String, radius : String, sort : String, oilKind : String) {
+
         listClear()
 
-        try {
-            val response = withContext(Dispatchers.IO) {
-                opiRetrofitApi.getOilList(OPI_API_KEY, JSON_FORMAT, xPos, yPos, radius, oilKind, sort)
-            }
-
-            if (response.isSuccessful) {
-                val gasStationData = response.body()
-                gasStationData?.let { handleOilListResponse(it, oilKind, sort) }
-            }
-
-        } catch (e: Exception) {
+        val response = withContext(Dispatchers.IO) {
+            opiRetrofitApi.getOilList(OPI_API_KEY, JSON_FORMAT, xPos, yPos, radius, oilKind, sort)
         }
+
+        if (response.isSuccessful)
+            handleOilListResponse(response.body(), oilKind, sort)
 
     }
 
@@ -72,7 +68,6 @@ class GetOilRepository(application : Application) {
         val inputOil = getOilType(oilKind)
 
         result?.forEach { oilInfo ->
-
             val out = GeoTrans.convert(GeoTrans.KATEC, GeoTrans.GEO, GeoTransPoint(oilInfo.gisX.toDouble(), oilInfo.gisY.toDouble()))
             getOilDetail(sort, result.size, oilInfo.id, oilInfo.osName, oilInfo.price, oilInfo.distance, inputOil,
                 getTrademarkImageResource(oilInfo.pollDivCd), out.x.toFloat(), out.y.toFloat())
@@ -88,20 +83,12 @@ class GetOilRepository(application : Application) {
     private suspend fun getOilDetail(sort: String, size : Int, uid : String, name: String, gasPrice: String, distance: String, inputOil: String,
         imageResource : Int, destinationX : Float, destinationY : Float) {
 
-        try {
+        val response = withContext(Dispatchers.IO) {
+            opiRetrofitApi.getOilDetail(OPI_API_KEY, JSON_FORMAT, uid)
+        }
 
-            val response = withContext(Dispatchers.IO) {
-                opiRetrofitApi.getOilDetail(OPI_API_KEY, JSON_FORMAT, uid)
-            }
-
-            if (response.isSuccessful) {
-                val gasStationDetailInfo = response.body()
-                gasStationDetailInfo?.let {
-                    handleOilDetailResponse(it, sort, size, uid, name, gasPrice, distance, inputOil, imageResource, destinationX, destinationY)
-                }
-            }
-
-        } catch (e: Exception) { }
+        if (response.isSuccessful)
+            handleOilDetailResponse(response.body(), sort, size, uid, name, gasPrice, distance, inputOil, imageResource, destinationX, destinationY)
 
     }
 
@@ -146,17 +133,13 @@ class GetOilRepository(application : Application) {
         val destinations = arrayOfNulls<Destination>(tempList.size)
         destinationsProcessing(destinations)
 
-        try {
-            val response = withContext(Dispatchers.IO) {
-                kakaoRetrofitApi.getMultiDirections(DirectionRequest(Origin(HomeFragment.getWgsMyX.toDouble(), HomeFragment.getWgsMyY.toDouble()),
-                    destinations, KAKAO_REQUEST_RADIUS))
-            }
+        val response = withContext(Dispatchers.IO) {
+            kakaoRetrofitApi.getMultiDirections(DirectionRequest(Origin(HomeFragment.getWgsMyX.toDouble(), HomeFragment.getWgsMyY.toDouble()),
+                destinations, KAKAO_REQUEST_RADIUS))
+        }
 
-            if (response.isSuccessful) {
-                handleKakaoApiResponse(response.body(),sort)
-            }
-
-        } catch (e: Exception) { }
+        if (response.isSuccessful)
+            handleKakaoApiResponse(response.body(),sort)
 
     }
 
@@ -174,29 +157,33 @@ class GetOilRepository(application : Application) {
     private fun handleKakaoApiResponse(directionResponse: DirectionResponse?, sort: String) {
 
         directionResponse?.let {
-            val routes = it.routes
-
-            for (i in tempList.indices) {
-                val oilList = tempList[i]
-                oilList.actDistance = routes[i].summary.distance
-                oilList.spendTime = routes[i].summary.duration
-                plusList.add(oilList)
-            }
-
-            if (sort == CHECK_FOUR_SPEND_TIME) {
-                Collections.sort(plusList, OilSpendTimeComparator())
-            } else {
-                Collections.sort(plusList, OilRoadDistanceComparator())
-            }
-
+            insertPlusList(it.routes)
+            checkRoadOrSpend(sort)
             oilListLiveData.value = plusList
-
         }
 
     }
 
+    private fun insertPlusList(routes : List<Route>){
+        for (i in tempList.indices) {
+            val oilList = tempList[i]
+            oilList.actDistance = routes[i].summary.distance
+            oilList.spendTime = routes[i].summary.duration
+            plusList.add(oilList)
+        }
+    }
 
-            private fun getTrademarkImageResource(trademark: String) =
+
+    private fun checkRoadOrSpend(sort : String) {
+        if (sort == CHECK_FOUR_SPEND_TIME) {
+            Collections.sort(plusList, OilSpendTimeComparator())
+        } else {
+            Collections.sort(plusList, OilRoadDistanceComparator())
+        }
+    }
+
+
+    private fun getTrademarkImageResource(trademark: String) =
         when (trademark) {
             "SKE" -> R.drawable.sk
             "GSC" -> R.drawable.gs
