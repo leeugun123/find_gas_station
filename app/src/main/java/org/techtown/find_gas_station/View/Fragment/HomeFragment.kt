@@ -146,20 +146,17 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
     //getData메소드 호출하여 ArrayList 값들 채우기
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun searchData() {
-        getData(gpsTracker.getLatitude().toFloat(), gpsTracker.getLongitude().toFloat())
+        getData()
     }
 
-    private fun getData(latitude : Float, longtitude : Float) {
+    private fun getData() {
 
         empty = true
         notYet = true
 
         mBinding.progressBar.visibility = View.VISIBLE
 
-        val point = GeoTransPoint(longtitude.toDouble(), latitude.toDouble())
-        getWgsMyX = point.x.toString()
-        getWgsMyY = point.y.toString()
-        val ge = convert(GeoTrans.GEO, GeoTrans.KATEC, point)//GEO를 KATEC으로 변환
+        val ge = transFormPoint(gpsTracker.getLatitude().toFloat(), gpsTracker.getLongitude().toFloat())
 
         lifecycleScope.launch(Dispatchers.IO) {
 
@@ -169,11 +166,19 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
         }
 
-
-
-
         checkEmpty()
 
+    }
+
+    private fun transFormPoint(latitude : Float, longtitude : Float): GeoTransPoint {
+        val point = GeoTransPoint(longtitude.toDouble(), latitude.toDouble())
+        wgsInit(point)
+        return convert(GeoTrans.GEO, GeoTrans.KATEC, point)
+    }
+
+    private fun wgsInit(point : GeoTransPoint) {
+        getWgsMyX = point.x.toString()
+        getWgsMyY = point.y.toString()
     }
 
     private fun checkEmpty(){
@@ -185,7 +190,12 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
     private fun showEmpty(){
         Toast.makeText(requireContext(), CHECK_DATA_EMPTY_GUIDE, Toast.LENGTH_SHORT).show()
-        mBinding.progressBar.visibility = View.GONE
+        removeProgressBar()
+    }
+
+    private fun removeProgressBar(){
+        if (mBinding.progressBar.visibility == View.VISIBLE)
+            mBinding.progressBar.visibility = View.GONE
     }
 
 
@@ -223,12 +233,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
         getOilListViewModel.getOilList().observe(viewLifecycleOwner) { list ->
 
             empty = false
+            removeProgressBar()
 
-            val myRecyclerAdapter = OilInfoAdapter(list, mMap, oilIntel[1])
-            mBinding.listRecycler.adapter = myRecyclerAdapter
-            myRecyclerAdapter.notifyDataSetChanged()
+            mBinding.listRecycler.adapter = OilInfoAdapter(list, mMap, oilIntel[1])
 
-            mBinding.progressBar.visibility = View.GONE
             upRecyclerView()
         }
 
