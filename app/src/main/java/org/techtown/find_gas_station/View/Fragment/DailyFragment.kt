@@ -5,73 +5,50 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
-import org.techtown.find_gas_station.R
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayoutMediator
+import org.techtown.find_gas_station.Adapter.OilAvgPagerAdapter
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.CAR_BUTANE_KOREAN
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.GASOLINE_KOREAN
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.INDOOR_KEROSENE_KOREAN
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.PREMIUM_GASOLINE_KOREAN
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.VIA_KOREAN
 import org.techtown.find_gas_station.databinding.FragmentDailyBinding
 
 class DailyFragment : Fragment() {
 
-    private val gasolFragment by lazy { GasolineFragment() }
-    private val diselFragment by lazy { DieselFragment() }
-    private val highGasolFragment by lazy { High_GasolineFragment() }
-    private val keroseneFragment by lazy { KeroseneFragment() }
-    private val butanFragment by lazy { ButaneFragment() }
+    private lateinit var mBinding: FragmentDailyBinding
+    private lateinit var viewPager : ViewPager2
 
-    private lateinit var mBinding : FragmentDailyBinding
-    private lateinit var currentFragment : Fragment // 현재 보여지고 있는 프래그먼트를 저장하는 변수
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        currentFragment = gasolFragment
-        parentFragmentManager.beginTransaction().add(R.id.frame, currentFragment).commit()
-
+    private val pagerAdapter by lazy {
+        OilAvgPagerAdapter(
+            childFragmentManager,
+            lifecycle,
+            listOf(GasolineFragment(), DieselFragment(), High_GasolineFragment(), KeroseneFragment(), ButaneFragment())
+        )
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
         mBinding = FragmentDailyBinding.inflate(layoutInflater, container, false)
         return mBinding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mBinding.tabs.addOnTabSelectedListener(object : OnTabSelectedListener {
+        viewPager = mBinding.oilAvgViewPager
+        viewPager.adapter = pagerAdapter
 
-            override fun onTabSelected(tab: TabLayout.Tab) {
-
-                val selectedFragment = when (tab.position) {
-                    0 -> gasolFragment
-                    1 -> diselFragment
-                    2 -> highGasolFragment
-                    3 -> keroseneFragment
-                    else -> butanFragment
-                }
-
-                if (currentFragment === selectedFragment) {
-                    return
-                }
-
-                val transaction = parentFragmentManager.beginTransaction()
-
-                if (!selectedFragment.isAdded) {
-                    transaction.add(R.id.frame, selectedFragment)
-                } else {
-                    transaction.show(selectedFragment)
-                }
-
-                transaction.hide(currentFragment).commit()
-                currentFragment = selectedFragment
-
+        TabLayoutMediator(mBinding.oilAvgtabs, viewPager) { tab, position ->
+            tab.text = when (position) {
+                0 -> GASOLINE_KOREAN
+                1 -> VIA_KOREAN
+                2 -> PREMIUM_GASOLINE_KOREAN
+                3 -> INDOOR_KEROSENE_KOREAN
+                4 -> CAR_BUTANE_KOREAN
+                else -> throw IllegalArgumentException("Invalid position")
             }
-
-            override fun onTabUnselected(tab: TabLayout.Tab) {}
-            override fun onTabReselected(tab: TabLayout.Tab) {}
-        })
-
+        }.attach()
 
     }
 

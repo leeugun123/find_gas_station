@@ -8,4 +8,5 @@ object ConstantGuide {
     const val CONFIRM_GUIDE = "확인"
     const val CHECK_DATA_EMPTY_GUIDE = "데이터가 비어있거나 서버가 점검 중입니다."
     const val JSON_FORMAT = "json"
+
 }

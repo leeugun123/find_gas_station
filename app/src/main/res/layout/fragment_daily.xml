@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabs"
+        android:id="@+id/oilAvgtabs"
         android:background="@color/orange"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -39,20 +39,10 @@
 
     </com.google.android.material.tabs.TabLayout>
 
-    <LinearLayout
-        android:id="@+id/frame"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/oilAvgViewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
-
-
-
-
-    </LinearLayout>
-
-
-
+        android:layout_height="match_parent"/>
 
 
 
