@@ -21,9 +21,7 @@ import org.techtown.find_gas_station.Util.Comparator.OilSpendTimeComparator
 import org.techtown.find_gas_station.Util.Constant.ConstantGuide.JSON_FORMAT
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.CAR_BUTANE_KOREAN
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.CHECK_FOUR_SPEND_TIME
-import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.CHECK_PRICE_CONDITION
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.CHECK_THREE_ROAD_DISTANCE
-import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.CHECK_TWO_DIRECT_DISTANCE
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.GASOLINE_KOREAN
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.GASOLINE_GUIDE_ENGLISH
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.INDOOR_KEROSENE_KOREAN
@@ -36,9 +34,6 @@ import org.techtown.find_gas_station.Util.Constant.ConstantsTime.KAKAO_REQUEST_R
 import org.techtown.find_gas_station.Util.GPS.GeoTrans
 import org.techtown.find_gas_station.Util.GPS.GeoTransPoint
 import org.techtown.find_gas_station.View.Fragment.HomeFragment
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.util.Collections
 
 class GetOilRepository(application : Application) {
@@ -56,11 +51,24 @@ class GetOilRepository(application : Application) {
         val response = withContext(Dispatchers.IO) {
             opiRetrofitApi.getOilList(OPI_API_KEY, JSON_FORMAT, xPos, yPos, radius, oilKind, sort)
         }
-
-        if (response.isSuccessful)
-            handleOilListResponse(response.body(), oilKind, sort)
+        if (response.isSuccessful){
+            val oilResponse = response.body()
+            val size = oilResponse?.oilInfoListResult?.oilInfoList?.size
+            apiSizeCheck(oilResponse, size!! , oilKind , sort)
+        }
 
     }
+
+    private suspend fun apiSizeCheck(oilResponse: GasStationInfoResult?, size : Int, oilKind: String, sort: String) {
+
+        if(size > 0){
+            handleOilListResponse(oilResponse, oilKind, sort)
+        }
+        else
+            oilListLiveData.value = tempList
+
+    }// api 호출이 만료되면 빈 데이터가 들어옴. 따라서 만료되거나 점검하는지 체크하는 메소드
+
 
     private suspend fun handleOilListResponse(gasStationData: GasStationInfoResult? , oilKind : String , sort : String){
 

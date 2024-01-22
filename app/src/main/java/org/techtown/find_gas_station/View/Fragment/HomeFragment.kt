@@ -41,7 +41,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.Adapter.OilInfoAdapter
@@ -75,12 +74,8 @@ import org.techtown.find_gas_station.databinding.FragmentHomeBinding
 class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
     companion object {
-
-        var empty = false
         var getWgsMyX = ""
         var getWgsMyY = ""
-        var setFlag = true
-
     }
 
     //private val red by lazy { BitmapFactory.decodeResource(resources, R.drawable.red_marker) }
@@ -105,7 +100,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
     // 앱을 실행하기 위해 필요한 퍼미션을 정의
 
     private var oilIntel = mutableListOf("", "", "")
-    private var notYet = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -142,20 +137,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
     }
 
+    private fun getOilData() {
 
-    //getData메소드 호출하여 ArrayList 값들 채우기
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private fun searchData() {
-        getData()
-    }
-
-    private fun getData() {
-
-        empty = true
-        notYet = true
-
-        mBinding.progressBar.visibility = View.VISIBLE
-
+        progressBarVisible()
         val ge = transFormPoint(gpsTracker.getLatitude().toFloat(), gpsTracker.getLongitude().toFloat())
 
         lifecycleScope.launch(Dispatchers.IO) {
@@ -164,8 +148,12 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
             }
         }
 
-        checkEmpty()
+    }
 
+
+
+    private fun progressBarVisible(){
+        mBinding.progressBar.visibility = View.VISIBLE
     }
 
     private fun transFormPoint(latitude : Float, longtitude : Float): GeoTransPoint {
@@ -179,14 +167,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
         getWgsMyY = point.y.toString()
     }
 
-    private fun checkEmpty(){
-        Handler().postDelayed( {
-            if (empty)
-                showEmpty()
-        }, IF_EMPTY_DATA_TIME)
-    }
-
-    private fun showEmpty(){
+    private fun showEmptyMessage(){
         Toast.makeText(requireContext(), CHECK_DATA_EMPTY_GUIDE, Toast.LENGTH_SHORT).show()
         removeProgressBar()
     }
@@ -230,12 +211,14 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
         getOilListViewModel.getOilList().observe(viewLifecycleOwner) { list ->
 
-            empty = false
             removeProgressBar()
-
             mBinding.listRecycler.adapter = OilInfoAdapter(list, mMap, oilIntel[1])
-
             upRecyclerView()
+
+            if(list.isEmpty()){
+                showEmptyMessage()
+            }
+
         }
 
 
@@ -245,14 +228,13 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
             oilIntel[1] = oilLocalData.oilSort
             oilIntel[2] = oilLocalData.oilName
 
-            searchData()
+            getOilData()
             updateTextUi()
         }
 
-        mBinding.reset.setOnClickListener { searchData() }
+        mBinding.reset.setOnClickListener { getOilData() }
 
         mBinding.setting.setOnClickListener {
-            setFlag = false
             startActivity(Intent(requireActivity(), SettingActivity::class.java))
         }
 

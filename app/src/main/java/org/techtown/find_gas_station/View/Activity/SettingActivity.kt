@@ -170,7 +170,6 @@ class SettingActivity : AppCompatActivity() {
     }
 
     private fun endProcess(){
-        HomeFragment.setFlag = true
         if(checkChangeData())
             insertOilData()
         finish()
