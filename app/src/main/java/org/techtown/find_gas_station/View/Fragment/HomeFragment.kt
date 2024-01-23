@@ -138,7 +138,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
     }
 
     private fun getOilData() {
-
+        Log.e("TAG" , "HomeFragment _ getOilData")
         progressBarVisible()
         val ge = transFormPoint(gpsTracker.getLatitude().toFloat(), gpsTracker.getLongitude().toFloat())
 
@@ -211,6 +211,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
         getOilListViewModel.getOilList().observe(viewLifecycleOwner) { list ->
 
+            Log.e("TAG" , "HomeFragment list가 observe 됨")
+
             removeProgressBar()
             mBinding.listRecycler.adapter = OilInfoAdapter(list, mMap, oilIntel[1])
             upRecyclerView()
@@ -224,12 +226,22 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
         setViewModel.oilLocalData.observe(viewLifecycleOwner) { oilLocalData ->
 
-            oilIntel[0] = oilLocalData.oilRad
-            oilIntel[1] = oilLocalData.oilSort
-            oilIntel[2] = oilLocalData.oilName
+            Log.e("TAG" , "HomeFragment _ localDB Observe")
+
+            oilLocalData?.let {
+                oilIntel[0] = it.oilRad
+                oilIntel[1] = it.oilSort
+                oilIntel[2] = it.oilName
+            } ?: run {
+                oilIntel[0] = "1000"
+                oilIntel[1] = "1"
+                oilIntel[2] = "B027"
+            }
+
 
             getOilData()
             updateTextUi()
+
         }
 
         mBinding.reset.setOnClickListener { getOilData() }
