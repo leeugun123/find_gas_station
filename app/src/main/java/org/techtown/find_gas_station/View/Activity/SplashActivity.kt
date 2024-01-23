@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import org.techtown.find_gas_station.Data.set.OilData
 import org.techtown.find_gas_station.R
@@ -21,27 +22,15 @@ import org.techtown.find_gas_station.ViewModel.SetViewModel
 
 class SplashActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallback {
 
-    private val setViewModel by lazy { ViewModelProvider(this, SetViewModel.Factory(application))[SetViewModel::class.java]}
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.splash)
-
-        setViewModelInit()
 
         if (checkLocationPermission()) {
             splashAction()
         }// 위치 권한이 허용된 경우 , 다음 화면으로 이동
         else { requestLocationPermission() }
         // 위치 권한 요청
-
-    }
-
-    private fun setViewModelInit(){
-
-        lifecycleScope.launch(Dispatchers.IO) {
-            setViewModel.insert(OilData("B027", "1000", "1"))
-        }
 
     }
 
