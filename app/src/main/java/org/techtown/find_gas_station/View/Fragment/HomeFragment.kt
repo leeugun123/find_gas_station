@@ -76,6 +76,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
     companion object {
         var getWgsMyX = ""
         var getWgsMyY = ""
+
+        var requestFlag = false
     }
 
     //private val red by lazy { BitmapFactory.decodeResource(resources, R.drawable.red_marker) }
@@ -193,6 +195,14 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
     }
 
+    private fun requestFlagUp(){
+        requestFlag = true
+    }
+
+    private fun requestFlagDown(){
+        requestFlag = false
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mBinding = FragmentHomeBinding.inflate(inflater,container,false)
@@ -221,26 +231,31 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
                 showEmptyMessage()
             }
 
+            requestFlagDown()
         }
 
 
         setViewModel.oilLocalData.observe(viewLifecycleOwner) { oilLocalData ->
 
-            Log.e("TAG" , "HomeFragment _ localDB Observe")
+            if(!requestFlag){
 
-            oilLocalData?.let {
-                oilIntel[0] = it.oilRad
-                oilIntel[1] = it.oilSort
-                oilIntel[2] = it.oilName
-            } ?: run {
-                oilIntel[0] = "1000"
-                oilIntel[1] = "1"
-                oilIntel[2] = "B027"
+                requestFlagUp()
+
+                Log.e("TAG" , "HomeFragment _ localDB Observe")
+
+                oilLocalData?.let {
+                    oilIntel[0] = it.oilRad
+                    oilIntel[1] = it.oilSort
+                    oilIntel[2] = it.oilName
+                } ?: run {
+                    oilIntel[0] = "1000"
+                    oilIntel[1] = "1"
+                    oilIntel[2] = "B027"
+                }
+
+                getOilData()
+                updateTextUi()
             }
-
-
-            getOilData()
-            updateTextUi()
 
         }
 
@@ -251,8 +266,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
         }
 
     }
-
-
 
 
     private val locationCallback : LocationCallback = object : LocationCallback() {
