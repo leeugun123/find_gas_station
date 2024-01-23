@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import kotlinx.android.synthetic.main.fragment_home.setting
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -60,12 +61,15 @@ class SettingActivity : AppCompatActivity() {
 
         setViewModel.oilLocalData.observe(this) {oilData ->
 
-            if(oilData != null){
-                settingInit(priorIntelSetting , oilData)
-                settingInit(newIntelSetting , oilData)
-                updateUI()
-
+            oilData?.let {
+                settingInit(priorIntelSetting, it)
+                settingInit(newIntelSetting, it)
+            } ?: run {
+                settingNullInit(priorIntelSetting)
+                settingNullInit(newIntelSetting)
             }
+
+            updateUI()
 
         }
 
@@ -77,6 +81,12 @@ class SettingActivity : AppCompatActivity() {
         spinnerSet()
 
     }
+
+    private fun settingNullInit(setting : MutableList<String>) {
+        setting[0] = "1000"
+        setting[1] = "1"
+        setting[2] = "B027"
+    }//localDB가 null 인 경우
 
     private fun settingInit(setting : MutableList<String> , oilData : OilData) {
         setting[0] = oilData.oilRad
