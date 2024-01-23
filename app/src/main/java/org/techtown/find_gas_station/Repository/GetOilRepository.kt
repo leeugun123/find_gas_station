@@ -1,6 +1,8 @@
 package org.techtown.find_gas_station.Repository
 
 import android.app.Application
+import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -38,20 +40,23 @@ import java.util.Collections
 
 class GetOilRepository(application : Application) {
 
-    private var oilListLiveData : MutableLiveData<List<TotalOilInfo>> = MutableLiveData()
+    private val _oilListLiveData = MutableLiveData<List<TotalOilInfo>>()
+    val oilListLiveData : LiveData<List<TotalOilInfo>> get() = _oilListLiveData
+
     private var tempList : MutableList<TotalOilInfo> = mutableListOf()
     private var plusList : MutableList<TotalOilInfo> = mutableListOf()
 
-    fun getOilListLiveData() = this.oilListLiveData
 
     suspend fun searchOilList(xPos : String, yPos : String, radius : String, sort : String, oilKind : String) {
 
+        Log.e("TAG" , "GetOilRepository _ searchOilList")
         listClear()
 
         val response = withContext(Dispatchers.IO) {
             opiRetrofitApi.getOilList(OPI_API_KEY, JSON_FORMAT, xPos, yPos, radius, oilKind, sort)
         }
         if (response.isSuccessful){
+            Log.e("TAG" , "GetOilRepository _ response.isSuccessful")
             val oilResponse = response.body()
             val size = oilResponse?.oilInfoListResult?.oilInfoList?.size
             apiSizeCheck(oilResponse, size!! , oilKind , sort)
@@ -62,15 +67,22 @@ class GetOilRepository(application : Application) {
     private suspend fun apiSizeCheck(oilResponse: GasStationInfoResult?, size : Int, oilKind: String, sort: String) {
 
         if(size > 0){
+
             handleOilListResponse(oilResponse, oilKind, sort)
         }
-        else
-            oilListLiveData.value = tempList
+        else{
+            Log.e("TAG" , "GetOilRepository _ _oilListLiveData.value = tempList")
+            _oilListLiveData.value = tempList
+        }
+
 
     }// api 호출이 만료되면 빈 데이터가 들어옴. 따라서 만료되거나 점검하는지 체크하는 메소드
 
 
     private suspend fun handleOilListResponse(gasStationData: GasStationInfoResult? , oilKind : String , sort : String){
+
+
+        Log.e("TAG" , "GetOilRepository _ handleOilListResponse")
 
         val result = gasStationData?.let { adjustSize(it) }
         val inputOil = getOilType(oilKind)
@@ -129,7 +141,7 @@ class GetOilRepository(application : Application) {
                 return
             }
 
-            oilListLiveData.value = tempList
+            _oilListLiveData.value = tempList
         }
 
     }
@@ -167,7 +179,7 @@ class GetOilRepository(application : Application) {
         directionResponse?.let {
             insertPlusList(it.routes)
             checkRoadOrSpend(sort)
-            oilListLiveData.value = plusList
+            _oilListLiveData.value = plusList
         }
 
     }

@@ -10,17 +10,19 @@ import org.techtown.find_gas_station.Repository.GetOilRepository
 class GetOilListViewModel(application: Application) : AndroidViewModel(application) {
 
     private var getOilRepository : GetOilRepository
-    private var oilListLiveData : LiveData<List<TotalOilInfo>>
 
     init {
+        Log.e("TAG" , "GetOilListViewModel _ init")
         getOilRepository = GetOilRepository(application)
-        oilListLiveData = getOilRepository.getOilListLiveData()
     }
 
     suspend fun requestOilList(xPos: String , yPos : String , radius : String , sort : String, oilKind : String) {
+        Log.e("TAG" , "GetOilListViewModel _ requestOilList")
         getOilRepository.searchOilList(xPos, yPos, radius, sort, oilKind)
     }
-
-    fun getOilList() = oilListLiveData
+    fun getOilList() : LiveData<List<TotalOilInfo>> {
+        Log.e("TAG" , "GetOilListViewModel _ requestOilList")
+        return getOilRepository.oilListLiveData
+    }
 
 }
