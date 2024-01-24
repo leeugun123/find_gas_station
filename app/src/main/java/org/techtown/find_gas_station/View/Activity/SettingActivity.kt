@@ -2,6 +2,7 @@ package org.techtown.find_gas_station.View.Activity
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -72,7 +73,6 @@ class SettingActivity : AppCompatActivity() {
             updateUI()
 
         }
-
 
         mBinding.goBack.setOnClickListener {
             endProcess()
@@ -191,12 +191,20 @@ class SettingActivity : AppCompatActivity() {
 
         lifecycleScope.launch(Dispatchers.IO) {
 
-            val job = async {
-                setViewModel.delete()
+            val entireJob = async {
+
+                val deleteJob = async {
+                    setViewModel.delete()
+                    Log.e("TAG", "deleteJob")
+                }
+                deleteJob.await()
                 setViewModel.insert(OilData(newIntelSetting[2], newIntelSetting[0], newIntelSetting[1]))
+                Log.e("TAG", "insertJob")
             }
 
-            job.await()
+            entireJob.await()
+            Log.e("TAG", "Allend")
+
         }
 
     }
