@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.fragment_home.setting
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.Data.set.OilData
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.CAR_BUTANE_KOREAN
@@ -179,35 +180,31 @@ class SettingActivity : AppCompatActivity() {
         endProcess()
     }
 
-    private fun endProcess(){
-        if(checkChangeData())
-            insertOilData()
-        finish()
-    }
-
     private fun checkChangeData() = priorIntelSetting != newIntelSetting
 
-    private fun insertOilData() {
-
-        lifecycleScope.launch(Dispatchers.IO) {
-
-            val entireJob = async {
-
-                val deleteJob = async {
-                    setViewModel.delete()
-                    Log.e("TAG", "deleteJob")
-                }
-                deleteJob.await()
-                setViewModel.insert(OilData(newIntelSetting[2], newIntelSetting[0], newIntelSetting[1]))
-                Log.e("TAG", "insertJob")
+    private fun endProcess() {
+        lifecycleScope.launch(Dispatchers.Main) {
+            if (checkChangeData()) {
+                insertOilData()
             }
+            finish()
+        }
+    }
 
-            entireJob.await()
-            Log.e("TAG", "Allend")
+    private suspend fun insertOilData() = withContext(Dispatchers.IO) {
 
+        val deleteJob = launch {
+            setViewModel.delete()
         }
 
+        deleteJob.join()
+
+        launch {
+            setViewModel.insert(OilData(newIntelSetting[2], newIntelSetting[0], newIntelSetting[1]))
+        }.join()
+
     }
+
 
 
 }
