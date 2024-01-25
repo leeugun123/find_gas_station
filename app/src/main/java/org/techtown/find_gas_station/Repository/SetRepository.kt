@@ -17,12 +17,10 @@ class SetRepository(private val setDao : SetDao) {
     }
 
     suspend fun insert(oilData : OilData) {
-       // Log.e("TAG","setRepository - insert")
         setDao.insert(oilData)
     }
 
     suspend fun deleteAll() {
-       // Log.e("TAG","setRepository - delete")
         setDao.deleteAll()
     }
 

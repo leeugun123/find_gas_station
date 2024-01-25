@@ -51,16 +51,13 @@ class GetOilRepository(application : Application) {
 
     suspend fun searchOilList(xPos : String, yPos : String, radius : String, sort : String, oilKind : String) {
 
-
-
-        Log.e("TAG" , "GetOilRepository _ searchOilList")
         listClear()
 
         val response = withContext(Dispatchers.IO) {
             opiRetrofitApi.getOilList(OPI_API_KEY, JSON_FORMAT, xPos, yPos, radius, oilKind, sort)
         }
+
         if (response.isSuccessful){
-            Log.e("TAG" , "GetOilRepository _ response.isSuccessful")
             val oilResponse = response.body()
             val size = oilResponse?.oilInfoListResult?.oilInfoList?.size
             apiSizeCheck(oilResponse, size!! , oilKind , sort)
@@ -75,7 +72,6 @@ class GetOilRepository(application : Application) {
             handleOilListResponse(oilResponse, oilKind, sort)
         }
         else{
-            Log.e("TAG" , "GetOilRepository _ _oilListLiveData.value = tempList")
             _oilListLiveData.value = tempList
         }
 
@@ -84,9 +80,6 @@ class GetOilRepository(application : Application) {
 
 
     private suspend fun handleOilListResponse(gasStationData: GasStationInfoResult? , oilKind : String , sort : String){
-
-
-        Log.e("TAG" , "GetOilRepository _ handleOilListResponse")
 
         val result = gasStationData?.let { adjustSize(it) }
         val inputOil = getOilType(oilKind)

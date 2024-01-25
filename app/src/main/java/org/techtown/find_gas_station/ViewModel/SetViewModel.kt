@@ -31,15 +31,11 @@ class SetViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    // viewModelScope로 변경
     suspend fun insert(set: OilData) {
-        //Log.e("TAG","setViewModel - insert")
         setRepository.insert(set)
     }
 
-    // viewModelScope로 변경
     suspend fun delete()  {
-       // Log.e("TAG","setViewModel - delete")
         setRepository.deleteAll()
     }
 

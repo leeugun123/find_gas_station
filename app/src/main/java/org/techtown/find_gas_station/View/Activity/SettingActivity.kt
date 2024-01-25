@@ -91,8 +91,6 @@ class SettingActivity : AppCompatActivity() {
 
     private fun updateUI() {
 
-
-        Log.e("TAG","updateUi")
         // 기름 종류 설정
         mBinding.typeSpinner.setSelection(when (afterIntel[2]) {
             GASOLINE_GUIDE_ENGLISH -> 0 //휘발유

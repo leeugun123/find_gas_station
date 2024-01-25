@@ -12,16 +12,13 @@ class GetOilListViewModel(application: Application) : AndroidViewModel(applicati
     private var getOilRepository : GetOilRepository
 
     init {
-        Log.e("TAG" , "GetOilListViewModel _ init")
         getOilRepository = GetOilRepository(application)
     }
 
     suspend fun requestOilList(xPos: String , yPos : String , radius : String , sort : String, oilKind : String) {
-        Log.e("TAG" , "GetOilListViewModel _ requestOilList")
         getOilRepository.searchOilList(xPos, yPos, radius, sort, oilKind)
     }
     fun getOilList() : LiveData<List<TotalOilInfo>> {
-        Log.e("TAG" , "GetOilListViewModel _ requestOilList")
         return getOilRepository.oilListLiveData
     }
 

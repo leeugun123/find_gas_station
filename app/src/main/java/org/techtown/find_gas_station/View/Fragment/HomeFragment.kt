@@ -23,6 +23,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
@@ -40,6 +41,9 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.Adapter.OilInfoAdapter
 import org.techtown.find_gas_station.OilCondition
 import org.techtown.find_gas_station.OilCondition.afterIntel
@@ -126,27 +130,24 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
     // 비동기로 업데이트된 데이터를 사용하여 UI 업데이트
     private fun updateTextUi() {
 
-        mBinding.arrayFirst.text = when (OilCondition.afterIntel[1]) {
+        mBinding.arrayFirst.text = when (afterIntel[1]) {
             CHECK_PRICE_CONDITION -> PRICE_CONDITION_GUIDE
             CHECK_TWO_DIRECT_DISTANCE -> DIRECT_DISTANCE_GUIDE
             CHECK_THREE_ROAD_DISTANCE -> ROAD_DISTANCE_GUIDE
             CHECK_FOUR_SPEND_TIME -> SPEND_TIME_GUIDE
-            else -> OilCondition.afterIntel[1]
+            else -> afterIntel[1]
         }
 
     }
 
     private fun getOilData() {
-        Log.e("TAG" , "HomeFragment _ getOilData")
+
         progressBarVisible()
         val ge = transFormPoint(gpsTracker.getLatitude().toFloat(), gpsTracker.getLongitude().toFloat())
 
-        /*
         lifecycleScope.launch(Dispatchers.Main){
-            withContext(Dispatchers.IO) {
-                getOilListViewModel.requestOilList(ge.x.toString(), ge.y.toString(), oilIntel[0], oilIntel[1], oilIntel[2])
-            }
-        }*/
+                getOilListViewModel.requestOilList(ge.x.toString(), ge.y.toString(), afterIntel[0], afterIntel[1], afterIntel[2])
+        }
 
     }
 
@@ -212,8 +213,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
         getOilListViewModel.getOilList().observe(viewLifecycleOwner) { list ->
 
-            Log.e("TAG" , "HomeFragment list가 observe 됨")
-
             removeProgressBar()
 
             mBinding.listRecycler.adapter = OilInfoAdapter(list, mMap, afterIntel[1])
@@ -263,7 +262,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
     }
 
     private fun requestApi() {
-        showIntelLog()
+      //  showIntelLog()
         getOilData()
         updateTextUi()
     }
