@@ -10,16 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import kotlinx.android.synthetic.main.fragment_home.setting
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.techtown.find_gas_station.Data.set.OilData
-import org.techtown.find_gas_station.OilCondition
-import org.techtown.find_gas_station.OilCondition.oilIntel
+import org.techtown.find_gas_station.OilCondition.afterIntel
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.CAR_BUTANE_KOREAN
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.CHECK_PRICE_CONDITION
@@ -73,21 +64,21 @@ class SettingActivity : AppCompatActivity() {
             mBinding.typeSpinner,
             listOf(GASOLINE_KOREAN, VIA_KOREAN, PREMIUM_GASOLINE_KOREAN, INDOOR_KEROSENE_KOREAN, CAR_BUTANE_KOREAN)
         ) { selectedValue ->
-            oilIntel[2] = calOilName(selectedValue)
+            afterIntel[2] = calOilName(selectedValue)
         }
 
         setupSpinner(
             mBinding.distanceSpinner,
             listOf(ONE_KM, THREE_KM, FIVE_KM)
         ) { selectedValue ->
-            oilIntel[0] = calRad(selectedValue)
+            afterIntel[0] = calRad(selectedValue)
         }
 
         setupSpinner(
             mBinding.sortSpinner,
             listOf(PRICE_CONDITION_GUIDE, DIRECT_DISTANCE_GUIDE, ROAD_DISTANCE_GUIDE, SPEND_TIME_GUIDE)
         ) { selectedValue ->
-            oilIntel[1] = calOilSort(selectedValue)
+            afterIntel[1] = calOilSort(selectedValue)
         }
 
     }
@@ -100,8 +91,10 @@ class SettingActivity : AppCompatActivity() {
 
     private fun updateUI() {
 
+
+        Log.e("TAG","updateUi")
         // 기름 종류 설정
-        mBinding.typeSpinner.setSelection(when (oilIntel[2]) {
+        mBinding.typeSpinner.setSelection(when (afterIntel[2]) {
             GASOLINE_GUIDE_ENGLISH -> 0 //휘발유
             VIA_GUIDE_ENGLISH -> 1 //경유
             PREMIUM_GASOLINE_ENGLISH -> 2 //고급 휘발유
@@ -110,14 +103,14 @@ class SettingActivity : AppCompatActivity() {
         })
 
         // 거리 설정
-        mBinding.distanceSpinner.setSelection(when (oilIntel[0]) {
+        mBinding.distanceSpinner.setSelection(when (afterIntel[0]) {
             ONE_KM_IN_METERS -> 0
             THREE_KM_IN_METERS -> 1
             else -> 2
         })
 
         // 정렬 설정
-        mBinding.sortSpinner.setSelection(when (oilIntel[1]) {
+        mBinding.sortSpinner.setSelection(when (afterIntel[1]) {
             CHECK_PRICE_CONDITION -> 0
             CHECK_TWO_DIRECT_DISTANCE -> 1
             CHECK_THREE_ROAD_DISTANCE -> 2
@@ -158,7 +151,6 @@ class SettingActivity : AppCompatActivity() {
         finish()
     }
 
-    //private fun checkChangeData() = priorIntelSetting != newIntelSetting
 
 
 

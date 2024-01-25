@@ -3,19 +3,15 @@ package org.techtown.find_gas_station.View.Activity
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.Data.set.OilData
-import org.techtown.find_gas_station.OilCondition
-import org.techtown.find_gas_station.OilCondition.oilIntel
+import org.techtown.find_gas_station.OilCondition.afterIntel
 import org.techtown.find_gas_station.View.Fragment.DailyFragment
 import org.techtown.find_gas_station.View.Fragment.HomeFragment
 import org.techtown.find_gas_station.R
@@ -109,7 +105,7 @@ class FragmentActivity : AppCompatActivity() {
         }.join()
 
         launch {
-            setViewModel.insert(OilData(oilIntel[2] ,oilIntel[0] , oilIntel[1]))
+            setViewModel.insert(OilData(afterIntel[2] ,afterIntel[0] , afterIntel[1]))
         }.join()
 
     }

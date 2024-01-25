@@ -23,7 +23,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
@@ -41,11 +40,10 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.Adapter.OilInfoAdapter
-import org.techtown.find_gas_station.OilCondition.oilIntel
+import org.techtown.find_gas_station.OilCondition
+import org.techtown.find_gas_station.OilCondition.afterIntel
+import org.techtown.find_gas_station.OilCondition.beforeIntel
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.Util.Constant.ConstantGuide.CHECK_DATA_EMPTY_GUIDE
 import org.techtown.find_gas_station.Util.Constant.ConstantGuide.CONFIRM_GUIDE
@@ -59,7 +57,6 @@ import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.PRICE_CO
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.ROAD_DISTANCE_GUIDE
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.SPEND_TIME_GUIDE
 import org.techtown.find_gas_station.Util.Constant.ConstantsTime.FASTEST_UPDATE_INTERVAL_MS
-import org.techtown.find_gas_station.Util.Constant.ConstantsTime.IF_EMPTY_DATA_TIME
 import org.techtown.find_gas_station.Util.Constant.ConstantsTime.PERMISSIONS_REQUEST_CODE
 import org.techtown.find_gas_station.Util.Constant.ConstantsTime.UPDATE_INTERVAL_MS
 import org.techtown.find_gas_station.Util.Constant.ConstantsTime.UP_RECYCLERVIEW_TIME
@@ -81,7 +78,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
         const val REQUEST_CODE = 1001
     }
 
-    //private val red by lazy { BitmapFactory.decodeResource(resources, R.drawable.red_marker) }
     private val mFusedLocationClient by lazy { LocationServices.getFusedLocationProviderClient(requireActivity()) }
     private val gpsTracker by lazy {GpsTracker(requireActivity())}
     private val mapFragment by lazy { SupportMapFragment.newInstance() }
@@ -130,12 +126,12 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
     // 비동기로 업데이트된 데이터를 사용하여 UI 업데이트
     private fun updateTextUi() {
 
-        mBinding.arrayFirst.text = when (oilIntel[1]) {
+        mBinding.arrayFirst.text = when (OilCondition.afterIntel[1]) {
             CHECK_PRICE_CONDITION -> PRICE_CONDITION_GUIDE
             CHECK_TWO_DIRECT_DISTANCE -> DIRECT_DISTANCE_GUIDE
             CHECK_THREE_ROAD_DISTANCE -> ROAD_DISTANCE_GUIDE
             CHECK_FOUR_SPEND_TIME -> SPEND_TIME_GUIDE
-            else -> oilIntel[1]
+            else -> OilCondition.afterIntel[1]
         }
 
     }
@@ -220,7 +216,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
             removeProgressBar()
 
-            mBinding.listRecycler.adapter = OilInfoAdapter(list, mMap, oilIntel[1])
+            mBinding.listRecycler.adapter = OilInfoAdapter(list, mMap, afterIntel[1])
 
             upRecyclerView()
             checkListEmpty(list.size)
@@ -231,14 +227,16 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
         setViewModel.oilLocalData.observe(viewLifecycleOwner) { oilLocalData ->
 
                 oilLocalData?.let {
-                    oilIntel[0] = it.oilRad
-                    oilIntel[1] = it.oilSort
-                    oilIntel[2] = it.oilName
+                    afterIntel[0] = it.oilRad
+                    afterIntel[1] = it.oilSort
+                    afterIntel[2] = it.oilName
                 } ?: run {
-                    oilIntel[0] = "1000"
-                    oilIntel[1] = "1"
-                    oilIntel[2] = "B027"
+                    afterIntel[0] = "1000"
+                    afterIntel[1] = "1"
+                    afterIntel[2] = "B027"
                 }
+
+                syncBeforeAfterIntel()
                 requestApi()
 
         }
@@ -252,6 +250,12 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
     }
 
+    private fun syncBeforeAfterIntel() {
+        beforeIntel[0] = afterIntel[0]
+        beforeIntel[1] = afterIntel[1]
+        beforeIntel[2] = afterIntel[2]
+    }
+
     private fun checkListEmpty(listSize : Int) {
         if(listSize == 0){
             showEmptyMessage()
@@ -259,22 +263,27 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
     }
 
     private fun requestApi() {
-        Log.e("TAG", oilIntel[0])
-        Log.e("TAG", oilIntel[1])
-        Log.e("TAG", oilIntel[2])
+        showIntelLog()
         getOilData()
         updateTextUi()
+    }
+
+    private fun showIntelLog(){
+        Log.e("TAG", afterIntel[0])
+        Log.e("TAG", afterIntel[1])
+        Log.e("TAG", afterIntel[2])
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK && checkChangeData()) {
+            syncBeforeAfterIntel()
             requestApi()
         }
     }
 
-
+    private fun checkChangeData() = beforeIntel != afterIntel
 
     private val locationCallback : LocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) { super.onLocationResult(locationResult) }
