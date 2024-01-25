@@ -234,6 +234,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
             requestFlagDown()
         }
 
+        setViewModel.getOilLocalData()
 
         setViewModel.oilLocalData.observe(viewLifecycleOwner) { oilLocalData ->
 
