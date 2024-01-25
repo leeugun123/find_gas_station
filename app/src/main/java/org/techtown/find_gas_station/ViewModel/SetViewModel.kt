@@ -1,6 +1,7 @@
 package org.techtown.find_gas_station.ViewModel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -32,11 +33,13 @@ class SetViewModel(application: Application) : AndroidViewModel(application) {
 
     // viewModelScope로 변경
     suspend fun insert(set: OilData) {
+        //Log.e("TAG","setViewModel - insert")
         setRepository.insert(set)
     }
 
     // viewModelScope로 변경
     suspend fun delete()  {
+       // Log.e("TAG","setViewModel - delete")
         setRepository.deleteAll()
     }
 

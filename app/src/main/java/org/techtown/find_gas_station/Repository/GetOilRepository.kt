@@ -1,9 +1,11 @@
 package org.techtown.find_gas_station.Repository
 
 import android.app.Application
+import android.util.JsonReader
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.GsonBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.Data.OilList.GasStationInfoResult
@@ -48,6 +50,8 @@ class GetOilRepository(application : Application) {
 
 
     suspend fun searchOilList(xPos : String, yPos : String, radius : String, sort : String, oilKind : String) {
+
+
 
         Log.e("TAG" , "GetOilRepository _ searchOilList")
         listClear()

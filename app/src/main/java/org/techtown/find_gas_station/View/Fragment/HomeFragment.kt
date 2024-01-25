@@ -2,6 +2,7 @@ package org.techtown.find_gas_station.View.Fragment
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.Intent
@@ -44,6 +45,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.Adapter.OilInfoAdapter
+import org.techtown.find_gas_station.OilCondition.oilIntel
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.Util.Constant.ConstantGuide.CHECK_DATA_EMPTY_GUIDE
 import org.techtown.find_gas_station.Util.Constant.ConstantGuide.CONFIRM_GUIDE
@@ -76,8 +78,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
     companion object {
         var getWgsMyX = ""
         var getWgsMyY = ""
-
-        var requestFlag = false
+        const val REQUEST_CODE = 1001
     }
 
     //private val red by lazy { BitmapFactory.decodeResource(resources, R.drawable.red_marker) }
@@ -101,7 +102,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
     private val requiredPermission = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
     // 앱을 실행하기 위해 필요한 퍼미션을 정의
 
-    private var oilIntel = mutableListOf("", "", "")
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -144,11 +145,12 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
         progressBarVisible()
         val ge = transFormPoint(gpsTracker.getLatitude().toFloat(), gpsTracker.getLongitude().toFloat())
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            withContext(Dispatchers.Main) {
+        /*
+        lifecycleScope.launch(Dispatchers.Main){
+            withContext(Dispatchers.IO) {
                 getOilListViewModel.requestOilList(ge.x.toString(), ge.y.toString(), oilIntel[0], oilIntel[1], oilIntel[2])
             }
-        }
+        }*/
 
     }
 
@@ -195,13 +197,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
     }
 
-    private fun requestFlagUp(){
-        requestFlag = true
-    }
-
-    private fun requestFlagDown(){
-        requestFlag = false
-    }
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -224,25 +219,16 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
             Log.e("TAG" , "HomeFragment list가 observe 됨")
 
             removeProgressBar()
+
             mBinding.listRecycler.adapter = OilInfoAdapter(list, mMap, oilIntel[1])
+
             upRecyclerView()
-
-            if(list.isEmpty()){
-                showEmptyMessage()
-            }
-
-            requestFlagDown()
+            checkListEmpty(list.size)
         }
 
         setViewModel.getOilLocalData()
 
         setViewModel.oilLocalData.observe(viewLifecycleOwner) { oilLocalData ->
-
-            if(!requestFlag){
-
-                requestFlagUp()
-
-                Log.e("TAG" , "HomeFragment _ localDB Observe")
 
                 oilLocalData?.let {
                     oilIntel[0] = it.oilRad
@@ -253,20 +239,41 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
                     oilIntel[1] = "1"
                     oilIntel[2] = "B027"
                 }
-
-                getOilData()
-                updateTextUi()
-            }
+                requestApi()
 
         }
 
         mBinding.reset.setOnClickListener { getOilData() }
 
         mBinding.setting.setOnClickListener {
-            startActivity(Intent(requireActivity(), SettingActivity::class.java))
+            val intent = Intent(activity, SettingActivity::class.java)
+            startActivityForResult(intent, REQUEST_CODE)
         }
 
     }
+
+    private fun checkListEmpty(listSize : Int) {
+        if(listSize == 0){
+            showEmptyMessage()
+        }
+    }
+
+    private fun requestApi() {
+        Log.e("TAG", oilIntel[0])
+        Log.e("TAG", oilIntel[1])
+        Log.e("TAG", oilIntel[2])
+        getOilData()
+        updateTextUi()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            requestApi()
+        }
+    }
+
 
 
     private val locationCallback : LocationCallback = object : LocationCallback() {

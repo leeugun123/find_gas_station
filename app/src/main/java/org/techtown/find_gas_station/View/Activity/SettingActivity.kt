@@ -1,5 +1,6 @@
 package org.techtown.find_gas_station.View.Activity
 
+import android.app.Activity
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -17,6 +18,8 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.Data.set.OilData
+import org.techtown.find_gas_station.OilCondition
+import org.techtown.find_gas_station.OilCondition.oilIntel
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.CAR_BUTANE_KOREAN
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.CHECK_PRICE_CONDITION
@@ -49,51 +52,20 @@ import org.techtown.find_gas_station.databinding.ActivityDrawerBinding
 class SettingActivity : AppCompatActivity() {
 
     private lateinit var mBinding : ActivityDrawerBinding
-    private val setViewModel by lazy {
-        ViewModelProvider(this, SetViewModel.Factory(application))[SetViewModel::class.java]
-    }
-
-    private var priorIntelSetting = mutableListOf("", "", "")
-    private var newIntelSetting = mutableListOf("", "", "")
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         settingActivityInit()
 
-        setViewModel.oilLocalData.observe(this) {oilData ->
-
-            oilData?.let {
-                settingInit(priorIntelSetting, it)
-                settingInit(newIntelSetting, it)
-            } ?: run {
-                settingNullInit(priorIntelSetting)
-                settingNullInit(newIntelSetting)
-            }
-
-            updateUI()
-
-        }
-
         mBinding.goBack.setOnClickListener {
-            endProcess()
+            activityFinish()
         }
 
         spinnerSet()
+        updateUI()
 
     }
 
-    private fun settingNullInit(setting : MutableList<String>) {
-        setting[0] = "1000"
-        setting[1] = "1"
-        setting[2] = "B027"
-    }//localDB가 null 인 경우
-
-    private fun settingInit(setting : MutableList<String> , oilData : OilData) {
-        setting[0] = oilData.oilRad
-        setting[1] = oilData.oilSort
-        setting[2] = oilData.oilName
-    }
 
     private fun spinnerSet() {
 
@@ -101,21 +73,21 @@ class SettingActivity : AppCompatActivity() {
             mBinding.typeSpinner,
             listOf(GASOLINE_KOREAN, VIA_KOREAN, PREMIUM_GASOLINE_KOREAN, INDOOR_KEROSENE_KOREAN, CAR_BUTANE_KOREAN)
         ) { selectedValue ->
-            newIntelSetting[2] = calOilName(selectedValue)
+            oilIntel[2] = calOilName(selectedValue)
         }
 
         setupSpinner(
             mBinding.distanceSpinner,
             listOf(ONE_KM, THREE_KM, FIVE_KM)
         ) { selectedValue ->
-            newIntelSetting[0] = calRad(selectedValue)
+            oilIntel[0] = calRad(selectedValue)
         }
 
         setupSpinner(
             mBinding.sortSpinner,
             listOf(PRICE_CONDITION_GUIDE, DIRECT_DISTANCE_GUIDE, ROAD_DISTANCE_GUIDE, SPEND_TIME_GUIDE)
         ) { selectedValue ->
-            newIntelSetting[1] = calOilSort(selectedValue)
+            oilIntel[1] = calOilSort(selectedValue)
         }
 
     }
@@ -127,8 +99,9 @@ class SettingActivity : AppCompatActivity() {
 
 
     private fun updateUI() {
+
         // 기름 종류 설정
-        mBinding.typeSpinner.setSelection(when (newIntelSetting[2]) {
+        mBinding.typeSpinner.setSelection(when (oilIntel[2]) {
             GASOLINE_GUIDE_ENGLISH -> 0 //휘발유
             VIA_GUIDE_ENGLISH -> 1 //경유
             PREMIUM_GASOLINE_ENGLISH -> 2 //고급 휘발유
@@ -137,14 +110,14 @@ class SettingActivity : AppCompatActivity() {
         })
 
         // 거리 설정
-        mBinding.distanceSpinner.setSelection(when (newIntelSetting[0]) {
+        mBinding.distanceSpinner.setSelection(when (oilIntel[0]) {
             ONE_KM_IN_METERS -> 0
             THREE_KM_IN_METERS -> 1
             else -> 2
         })
 
         // 정렬 설정
-        mBinding.sortSpinner.setSelection(when (newIntelSetting[1]) {
+        mBinding.sortSpinner.setSelection(when (oilIntel[1]) {
             CHECK_PRICE_CONDITION -> 0
             CHECK_TWO_DIRECT_DISTANCE -> 1
             CHECK_THREE_ROAD_DISTANCE -> 2
@@ -177,33 +150,16 @@ class SettingActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        endProcess()
+        activityFinish()
     }
 
-    private fun checkChangeData() = priorIntelSetting != newIntelSetting
-
-    private fun endProcess() {
-        lifecycleScope.launch(Dispatchers.Main) {
-            if (checkChangeData()) {
-                insertOilData()
-            }
-            finish()
-        }
+    private fun activityFinish(){
+        setResult(Activity.RESULT_OK)
+        finish()
     }
 
-    private suspend fun insertOilData() = withContext(Dispatchers.IO) {
+    //private fun checkChangeData() = priorIntelSetting != newIntelSetting
 
-        val deleteJob = launch {
-            setViewModel.delete()
-        }
-
-        deleteJob.join()
-
-        launch {
-            setViewModel.insert(OilData(newIntelSetting[2], newIntelSetting[0], newIntelSetting[1]))
-        }.join()
-
-    }
 
 
 
