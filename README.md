@@ -1,4 +1,4 @@
-구글 플레이 다운로드 url : https://play.google.com/store/apps/details?id=com.roid.androidApp
+![KakaoTalk_Photo_2024-01-30-14-47-27 002](https://github.com/leeugun123/find_gas_station/assets/50404123/c49d5701-5b6b-479d-8fe8-83e2ff38429c)구글 플레이 다운로드 url : https://play.google.com/store/apps/details?id=com.roid.androidApp
 
 
 # find_gas_station
@@ -18,15 +18,21 @@
 
 
 # 내 주변 주유소 정보
-![image](https://user-images.githubusercontent.com/50404123/189346576-33940ffa-99b0-4a77-9ffc-619ef1a84313.png)
-![image](https://user-images.githubusercontent.com/50404123/189346603-23119148-edd4-44da-8674-ea49b8e57324.png)
+![KakaoTalk_Photo_2024-01-30-14-47-27 002](https://github.com/leeugun123/find_gas_station/assets/50404123/18146557-e670-4e9a-89ab-3ea839df82aa)
+![KakaoTalk_Photo_2024-01-30-14-47-27 003](https://github.com/leeugun123/find_gas_station/assets/50404123/445892cf-a4ca-4182-894d-2170b9cb9fa7)
+
 
 
 opinet이라는 주유소 공식 사이트에서 무료 API를 호출 및 파싱을 통해 RecyclerView로 보여줌
 
 
 # 옵션 설정 화면
-![아이콘2](https://user-images.githubusercontent.com/50404123/157656955-dc12e2e8-9750-4c89-b5a9-df01e2fce48a.PNG)
+![KakaoTalk_Photo_2024-01-30-14-52-39](https://github.com/leeugun123/find_gas_station/assets/50404123/32222d90-c60f-4e77-9db0-2c3a22e406bc)
+![KakaoTalk_Photo_2024-01-30-14-47-27 004](https://github.com/leeugun123/find_gas_station/assets/50404123/a9f11e54-8ea3-4d53-944c-70a2f5be8c0b)
+
+
+#유가 변화 화면
+![KakaoTalk_Photo_2024-01-30-14-47-27 005](https://github.com/leeugun123/find_gas_station/assets/50404123/4b127ae0-fb82-4d08-981e-cf44847320c5)
 
 
 
