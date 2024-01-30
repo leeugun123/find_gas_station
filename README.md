@@ -1,4 +1,4 @@
-![KakaoTalk_Photo_2024-01-30-14-47-27 002](https://github.com/leeugun123/find_gas_station/assets/50404123/c49d5701-5b6b-479d-8fe8-83e2ff38429c)구글 플레이 다운로드 url : https://play.google.com/store/apps/details?id=com.roid.androidApp
+구글 플레이 다운로드 url : https://play.google.com/store/apps/details?id=com.roid.androidApp
 
 
 # find_gas_station
