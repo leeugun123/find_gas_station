@@ -13,7 +13,7 @@
 
 
 # 스플래쉬 화면
-![아이콘](https://user-images.githubusercontent.com/50404123/157656737-53b150dc-d932-473c-9466-0f1d727a4959.PNG)
+<img src="https://user-images.githubusercontent.com/50404123/157656737-53b150dc-d932-473c-9466-0f1d727a4959.PNG)" width="200" height="400"/>
 
 
 
