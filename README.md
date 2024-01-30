@@ -18,8 +18,7 @@
 
 
 # 내 주변 주유소 정보
-![KakaoTalk_Photo_2024-01-30-14-47-27 002](https://github.com/leeugun123/find_gas_station/assets/50404123/18146557-e670-4e9a-89ab-3ea839df82aa)
-![KakaoTalk_Photo_2024-01-30-14-47-27 003](https://github.com/leeugun123/find_gas_station/assets/50404123/445892cf-a4ca-4182-894d-2170b9cb9fa7)
+<img src="https://github.com/leeugun123/find_gas_station/assets/50404123/36ad0540-3633-4450-9920-7a8d695721b3.jpeg" width="200" height="400"/>
 
 
 
