@@ -1,16 +1,12 @@
 구글 플레이 다운로드 url : https://play.google.com/store/apps/details?id=com.roid.androidApp
 
 
-# find_gas_station
-내 주변 주유소를 쉽게 찾아주는 어플
-내 반경 1,3,5km 등 반경, 
-기름 종류(경유,휘발유,자동차 부탄등) 
-정렬 순서(가격순,직경 거리순 ,도로 거리순 , 소요 시간순) 설정 가능
+# 파인딩 오일
+### 내 주변 주유소를 쉽게 찾아주는 어플 <br/>
 
-설정한 정보를 바탕으로 RecyclerView로 보여준다.
-
-
-
+### 반경 1,3,5 km <br/>
+### 기름 종류(경유,휘발유,자동차 부탄등) <br/>
+### 정렬 순서(가격순,직경 거리순 ,도로 거리순 , 소요 시간순) <br/>
 
 # 스플래쉬 화면
 <img src="https://user-images.githubusercontent.com/50404123/157656737-53b150dc-d932-473c-9466-0f1d727a4959.PNG" width="200" height="400"/>
