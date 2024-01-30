@@ -19,6 +19,7 @@
 
 # 내 주변 주유소 정보
 <img src="https://github.com/leeugun123/find_gas_station/assets/50404123/36ad0540-3633-4450-9920-7a8d695721b3.jpeg" width="200" height="400"/>
+<img src="https://github.com/leeugun123/find_gas_station/assets/50404123/46e68389-2acb-46fe-81b0-6967cd55df69.jpeg" width="200" height="400"/>
 
 
 
