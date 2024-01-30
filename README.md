@@ -26,12 +26,19 @@ opinet이라는 주유소 공식 사이트에서 무료 API를 호출 및 파싱
 
 
 # 옵션 설정 화면
-![KakaoTalk_Photo_2024-01-30-14-52-39](https://github.com/leeugun123/find_gas_station/assets/50404123/32222d90-c60f-4e77-9db0-2c3a22e406bc)
-![KakaoTalk_Photo_2024-01-30-14-47-27 004](https://github.com/leeugun123/find_gas_station/assets/50404123/a9f11e54-8ea3-4d53-944c-70a2f5be8c0b)
+
+<img src="https://github.com/leeugun123/find_gas_station/assets/50404123/1638c7f4-5814-41cd-811d-5d99d3bc7160.jpeg" width="200" height="400"/>
+
+<img src="https://github.com/leeugun123/find_gas_station/assets/50404123/45d6f284-4990-4696-bd9b-60ab288d3fa7.jpeg" width="200" height="400"/>
 
 
-#유가 변화 화면
-![KakaoTalk_Photo_2024-01-30-14-47-27 005](https://github.com/leeugun123/find_gas_station/assets/50404123/4b127ae0-fb82-4d08-981e-cf44847320c5)
+# 유가 변화 화면
+
+<img src="https://github.com/leeugun123/find_gas_station/assets/50404123/96331d83-2367-4956-b496-6d36921b47f9.jpeg" width="200" height="400"/>
+
+
+
+
 
 
 
