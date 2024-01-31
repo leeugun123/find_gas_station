@@ -42,12 +42,8 @@ class High_GasolineFragment : Fragment() {
 
         mBinding.oilAvgRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
 
-        lifecycleScope.launch(Dispatchers.IO) {
-
-            withContext(Dispatchers.Main) {
-                getOilAvgViewModel.requestOilAvg("B034")
-            }
-
+        lifecycleScope.launch(Dispatchers.Main) {
+            getOilAvgViewModel.requestOilAvg("B034")
         }
 
         getOilAvgViewModel.getOilAvg().observe(requireActivity()) { oilAvgPriceInfoList ->

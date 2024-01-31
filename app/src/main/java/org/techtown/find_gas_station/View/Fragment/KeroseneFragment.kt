@@ -41,12 +41,8 @@ class KeroseneFragment : Fragment() {
 
         mBinding.oilAvgRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
 
-        lifecycleScope.launch(Dispatchers.IO) {
-
-            withContext(Dispatchers.Main) {
-                getOilAvgViewModel.requestOilAvg("C004")
-            }
-
+        lifecycleScope.launch(Dispatchers.Main) {
+            getOilAvgViewModel.requestOilAvg("C004")
         }
 
         getOilAvgViewModel.getOilAvg().observe(requireActivity()) { oilAvgPriceInfoList ->

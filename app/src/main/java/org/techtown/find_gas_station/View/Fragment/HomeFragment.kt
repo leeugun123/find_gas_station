@@ -262,15 +262,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
     }
 
     private fun requestApi() {
-      //  showIntelLog()
         getOilData()
         updateTextUi()
-    }
-
-    private fun showIntelLog(){
-        Log.e("TAG", afterIntel[0])
-        Log.e("TAG", afterIntel[1])
-        Log.e("TAG", afterIntel[2])
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

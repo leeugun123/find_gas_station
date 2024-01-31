@@ -43,12 +43,8 @@ class GasolineFragment : Fragment() {
 
         mBinding.oilAvgRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
 
-        lifecycleScope.launch(Dispatchers.IO) {
-
-            withContext(Dispatchers.Main) {
-                getOilAvgViewModel.requestOilAvg("B027")
-            }
-
+        lifecycleScope.launch(Dispatchers.Main) {
+            getOilAvgViewModel.requestOilAvg("B027")
         }
 
 
