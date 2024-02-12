@@ -77,7 +77,7 @@ class High_GasolineFragment : Fragment() {
 
             if (oilAvgPriceInfoList.isNotEmpty()) {
                 mBinding.priceText.text =
-                    RidRoundMath.roundStringToInteger(oilAvgPriceInfoList.first().oilPrice)
+                    RidRoundMath.roundStringToInteger(oilAvgPriceInfoList.last().oilPrice)
                         .toString()
             }
 

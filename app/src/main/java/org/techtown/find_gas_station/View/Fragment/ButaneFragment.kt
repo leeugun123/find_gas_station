@@ -80,7 +80,7 @@ class ButaneFragment : Fragment() {
 
             if (oilAvgPriceInfoList.isNotEmpty()) {
                 mBinding.priceText.text =
-                    RidRoundMath.roundStringToInteger(oilAvgPriceInfoList.first().oilPrice).toString()
+                    RidRoundMath.roundStringToInteger(oilAvgPriceInfoList.last().oilPrice).toString()
             }
 
             mBinding.oilAvgRecyclerView.adapter = OilAvgRecyclerAdapter(oilAvgPriceInfoList)
