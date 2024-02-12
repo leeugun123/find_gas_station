@@ -1,6 +1,7 @@
 package org.techtown.find_gas_station.Adapter
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -26,6 +27,8 @@ class OilAvgRecyclerAdapter(private val oilAvgList: List<OilAveragePriceInfo>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val oilAvg = oilAvgList[position]
+
+        Log.e("TAG", convertDateString(oilAvg.date) + " " + roundStringToInteger(oilAvg.oilPrice).toString())
 
         holder.binding.day.text = convertDateString(oilAvg.date)
         holder.binding.price.text = roundStringToInteger(oilAvg.oilPrice).toString()

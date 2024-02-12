@@ -66,7 +66,7 @@ class KeroseneFragment : Fragment() {
 
             with(mBinding.lineChart) {
                 data = lineData
-                description.text = "최근 일주일 성전국 유가 가격"
+                description.text = "최근 일주일 전국 유가 가격"
                 xAxis.position = XAxis.XAxisPosition.BOTTOM
                 axisRight.isEnabled = false
                 invalidate()

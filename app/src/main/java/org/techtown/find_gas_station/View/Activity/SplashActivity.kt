@@ -56,12 +56,16 @@ class SplashActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsR
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 splashAction()
             } else {
-                Toast.makeText(this, "위치 권한이 거부되었습니다. 앱을 종료합니다.", Toast.LENGTH_SHORT).show()
-                finish()
+                finishApp()
             }
 
         }
 
+    }
+
+    private fun finishApp() {
+        Toast.makeText(this, "위치 권한이 거부되었습니다. 앱을 종료합니다.", Toast.LENGTH_SHORT).show()
+        finish()
     }
 
     // 다음 화면으로 이동하는 메소드

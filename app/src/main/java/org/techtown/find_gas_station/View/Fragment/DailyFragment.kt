@@ -18,7 +18,7 @@ import org.techtown.find_gas_station.databinding.FragmentDailyBinding
 class DailyFragment : Fragment() {
 
     private lateinit var mBinding: FragmentDailyBinding
-    private lateinit var viewPager : ViewPager2
+    private val viewPager by lazy { mBinding.oilAvgViewPager }
 
     private val pagerAdapter by lazy {
         OilAvgPagerAdapter(
@@ -35,9 +35,11 @@ class DailyFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        connectPagerAdater()
+        controlTabLayOut()
+    }
 
-        viewPager = mBinding.oilAvgViewPager
-        viewPager.adapter = pagerAdapter
+    private fun controlTabLayOut() {
 
         TabLayoutMediator(mBinding.oilAvgtabs, viewPager) { tab, position ->
             tab.text = when (position) {
@@ -49,7 +51,10 @@ class DailyFragment : Fragment() {
                 else -> throw IllegalArgumentException("Invalid position")
             }
         }.attach()
+    }
 
+    private fun connectPagerAdater() {
+        viewPager.adapter = pagerAdapter
     }
 
 }
