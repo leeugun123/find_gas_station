@@ -26,11 +26,10 @@ class SplashActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsR
         super.onCreate(savedInstanceState)
         setContentView(R.layout.splash)
 
-        if (checkLocationPermission()) {
-            splashAction()
-        }// 위치 권한이 허용된 경우 , 다음 화면으로 이동
-        else { requestLocationPermission() }
-        // 위치 권한 요청
+        if (checkLocationPermission())
+            splashAction() // 위치 권한이 허용된 경우 , 다음 화면으로 이동
+        else
+            requestLocationPermission()  // 위치 권한 요청
 
     }
 
@@ -53,18 +52,17 @@ class SplashActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsR
 
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
 
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 splashAction()
-            } else {
+            else
                 finishApp()
-            }
 
         }
 
     }
 
     private fun finishApp() {
-        Toast.makeText(this, "위치 권한이 거부되었습니다. 앱을 종료합니다.", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, LOCATION_PERMISSION_DENIED_FINISH_APP, Toast.LENGTH_SHORT).show()
         finish()
     }
 
@@ -76,6 +74,10 @@ class SplashActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsR
 
     private fun splashAction(){
         Handler().postDelayed(Runnable { startNextActivity() }, SPLASH_WAIT_TIME)
+    }
+
+    companion object{
+        private const val LOCATION_PERMISSION_DENIED_FINISH_APP = "위치 권한이 거부 되었습니다. 앱을 종료 합니다."
     }
 
 }
