@@ -72,7 +72,7 @@
             android:textAlignment="center"
             android:textSize="30sp"
             android:textColor="@color/black"
-            />
+            tools:ignore="RtlCompat" />
 
         <TextView
             android:id="@+id/priceText"
@@ -84,7 +84,8 @@
             android:textAlignment="center"
             android:textColor="@color/orange"
             android:textSize="45sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="RtlCompat" />
 
         <TextView
             android:layout_width="wrap_content"
