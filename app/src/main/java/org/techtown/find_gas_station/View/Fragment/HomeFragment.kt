@@ -83,7 +83,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
     }
 
     private val mFusedLocationClient by lazy { LocationServices.getFusedLocationProviderClient(requireActivity()) }
-    private val gpsTracker by lazy {GpsTracker(requireActivity())}
     private val mapFragment by lazy { SupportMapFragment.newInstance() }
     private val locationRequest by lazy {
         LocationRequest()
@@ -96,6 +95,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
     }
     private val getOilListViewModel by lazy { ViewModelProvider(this)[GetOilListViewModel::class.java] }
 
+    private lateinit var gpsTracker : GpsTracker
     private lateinit var mBinding : FragmentHomeBinding
     private lateinit var mMap : GoogleMap
     //private lateinit var currentMarker : Marker
@@ -143,6 +143,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
     private fun getOilData() {
 
         progressBarVisible()
+        gpsTrackerInit()
         val ge = transFormPoint(gpsTracker.getLatitude().toFloat(), gpsTracker.getLongitude().toFloat())
 
         lifecycleScope.launch(Dispatchers.Main){
@@ -151,6 +152,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
     }
 
+    private fun gpsTrackerInit() {
+        gpsTracker = GpsTracker(requireActivity())
+    }
 
 
     private fun progressBarVisible(){
