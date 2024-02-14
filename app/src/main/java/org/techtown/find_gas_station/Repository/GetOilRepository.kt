@@ -42,14 +42,13 @@ import java.util.Collections
 
 class GetOilRepository(application : Application) {
 
-    private val _oilListLiveData = MutableLiveData<List<TotalOilInfo>>()
-    val oilListLiveData : LiveData<List<TotalOilInfo>> get() = _oilListLiveData
 
     private var tempList : MutableList<TotalOilInfo> = mutableListOf()
-    private var plusList : MutableList<TotalOilInfo> = mutableListOf()
 
 
-    suspend fun searchOilList(xPos : String, yPos : String, radius : String, sort : String, oilKind : String) {
+    fun getOilList() = tempList
+
+    suspend fun requestOilList(xPos : String, yPos : String, radius : String, sort : String, oilKind : String) {
 
         listClear()
 
@@ -67,14 +66,8 @@ class GetOilRepository(application : Application) {
 
     private suspend fun apiSizeCheck(oilResponse: GasStationInfoResult?, size : Int, oilKind: String, sort: String) {
 
-        if(size > 0){
-
+        if(size > 0)
             handleOilListResponse(oilResponse, oilKind, sort)
-        }
-        else{
-            _oilListLiveData.value = tempList
-        }
-
 
     }// api 호출이 만료되면 빈 데이터가 들어옴. 따라서 만료되거나 점검하는지 체크하는 메소드
 
@@ -85,6 +78,7 @@ class GetOilRepository(application : Application) {
         val inputOil = getOilType(oilKind)
 
         result?.forEach { oilInfo ->
+
             val out = GeoTrans.convert(GeoTrans.KATEC, GeoTrans.GEO, GeoTransPoint(oilInfo.gisX.toDouble(), oilInfo.gisY.toDouble()))
             getOilDetail(sort, result.size, oilInfo.id, oilInfo.osName, oilInfo.price, oilInfo.distance, inputOil,
                 getTrademarkImageResource(oilInfo.pollDivCd), out.x.toFloat(), out.y.toFloat())
@@ -131,15 +125,9 @@ class GetOilRepository(application : Application) {
 
     private suspend fun checkTempListSize(size : Int , sort : String) {
 
-        if (tempList.size == size || tempList.size == 30) {
-
-            if (sort == CHECK_THREE_ROAD_DISTANCE || sort == CHECK_FOUR_SPEND_TIME) {
+        if ((tempList.size == size || tempList.size == 30) &&
+            (sort == CHECK_THREE_ROAD_DISTANCE || sort == CHECK_FOUR_SPEND_TIME))
                 getOilKakaoApi(sort)
-                return
-            }
-
-            _oilListLiveData.value = tempList
-        }
 
     }
 
@@ -176,27 +164,25 @@ class GetOilRepository(application : Application) {
         directionResponse?.let {
             insertPlusList(it.routes)
             checkRoadOrSpend(sort)
-            _oilListLiveData.value = plusList
         }
 
     }
 
     private fun insertPlusList(routes : List<Route>){
         for (i in tempList.indices) {
-            val oilList = tempList[i]
-            oilList.actDistance = routes[i].summary.distance
-            oilList.spendTime = routes[i].summary.duration
-            plusList.add(oilList)
+            tempList[i].actDistance = routes[i].summary.distance
+            tempList[i].spendTime = routes[i].summary.duration
         }
     }
 
 
     private fun checkRoadOrSpend(sort : String) {
-        if (sort == CHECK_FOUR_SPEND_TIME) {
-            Collections.sort(plusList, OilSpendTimeComparator())
-        } else {
-            Collections.sort(plusList, OilRoadDistanceComparator())
-        }
+
+        if (sort == CHECK_FOUR_SPEND_TIME)
+            Collections.sort(tempList, OilSpendTimeComparator())
+         else
+            Collections.sort(tempList, OilRoadDistanceComparator())
+
     }
 
 
@@ -226,7 +212,6 @@ class GetOilRepository(application : Application) {
 
     private fun listClear() {
         tempList.clear()
-        plusList.clear()
     }
 
 

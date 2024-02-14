@@ -215,14 +215,13 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
         initSetting()
 
-        getOilListViewModel.getOilList().observe(viewLifecycleOwner) { list ->
+        getOilListViewModel.oilListLiveData.observe(viewLifecycleOwner) { list ->
 
             removeProgressBar()
-
             mBinding.listRecycler.adapter = OilInfoAdapter(list, mMap, afterIntel[1])
-
             upRecyclerView()
             checkListEmpty(list.size)
+
         }
 
         setViewModel.getOilLocalData()
