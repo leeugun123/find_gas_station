@@ -11,7 +11,7 @@ class GetOilAvgViewModel(application : Application) : AndroidViewModel(applicati
 
 
     private var _oilAvgInfoLiveData : MutableLiveData<List<OilAveragePriceInfo>> = MutableLiveData()
-    val oilAvgLiveData : LiveData<List<OilAveragePriceInfo>>  get() = _oilAvgInfoLiveData
+    val oilAvgLiveData : LiveData<List<OilAveragePriceInfo>> get() = _oilAvgInfoLiveData
 
     private var getOilAvgRepository : GetOilAvgRepository
 

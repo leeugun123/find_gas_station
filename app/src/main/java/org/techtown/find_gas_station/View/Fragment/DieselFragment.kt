@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,27 +16,28 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.Adapter.OilAvgRecyclerAdapter
 import org.techtown.find_gas_station.Util.UnitConverter.RidRoundMath
 import org.techtown.find_gas_station.ViewModel.GetOilAvgViewModel
-import org.techtown.find_gas_station.databinding.FragmentDieselBinding
+import org.techtown.find_gas_station.databinding.FragmentOilAvgBinding
 
 class DieselFragment : Fragment() {
 
     private val getOilAvgViewModel by lazy { ViewModelProvider(this)[GetOilAvgViewModel::class.java] }
-    private lateinit var mBinding : FragmentDieselBinding
+    private lateinit var mBinding : FragmentOilAvgBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mBinding = FragmentDieselBinding.inflate(layoutInflater, container, false)
+        mBinding = FragmentOilAvgBinding.inflate(layoutInflater, container, false)
         return mBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        mBinding.oilKind.text = " 경유 "
 
         mBinding.oilAvgRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
 

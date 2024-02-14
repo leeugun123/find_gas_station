@@ -19,26 +19,27 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="최근 일주일"
-            android:textSize="25sp"
-            android:textColor="@color/black" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="최근 일주일"
+                android:textSize="25sp"
+                android:textColor="@color/black" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" 자동차부탄 "
-            android:textSize="25sp"
-            android:textColor="@color/orange" />
+            <TextView
+                android:id="@+id/oilKind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 자동차부탄 "
+                android:textSize="25sp"
+                android:textColor="@color/orange" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="가격"
-            android:textSize="25sp"
-            android:textColor="@color/black" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="가격"
+                android:textSize="25sp"
+                android:textColor="@color/black" />
 
         </LinearLayout>
 
