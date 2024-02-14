@@ -24,6 +24,7 @@ import org.techtown.find_gas_station.ViewModel.GetOilAvgViewModel
 import org.techtown.find_gas_station.databinding.FragmentHighGasolineBinding
 
 class High_GasolineFragment : Fragment() {
+
     private val getOilAvgViewModel by lazy { ViewModelProvider(this)[GetOilAvgViewModel::class.java] }
     private lateinit var mBinding : FragmentHighGasolineBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,7 +47,7 @@ class High_GasolineFragment : Fragment() {
             getOilAvgViewModel.requestOilAvg("B034")
         }
 
-        getOilAvgViewModel.getOilAvg().observe(requireActivity()) { oilAvgPriceInfoList ->
+        getOilAvgViewModel.oilAvgLiveData.observe(requireActivity()) { oilAvgPriceInfoList ->
             val entries = oilAvgPriceInfoList.mapIndexed { index, it ->
                 Entry(index.toFloat(), it.oilPrice.toFloat())
             }

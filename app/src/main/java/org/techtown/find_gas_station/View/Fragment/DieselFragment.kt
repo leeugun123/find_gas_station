@@ -45,7 +45,7 @@ class DieselFragment : Fragment() {
             getOilAvgViewModel.requestOilAvg("D047")
         }
 
-        getOilAvgViewModel.getOilAvg().observe(requireActivity()) { oilAvgPriceInfoList ->
+        getOilAvgViewModel.oilAvgLiveData.observe(requireActivity()) { oilAvgPriceInfoList ->
 
             val entries = oilAvgPriceInfoList.mapIndexed { index, it ->
                 Entry(index.toFloat(), it.oilPrice.toFloat())

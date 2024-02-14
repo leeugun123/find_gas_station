@@ -48,7 +48,7 @@ class ButaneFragment : Fragment() {
         }
 
 
-        getOilAvgViewModel.getOilAvg().observe(requireActivity()) { oilAvgPriceInfoList ->
+        getOilAvgViewModel.oilAvgLiveData.observe(requireActivity()) { oilAvgPriceInfoList ->
 
             val entries = oilAvgPriceInfoList.mapIndexed { index, it ->
                 Entry(index.toFloat(), it.oilPrice.toFloat())
