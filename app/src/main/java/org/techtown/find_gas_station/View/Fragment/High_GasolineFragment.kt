@@ -17,6 +17,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.techtown.find_gas_station.Adapter.OilAvgRecyclerAdapter
+import org.techtown.find_gas_station.OilAvgViewCreated
 import org.techtown.find_gas_station.Util.UnitConverter.RidRoundMath
 import org.techtown.find_gas_station.ViewModel.GetOilAvgViewModel
 import org.techtown.find_gas_station.databinding.FragmentOilAvgBinding
@@ -39,52 +40,13 @@ class High_GasolineFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mBinding.oilKind.text = " 고급 휘발유 "
-
-        mBinding.oilAvgRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
-
         lifecycleScope.launch(Dispatchers.Main) {
-            getOilAvgViewModel.requestOilAvg("B034")
+            OilAvgViewCreated().setupOilChartAndRecycler(" 고급 휘발유 ",requireActivity() , mBinding , getOilAvgViewModel, "B034")
         }
 
-        getOilAvgViewModel.oilAvgLiveData.observe(requireActivity()) { oilAvgPriceInfoList ->
-            val entries = oilAvgPriceInfoList.mapIndexed { index, it ->
-                Entry(index.toFloat(), it.oilPrice.toFloat())
-            }
 
-            val dataSet = LineDataSet(entries, "주유소 가격").apply {
-                color = Color.rgb(255, 153, 0)
-                lineWidth = 2f
-                setCircleColor(Color.rgb(253, 153, 0))
-                circleRadius = 4f
-                setDrawCircleHole(false)
-            }
 
-            mBinding.lineChart.xAxis.valueFormatter = IndexAxisValueFormatter(
-                arrayOf("7일전", "6일전", "5일전", "4일전", "3일전", "2일전", "1일전")
-            )
 
-            val lineData = LineData(dataSet)
-
-            with(mBinding.lineChart) {
-                data = lineData
-                description.text = "최근 일주일 전국 유가 가격"
-                xAxis.position = XAxis.XAxisPosition.BOTTOM
-                axisRight.isEnabled = false
-                invalidate()
-            }
-
-            oilAvgPriceInfoList.reversed()
-
-            if (oilAvgPriceInfoList.isNotEmpty()) {
-                mBinding.priceText.text =
-                    RidRoundMath.roundStringToInteger(oilAvgPriceInfoList.last().oilPrice)
-                        .toString()
-            }
-
-            mBinding.oilAvgRecyclerView.adapter = OilAvgRecyclerAdapter(oilAvgPriceInfoList)
-
-        }
 
     }
 
