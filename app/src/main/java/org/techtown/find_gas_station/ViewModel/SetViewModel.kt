@@ -25,10 +25,8 @@ class SetViewModel(application: Application) : AndroidViewModel(application) {
         setRepository = SetRepository(oilDao)
     }
 
-    fun getOilLocalData(){
-        viewModelScope.launch {
-            _oilLocalData.value = setRepository.getOilLocalData()
-        }
+    suspend fun getOilLocalData(){
+        _oilLocalData.value = setRepository.getOilLocalData()
     }
 
     suspend fun insert(set: OilData) {

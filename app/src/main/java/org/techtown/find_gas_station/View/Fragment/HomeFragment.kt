@@ -212,7 +212,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
             .commit()
 
         mapFragment.getMapAsync(this)
-
         initSetting()
 
         getOilListViewModel.oilListLiveData.observe(viewLifecycleOwner) { list ->
@@ -224,7 +223,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
         }
 
-        setViewModel.getOilLocalData()
+        lifecycleScope.launch {
+            setViewModel.getOilLocalData()
+        }
+
 
         setViewModel.oilLocalData.observe(viewLifecycleOwner) { oilLocalData ->
 
