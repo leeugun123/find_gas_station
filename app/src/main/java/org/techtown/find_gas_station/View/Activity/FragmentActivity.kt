@@ -37,20 +37,21 @@ class FragmentActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fragmentInit()
+        bottomNavigationBarInit()
+    }
 
-        mBinding.bottomNav.setOnNavigationItemSelectedListener { menuItem ->
+    private fun bottomNavigationBarInit() =
+
+        mBinding.bottomNav.setOnItemSelectedListener { menuItem ->
 
             when (menuItem.itemId) {
                 R.id.Home_fragment -> { showFa() }
                 R.id.Daily_fragment -> { showFb() }
                 else -> throw IllegalArgumentException(INVALID_GUIDE)
             }
-
             true
-
         }
 
-    }
 
     private fun showFa() {
         fragmentManager.beginTransaction().show(fa).commit()
