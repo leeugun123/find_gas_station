@@ -98,11 +98,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
     private lateinit var gpsTracker : GpsTracker
     private lateinit var mBinding : FragmentHomeBinding
     private lateinit var mMap : GoogleMap
-    //private lateinit var currentMarker : Marker
     private val requiredPermission = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
-    // 앱을 실행하기 위해 필요한 퍼미션을 정의
-
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -146,9 +142,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
         gpsTrackerInit()
         val ge = transFormPoint(gpsTracker.getLatitude().toFloat(), gpsTracker.getLongitude().toFloat())
 
-        lifecycleScope.launch(Dispatchers.Main){
-                getOilListViewModel.requestOilList(ge.x.toString(), ge.y.toString(), afterIntel[0], afterIntel[1], afterIntel[2])
-        }
+        getOilListViewModel.requestOilList(ge.x.toString(), ge.y.toString(), afterIntel[0], afterIntel[1], afterIntel[2])
+
 
     }
 
@@ -185,7 +180,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
     private fun upRecyclerView() {
 
-        Handler().postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
 
             val smoothScroller = object : LinearSmoothScroller(mBinding.listRecycler.context) {
                     override fun getVerticalSnapPreference() = SNAP_TO_START
@@ -223,10 +218,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
         }
 
-        lifecycleScope.launch {
-            setViewModel.getOilLocalData()
-        }
-
+        setViewModel.getOilLocalData()
 
         setViewModel.oilLocalData.observe(viewLifecycleOwner) { oilLocalData ->
 

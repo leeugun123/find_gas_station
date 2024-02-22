@@ -1,6 +1,5 @@
 package org.techtown.find_gas_station.Repository
 
-import android.app.Application
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.Data.OilList.GasStationInfoResult
@@ -35,24 +34,19 @@ import org.techtown.find_gas_station.Util.GPS.GeoTransPoint
 import org.techtown.find_gas_station.View.Fragment.HomeFragment
 import java.util.Collections
 
-class GetOilRepository(application : Application) {
-
+class GetOilRepository() {
 
     private var tempList : MutableList<TotalOilInfo> = mutableListOf()
-
-
     fun getOilList() = tempList
 
     suspend fun requestOilList(xPos : String, yPos : String, radius : String, sort : String, oilKind : String) {
 
         listClear()
 
-        val response = withContext(Dispatchers.IO) {
-            opiRetrofitApi.getOilList(OPI_API_KEY, JSON_FORMAT, xPos, yPos, radius, oilKind, sort)
-        }
+        val oilResponse = opiRetrofitApi.getOilList(OPI_API_KEY, JSON_FORMAT, xPos, yPos, radius, oilKind, sort)
 
-        if (response.isSuccessful){
-            val oilResponse = response.body()
+        if (oilResponse.isSuccessful){
+            val oilResponse = oilResponse.body()
             val size = oilResponse?.oilInfoListResult?.oilInfoList?.size
             apiSizeCheck(oilResponse, size!! , oilKind , sort)
         }
@@ -81,8 +75,8 @@ class GetOilRepository(application : Application) {
 
     }
 
-    private fun adjustSize(it : GasStationInfoResult) = if (30 < it.oilInfoListResult.oilInfoList.size)
-        it.oilInfoListResult.oilInfoList.take(30)
+    private fun adjustSize(it : GasStationInfoResult) = if (KAKAO_API_PARAMETER_LIMIT < it.oilInfoListResult.oilInfoList.size)
+        it.oilInfoListResult.oilInfoList.take(KAKAO_API_PARAMETER_LIMIT)
     else
         it.oilInfoListResult.oilInfoList
 
@@ -120,7 +114,7 @@ class GetOilRepository(application : Application) {
 
     private suspend fun checkTempListSize(size : Int , sort : String) {
 
-        if ((tempList.size == size || tempList.size == 30) &&
+        if ((tempList.size == size || tempList.size == KAKAO_API_PARAMETER_LIMIT) &&
             (sort == CHECK_THREE_ROAD_DISTANCE || sort == CHECK_FOUR_SPEND_TIME))
                 getOilKakaoApi(sort)
 
@@ -133,13 +127,12 @@ class GetOilRepository(application : Application) {
         val destinations = arrayOfNulls<Destination>(tempList.size)
         destinationsProcessing(destinations)
 
-        val response = withContext(Dispatchers.IO) {
-            kakaoRetrofitApi.getMultiDirections(DirectionRequest(Origin(HomeFragment.getWgsMyX.toDouble(), HomeFragment.getWgsMyY.toDouble()),
+        val kakaoApiResponse = kakaoRetrofitApi.getMultiDirections(DirectionRequest(Origin(HomeFragment.getWgsMyX.toDouble(), HomeFragment.getWgsMyY.toDouble()),
                 destinations, KAKAO_REQUEST_RADIUS))
-        }
 
-        if (response.isSuccessful)
-            handleKakaoApiResponse(response.body(),sort)
+
+        if (kakaoApiResponse.isSuccessful)
+            handleKakaoApiResponse(kakaoApiResponse.body(),sort)
 
     }
 
@@ -207,6 +200,10 @@ class GetOilRepository(application : Application) {
 
     private fun listClear() {
         tempList.clear()
+    }
+
+    companion object{
+        private const val KAKAO_API_PARAMETER_LIMIT = 30
     }
 
 

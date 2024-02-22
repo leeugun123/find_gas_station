@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,13 +25,13 @@ import org.techtown.find_gas_station.databinding.FragmentOilAvgBinding
 
 class DieselFragment : Fragment() {
 
-    private val getOilAvgViewModel by lazy { ViewModelProvider(this)[GetOilAvgViewModel::class.java] }
+    private val getOilAvgViewModel : GetOilAvgViewModel by viewModels()
     private lateinit var mBinding : FragmentOilAvgBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mBinding = FragmentOilAvgBinding.inflate(layoutInflater, container, false)
         return mBinding.root
     }
@@ -38,9 +39,8 @@ class DieselFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        lifecycleScope.launch(Dispatchers.Main) {
-            OilAvgViewCreated().setupOilChartAndRecycler(" 경유 ",requireActivity() , mBinding , getOilAvgViewModel, "D047")
-        }
+        OilAvgViewCreated().setupOilChartAndRecycler(" 경유 ",requireActivity() , mBinding , getOilAvgViewModel, "D047")
+
 
 
     }

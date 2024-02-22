@@ -19,7 +19,7 @@ import org.techtown.find_gas_station.databinding.FragmentOilAvgBinding
 
 class OilAvgViewCreated {
 
-    suspend fun setupOilChartAndRecycler(
+    fun setupOilChartAndRecycler(
         oilKind : String,
         fragmentActivity : FragmentActivity,
         binding : FragmentOilAvgBinding,

@@ -42,11 +42,10 @@ import org.techtown.find_gas_station.databinding.ActivityDrawerBinding
 
 class SettingActivity : AppCompatActivity() {
 
-    private lateinit var mBinding : ActivityDrawerBinding
+    private val mBinding by lazy { ActivityDrawerBinding.inflate(layoutInflater)}
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        settingActivityInit()
+        setContentView(mBinding.root)
 
         mBinding.goBack.setOnClickListener {
             activityFinish()
@@ -56,7 +55,6 @@ class SettingActivity : AppCompatActivity() {
         updateUI()
 
     }
-
 
     private fun spinnerSet() {
 
@@ -81,11 +79,6 @@ class SettingActivity : AppCompatActivity() {
             afterIntel[1] = calOilSort(selectedValue)
         }
 
-    }
-
-    private fun settingActivityInit() {
-        mBinding = ActivityDrawerBinding.inflate(layoutInflater)
-        setContentView(mBinding.root)
     }
 
 

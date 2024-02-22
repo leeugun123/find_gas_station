@@ -8,25 +8,19 @@ import org.techtown.find_gas_station.Data.oilAvg.OilAveragePriceInfo
 import org.techtown.find_gas_station.Util.Api.ApiKey
 import org.techtown.find_gas_station.Util.Api.Api_Instance
 
-class GetOilAvgRepository(application: Application){
+class GetOilAvgRepository(){
 
     private var oilAvgList : MutableList<OilAveragePriceInfo> = mutableListOf()
 
-    fun getOilAvgList() = oilAvgList
+    suspend fun getOilAvg(prodcd : String) : MutableList<OilAveragePriceInfo> {
 
-    suspend fun requestOilAvg(prodcd : String) {
+        val response = Api_Instance.opiRetrofitApi.getAvgRecentPrice(ApiKey.OPI_API_KEY , "json", prodcd)
 
-        try {
-
-            val response = withContext(Dispatchers.IO) {
-                Api_Instance.opiRetrofitApi.getAvgRecentPrice(ApiKey.OPI_API_KEY , "json", prodcd)
-            }
-
-            if (response.isSuccessful)
-                oilAvgList = response.body()!!.oilAveragePriceInfoResult.oilAveragePriceInfo.toMutableList()
+        if (response.isSuccessful)
+            oilAvgList = response.body()!!.oilAveragePriceInfoResult.oilAveragePriceInfo.toMutableList()
 
 
-        } catch (_: Exception) { }
+       return oilAvgList
 
     }
 

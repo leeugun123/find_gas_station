@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -25,11 +26,8 @@ class FragmentActivity : AppCompatActivity() {
 
     private var doubleBackToExitPressedOnce = false
 
-    private val setViewModel by lazy {
-        ViewModelProvider(this, SetViewModel.Factory(application))[SetViewModel::class.java]
-    }
-
-    private lateinit var mBinding : ActivityFragmentBinding
+    private val setViewModel : SetViewModel by viewModels()
+    private val mBinding by lazy { ActivityFragmentBinding.inflate(layoutInflater) }
     private val fa by lazy { HomeFragment() }
     private val fb by lazy { DailyFragment() }
     private val fragmentManager by lazy { supportFragmentManager }
@@ -64,7 +62,6 @@ class FragmentActivity : AppCompatActivity() {
     }
 
     private fun fragmentInit() {
-        mBinding = ActivityFragmentBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
         addFragment()
     }
@@ -93,21 +90,17 @@ class FragmentActivity : AppCompatActivity() {
     }
 
     private fun localDatabaseUpdate() {
-        lifecycleScope.launch(Dispatchers.Main) {
-            insertOilData()
-            finish()
-        }
+
+        insertOilData()
+        finish()
+
     }
 
-    private suspend fun insertOilData() = withContext(Dispatchers.IO) {
+    private fun insertOilData() {
 
-        launch {
-            setViewModel.delete()
-        }.join()
-
-        launch {
-            setViewModel.insert(OilData(afterIntel[2] ,afterIntel[0] , afterIntel[1]))
-        }.join()
+        setViewModel.deleteData()
+        //반드시 데이터가 delete 된 후 insert 시켜야함.
+        setViewModel.insertData(OilData(afterIntel[2] ,afterIntel[0] , afterIntel[1]))
 
     }
 

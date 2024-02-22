@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -73,7 +74,7 @@ class SplashActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsR
     }
 
     private fun splashAction(){
-        Handler().postDelayed(Runnable { startNextActivity() }, SPLASH_WAIT_TIME)
+        Handler(Looper.getMainLooper()).postDelayed( { startNextActivity() }, SPLASH_WAIT_TIME)
     }
 
     companion object{

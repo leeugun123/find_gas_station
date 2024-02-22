@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,7 +25,7 @@ import org.techtown.find_gas_station.databinding.FragmentOilAvgBinding
 
 class ButaneFragment : Fragment() {
 
-    private val getOilAvgViewModel by lazy { ViewModelProvider(this)[GetOilAvgViewModel::class.java] }
+    private val getOilAvgViewModel : GetOilAvgViewModel by viewModels()
     private lateinit var mBinding : FragmentOilAvgBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,9 +42,7 @@ class ButaneFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        lifecycleScope.launch(Dispatchers.Main) {
-            OilAvgViewCreated().setupOilChartAndRecycler(" 자동차 부탄 ",requireActivity() , mBinding , getOilAvgViewModel, "K015")
-        }
+        OilAvgViewCreated().setupOilChartAndRecycler(" 자동차 부탄 ",requireActivity() , mBinding , getOilAvgViewModel, "K015")
 
     }
 

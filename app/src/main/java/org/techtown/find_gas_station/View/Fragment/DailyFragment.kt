@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import org.techtown.find_gas_station.Adapter.OilAvgPagerAdapter
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.CAR_BUTANE_KOREAN
@@ -24,11 +23,11 @@ class DailyFragment : Fragment() {
         OilAvgPagerAdapter(
             childFragmentManager,
             lifecycle,
-            listOf(GasolineFragment(), DieselFragment(), High_GasolineFragment(), KeroseneFragment(), ButaneFragment())
+            listOf(GasolineFragment(), DieselFragment(), HighGasolineFragment(), KeroseneFragment(), ButaneFragment())
         )
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View{
         mBinding = FragmentDailyBinding.inflate(layoutInflater, container, false)
         return mBinding.root
     }

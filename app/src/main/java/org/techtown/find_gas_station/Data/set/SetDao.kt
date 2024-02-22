@@ -12,7 +12,7 @@ import androidx.room.Update
 interface SetDao {
 
     @Query("SELECT * FROM OilData")
-    fun getOilLocalData() : OilData
+    suspend fun getOilLocalData() : OilData
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(oilData : OilData)

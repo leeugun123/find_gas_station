@@ -1,29 +1,16 @@
 package org.techtown.find_gas_station.View.Fragment
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import org.techtown.find_gas_station.Adapter.OilAvgRecyclerAdapter
 import org.techtown.find_gas_station.OilAvgViewCreated
-import org.techtown.find_gas_station.Util.UnitConverter.RidRoundMath
 import org.techtown.find_gas_station.ViewModel.GetOilAvgViewModel
 import org.techtown.find_gas_station.databinding.FragmentOilAvgBinding
 
-class GasolineFragment : Fragment() {
+class HighGasolineFragment : Fragment() {
 
     private val getOilAvgViewModel : GetOilAvgViewModel by viewModels()
     private lateinit var mBinding : FragmentOilAvgBinding
@@ -41,10 +28,7 @@ class GasolineFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        OilAvgViewCreated().setupOilChartAndRecycler(" 휘발유 ",requireActivity() , mBinding , getOilAvgViewModel, "B027")
-
-
+        OilAvgViewCreated().setupOilChartAndRecycler(" 고급 휘발유 ",requireActivity() , mBinding , getOilAvgViewModel, "B034")
 
     }
 

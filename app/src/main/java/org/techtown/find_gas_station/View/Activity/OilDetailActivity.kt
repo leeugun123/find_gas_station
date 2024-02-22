@@ -1,5 +1,6 @@
 package org.techtown.find_gas_station.View.Activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -90,6 +91,7 @@ class OilDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         mapInit()
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun mapInit() {
 
         val pos = LatLng(oilInfoData.wgs84Y.toDouble(), oilInfoData.wgs84X.toDouble())

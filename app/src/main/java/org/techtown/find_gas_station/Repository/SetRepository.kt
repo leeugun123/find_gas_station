@@ -9,12 +9,8 @@ import org.techtown.find_gas_station.Data.set.SetDao
 
 class SetRepository(private val setDao : SetDao) {
 
+    suspend fun getOilLocalData() = setDao.getOilLocalData()
 
-    suspend fun getOilLocalData(): OilData {
-        return withContext(Dispatchers.IO) {
-            setDao.getOilLocalData()
-        }
-    }
 
     suspend fun insert(oilData : OilData) {
         setDao.insert(oilData)

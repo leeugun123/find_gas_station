@@ -4,25 +4,33 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.Data.oilAvg.OilAveragePriceInfo
 import org.techtown.find_gas_station.Repository.GetOilAvgRepository
 
-class GetOilAvgViewModel(application : Application) : AndroidViewModel(application) {
-
+class GetOilAvgViewModel() : ViewModel() {
 
     private var _oilAvgInfoLiveData : MutableLiveData<List<OilAveragePriceInfo>> = MutableLiveData()
     val oilAvgLiveData : LiveData<List<OilAveragePriceInfo>> get() = _oilAvgInfoLiveData
 
-    private var getOilAvgRepository : GetOilAvgRepository
+    private var getOilAvgRepository = GetOilAvgRepository()
 
+    fun requestOilAvg(prodcd : String) {
 
-    init {
-        getOilAvgRepository = GetOilAvgRepository(application)
-    }
+        viewModelScope.launch(Dispatchers.IO) {
 
-    suspend fun requestOilAvg(prodcd : String) {
-        getOilAvgRepository.requestOilAvg(prodcd)
-        _oilAvgInfoLiveData.value = getOilAvgRepository.getOilAvgList()
+            val getOilAvgResponse = getOilAvgRepository.getOilAvg(prodcd)
+
+            withContext(Dispatchers.Main){
+                _oilAvgInfoLiveData.value = getOilAvgResponse
+            }
+
+        }
+
     }
 
 
