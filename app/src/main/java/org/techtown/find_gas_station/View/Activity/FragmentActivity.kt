@@ -3,6 +3,7 @@ package org.techtown.find_gas_station.View.Activity
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -76,14 +77,14 @@ class FragmentActivity : AppCompatActivity() {
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed()
             localDatabaseUpdate() // local DB 수정
-            //여기서 종료됨.
+            finish()
             return
         }
 
         this.doubleBackToExitPressedOnce = true
         Toast.makeText(this, BACK_PRESS_EXIT_GUIDE, Toast.LENGTH_SHORT).show()
 
-        Handler().postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
             doubleBackToExitPressedOnce = false
         }, BACK_PRESS_WAIT_TIME)  // 2초간 뒤로가기 버튼을 두 번 눌러야 종료되도록 설정
 
@@ -91,16 +92,8 @@ class FragmentActivity : AppCompatActivity() {
 
     private fun localDatabaseUpdate() {
 
-        insertOilData()
-        finish()
-
-    }
-
-    private fun insertOilData() {
-
-        setViewModel.deleteData()
-        //반드시 데이터가 delete 된 후 insert 시켜야함.
-        setViewModel.insertData(OilData(afterIntel[2] ,afterIntel[0] , afterIntel[1]))
+        val updateOilData = OilData(afterIntel[2] ,afterIntel[0] , afterIntel[1])
+        setViewModel.updateData(updateOilData)
 
     }
 

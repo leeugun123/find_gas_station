@@ -1,6 +1,7 @@
 package org.techtown.find_gas_station.ViewModel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -37,21 +38,15 @@ class SetViewModel(application: Application) : AndroidViewModel(application) {
 
         }
     }
-    fun insertData(set: OilData) {
+    fun updateData(set: OilData) {
 
         viewModelScope.launch(Dispatchers.IO){
+            setRepository.deleteAll()
             setRepository.insert(set)
         }
 
     }
 
-    fun deleteData()  {
-
-        viewModelScope.launch(Dispatchers.IO) {
-            setRepository.deleteAll()
-        }
-
-    }
 
     class Factory(val application: Application) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>) = SetViewModel(application) as T

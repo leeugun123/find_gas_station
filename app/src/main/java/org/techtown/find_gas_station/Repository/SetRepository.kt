@@ -20,9 +20,4 @@ class SetRepository(private val setDao : SetDao) {
         setDao.deleteAll()
     }
 
-    suspend fun update(oilData : OilData) {
-        setDao.update(oilData)
-    }
-
-
 }
