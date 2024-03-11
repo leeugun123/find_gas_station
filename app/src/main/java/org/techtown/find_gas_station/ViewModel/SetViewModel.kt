@@ -37,6 +37,7 @@ class SetViewModel(application: Application) : AndroidViewModel(application) {
             }
 
         }
+
     }
     fun updateData(set: OilData) {
 

@@ -27,7 +27,7 @@ class FragmentActivity : AppCompatActivity() {
 
     private var doubleBackToExitPressedOnce = false
 
-    private val setViewModel : SetViewModel by viewModels()
+    private val setViewModel by viewModels<SetViewModel>()
     private val mBinding by lazy { ActivityFragmentBinding.inflate(layoutInflater) }
     private val fa by lazy { HomeFragment() }
     private val fb by lazy { DailyFragment() }
@@ -72,22 +72,43 @@ class FragmentActivity : AppCompatActivity() {
         fragmentManager.beginTransaction().add(R.id.main_frame, fb).commit()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
 
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed()
-            localDatabaseUpdate() // local DB 수정
-            finish()
+            updateDataBaseAndFinish()
             return
         }
 
-        this.doubleBackToExitPressedOnce = true
-        Toast.makeText(this, BACK_PRESS_EXIT_GUIDE, Toast.LENGTH_SHORT).show()
+        toastShowMessage(BACK_PRESS_EXIT_GUIDE)
 
+        setTrueDoubleBackToExitPressedOnce()
+        waitAndSetFalseDoubleBackToExitPressedOnce()
+
+    }
+
+    private fun waitAndSetFalseDoubleBackToExitPressedOnce() {
         Handler(Looper.getMainLooper()).postDelayed({
-            doubleBackToExitPressedOnce = false
+            setFalseDoubleBackToExitPressedOnce()
         }, BACK_PRESS_WAIT_TIME)  // 2초간 뒤로가기 버튼을 두 번 눌러야 종료되도록 설정
+    }
 
+    private fun setTrueDoubleBackToExitPressedOnce() {
+        this.doubleBackToExitPressedOnce = true
+    }
+
+    private fun setFalseDoubleBackToExitPressedOnce() {
+        this.doubleBackToExitPressedOnce = false
+    }
+
+    private fun toastShowMessage(message : String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun updateDataBaseAndFinish() {
+        localDatabaseUpdate()
+        finish()
     }
 
     private fun localDatabaseUpdate() {

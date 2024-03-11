@@ -25,7 +25,7 @@ import org.techtown.find_gas_station.databinding.FragmentOilAvgBinding
 
 class KeroseneFragment : Fragment() {
 
-    private val getOilAvgViewModel : GetOilAvgViewModel by viewModels()
+    private val getOilAvgViewModel by viewModels<GetOilAvgViewModel>()
     private lateinit var mBinding : FragmentOilAvgBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

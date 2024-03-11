@@ -18,10 +18,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -90,10 +92,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
             .setInterval(UPDATE_INTERVAL_MS.toLong())
             .setFastestInterval(FASTEST_UPDATE_INTERVAL_MS.toLong())}
 
-    private val setViewModel by lazy {
-        ViewModelProvider(this, SetViewModel.Factory((requireContext().applicationContext as Application)))[SetViewModel::class.java]
-    }
-    private val getOilListViewModel by lazy { ViewModelProvider(this)[GetOilListViewModel::class.java] }
+    private val setViewModel by viewModels<SetViewModel>()
+    private val getOilListViewModel by viewModels<GetOilListViewModel>()
 
     private lateinit var gpsTracker : GpsTracker
     private lateinit var mBinding : FragmentHomeBinding
@@ -207,7 +207,55 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
             .commit()
 
         mapFragment.getMapAsync(this)
+
         initSetting()
+        liveDataObserve()
+        getOilLocalData()
+        bindingApply()
+
+    }
+
+    private fun bindingApply() {
+
+        mBinding.apply {
+            reset.setOnClickListener { getOilData() }
+            setting.setOnClickListener {
+                val intent = Intent(activity, SettingActivity::class.java)
+                startActivityForResult(intent, REQUEST_CODE)
+            }
+        }
+
+    }
+
+    private fun liveDataObserve() {
+        oilListLiveDataObserve()
+        oilLocalDataObserve()
+    }
+
+    private fun oilLocalDataObserve() {
+
+        setViewModel.oilLocalData.observe(viewLifecycleOwner) { oilLocalData ->
+            oilLocalData?.let {
+                afterIntel[0] = it.oilRad
+                afterIntel[1] = it.oilSort
+                afterIntel[2] = it.oilName
+            } ?: run {
+                afterIntel[0] = "1000"
+                afterIntel[1] = "1"
+                afterIntel[2] = "B027"
+            }
+
+            syncBeforeAfterIntel()
+            requestApi()
+        }
+
+    }
+
+    private fun getOilLocalData() {
+        setViewModel.getOilLocalData()
+    }
+
+    private fun oilListLiveDataObserve() {
 
         getOilListViewModel.oilListLiveData.observe(viewLifecycleOwner) { list ->
 
@@ -217,33 +265,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
             checkListEmpty(list.size)
 
         }
-
-        setViewModel.getOilLocalData()
-
-        setViewModel.oilLocalData.observe(viewLifecycleOwner) { oilLocalData ->
-
-                oilLocalData?.let {
-                    afterIntel[0] = it.oilRad
-                    afterIntel[1] = it.oilSort
-                    afterIntel[2] = it.oilName
-                } ?: run {
-                    afterIntel[0] = "1000"
-                    afterIntel[1] = "1"
-                    afterIntel[2] = "B027"
-                }
-
-                syncBeforeAfterIntel()
-                requestApi()
-
-        }
-
-        mBinding.reset.setOnClickListener { getOilData() }
-
-        mBinding.setting.setOnClickListener {
-            val intent = Intent(activity, SettingActivity::class.java)
-            startActivityForResult(intent, REQUEST_CODE)
-        }
-
     }
 
     private fun syncBeforeAfterIntel() {
@@ -294,15 +315,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
         mMap = googleMap
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude()), 15f))
-        mMap.isMyLocationEnabled = true
+        mMapApply()
 
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(15f))
-        mMap.uiSettings.apply {
-            isZoomControlsEnabled = true
-            isZoomGesturesEnabled = true
-            isMyLocationButtonEnabled = true
-        }
 
         if (checkPermission()) {
             startLocationUpdates()
@@ -310,7 +324,25 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
             handleLocationPermissionRequest()
         }
 
-        mMap.setOnMapClickListener(OnMapClickListener { })
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun mMapApply() {
+
+        mMap.apply {
+
+            moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude()), 15f))
+            isMyLocationEnabled = true
+            animateCamera(CameraUpdateFactory.zoomTo(15f))
+
+            uiSettings.apply {
+                isZoomControlsEnabled = true
+                isZoomGesturesEnabled = true
+                isMyLocationButtonEnabled = true
+            }
+            setOnMapClickListener(OnMapClickListener { })
+        }
+
     }
 
     private fun handleLocationPermissionRequest() {
@@ -344,7 +376,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
     @SuppressLint("MissingPermission")
     override fun onStart() {
         super.onStart()
-        Log.e("TAG", "onStart")
 
         if (checkPermission()) {
             mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)

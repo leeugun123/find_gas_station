@@ -1,7 +1,6 @@
 package org.techtown.find_gas_station.Repository
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.Data.set.OilData

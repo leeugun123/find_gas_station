@@ -7,8 +7,6 @@ import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
-import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -79,14 +77,19 @@ class OilDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
         detailMap = googleMap
 
-        val pos = LatLng(oilInfoData.wgs84Y.toDouble(), oilInfoData.wgs84X.toDouble())
-        detailMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 18f))
+        detailMap.apply {
 
-        detailMap.uiSettings.apply {
-            isZoomControlsEnabled = true
-            isZoomGesturesEnabled = true
-            isMyLocationButtonEnabled = true
+            val initDetailMapPos = LatLng(oilInfoData.wgs84Y.toDouble(), oilInfoData.wgs84X.toDouble())
+            moveCamera(CameraUpdateFactory.newLatLngZoom(initDetailMapPos, 18f))
+
+            uiSettings.apply {
+                isZoomControlsEnabled = true
+                isZoomGesturesEnabled = true
+                isMyLocationButtonEnabled = true
+            }
+
         }
+
 
         mapInit()
     }
