@@ -1,4 +1,7 @@
 <resources>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Splash-->
+    <string name="app_title">파인딩 오일</string>
+    <string name="splash_explain">내 주변 주유소를 단 한번에</string>
+
 </resources>
