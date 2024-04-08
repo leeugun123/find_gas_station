@@ -14,16 +14,16 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
-        android:name=".GlobalApplication"
+        android:name=".GasApplication"
         android:allowBackup="true"
         android:icon="@mipmap/main_icon"
-        android:label="파인딩 오일"
+        android:label="@string/app_title"
         android:roundIcon="@mipmap/main_icon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar"
         android:usesCleartextTraffic="true"
-        tools:targetApi="m"
-        tools:ignore="Instantiatable">
+        tools:ignore="Instantiatable"
+        tools:targetApi="m">
 
         <activity
             android:name=".View.Activity.FragmentActivity"
@@ -39,7 +39,8 @@
             android:name=".View.Activity.SettingActivity"
             android:exported="true" />
 
-        <activity android:name=".View.Activity.SplashActivity"
+        <activity
+            android:name=".View.Activity.SplashActivity"
             android:exported="true">
 
             <intent-filter>
