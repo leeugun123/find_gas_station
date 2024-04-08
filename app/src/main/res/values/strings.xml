@@ -6,5 +6,8 @@
 
     <!-- Main-->
     <string name="sort_price">가격순</string>
+    <string name="home">홈</string>
+    <string name="oil_average_price">유가 평균 가격</string>
+
 
 </resources>
