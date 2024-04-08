@@ -331,6 +331,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
         mMap.apply {
 
+            gpsTrackerInit()
             moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude()), 15f))
             isMyLocationEnabled = true
             animateCamera(CameraUpdateFactory.zoomTo(15f))

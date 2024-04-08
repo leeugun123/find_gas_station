@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:text=" 자동차부탄 "
                 android:textSize="25sp"
-                android:textColor="@color/orange" />
+                android:textColor="@color/app_background" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -85,7 +85,7 @@
             android:layout_marginLeft="60dp"
             android:text="-"
             android:textAlignment="center"
-            android:textColor="@color/orange"
+            android:textColor="@color/app_background"
             android:textSize="45sp"
             android:textStyle="bold"
             tools:ignore="RtlCompat" />
@@ -95,7 +95,7 @@
             android:layout_height="wrap_content"
             android:text="원"
             android:layout_gravity="bottom"
-            android:textColor="@color/orange"
+            android:textColor="@color/app_background"
             android:textSize="30sp"
             android:textStyle="bold" />
 
