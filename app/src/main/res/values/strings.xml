@@ -9,6 +9,7 @@
     <string name="home">홈</string>
     <string name="oil_average_price">유가 평균 가격</string>
 
+    <string name="gas_station_img">주유소 이미지</string>
     <string name="navi">내비</string>
     <string name="gas_station_info_detail">주유소 상세 정보</string>
     <string name="car_wash_exist">세차장 유무</string>

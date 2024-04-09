@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:background="@color/white">
@@ -15,7 +14,8 @@
         android:src="@drawable/oil_2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/gas_station_img"/>
 
     <TextView
         android:id="@+id/oil_kind"
@@ -73,7 +73,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:text="3234M"
+        android:text="3.2km"
         android:textColor="#4CAF50"
         android:textSize="30sp"
         android:textStyle="bold"
@@ -84,25 +84,25 @@
     <TextView
         android:id="@+id/navi_button_kakao"
         android:layout_width="60dp"
-        android:layout_height="40dp"
+        android:layout_height="60dp"
         android:background="#FFEB3B"
         android:gravity="center"
         android:text="@string/navi"
         android:textColor="@color/black"
         android:textStyle="bold"
         app:drawableStartCompat="@drawable/navi_blue"
-        app:layout_constraintBottom_toBottomOf="@+id/distance"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/intelButton"
         app:layout_constraintTop_toTopOf="@+id/distance" />
 
     <ImageButton
         android:id="@+id/intelButton"
-        android:layout_width="50dp"
-        android:layout_height="40dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:background="@color/app_background"
         android:contentDescription="@string/gas_station_info_detail"
         android:src="@drawable/gas"
-        app:layout_constraintBottom_toBottomOf="@+id/navi_button_kakao"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/navi_button_kakao" />
 
@@ -131,9 +131,8 @@
         android:layout_height="1dp"
         android:background="#aaa"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
