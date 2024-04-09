@@ -14,6 +14,13 @@
     <string name="car_wash_exist">세차장 유무</string>
     <string name="convenience_store_exist">편의점 유무</string>
 
+
+    <!-- 정렬 기준 화면-->
+    <string name="gas_station_setting">주유소 설정</string>
+    <string name="oil_kind">기름 종류</string>
+    <string name="distance_setting">내 주변 반경 설정</string>
+    <string name="sort_type">정렬 기준</string>
+
     <!-- Price Intel 유가 평균 가격 정보 -->
     <string name="won">원</string>
 
