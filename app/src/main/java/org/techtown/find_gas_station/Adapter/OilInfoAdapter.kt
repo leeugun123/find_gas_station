@@ -41,7 +41,7 @@ class OilInfoAdapter(private val oilInfoList : List<TotalOilInfo>, private val g
         val oilInfo = oilInfoList[position]
 
         holder.binding.name.text = oilInfo.name
-        holder.binding.price.text = oilInfo.price + "원"
+        holder.binding.price.text = oilInfo.price
 
         when (sort) {
             "3" -> {
@@ -59,14 +59,14 @@ class OilInfoAdapter(private val oilInfoList : List<TotalOilInfo>, private val g
         holder.binding.oilImage.setImageResource(oilInfo.image)
 
         if(oilInfo.carWash == "Y"){
-            holder.binding.carWashStore!!.setImageResource(R.drawable.car_wash)
+            holder.binding.carWashStore.setImageResource(R.drawable.car_wash)
         }else
-            holder.binding.carWashStore!!.setImageResource(R.color.white)
+            holder.binding.carWashStore.setImageResource(R.color.white)
 
         if(oilInfo.conStore == "Y"){
-            holder.binding.conStore!!.setImageResource(R.drawable.convenstore)
+            holder.binding.conStore.setImageResource(R.drawable.convenstore)
         }else
-            holder.binding.conStore!!.setImageResource(R.color.white)
+            holder.binding.conStore.setImageResource(R.color.white)
 
         holder.binding.root.setOnClickListener{
             navigateToLocation(oilInfo.wgs84Y.toDouble(), oilInfo.wgs84X.toDouble())
@@ -104,7 +104,7 @@ class OilInfoAdapter(private val oilInfoList : List<TotalOilInfo>, private val g
 
         }
 
-        holder.binding.intelButton!!.setOnClickListener {
+        holder.binding.intelButton.setOnClickListener {
 
             val intent = Intent(holder.itemView.context, OilDetailActivity::class.java)
             intent.putExtra("oilDetailInfo",oilInfo)

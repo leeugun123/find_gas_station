@@ -3,7 +3,6 @@ package org.techtown.find_gas_station.View.Fragment
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -12,20 +11,16 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
@@ -43,11 +38,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.Adapter.OilInfoAdapter
-import org.techtown.find_gas_station.OilCondition
 import org.techtown.find_gas_station.OilCondition.afterIntel
 import org.techtown.find_gas_station.OilCondition.beforeIntel
 import org.techtown.find_gas_station.R
@@ -84,22 +75,29 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
         const val REQUEST_CODE = 1001
     }
 
-    private val mFusedLocationClient by lazy { LocationServices.getFusedLocationProviderClient(requireActivity()) }
+    private val mFusedLocationClient by lazy {
+        LocationServices.getFusedLocationProviderClient(
+            requireActivity()
+        )
+    }
     private val mapFragment by lazy { SupportMapFragment.newInstance() }
     private val locationRequest by lazy {
         LocationRequest()
             .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
             .setInterval(UPDATE_INTERVAL_MS.toLong())
-            .setFastestInterval(FASTEST_UPDATE_INTERVAL_MS.toLong())}
+            .setFastestInterval(FASTEST_UPDATE_INTERVAL_MS.toLong())
+    }
 
     private val setViewModel by viewModels<SetViewModel>()
     private val getOilListViewModel by viewModels<GetOilListViewModel>()
 
-    private lateinit var gpsTracker : GpsTracker
-    private lateinit var mBinding : FragmentHomeBinding
-    private lateinit var mMap : GoogleMap
-    private val requiredPermission = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
-
+    private lateinit var gpsTracker: GpsTracker
+    private lateinit var mBinding: FragmentHomeBinding
+    private lateinit var mMap: GoogleMap
+    private val requiredPermission = arrayOf(
+        Manifest.permission.ACCESS_FINE_LOCATION,
+        Manifest.permission.ACCESS_COARSE_LOCATION
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -108,7 +106,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
     private fun initSetting() {
         windowSetInit()
         locationRequestInit()
-        mBinding.listRecycler.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
+        mBinding.listRecycler.layoutManager =
+            LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
     }
 
     private fun windowSetInit() {
@@ -138,43 +137,37 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
     private fun getOilData() {
 
-        progressBarVisible()
+        processingUi()
         gpsTrackerInit()
-        val ge = transFormPoint(gpsTracker.getLatitude().toFloat(), gpsTracker.getLongitude().toFloat())
+        val ge =
+            transFormPoint(gpsTracker.getLatitude().toFloat(), gpsTracker.getLongitude().toFloat())
 
-        getOilListViewModel.requestOilList(ge.x.toString(), ge.y.toString(), afterIntel[0], afterIntel[1], afterIntel[2])
-
-
+        getOilListViewModel.requestOilList(
+            ge.x.toString(),
+            ge.y.toString(),
+            afterIntel[0],
+            afterIntel[1],
+            afterIntel[2]
+        )
     }
 
     private fun gpsTrackerInit() {
         gpsTracker = GpsTracker(requireActivity())
     }
 
-
-    private fun progressBarVisible(){
-        mBinding.progressBar.visibility = View.VISIBLE
-    }
-
-    private fun transFormPoint(latitude : Float, longtitude : Float): GeoTransPoint {
+    private fun transFormPoint(latitude: Float, longtitude: Float): GeoTransPoint {
         val point = GeoTransPoint(longtitude.toDouble(), latitude.toDouble())
         wgsInit(point)
         return convert(GeoTrans.GEO, GeoTrans.KATEC, point)
     }
 
-    private fun wgsInit(point : GeoTransPoint) {
+    private fun wgsInit(point: GeoTransPoint) {
         getWgsMyX = point.x.toString()
         getWgsMyY = point.y.toString()
     }
 
-    private fun showEmptyMessage(){
+    private fun showEmptyMessage() {
         Toast.makeText(requireContext(), CHECK_DATA_EMPTY_GUIDE, Toast.LENGTH_SHORT).show()
-        removeProgressBar()
-    }
-
-    private fun removeProgressBar(){
-        if (mBinding.progressBar.visibility == View.VISIBLE)
-            mBinding.progressBar.visibility = View.GONE
     }
 
 
@@ -183,7 +176,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
         Handler(Looper.getMainLooper()).postDelayed({
 
             val smoothScroller = object : LinearSmoothScroller(mBinding.listRecycler.context) {
-                    override fun getVerticalSnapPreference() = SNAP_TO_START
+                override fun getVerticalSnapPreference() = SNAP_TO_START
             }
 
             smoothScroller.targetPosition = 0
@@ -195,8 +188,12 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
 
     @SuppressLint("NotifyDataSetChanged")
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        mBinding = FragmentHomeBinding.inflate(inflater,container,false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        mBinding = FragmentHomeBinding.inflate(inflater, container, false)
         return mBinding.root
     }
 
@@ -258,13 +255,22 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
     private fun oilListLiveDataObserve() {
 
         getOilListViewModel.oilListLiveData.observe(viewLifecycleOwner) { list ->
-
-            removeProgressBar()
+            completeUi()
             mBinding.listRecycler.adapter = OilInfoAdapter(list, mMap, afterIntel[1])
             upRecyclerView()
             checkListEmpty(list.size)
 
         }
+    }
+
+    private fun completeUi() {
+        mBinding.progressBar.visibility = View.INVISIBLE
+        mBinding.listRecycler.visibility = View.VISIBLE
+    }
+
+    private fun processingUi() {
+        mBinding.progressBar.visibility = View.VISIBLE
+        mBinding.listRecycler.visibility = View.INVISIBLE
     }
 
     private fun syncBeforeAfterIntel() {
@@ -273,8 +279,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
         beforeIntel[2] = afterIntel[2]
     }
 
-    private fun checkListEmpty(listSize : Int) {
-        if(listSize == 0){
+    private fun checkListEmpty(listSize: Int) {
+        if (listSize == 0) {
             showEmptyMessage()
         }
     }
@@ -295,8 +301,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
     private fun checkChangeData() = beforeIntel != afterIntel
 
-    private val locationCallback : LocationCallback = object : LocationCallback() {
-        override fun onLocationResult(locationResult: LocationResult) { super.onLocationResult(locationResult) }
+    private val locationCallback: LocationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            super.onLocationResult(locationResult)
+        }
     }
 
     //시작 위치 업데이트
@@ -305,13 +313,17 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
     private fun startLocationUpdates() {
 
         if (checkPermission()) {
-            mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
+            mFusedLocationClient.requestLocationUpdates(
+                locationRequest,
+                locationCallback,
+                Looper.myLooper()
+            )
         }
 
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    override fun onMapReady(googleMap : GoogleMap) {
+    override fun onMapReady(googleMap: GoogleMap) {
 
         mMap = googleMap
 
@@ -332,7 +344,14 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
         mMap.apply {
 
             gpsTrackerInit()
-            moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude()), 15f))
+            moveCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    LatLng(
+                        gpsTracker.getLatitude(),
+                        gpsTracker.getLongitude()
+                    ), 15f
+                )
+            )
             isMyLocationEnabled = true
             animateCamera(CameraUpdateFactory.zoomTo(15f))
 
@@ -348,9 +367,17 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
     private fun handleLocationPermissionRequest() {
 
-        if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), requiredPermission[0])) {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(
+                requireActivity(),
+                requiredPermission[0]
+            )
+        ) {
 
-            Snackbar.make(mBinding.layoutMain, REQUIRE_LOCATION_PERMISSION_GUIDE, Snackbar.LENGTH_INDEFINITE).setAction(CONFIRM_GUIDE) {
+            Snackbar.make(
+                mBinding.layoutMain,
+                REQUIRE_LOCATION_PERMISSION_GUIDE,
+                Snackbar.LENGTH_INDEFINITE
+            ).setAction(CONFIRM_GUIDE) {
                 ActivityCompat.requestPermissions(
                     requireActivity(), requiredPermission,
                     PERMISSIONS_REQUEST_CODE
@@ -358,21 +385,32 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
             }.show()
 
         } else
-            ActivityCompat.requestPermissions(requireActivity(), requiredPermission, PERMISSIONS_REQUEST_CODE)
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                requiredPermission,
+                PERMISSIONS_REQUEST_CODE
+            )
 
     }
 
 
     // 런타임 퍼미션 처리를 위한 메소드들
-    private fun checkPermission() = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-            ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+    private fun checkPermission() = ContextCompat.checkSelfPermission(
+        requireContext(),
+        Manifest.permission.ACCESS_FINE_LOCATION
+    ) == PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
 
 
     //GPS 요청 코드
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private fun checkLocationServicesStatus() = with(requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager) {
-        isProviderEnabled(LocationManager.GPS_PROVIDER) || isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-    }
+    private fun checkLocationServicesStatus() =
+        with(requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager) {
+            isProviderEnabled(LocationManager.GPS_PROVIDER) || isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+        }
 
     @SuppressLint("MissingPermission")
     override fun onStart() {
@@ -384,7 +422,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener {
 
     }
 
-    //백그라운드에서도 화면이 계속 유지
     override fun onStop() {
         super.onStop()
         mFusedLocationClient.removeLocationUpdates(locationCallback)
