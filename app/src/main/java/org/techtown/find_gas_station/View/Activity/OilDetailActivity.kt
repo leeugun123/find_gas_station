@@ -29,11 +29,10 @@ class OilDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(binding.root)
         uiInit()
 
-        binding.call!!.setOnClickListener {
+        binding.callBtn.setOnClickListener {
             startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:${oilInfoData.tel}")))
         }
 
@@ -52,16 +51,10 @@ class OilDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun textInit() {
 
-        binding.gasImage!!.setImageResource(oilInfoData.image)
+        binding.gasImg.setImageResource(oilInfoData.image)
         binding.lotAddress.text = oilInfoData.lotNumberAdd
-        binding.stAddress.text = oilInfoData.roadAdd
+        binding.roadAddress.text = oilInfoData.roadAdd
         binding.tel.text = oilInfoData.tel
-
-        binding.oilKind.text = when (oilInfoData.oilKind) {
-            "N" -> "주유소"
-            "Y" -> "자동차 주유소"
-            else -> "주유소/충전소 겸업"
-        }
 
         setFeatureStatus(binding.carWash, oilInfoData.carWash)
         setFeatureStatus(binding.store, oilInfoData.conStore)
@@ -98,7 +91,7 @@ class OilDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun mapInit() {
 
         val pos = LatLng(oilInfoData.wgs84Y.toDouble(), oilInfoData.wgs84X.toDouble())
-        val bitmapDraw = binding.gasImage!!.resources.getDrawable(oilInfoData.image) as BitmapDrawable
+        val bitmapDraw = binding.gasImg.resources.getDrawable(oilInfoData.image) as BitmapDrawable
         val smallMarker = Bitmap.createScaledBitmap(bitmapDraw.bitmap, 120, 120, false)
         val markerOptions = MarkerOptions()
 
