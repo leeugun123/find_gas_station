@@ -26,30 +26,42 @@ import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.View.Activity.OilDetailActivity
 import org.techtown.find_gas_station.databinding.ItemRecyclerviewBinding
 
-class OilInfoAdapter(private val oilInfoList : List<TotalOilInfo>, private val googleMap : GoogleMap, private val sort : String) : RecyclerView.Adapter<OilInfoAdapter.ViewHolder>() {
+class OilInfoAdapter(
+    private val oilInfoList: List<TotalOilInfo>,
+    private val googleMap: GoogleMap,
+    private val sort: String
+) : RecyclerView.Adapter<OilInfoAdapter.ViewHolder>() {
 
-    inner class ViewHolder(val binding : ItemRecyclerviewBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class ViewHolder(val binding: ItemRecyclerviewBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
-                = ViewHolder(ItemRecyclerviewBinding.inflate(LayoutInflater.from(parent.context) , parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
+        ItemRecyclerviewBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+    )
 
     override fun getItemCount() = oilInfoList.size
 
     @SuppressLint("SetTextI18n")
-    override fun onBindViewHolder(holder : OilInfoAdapter.ViewHolder, position : Int) {
+    override fun onBindViewHolder(holder: OilInfoAdapter.ViewHolder, position: Int) {
 
         val oilInfo = oilInfoList[position]
 
         holder.binding.name.text = oilInfo.name
-        holder.binding.price.text = oilInfo.price + "원"
+        holder.binding.price.text = oilInfo.price
 
         when (sort) {
             "3" -> {
                 holder.binding.distance.text = changeKm(oilInfo.actDistance) + "km"
             }
+
             "4" -> {
                 holder.binding.distance.text = formatSeconds(oilInfo.spendTime.toInt())
             }
+
             else -> {
                 holder.binding.distance.text = changeKm(oilInfo.distance) + "km"
             }
@@ -58,21 +70,21 @@ class OilInfoAdapter(private val oilInfoList : List<TotalOilInfo>, private val g
         holder.binding.oilKind.text = oilInfo.oilKind
         holder.binding.oilImage.setImageResource(oilInfo.image)
 
-        if(oilInfo.carWash == "Y"){
-            holder.binding.carWashStore!!.setImageResource(R.drawable.car_wash)
-        }else
-            holder.binding.carWashStore!!.setImageResource(R.color.white)
+        if (oilInfo.carWash == "Y") {
+            holder.binding.carWashStore.setImageResource(R.drawable.car_wash)
+        } else
+            holder.binding.carWashStore.setImageResource(R.color.white)
 
-        if(oilInfo.conStore == "Y"){
-            holder.binding.conStore!!.setImageResource(R.drawable.convenstore)
-        }else
-            holder.binding.conStore!!.setImageResource(R.color.white)
+        if (oilInfo.conStore == "Y") {
+            holder.binding.conStore.setImageResource(R.drawable.convenstore)
+        } else
+            holder.binding.conStore.setImageResource(R.color.white)
 
-        holder.binding.root.setOnClickListener{
+        holder.binding.root.setOnClickListener {
             navigateToLocation(oilInfo.wgs84Y.toDouble(), oilInfo.wgs84X.toDouble())
         }
 
-        addMarkerToMap(oilInfo , holder)
+        addMarkerToMap(oilInfo, holder)
 
         holder.binding.naviButtonKakao.setOnClickListener {
 
@@ -85,8 +97,9 @@ class OilInfoAdapter(private val oilInfoList : List<TotalOilInfo>, private val g
                 ).build()
 
 
-                val options = NaviOptions.newBuilder().setCoordType(CoordType.WGS84).setVehicleType(VehicleType.FIRST)
-                                .setRpOption(RpOption.FAST).build()
+                val options = NaviOptions.newBuilder().setCoordType(CoordType.WGS84)
+                    .setVehicleType(VehicleType.FIRST)
+                    .setRpOption(RpOption.FAST).build()
 
                 val params = KakaoNaviParams.newBuilder(destination)
                     .setNaviOptions(options)
@@ -97,17 +110,20 @@ class OilInfoAdapter(private val oilInfoList : List<TotalOilInfo>, private val g
             } else {
 
                 holder.itemView.context.startActivity(
-                    Intent(Intent.ACTION_VIEW, Uri.parse(WEB_NAVI_INSTALL)).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse(WEB_NAVI_INSTALL)
+                    ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 )
 
             }
 
         }
 
-        holder.binding.intelButton!!.setOnClickListener {
+        holder.binding.intelButton.setOnClickListener {
 
             val intent = Intent(holder.itemView.context, OilDetailActivity::class.java)
-            intent.putExtra("oilDetailInfo",oilInfo)
+            intent.putExtra("oilDetailInfo", oilInfo)
             holder.itemView.context.startActivity(intent)
 
         }
@@ -123,10 +139,11 @@ class OilInfoAdapter(private val oilInfoList : List<TotalOilInfo>, private val g
         )
     }
 
-    private fun addMarkerToMap(oilInfo : TotalOilInfo , holder : OilInfoAdapter.ViewHolder) {
+    private fun addMarkerToMap(oilInfo: TotalOilInfo, holder: OilInfoAdapter.ViewHolder) {
 
         val pos = LatLng(oilInfo.wgs84Y.toDouble(), oilInfo.wgs84X.toDouble())
-        val bitmapDraw = holder.binding.oilImage.resources.getDrawable(oilInfo.image) as BitmapDrawable
+        val bitmapDraw =
+            holder.binding.oilImage.resources.getDrawable(oilInfo.image) as BitmapDrawable
         val smallMarker = Bitmap.createScaledBitmap(bitmapDraw.bitmap, 80, 80, false)
         val markerOptions = MarkerOptions()
 
@@ -139,7 +156,7 @@ class OilInfoAdapter(private val oilInfoList : List<TotalOilInfo>, private val g
 
     }
 
-    private fun formatSeconds(seconds: Int) : String {
+    private fun formatSeconds(seconds: Int): String {
 
         var seconds = seconds
         require(seconds >= 0) { "초는 음수일 수 없습니다." }

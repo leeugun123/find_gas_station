@@ -3,7 +3,6 @@ package org.techtown.find_gas_station.View.Activity
 import android.app.Activity
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -18,31 +17,29 @@ import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.CHECK_TH
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.CHECK_TWO_DIRECT_DISTANCE
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.DIRECT_DISTANCE_GUIDE
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.FIVE_KM
-import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.GASOLINE_KOREAN
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.GASOLINE_GUIDE_ENGLISH
-import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.INDOOR_KEROSENE_KOREAN
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.GASOLINE_KOREAN
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.INDOOR_KEROSENE_ENGLISH
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.INDOOR_KEROSENE_KOREAN
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.ONE_KM
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.ONE_KM_IN_METERS
-import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.PREMIUM_GASOLINE_KOREAN
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.PREMIUM_GASOLINE_ENGLISH
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.PREMIUM_GASOLINE_KOREAN
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.PRICE_CONDITION_GUIDE
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.ROAD_DISTANCE_GUIDE
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.SPEND_TIME_GUIDE
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.THREE_KM
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.THREE_KM_IN_METERS
-import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.VIA_KOREAN
 import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.VIA_GUIDE_ENGLISH
+import org.techtown.find_gas_station.Util.Constant.ConstantOilCondition.VIA_KOREAN
 import org.techtown.find_gas_station.Util.Parser.OilParser.calOilName
 import org.techtown.find_gas_station.Util.Parser.OilParser.calOilSort
 import org.techtown.find_gas_station.Util.Parser.OilParser.calRad
-import org.techtown.find_gas_station.View.Fragment.HomeFragment
-import org.techtown.find_gas_station.ViewModel.SetViewModel
 import org.techtown.find_gas_station.databinding.ActivityDrawerBinding
 
 class SettingActivity : AppCompatActivity() {
 
-    private val mBinding by lazy { ActivityDrawerBinding.inflate(layoutInflater)}
+    private val mBinding by lazy { ActivityDrawerBinding.inflate(layoutInflater) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(mBinding.root)
@@ -60,7 +57,13 @@ class SettingActivity : AppCompatActivity() {
 
         setupSpinner(
             mBinding.typeSpinner,
-            listOf(GASOLINE_KOREAN, VIA_KOREAN, PREMIUM_GASOLINE_KOREAN, INDOOR_KEROSENE_KOREAN, CAR_BUTANE_KOREAN)
+            listOf(
+                GASOLINE_KOREAN,
+                VIA_KOREAN,
+                PREMIUM_GASOLINE_KOREAN,
+                INDOOR_KEROSENE_KOREAN,
+                CAR_BUTANE_KOREAN
+            )
         ) { selectedValue ->
             afterIntel[2] = calOilName(selectedValue)
         }
@@ -74,7 +77,12 @@ class SettingActivity : AppCompatActivity() {
 
         setupSpinner(
             mBinding.sortSpinner,
-            listOf(PRICE_CONDITION_GUIDE, DIRECT_DISTANCE_GUIDE, ROAD_DISTANCE_GUIDE, SPEND_TIME_GUIDE)
+            listOf(
+                PRICE_CONDITION_GUIDE,
+                DIRECT_DISTANCE_GUIDE,
+                ROAD_DISTANCE_GUIDE,
+                SPEND_TIME_GUIDE
+            )
         ) { selectedValue ->
             afterIntel[1] = calOilSort(selectedValue)
         }
@@ -85,31 +93,36 @@ class SettingActivity : AppCompatActivity() {
     private fun updateUI() {
 
         // 기름 종류 설정
-        mBinding.typeSpinner.setSelection(when (afterIntel[2]) {
-            GASOLINE_GUIDE_ENGLISH -> 0 //휘발유
-            VIA_GUIDE_ENGLISH -> 1 //경유
-            PREMIUM_GASOLINE_ENGLISH -> 2 //고급 휘발유
-            INDOOR_KEROSENE_ENGLISH -> 3 //실내 등유
-            else -> 4
-        })
+        mBinding.typeSpinner.setSelection(
+            when (afterIntel[2]) {
+                GASOLINE_GUIDE_ENGLISH -> 0 //휘발유
+                VIA_GUIDE_ENGLISH -> 1 //경유
+                PREMIUM_GASOLINE_ENGLISH -> 2 //고급 휘발유
+                INDOOR_KEROSENE_ENGLISH -> 3 //실내 등유
+                else -> 4
+            }
+        )
 
         // 거리 설정
-        mBinding.distanceSpinner.setSelection(when (afterIntel[0]) {
-            ONE_KM_IN_METERS -> 0
-            THREE_KM_IN_METERS -> 1
-            else -> 2
-        })
+        mBinding.distanceSpinner.setSelection(
+            when (afterIntel[0]) {
+                ONE_KM_IN_METERS -> 0
+                THREE_KM_IN_METERS -> 1
+                else -> 2
+            }
+        )
 
         // 정렬 설정
-        mBinding.sortSpinner.setSelection(when (afterIntel[1]) {
-            CHECK_PRICE_CONDITION -> 0
-            CHECK_TWO_DIRECT_DISTANCE -> 1
-            CHECK_THREE_ROAD_DISTANCE -> 2
-            else -> 3
-        })
+        mBinding.sortSpinner.setSelection(
+            when (afterIntel[1]) {
+                CHECK_PRICE_CONDITION -> 0
+                CHECK_TWO_DIRECT_DISTANCE -> 1
+                CHECK_THREE_ROAD_DISTANCE -> 2
+                else -> 3
+            }
+        )
 
     }
-
 
 
     private fun setupSpinner(spinner: Spinner, options: List<String>, onSelect: (String) -> Unit) {
@@ -121,9 +134,14 @@ class SettingActivity : AppCompatActivity() {
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 
-            override fun onItemSelected(adapterView: AdapterView<*>, view: View, position : Int, id : Long) {
+            override fun onItemSelected(
+                adapterView: AdapterView<*>,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
 
-               (adapterView.getChildAt(0) as TextView).setTextColor(Color.BLACK)
+                (adapterView.getChildAt(0) as TextView).setTextColor(Color.BLACK)
                 onSelect(options.getOrElse(position) { "" })
                 //updateUI()
 
@@ -133,17 +151,13 @@ class SettingActivity : AppCompatActivity() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         activityFinish()
     }
 
-    private fun activityFinish(){
+    private fun activityFinish() {
         setResult(Activity.RESULT_OK)
         finish()
     }
-
-
-
-
-
 }

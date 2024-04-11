@@ -7,7 +7,7 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/oilAvgtabs"
-        android:background="@color/orange"
+        android:background="@color/app_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

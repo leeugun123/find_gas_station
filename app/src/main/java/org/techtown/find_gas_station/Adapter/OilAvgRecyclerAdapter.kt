@@ -45,7 +45,7 @@ class OilAvgRecyclerAdapter(private val oilAvgList: List<OilAveragePriceInfo>) :
                     ContextCompat.getColor(
                         holder.itemView.context,
                         when {
-                            gap > 0 -> R.color.orange
+                            gap > 0 -> R.color.app_background
                             gap < 0 -> R.color.purple_700
                             else -> R.color.gray
                         }

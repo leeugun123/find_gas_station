@@ -1,4 +1,34 @@
 <resources>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Splash-->
+    <string name="app_title">파인딩 오일</string>
+    <string name="splash_explain">내 주변 주유소를 단 한번에</string>
+
+    <!-- Main-->
+    <string name="sort_price">가격순</string>
+    <string name="home">홈</string>
+    <string name="oil_average_price">유가 평균 가격</string>
+
+    <string name="gas_station_img">주유소 이미지</string>
+    <string name="navi">내비</string>
+    <string name="gas_station_info_detail">주유소 상세 정보</string>
+    <string name="car_wash_exist">세차장 유무</string>
+    <string name="convenience_store_exist">편의점 유무</string>
+
+    <!-- 정렬 기준 화면-->
+    <string name="gas_station_setting">주유소 설정</string>
+    <string name="oil_kind">기름 종류</string>
+    <string name="distance_setting">내 주변 반경 설정</string>
+    <string name="sort_type">정렬 기준</string>
+
+    <!-- 기름 상세 정보 -->
+    <string name="lot_address">지번 주소</string>
+    <string name="road_address">도로명 주소</string>
+    <string name="tel">전화 번호</string>
+    <string name="car_wash">세차장</string>
+    <string name="conven_store">편의점</string>
+
+    <!-- Price Intel 유가 평균 가격 정보 -->
+    <string name="won">원</string>
+
 </resources>

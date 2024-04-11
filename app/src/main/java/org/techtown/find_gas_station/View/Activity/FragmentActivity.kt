@@ -27,7 +27,7 @@ class FragmentActivity : AppCompatActivity() {
 
     private var doubleBackToExitPressedOnce = false
 
-    private val setViewModel by viewModels<SetViewModel>()
+    private val setViewModel : SetViewModel by viewModels()
     private val mBinding by lazy { ActivityFragmentBinding.inflate(layoutInflater) }
     private val fa by lazy { HomeFragment() }
     private val fb by lazy { DailyFragment() }

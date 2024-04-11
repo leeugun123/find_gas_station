@@ -5,17 +5,12 @@
         android:id="@+id/Home_fragment"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_home_24"
-        android:title="홈"
-
-        />
+        android:title="@string/home" />
 
     <item
         android:id="@+id/Daily_fragment"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_equalizer_24"
-        android:title="유가 평균 가격"
-        />
-
-
+        android:title="@string/oil_average_price" />
 
 </menu>
