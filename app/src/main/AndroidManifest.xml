@@ -26,21 +26,21 @@
         tools:targetApi="m">
 
         <activity
-            android:name=".View.Activity.FragmentActivity"
+            android:name=".presentation.FragmentActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"
             tools:ignore="MissingClass" />
 
         <activity
-            android:name=".View.Activity.OilDetailActivity"
+            android:name=".presentation.gasdetailinfo.OilDetailActivity"
             android:exported="false" />
 
         <activity
-            android:name=".View.Activity.SettingActivity"
+            android:name=".presentation.setting.SettingActivity"
             android:exported="true" />
 
         <activity
-            android:name=".View.Activity.SplashActivity"
+            android:name=".presentation.splash.SplashActivity"
             android:exported="true">
 
             <intent-filter>
