@@ -29,6 +29,11 @@
     <string name="conven_store">편의점</string>
 
     <!-- Price Intel 유가 평균 가격 정보 -->
+    <string name="gasoline">휘발유</string>
+    <string name="diesel_oil">경유</string>
+    <string name="premium_gasoline">고급\n휘발유</string>
+    <string name="indoor_kerosene">실내 등유</string>
+    <string name="car_butane">자동차\n부탄</string>
     <string name="won">원</string>
 
 </resources>
