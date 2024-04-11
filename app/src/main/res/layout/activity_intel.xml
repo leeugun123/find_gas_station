@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:text="지번 주소"
+        android:text="@string/lot_address"
         android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold"
@@ -33,15 +33,14 @@
         app:layout_constraintTop_toBottomOf="@+id/gasImg" />
 
     <TextView
-        android:id="@+id/roadAddress"
+        android:id="@+id/lotAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:text="경기 가평군 상면 청군로 927"
-        android:textColor="#4CAF50"
+        android:textColor="#0A65BF"
         android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/roadAddress_text" />
+        app:layout_constraintTop_toBottomOf="@+id/lotAddress_text" />
 
     <TextView
         android:id="@+id/roadAddress_text"
@@ -49,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:text="도로명 주소"
+        android:text="@string/road_address"
         android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold"
@@ -57,23 +56,23 @@
         app:layout_constraintTop_toBottomOf="@+id/lotAddress" />
 
     <TextView
-        android:id="@+id/lotAddress"
+        android:id="@+id/roadAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:text="경기 가평군 상면 항사리"
-        android:textColor="#0A65BF"
+        android:textColor="#4CAF50"
         android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lotAddress_text" />
+        app:layout_constraintTop_toBottomOf="@+id/roadAddress_text" />
+
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/tel_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:text="전화 번호"
+        android:text="@string/tel"
         android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold"
@@ -85,11 +84,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:text="031-22222"
         android:textColor="#4CAF50"
         android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintTop_toBottomOf="@+id/tel_text" />
 
 
     <ImageView
@@ -104,12 +102,12 @@
 
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/carwash_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:text="세차장"
+        android:text="@string/car_wash"
         android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold"
@@ -124,31 +122,31 @@
         android:text=""
         android:textColor="@color/black"
         android:textSize="25sp"
-        app:layout_constraintStart_toEndOf="@+id/textView10"
-        app:layout_constraintTop_toTopOf="@+id/textView10" />
+        app:layout_constraintStart_toEndOf="@+id/carwash_text"
+        app:layout_constraintTop_toTopOf="@+id/carwash_text" />
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/conven_store_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:text="편의점"
+        android:text="@string/conven_store"
         android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/carWash"
-        app:layout_constraintTop_toTopOf="@+id/textView10" />
+        app:layout_constraintTop_toTopOf="@+id/carwash_text" />
 
     <TextView
-        android:id="@+id/store"
+        android:id="@+id/conven_store"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:text=""
         android:textColor="@color/black"
         android:textSize="25sp"
-        app:layout_constraintStart_toEndOf="@+id/textView11"
-        app:layout_constraintTop_toTopOf="@+id/textView11" />
+        app:layout_constraintStart_toEndOf="@+id/conven_store_text"
+        app:layout_constraintTop_toTopOf="@+id/conven_store_text" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/detailMap"
@@ -160,6 +158,6 @@
         android:layout_marginEnd="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+        app:layout_constraintTop_toBottomOf="@+id/carwash_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

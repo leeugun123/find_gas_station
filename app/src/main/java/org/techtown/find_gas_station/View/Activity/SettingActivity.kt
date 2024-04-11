@@ -151,6 +151,7 @@ class SettingActivity : AppCompatActivity() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         activityFinish()
     }

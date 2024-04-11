@@ -22,10 +22,10 @@ import org.techtown.find_gas_station.databinding.ActivityIntelBinding
 
 class OilDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
-    private val oilInfoData by lazy { intent.getSerializableExtra("oilDetailInfo") as TotalOilInfo}
-    private val binding by lazy { ActivityIntelBinding.inflate(layoutInflater)}
+    private val oilInfoData by lazy { intent.getSerializableExtra("oilDetailInfo") as TotalOilInfo }
+    private val binding by lazy { ActivityIntelBinding.inflate(layoutInflater) }
 
-    private lateinit var detailMap : GoogleMap
+    private lateinit var detailMap: GoogleMap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +44,8 @@ class OilDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun mapFragmentInit() {
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.detailMap) as? SupportMapFragment
+        val mapFragment =
+            supportFragmentManager.findFragmentById(R.id.detailMap) as? SupportMapFragment
         mapFragment!!.getMapAsync(this)
     }
 
@@ -57,13 +58,17 @@ class OilDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         binding.tel.text = oilInfoData.tel
 
         setFeatureStatus(binding.carWash, oilInfoData.carWash)
-        setFeatureStatus(binding.store, oilInfoData.conStore)
+        setFeatureStatus(binding.convenStore, oilInfoData.conStore)
     }
 
-    private fun setFeatureStatus(textView : TextView, feature : String?) {
+    private fun setFeatureStatus(textView: TextView, feature: String?) {
 
         textView.text = if (feature == "Y") "O" else "X"
-        textView.setTextColor(if (feature == "Y") Color.parseColor("#009900") else Color.parseColor("#ff0000"))
+        textView.setTextColor(
+            if (feature == "Y") Color.parseColor("#009900") else Color.parseColor(
+                "#ff0000"
+            )
+        )
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -72,7 +77,8 @@ class OilDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
         detailMap.apply {
 
-            val initDetailMapPos = LatLng(oilInfoData.wgs84Y.toDouble(), oilInfoData.wgs84X.toDouble())
+            val initDetailMapPos =
+                LatLng(oilInfoData.wgs84Y.toDouble(), oilInfoData.wgs84X.toDouble())
             moveCamera(CameraUpdateFactory.newLatLngZoom(initDetailMapPos, 18f))
 
             uiSettings.apply {
