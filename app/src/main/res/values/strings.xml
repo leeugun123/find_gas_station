@@ -3,11 +3,13 @@
     <!-- Splash-->
     <string name="app_title">파인딩 오일</string>
     <string name="splash_explain">내 주변 주유소를 단 한번에</string>
+    <string name="access_denied">위치 권한이 거부 되었습니다. 앱을 종료 합니다.</string>
 
     <!-- Main-->
     <string name="sort_price">가격순</string>
     <string name="home">홈</string>
     <string name="oil_average_price">유가 평균 가격</string>
+    <string name="back_press_exit_guide">한 번 더 누르면 종료됩니다.</string>
 
     <string name="gas_station_img">주유소 이미지</string>
     <string name="navi">내비</string>
@@ -35,5 +37,7 @@
     <string name="indoor_kerosene">실내 등유</string>
     <string name="car_butane">자동차\n부탄</string>
     <string name="won">원</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

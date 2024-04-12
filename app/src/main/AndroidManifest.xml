@@ -24,42 +24,39 @@
         android:usesCleartextTraffic="true"
         tools:ignore="Instantiatable"
         tools:targetApi="m">
-
         <activity
-            android:name=".presentation.FragmentActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="false"
-            tools:ignore="MissingClass" />
-
-        <activity
-            android:name=".presentation.gasdetailinfo.OilDetailActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".presentation.setting.SettingActivity"
-            android:exported="true" />
-
-        <activity
-            android:name=".presentation.splash.SplashActivity"
+            android:name=".MainActivity"
             android:exported="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
+
+        <activity
+            android:name=".presentation.FragmentActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            tools:ignore="MissingClass" />
+        <activity
+            android:name=".presentation.gasdetailinfo.OilDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.setting.SettingActivity"
+            android:exported="true" />
+        <activity
+            android:name=".presentation.splash.SplashActivity"
+            android:exported="true" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${google_api_key}" />
-
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="${kakao_api_key}" />
 
     </application>
-
 
 </manifest>

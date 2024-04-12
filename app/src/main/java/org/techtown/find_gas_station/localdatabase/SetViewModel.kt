@@ -42,7 +42,6 @@ class SetViewModel(application: Application) : AndroidViewModel(application) {
             setRepository.deleteAll()
             setRepository.insert(set)
         }
-
     }
 
 
