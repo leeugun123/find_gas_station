@@ -9,29 +9,8 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import org.techtown.find_gas_station.presentation.oilroundinfo.OilCondition.afterIntel
+import androidx.navigation.findNavController
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.CAR_BUTANE_KOREAN
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.CHECK_PRICE_CONDITION
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.CHECK_THREE_ROAD_DISTANCE
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.CHECK_TWO_DIRECT_DISTANCE
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.DIRECT_DISTANCE_GUIDE
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.FIVE_KM
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.GASOLINE_GUIDE_ENGLISH
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.GASOLINE_KOREAN
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.INDOOR_KEROSENE_ENGLISH
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.INDOOR_KEROSENE_KOREAN
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.ONE_KM
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.ONE_KM_IN_METERS
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.PREMIUM_GASOLINE_ENGLISH
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.PREMIUM_GASOLINE_KOREAN
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.PRICE_CONDITION_GUIDE
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.ROAD_DISTANCE_GUIDE
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.SPEND_TIME_GUIDE
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.THREE_KM
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.THREE_KM_IN_METERS
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.VIA_GUIDE_ENGLISH
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.VIA_KOREAN
 import org.techtown.find_gas_station.util.parser.OilParser.calOilName
 import org.techtown.find_gas_station.util.parser.OilParser.calOilSort
 import org.techtown.find_gas_station.util.parser.OilParser.calRad
@@ -45,7 +24,7 @@ class SettingActivity : AppCompatActivity() {
         setContentView(mBinding.root)
 
         mBinding.goBack.setOnClickListener {
-            activityFinish()
+            // findNavController().popBackStack()
         }
 
         spinnerSet()
@@ -151,13 +130,4 @@ class SettingActivity : AppCompatActivity() {
         }
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        activityFinish()
-    }
-
-    private fun activityFinish() {
-        setResult(Activity.RESULT_OK)
-        finish()
-    }
 }

@@ -14,27 +14,24 @@ import org.techtown.find_gas_station.repository.SetRepository
 
 class SetViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val _oilLocalData = MutableLiveData<OilData>()
-    val oilLocalData : LiveData<OilData> get() = _oilLocalData
+
+    lateinit var localOilCondition : OilData
     private val setRepository: SetRepository
 
     init {
         val oilDao = RoomDB.getAppDatabase(application).setDao()
         setRepository = SetRepository(oilDao)
+        requestLocalOilCondtion()
     }
 
-    fun getOilLocalData(){
-
+    private fun requestLocalOilCondtion(){
         viewModelScope.launch(Dispatchers.IO){
-
             val localData = setRepository.getOilLocalData()
 
             withContext(Dispatchers.Main){
-                _oilLocalData.value = localData
+                localOilCondition = localData
             }
-
         }
-
     }
     fun updateData(set: OilData) {
 
@@ -44,8 +41,4 @@ class SetViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-
-    class Factory(val application: Application) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>) = SetViewModel(application) as T
-    }
 }

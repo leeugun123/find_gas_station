@@ -4,7 +4,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-android-extensions'
     id 'org.jetbrains.kotlin.kapt'
-
+    id 'dagger.hilt.android.plugin'
 }
 
 //선언 및 키 값을 불러옴
@@ -119,4 +119,8 @@ dependencies {
     //View Pager2
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
 
+    //Hilt
+    implementation "com.google.dagger:hilt-android:2.50"
+    kapt "com.google.dagger:hilt-android-compiler:2.50"
 }
+

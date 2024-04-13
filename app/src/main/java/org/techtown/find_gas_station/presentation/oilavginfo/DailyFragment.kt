@@ -6,11 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.CAR_BUTANE_KOREAN
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.GASOLINE_KOREAN
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.INDOOR_KEROSENE_KOREAN
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.PREMIUM_GASOLINE_KOREAN
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.VIA_KOREAN
 import org.techtown.find_gas_station.databinding.FragmentDailyBinding
 
 class DailyFragment : Fragment() {

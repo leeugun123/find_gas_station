@@ -17,21 +17,9 @@ import org.techtown.find_gas_station.util.api.Api_Instance.opiRetrofitApi
 import org.techtown.find_gas_station.util.comparator.OilRoadDistanceComparator
 import org.techtown.find_gas_station.util.comparator.OilSpendTimeComparator
 import org.techtown.find_gas_station.util.constant.ConstantGuide.JSON_FORMAT
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.CAR_BUTANE_KOREAN
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.CHECK_FOUR_SPEND_TIME
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.CHECK_THREE_ROAD_DISTANCE
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.GASOLINE_KOREAN
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.GASOLINE_GUIDE_ENGLISH
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.INDOOR_KEROSENE_KOREAN
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.INDOOR_KEROSENE_ENGLISH
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.PREMIUM_GASOLINE_KOREAN
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.PREMIUM_GASOLINE_ENGLISH
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.VIA_KOREAN
-import org.techtown.find_gas_station.util.constant.ConstantOilCondition.VIA_GUIDE_ENGLISH
 import org.techtown.find_gas_station.util.constant.ConstantsTime.KAKAO_REQUEST_RADIUS
 import org.techtown.find_gas_station.util.gps.GeoTrans
 import org.techtown.find_gas_station.util.gps.GeoTransPoint
-import org.techtown.find_gas_station.presentation.oilroundinfo.HomeFragment
 import java.util.Collections
 
 class GetOilRepository() {

@@ -7,6 +7,10 @@
 
     <!-- Main-->
     <string name="sort_price">가격순</string>
+    <string name="sort_direct_distance">직경 거리순</string>
+    <string name="sort_road_distance">도로 거리순</string>
+    <string name="sort_spend_time">소요 시간순</string>
+
     <string name="home">홈</string>
     <string name="oil_average_price">유가 평균 가격</string>
     <string name="back_press_exit_guide">한 번 더 누르면 종료됩니다.</string>
@@ -22,6 +26,8 @@
     <string name="oil_kind">기름 종류</string>
     <string name="distance_setting">내 주변 반경 설정</string>
     <string name="sort_type">정렬 기준</string>
+
+    <string name="data_empty_message">데이터가 비어있거나 서버가 점검 중입니다.</string>
 
     <!-- 기름 상세 정보 -->
     <string name="lot_address">지번 주소</string>
