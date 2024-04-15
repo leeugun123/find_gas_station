@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station
+package org.techtown.find_gas_station.presentation.oilroundinfo
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -15,7 +15,6 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
@@ -36,8 +35,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.techtown.find_gas_station.BaseFragment
+import org.techtown.find_gas_station.R
+import org.techtown.find_gas_station.SplashFragment
 import org.techtown.find_gas_station.databinding.FragmentOilInfoBinding
-import org.techtown.find_gas_station.presentation.oilroundinfo.OilInfoAdapter
 import org.techtown.find_gas_station.util.constant.ConstantGuide
 import org.techtown.find_gas_station.util.constant.ConstantsTime
 import org.techtown.find_gas_station.util.gps.GeoTrans
@@ -47,6 +48,9 @@ import org.techtown.find_gas_station.util.gps.GpsTracker
 @AndroidEntryPoint
 class OilInfoFragment : BaseFragment<FragmentOilInfoBinding>(R.layout.fragment_oil_info),
     OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+
+    private var wgsX = ""
+    private var wgsY = ""
 
     private val mFusedLocationClient by lazy {
         LocationServices.getFusedLocationProviderClient(
@@ -109,20 +113,22 @@ class OilInfoFragment : BaseFragment<FragmentOilInfoBinding>(R.layout.fragment_o
 
     private fun getOilData() {
         activeProgressBar(true)
-
         initGpsTracker()
-        val ge =
+
+        val katecPos =
             transFormPoint(gpsTracker.getLatitude().toFloat(), gpsTracker.getLongitude().toFloat())
 
         oilInfoViewModel.requestOilList(
-            ge.x.toString(),
-            ge.y.toString(),
+            wgsX,
+            wgsY,
+            katecPos.x.toString(),
+            katecPos.y.toString(),
         )
     }
 
     private fun updateSortText() {
 
-        val sort = when (oilInfoViewModel.oilConditionList[1]) {
+        val sort = when (oilInfoViewModel.oilCondition.sort) {
             "1" -> R.string.sort_price
             "2" -> R.string.sort_direct_distance
             "3" -> R.string.sort_road_distance
@@ -143,7 +149,7 @@ class OilInfoFragment : BaseFragment<FragmentOilInfoBinding>(R.layout.fragment_o
         oilInfoViewModel.oilListLiveData.observe(viewLifecycleOwner) { oilList ->
             activeProgressBar(false)
             binding.listRecycler.adapter =
-                OilInfoAdapter(oilList, mMap, oilInfoViewModel.oilConditionList[1])
+                OilInfoAdapter(oilList, mMap, oilInfoViewModel.oilCondition.sort)
             upRecyclerView()
             checkListEmpty(oilList.size)
         }
@@ -194,14 +200,10 @@ class OilInfoFragment : BaseFragment<FragmentOilInfoBinding>(R.layout.fragment_o
     }
 
     private fun transFormPoint(latitude: Float, longtitude: Float): GeoTransPoint {
-        val point = GeoTransPoint(longtitude.toDouble(), latitude.toDouble())
-        initWgs(point)
-        return GeoTrans.convert(GeoTrans.GEO, GeoTrans.KATEC, point)
-    }
-
-    private fun initWgs(point: GeoTransPoint) {
-        getWgsMyX = point.x.toString()
-        getWgsMyY = point.y.toString()
+        val geoTransPoint = GeoTransPoint(longtitude.toDouble(), latitude.toDouble())
+        wgsX = geoTransPoint.x.toString()
+        wgsY = geoTransPoint.y.toString()
+        return GeoTrans.convert(GeoTrans.GEO, GeoTrans.KATEC, geoTransPoint)
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -308,8 +310,6 @@ class OilInfoFragment : BaseFragment<FragmentOilInfoBinding>(R.layout.fragment_o
     override fun onMarkerClick(marker: Marker) = false
 
     companion object {
-        var getWgsMyX = ""
-        var getWgsMyY = ""
         private const val UP_RECYCLERVIEW_TIME = 500L
     }
 

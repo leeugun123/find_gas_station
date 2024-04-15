@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -142,8 +143,7 @@ class OilInfoAdapter(
     private fun addMarkerToMap(oilInfo: TotalOilInfo, holder: ViewHolder) {
 
         val pos = LatLng(oilInfo.wgs84Y.toDouble(), oilInfo.wgs84X.toDouble())
-        val bitmapDraw =
-            holder.binding.oilImage.resources.getDrawable(oilInfo.image) as BitmapDrawable
+        val bitmapDraw = ContextCompat.getDrawable(holder.itemView.context, oilInfo.image) as BitmapDrawable
         val smallMarker = Bitmap.createScaledBitmap(bitmapDraw.bitmap, 80, 80, false)
         val markerOptions = MarkerOptions()
 

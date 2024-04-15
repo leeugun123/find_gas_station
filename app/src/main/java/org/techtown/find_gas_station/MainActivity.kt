@@ -14,6 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.techtown.find_gas_station.databinding.ActivityMainBinding
 import org.techtown.find_gas_station.localdatabase.OilData
 import org.techtown.find_gas_station.localdatabase.SetViewModel
+import org.techtown.find_gas_station.presentation.oilroundinfo.OilInfoViewModel
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {

@@ -43,7 +43,21 @@
     <string name="indoor_kerosene">실내 등유</string>
     <string name="car_butane">자동차\n부탄</string>
     <string name="won">원</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- OilRepository -->
+    <string name="ske">SKE</string>
+    <string name="gsx">GSC</string>
+    <string name="hdo">HDO</string>
+    <string name="sol">SOL</string>
+    <string name="rto">RTO</string>
+    <string name="rtx">RTX</string>
+    <string name="nho">NHO</string>
+    <string name="e1h">E1G</string>
+    <string name="skg">SKG</string>
+
+    <string name="gasoline_code">B027</string>
+    <string name="diesel_oil_code">D047</string>
+    <string name="premium_gasoline_code">B034</string>
+    <string name="indoor_kerosene_code">C004</string>
 
 </resources>

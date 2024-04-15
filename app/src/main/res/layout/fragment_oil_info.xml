@@ -15,7 +15,7 @@
 
         <variable
             name="oilInfoViewModel"
-            type="org.techtown.find_gas_station.OilInfoViewModel" />
+            type="org.techtown.find_gas_station.presentation.oilroundinfo.OilInfoViewModel" />
 
     </data>
 
