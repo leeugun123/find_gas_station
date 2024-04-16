@@ -2,9 +2,9 @@ plugins {
     id 'com.android.application'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-parcelize'
+    id 'kotlin-android-extensions'
     id 'org.jetbrains.kotlin.kapt'
-    id 'dagger.hilt.android.plugin'
+
 }
 
 //선언 및 키 값을 불러옴
@@ -12,22 +12,21 @@ Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 android {
-    compileSdk 34
+    compileSdk 33
 
 
     defaultConfig {
         applicationId "com.roid.androidApp"
-        minSdk 26
-        //noinspection EditedTargetSdkVersion
-        targetSdkVersion 34
+        minSdk 21
+        targetSdkVersion 33
         versionCode 40
         versionName "3.91"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "GAS_API_KEY", properties.getProperty("gas_api_key"))
-        buildConfigField("String", "KAKAO_API_KEY", properties.getProperty("kakao_api_key"))
-        buildConfigField("String", "GOOGLE_API_KEY", properties.getProperty("google_api_key"))
+        buildConfigField ("String", "GAS_API_KEY", properties.getProperty("gas_api_key"))
+        buildConfigField("String","KAKAO_API_KEY",properties.getProperty("kakao_api_key"))
+        buildConfigField("String","GOOGLE_API_KEY",properties.getProperty("google_api_key"))
 
 
     }
@@ -43,8 +42,8 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    dataBinding {
-        enable = true
+    buildFeatures {
+        dataBinding true
     }
 
     kotlinOptions {
@@ -118,8 +117,5 @@ dependencies {
     //View Pager2
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
 
-    //Hilt
-    implementation "com.google.dagger:hilt-android:2.50"
-    kapt "com.google.dagger:hilt-android-compiler:2.50"
 }
 

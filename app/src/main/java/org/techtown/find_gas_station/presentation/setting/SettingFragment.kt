@@ -2,18 +2,14 @@ package org.techtown.find_gas_station.presentation.setting
 
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
-import dagger.hilt.android.AndroidEntryPoint
 import org.techtown.find_gas_station.BaseFragment
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.FragmentSettingBinding
 import org.techtown.find_gas_station.presentation.oilroundinfo.OilInfoViewModel
 
-@AndroidEntryPoint
 class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment_setting) {
 
     private val oilInfoViewModel: OilInfoViewModel by activityViewModels()
@@ -48,6 +44,6 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
     }
 
     private fun goBack() {
-        findNavController().popBackStack()
+        //findNavController().popBackStack()
     }
 }

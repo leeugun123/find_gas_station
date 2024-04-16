@@ -16,7 +16,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
@@ -32,13 +31,11 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.material.snackbar.Snackbar
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.techtown.find_gas_station.BaseFragment
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.presentation.splash.SplashFragment
 import org.techtown.find_gas_station.databinding.FragmentOilInfoBinding
 import org.techtown.find_gas_station.util.constant.ConstantGuide
 import org.techtown.find_gas_station.util.constant.ConstantsTime
@@ -46,7 +43,7 @@ import org.techtown.find_gas_station.util.gps.GeoTrans
 import org.techtown.find_gas_station.util.gps.GeoTransPoint
 import org.techtown.find_gas_station.util.gps.GpsTracker
 
-@AndroidEntryPoint
+
 class OilInfoFragment : BaseFragment<FragmentOilInfoBinding>(R.layout.fragment_oil_info),
     OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
@@ -141,7 +138,7 @@ class OilInfoFragment : BaseFragment<FragmentOilInfoBinding>(R.layout.fragment_o
     }
 
     private fun moveToSettingFragment() {
-        findNavController().navigate(R.id.action_mainFragment_to_settingFragment)
+        //  findNavController().navigate(R.id.action_mainFragment_to_settingFragment)
     }
 
     private fun observeOilList() {

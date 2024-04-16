@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -47,7 +46,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(R.layout.fragment_spl
     }
 
     private fun moveMainFragment() {
-        findNavController().navigate(R.id.action_splashFragment_to_mainFragment)
+       // findNavController().navigate(R.id.action_splashFragment_to_mainFragment)
     }
 
     companion object {

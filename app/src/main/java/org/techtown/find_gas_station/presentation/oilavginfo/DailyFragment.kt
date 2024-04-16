@@ -17,11 +17,21 @@ class DailyFragment : Fragment() {
         OilAvgPagerAdapter(
             childFragmentManager,
             lifecycle,
-            listOf(GasolineFragment(), DieselFragment(), HighGasolineFragment(), KeroseneFragment(), ButaneFragment())
+            listOf(
+                GasolineFragment(),
+                DieselFragment(),
+                HighGasolineFragment(),
+                KeroseneFragment(),
+                ButaneFragment()
+            )
         )
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View{
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         mBinding = FragmentDailyBinding.inflate(layoutInflater, container, false)
         return mBinding.root
     }
@@ -34,6 +44,7 @@ class DailyFragment : Fragment() {
 
     private fun controlTabLayOut() {
 
+        /*
         TabLayoutMediator(mBinding.oilAvgtabs, viewPager) { tab, position ->
             tab.text = when (position) {
                 0 -> GASOLINE_KOREAN
@@ -44,6 +55,8 @@ class DailyFragment : Fragment() {
                 else -> throw IllegalArgumentException("Invalid position")
             }
         }.attach()
+        */
+
     }
 
     private fun connectPagerAdater() {
