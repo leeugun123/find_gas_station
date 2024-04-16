@@ -72,9 +72,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getLocalOilCondition() {
-        oilInfoViewModel.oilCondition.radius = setViewModel.localOilCondition.oilRad
-        oilInfoViewModel.oilCondition.sort = setViewModel.localOilCondition.oilSort
-        oilInfoViewModel.oilCondition.oilKind = setViewModel.localOilCondition.oilName
+        oilInfoViewModel.oilCondition.radius = setViewModel.localOilCondition?.oilRad.toString()
+        oilInfoViewModel.oilCondition.sort = setViewModel.localOilCondition?.oilSort.toString()
+        oilInfoViewModel.oilCondition.oilKind = setViewModel.localOilCondition?.oilName.toString()
     }
 
     private fun updateOilCondition() {

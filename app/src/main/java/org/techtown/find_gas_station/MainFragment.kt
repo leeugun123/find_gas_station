@@ -17,10 +17,29 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         childFragmentInit()
-        bottomNavigationBarInit()
+        initBottomNavigationBar()
     }
 
-    private fun bottomNavigationBarInit() =
+    private fun childFragmentInit() {
+        addFragment()
+    }
+
+    private fun addFragment() {
+        homeFragmentManager.beginTransaction().add(R.id.main_frame, oilInfoFragment).commit()
+        homeFragmentManager.beginTransaction().add(R.id.main_frame, dailyFragment).commit()
+    }
+
+    private fun showOilInfoFragment() {
+        homeFragmentManager.beginTransaction().show(oilInfoFragment).commit()
+        homeFragmentManager.beginTransaction().hide(dailyFragment).commit()
+    }
+
+    private fun showDailyFragment() {
+        homeFragmentManager.beginTransaction().show(dailyFragment).commit()
+        homeFragmentManager.beginTransaction().hide(oilInfoFragment).commit()
+    }
+
+    private fun initBottomNavigationBar() =
         binding.bottomNav.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.Home_fragment -> {
@@ -36,23 +55,5 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             true
         }
 
-    private fun showOilInfoFragment() {
-        homeFragmentManager.beginTransaction().show(oilInfoFragment).commit()
-        homeFragmentManager.beginTransaction().hide(dailyFragment).commit()
-    }
-
-    private fun showDailyFragment() {
-        homeFragmentManager.beginTransaction().show(dailyFragment).commit()
-        homeFragmentManager.beginTransaction().hide(oilInfoFragment).commit()
-    }
-
-    private fun childFragmentInit() {
-        addFragment()
-    }
-
-    private fun addFragment() {
-        homeFragmentManager.beginTransaction().add(R.id.main_frame, oilInfoFragment).commit()
-        homeFragmentManager.beginTransaction().add(R.id.main_frame, dailyFragment).commit()
-    }
 
 }

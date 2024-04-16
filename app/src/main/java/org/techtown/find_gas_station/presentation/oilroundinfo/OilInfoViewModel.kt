@@ -12,14 +12,12 @@ import org.techtown.find_gas_station.Data.TotalOilInfo
 
 class OilInfoViewModel : ViewModel() {
 
-    private val stationInfoRepository: StationInfoRepository = TODO()
-
     var oilCondition = OilCondition("1000", "1", "B027")
 
     var processing: Boolean = false
     var sortText = ""
 
-
+    private var stationInfoRepository : StationInfoRepository = StationInfoRepository()
     private val _oilListLiveData = MutableLiveData<List<TotalOilInfo>>()
     val oilListLiveData: LiveData<List<TotalOilInfo>> get() = _oilListLiveData
 

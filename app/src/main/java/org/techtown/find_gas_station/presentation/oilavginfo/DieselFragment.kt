@@ -11,12 +11,16 @@ import org.techtown.find_gas_station.databinding.FragmentOilAvgBinding
 class DieselFragment : Fragment() {
 
     private val getOilAvgViewModel by viewModels<GetOilAvgViewModel>()
-    private lateinit var mBinding : FragmentOilAvgBinding
+    private lateinit var mBinding: FragmentOilAvgBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         mBinding = FragmentOilAvgBinding.inflate(layoutInflater, container, false)
         return mBinding.root
     }
@@ -24,8 +28,13 @@ class DieselFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        OilAvgViewCreated().setupOilChartAndRecycler(" 경유 ",requireActivity() , mBinding , getOilAvgViewModel, "D047")
-
+        OilAvgViewCreated().setupOilChartAndRecycler(
+            " 경유 ",
+            requireActivity(),
+            mBinding,
+            getOilAvgViewModel,
+            "D047"
+        )
 
 
     }

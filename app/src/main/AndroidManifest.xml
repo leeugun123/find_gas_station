@@ -35,20 +35,11 @@
         </activity>
 
 
-        <activity
-            android:name=".presentation.FragmentActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="false"
-            tools:ignore="MissingClass" />
+
         <activity
             android:name=".presentation.gasdetailinfo.OilDetailActivity"
             android:exported="false" />
-        <activity
-            android:name=".presentation.setting.SettingActivity"
-            android:exported="true" />
-        <activity
-            android:name=".presentation.splash.SplashActivity"
-            android:exported="true" />
+
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
