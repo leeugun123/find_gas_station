@@ -1,20 +1,18 @@
-package org.techtown.find_gas_station
+package org.techtown.find_gas_station.presentation.splash
 
 import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.techtown.find_gas_station.BaseFragment
+import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.FragmentSplashBinding
-import org.techtown.find_gas_station.util.constant.ConstantsTime
 
 class SplashFragment : BaseFragment<FragmentSplashBinding>(R.layout.fragment_splash) {
 
@@ -31,6 +29,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(R.layout.fragment_spl
         super.onViewCreated(view, savedInstanceState)
         requestPermission()
     }
+
     private fun requestPermission() {
         requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
     }
@@ -43,15 +42,15 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(R.layout.fragment_spl
     private fun splashAction() {
         lifecycleScope.launch(Dispatchers.Main) {
             delay(SPLASH_WAIT_TIME)
-            moveToMainFragment()
+            moveMainFragment()
         }
     }
 
-    private fun moveToMainFragment() {
+    private fun moveMainFragment() {
         findNavController().navigate(R.id.action_splashFragment_to_mainFragment)
     }
 
     companion object {
-        private const val SPLASH_WAIT_TIME : Long = 1500 //1.5초
+        private const val SPLASH_WAIT_TIME: Long = 1500 //1.5초
     }
 }

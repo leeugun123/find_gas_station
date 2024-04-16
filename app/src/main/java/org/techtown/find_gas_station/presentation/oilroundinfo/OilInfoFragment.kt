@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
@@ -37,7 +38,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.techtown.find_gas_station.BaseFragment
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.SplashFragment
+import org.techtown.find_gas_station.presentation.splash.SplashFragment
 import org.techtown.find_gas_station.databinding.FragmentOilInfoBinding
 import org.techtown.find_gas_station.util.constant.ConstantGuide
 import org.techtown.find_gas_station.util.constant.ConstantsTime
@@ -140,9 +141,7 @@ class OilInfoFragment : BaseFragment<FragmentOilInfoBinding>(R.layout.fragment_o
     }
 
     private fun moveToSettingFragment() {
-        parentFragmentManager.beginTransaction().replace(R.id.mainFragment, SplashFragment())
-            .commit()
-        //TODO("settingFragment 으로 추후 변경")
+        findNavController().navigate(R.id.action_mainFragment_to_settingFragment)
     }
 
     private fun observeOilList() {

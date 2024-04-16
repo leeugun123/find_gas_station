@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.repository
+package org.techtown.find_gas_station.presentation.oilroundinfo
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -11,18 +11,17 @@ import org.techtown.find_gas_station.Data.kakao.Response.DirectionResponse
 import org.techtown.find_gas_station.Data.kakao.Response.Route
 import org.techtown.find_gas_station.Data.oilDetail.GasStationDetailInfoResult
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.util.api.ApiKey.OPI_API_KEY
-import org.techtown.find_gas_station.util.api.Api_Instance.kakaoRetrofitApi
-import org.techtown.find_gas_station.util.api.Api_Instance.opiRetrofitApi
+import org.techtown.find_gas_station.util.api.ApiKey
+import org.techtown.find_gas_station.util.api.Api_Instance
 import org.techtown.find_gas_station.util.comparator.OilRoadDistanceComparator
 import org.techtown.find_gas_station.util.comparator.OilSpendTimeComparator
-import org.techtown.find_gas_station.util.constant.ConstantGuide.JSON_FORMAT
-import org.techtown.find_gas_station.util.constant.ConstantsTime.KAKAO_REQUEST_RADIUS
+import org.techtown.find_gas_station.util.constant.ConstantGuide
+import org.techtown.find_gas_station.util.constant.ConstantsTime
 import org.techtown.find_gas_station.util.gps.GeoTrans
 import org.techtown.find_gas_station.util.gps.GeoTransPoint
 import java.util.Collections
 
-class GetOilRepository() {
+class StationInfoRepository() {
 
     private var tempList: MutableList<TotalOilInfo> = mutableListOf()
 
@@ -44,9 +43,9 @@ class GetOilRepository() {
         initWgsPos(wgsX, wgsY)
         listClear()
 
-        val oilResponse = opiRetrofitApi.getOilList(
-            OPI_API_KEY,
-            JSON_FORMAT,
+        val oilResponse = Api_Instance.opiRetrofitApi.getOilList(
+            ApiKey.OPI_API_KEY,
+            ConstantGuide.JSON_FORMAT,
             katecX,
             katecY,
             radius,
@@ -130,7 +129,7 @@ class GetOilRepository() {
     ) {
 
         val response = withContext(Dispatchers.IO) {
-            opiRetrofitApi.getOilDetail(OPI_API_KEY, JSON_FORMAT, uid)
+            Api_Instance.opiRetrofitApi.getOilDetail(ApiKey.OPI_API_KEY, ConstantGuide.JSON_FORMAT, uid)
         }
 
         if (response.isSuccessful)
@@ -201,12 +200,12 @@ class GetOilRepository() {
         val destinations = arrayOfNulls<Destination>(tempList.size)
         destinationsProcessing(destinations)
 
-        val kakaoApiResponse = kakaoRetrofitApi.getMultiDirections(
+        val kakaoApiResponse = Api_Instance.kakaoRetrofitApi.getMultiDirections(
             DirectionRequest(
                 Origin(
                     wgsX.toDouble(), wgsY.toDouble()
                 ),
-                destinations, KAKAO_REQUEST_RADIUS
+                destinations, ConstantsTime.KAKAO_REQUEST_RADIUS
             )
         )
 

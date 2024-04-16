@@ -60,4 +60,30 @@
     <string name="premium_gasoline_code">B034</string>
     <string name="indoor_kerosene_code">C004</string>
 
+    <!-- SettingFragment -->
+    <string name="one_km">1km</string>
+    <string name="three_km">3km</string>
+    <string name="five_km">5km</string>
+
+    <string-array name="oil_Type_Items">
+        <item>휘발유</item>
+        <item>경유</item>
+        <item>고급 휘발유</item>
+        <item>실내 등유</item>
+        <item>자동차 부탄</item>
+    </string-array>
+
+    <string-array name="distance_Type_Items">
+        <item>1km</item>
+        <item>3km</item>
+        <item>5km</item>
+    </string-array>
+
+    <string-array name="sort_Items">
+        <item>가격순</item>
+        <item>직경 거리순</item>
+        <item>도로 거리순</item>
+        <item>소요 시간순</item>
+    </string-array>
+
 </resources>

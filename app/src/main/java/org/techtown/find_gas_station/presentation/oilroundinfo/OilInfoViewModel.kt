@@ -1,5 +1,6 @@
 package org.techtown.find_gas_station.presentation.oilroundinfo
 
+import android.widget.ArrayAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,13 +10,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.Data.TotalOilInfo
-import org.techtown.find_gas_station.presentation.oilroundinfo.OilCondition
-import org.techtown.find_gas_station.repository.GetOilRepository
+import org.techtown.find_gas_station.R
 import javax.inject.Inject
 
 @HiltViewModel
 class OilInfoViewModel @Inject constructor(
-    private val getOilRepository: GetOilRepository
+    private val stationInfoRepository: StationInfoRepository
 ) : ViewModel() {
 
     var oilCondition = OilCondition("1000", "1", "B027")
@@ -23,13 +23,14 @@ class OilInfoViewModel @Inject constructor(
     var processing: Boolean = false
     var sortText = ""
 
+
     private val _oilListLiveData = MutableLiveData<List<TotalOilInfo>>()
     val oilListLiveData: LiveData<List<TotalOilInfo>> get() = _oilListLiveData
 
     fun requestOilList(wgsX: String, wgsY: String, katecX: String, katecY: String) {
 
         viewModelScope.launch(Dispatchers.IO) {
-            getOilRepository.requestOilList(
+            stationInfoRepository.requestOilList(
                 wgsX,
                 wgsY,
                 katecX,
@@ -39,10 +40,8 @@ class OilInfoViewModel @Inject constructor(
                 oilCondition.oilKind
             )
             withContext(Dispatchers.Main) {
-                _oilListLiveData.value = getOilRepository.getOilList()
+                _oilListLiveData.value = stationInfoRepository.getOilList()
             }
         }
-
     }
-
 }

@@ -2,7 +2,7 @@ plugins {
     id 'com.android.application'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-android-extensions'
+    id 'kotlin-parcelize'
     id 'org.jetbrains.kotlin.kapt'
     id 'dagger.hilt.android.plugin'
 }
@@ -12,21 +12,22 @@ Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 android {
-    compileSdk 33
+    compileSdk 34
 
 
     defaultConfig {
         applicationId "com.roid.androidApp"
-        minSdk 21
-        targetSdkVersion 33
+        minSdk 26
+        //noinspection EditedTargetSdkVersion
+        targetSdkVersion 34
         versionCode 40
         versionName "3.91"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField ("String", "GAS_API_KEY", properties.getProperty("gas_api_key"))
-        buildConfigField("String","KAKAO_API_KEY",properties.getProperty("kakao_api_key"))
-        buildConfigField("String","GOOGLE_API_KEY",properties.getProperty("google_api_key"))
+        buildConfigField("String", "GAS_API_KEY", properties.getProperty("gas_api_key"))
+        buildConfigField("String", "KAKAO_API_KEY", properties.getProperty("kakao_api_key"))
+        buildConfigField("String", "GOOGLE_API_KEY", properties.getProperty("google_api_key"))
 
 
     }
@@ -73,7 +74,6 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.2.1"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation files('libs/com.skt.Tmap_1.75.jar')
-    implementation 'androidx.activity:activity:1.8.0'
     testImplementation 'junit:junit:'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
@@ -81,21 +81,20 @@ dependencies {
 
 
     // Room components
-    implementation "androidx.room:room-ktx:2.6.1"
-    //noinspection KaptUsageInsteadOfKsp
-    kapt "androidx.room:room-compiler:2.6.1"
+    implementation "androidx.room:room-ktx:2.4.3"
+    kapt "androidx.room:room-compiler:2.4.3"
 
     //noinspection GradleDependency
     androidTestImplementation "androidx.room:room-testing:2.2.5"
 
     // Lifecycle components
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.7.0"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.7.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.0"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0"
 
     // by viewModels
-    implementation 'androidx.activity:activity-ktx:1.8.2'
-    implementation 'androidx.fragment:fragment-ktx:1.6.2'
+    implementation 'androidx.activity:activity-ktx:1.2.0'
+    implementation 'androidx.fragment:fragment-ktx:1.3.0'
 
     // 카카오내비 sdk를 사용하기 위해 필요
     implementation group: 'com.kakao.sdk', name: 'kakaonavi', version: project.KAKAO_SDK_VERSION
@@ -107,8 +106,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
     //바텀 네비게이션 뷰
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.7'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.7.7'
+    implementation 'androidx.navigation:navigation-fragment:2.3.2'
+    implementation 'androidx.navigation:navigation-ui:2.3.2'
 
     //noinspection GradleCompatible
     implementation 'com.android.support:design:28.0.0'

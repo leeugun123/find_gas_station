@@ -42,10 +42,7 @@ class MainActivity : AppCompatActivity() {
         setupWindowInsetsListener()
         setupBackPressedDispatcher()
         getLocalOilCondition()
-
-
     }
-
 
     private fun setupWindowInsetsListener() {
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
@@ -69,7 +66,7 @@ class MainActivity : AppCompatActivity() {
     private fun finishSoftly() {
         val currentTime = System.currentTimeMillis()
         if (currentTime - backPressedTime < ASK_AGAIN_EXIT_DURATION) {
-            updateOilCondition() // 이 작업이 끝나고 종료 되어야 함.
+            updateOilCondition()
             finish()
         } else {
             backPressedTime = currentTime
@@ -78,17 +75,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getLocalOilCondition() {
-        oilInfoViewModel.oilConditionList[0] = setViewModel.localOilCondition.oilRad
-        oilInfoViewModel.oilConditionList[1] = setViewModel.localOilCondition.oilSort
-        oilInfoViewModel.oilConditionList[2] = setViewModel.localOilCondition.oilName
+        oilInfoViewModel.oilCondition.radius = setViewModel.localOilCondition.oilRad
+        oilInfoViewModel.oilCondition.sort = setViewModel.localOilCondition.oilSort
+        oilInfoViewModel.oilCondition.oilKind = setViewModel.localOilCondition.oilName
     }
 
     private fun updateOilCondition() {
         setViewModel.updateData(
             OilData(
-                oilInfoViewModel.oilConditionList[0],
-                oilInfoViewModel.oilConditionList[1],
-                oilInfoViewModel.oilConditionList[2]
+                oilInfoViewModel.oilCondition.radius,
+                oilInfoViewModel.oilCondition.sort,
+                oilInfoViewModel.oilCondition.oilKind
             )
         )
     }
