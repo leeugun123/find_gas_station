@@ -140,7 +140,7 @@ class OilInfoFragment : BaseFragment<FragmentOilInfoBinding>(R.layout.fragment_o
     }
 
     private fun moveToSettingFragment() {
-        findNavController().navigate(R.id.action_mainFragment_to_settingFragment)
+        requireParentFragment().findNavController().navigate(R.id.action_mainFragment_to_settingFragment)
     }
 
     private fun observeOilList() {

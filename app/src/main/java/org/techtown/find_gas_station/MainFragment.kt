@@ -16,19 +16,25 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     private val dailyFragment by lazy { DailyFragment() }
     private val homeFragmentManager by lazy { childFragmentManager }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        childFragmentInit()
+        initChildFragment()
         initBottomNavigationBar()
     }
 
-    private fun childFragmentInit() {
+    private fun initChildFragment() {
         addFragment()
     }
 
     private fun addFragment() {
-        homeFragmentManager.beginTransaction().add(R.id.main_frame, oilInfoFragment).commit()
-        homeFragmentManager.beginTransaction().add(R.id.main_frame, dailyFragment).commit()
+
+        if(homeFragmentManager.findFragmentByTag(OIL_FRAGMENT_TAG) != null ||
+            homeFragmentManager.findFragmentByTag(DAILY_FRAGMENT_TAG) != null)
+            return
+
+        homeFragmentManager.beginTransaction().add(R.id.main_frame, oilInfoFragment, OIL_FRAGMENT_TAG).commit()
+        homeFragmentManager.beginTransaction().add(R.id.main_frame, dailyFragment, DAILY_FRAGMENT_TAG).commit()
     }
 
     private fun showOilInfoFragment() {
@@ -57,5 +63,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             true
         }
 
+    companion object {
+        private const val OIL_FRAGMENT_TAG = "OilInfoFragment"
+        private const val DAILY_FRAGMENT_TAG = "DailyFragment"
+    }
 
 }

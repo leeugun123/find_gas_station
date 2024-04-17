@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import org.techtown.find_gas_station.BaseFragment
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.FragmentSettingBinding
@@ -15,7 +16,6 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
     private val oilInfoViewModel: OilInfoViewModel by activityViewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initBinding()
         setSelectAdapter()
     }
@@ -44,6 +44,6 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
     }
 
     private fun goBack() {
-        //findNavController().popBackStack()
+        findNavController().popBackStack()
     }
 }
