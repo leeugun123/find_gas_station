@@ -1,5 +1,6 @@
 package org.techtown.find_gas_station.presentation.oilroundinfo
 
+import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.Data.OilList.GasStationInfoResult
@@ -20,8 +21,9 @@ import org.techtown.find_gas_station.util.constant.ConstantsTime
 import org.techtown.find_gas_station.util.gps.GeoTrans
 import org.techtown.find_gas_station.util.gps.GeoTransPoint
 import java.util.Collections
+import javax.inject.Inject
 
-class StationInfoRepository() {
+class StationInfoRepository {
 
     private var tempList: MutableList<TotalOilInfo> = mutableListOf()
 
@@ -45,7 +47,7 @@ class StationInfoRepository() {
 
         val oilResponse = Api_Instance.opiRetrofitApi.getOilList(
             ApiKey.OPI_API_KEY,
-            ConstantGuide.JSON_FORMAT,
+            "json",
             katecX,
             katecY,
             radius,
@@ -129,7 +131,7 @@ class StationInfoRepository() {
     ) {
 
         val response = withContext(Dispatchers.IO) {
-            Api_Instance.opiRetrofitApi.getOilDetail(ApiKey.OPI_API_KEY, ConstantGuide.JSON_FORMAT, uid)
+            Api_Instance.opiRetrofitApi.getOilDetail(ApiKey.OPI_API_KEY, "json", uid)
         }
 
         if (response.isSuccessful)
@@ -255,25 +257,25 @@ class StationInfoRepository() {
 
     private fun getTrademarkImageResource(trademark: String) =
         when (trademark) {
-            R.string.ske.toString() -> R.drawable.sk
-            R.string.gsx.toString() -> R.drawable.gs
-            R.string.hdo.toString() -> R.drawable.hdoil
-            R.string.sol.toString() -> R.drawable.so
-            R.string.rto.toString(), R.string.rtx.toString() -> R.drawable.rto
-            R.string.nho.toString() -> R.drawable.nho
-            R.string.e1h.toString() -> R.drawable.e1
-            R.string.skg.toString() -> R.drawable.skgas
+            "SKE" -> R.drawable.sk
+            "GSC" -> R.drawable.gs
+            "HDO" -> R.drawable.hdoil
+            "SOL" -> R.drawable.so
+            "RTO", "RTX" -> R.drawable.rto
+            "NHO" -> R.drawable.nho
+            "E1G" -> R.drawable.e1
+            "SKG" -> R.drawable.skgas
             else -> R.drawable.oil_2
         }
 
 
     private fun getOilType(oilKind: String) =
         when (oilKind) {
-            R.string.gasoline_code.toString() -> R.string.gasoline.toString()
-            R.string.diesel_oil_code.toString() -> R.string.diesel_oil.toString()
-            R.string.premium_gasoline_code.toString() -> R.string.premium_gasoline.toString()
-            R.string.indoor_kerosene_code.toString() -> R.string.indoor_kerosene.toString()
-            else -> R.string.car_butane.toString()
+            "B027" -> "휘발유"
+            "D047" -> "경유"
+            "B034" -> "고급 휘발유"
+            "C004" -> "실내 등유"
+            else ->"자동차 부탄"
         }
 
     private fun listClear() {

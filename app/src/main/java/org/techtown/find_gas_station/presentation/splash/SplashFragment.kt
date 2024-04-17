@@ -35,7 +35,11 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(R.layout.fragment_spl
     }
 
     private fun finishApp() {
-        Toast.makeText(requireContext(), R.string.access_denied, Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            requireContext(),
+            requireContext().getString(R.string.access_denied),
+            Toast.LENGTH_SHORT
+        ).show()
         requireActivity().finish()
     }
 

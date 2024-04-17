@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
@@ -31,6 +32,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -43,7 +45,7 @@ import org.techtown.find_gas_station.util.gps.GeoTrans
 import org.techtown.find_gas_station.util.gps.GeoTransPoint
 import org.techtown.find_gas_station.util.gps.GpsTracker
 
-
+@AndroidEntryPoint
 class OilInfoFragment : BaseFragment<FragmentOilInfoBinding>(R.layout.fragment_oil_info),
     OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
@@ -69,9 +71,7 @@ class OilInfoFragment : BaseFragment<FragmentOilInfoBinding>(R.layout.fragment_o
         }
     }
 
-    private val smoothScroller = object : LinearSmoothScroller(binding.listRecycler.context) {
-        override fun getVerticalSnapPreference() = SNAP_TO_START
-    }
+    private lateinit var smoothScroller: LinearSmoothScroller
 
     private val oilInfoViewModel: OilInfoViewModel by activityViewModels()
 
@@ -84,17 +84,23 @@ class OilInfoFragment : BaseFragment<FragmentOilInfoBinding>(R.layout.fragment_o
     )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         childFragmentManager.beginTransaction()
             .replace(R.id.map, mapFragment)
             .commit()
 
         mapFragment.getMapAsync(this)
 
+        initSmoothScroller()
         initSetting()
         initBinding()
         requestRoundOilInfo()
         observeOilList()
+    }
+
+    private fun initSmoothScroller() {
+        smoothScroller = object : LinearSmoothScroller(binding.listRecycler.context) {
+            override fun getVerticalSnapPreference() = SNAP_TO_START
+        }
     }
 
     private fun initBinding() {
@@ -110,9 +116,9 @@ class OilInfoFragment : BaseFragment<FragmentOilInfoBinding>(R.layout.fragment_o
     }
 
     private fun getOilData() {
+
         activeProgressBar(true)
         initGpsTracker()
-
         val katecPos =
             transFormPoint(gpsTracker.getLatitude().toFloat(), gpsTracker.getLongitude().toFloat())
 
@@ -125,37 +131,38 @@ class OilInfoFragment : BaseFragment<FragmentOilInfoBinding>(R.layout.fragment_o
     }
 
     private fun updateSortText() {
-
-        val sort = when (oilInfoViewModel.oilCondition.sort) {
-            "1" -> R.string.sort_price
-            "2" -> R.string.sort_direct_distance
-            "3" -> R.string.sort_road_distance
-            "4" -> R.string.sort_spend_time
+        oilInfoViewModel._sortText.value = when (oilInfoViewModel.oilCondition.sort) {
+            "1" -> requireContext().getString(R.string.sort_price)
+            "2" -> requireContext().getString(R.string.sort_direct_distance)
+            "3" -> requireContext().getString(R.string.sort_road_distance)
+            "4" -> requireContext().getString(R.string.sort_spend_time)
             else -> ""
         }
-
-        oilInfoViewModel.sortText = sort.toString()
     }
 
     private fun moveToSettingFragment() {
-        //  findNavController().navigate(R.id.action_mainFragment_to_settingFragment)
+        findNavController().navigate(R.id.action_mainFragment_to_settingFragment)
     }
 
     private fun observeOilList() {
         oilInfoViewModel.oilListLiveData.observe(viewLifecycleOwner) { oilList ->
+
             activeProgressBar(false)
+
             binding.listRecycler.adapter =
                 OilInfoAdapter(oilList, mMap, oilInfoViewModel.oilCondition.sort)
             upRecyclerView()
             checkListEmpty(oilList.size)
         }
+
     }
 
     private fun activeProgressBar(state: Boolean) {
-        oilInfoViewModel.processing = state
+        oilInfoViewModel._processing.value = state
     }
 
     private fun upRecyclerView() {
+
         lifecycleScope.launch(Dispatchers.Main) {
             delay(UP_RECYCLERVIEW_TIME)
             smoothScroller.targetPosition = 0

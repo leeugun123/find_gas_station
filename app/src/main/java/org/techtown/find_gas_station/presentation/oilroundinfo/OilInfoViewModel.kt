@@ -1,25 +1,37 @@
 package org.techtown.find_gas_station.presentation.oilroundinfo
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.Data.TotalOilInfo
+import javax.inject.Inject
+
 
 
 class OilInfoViewModel : ViewModel() {
 
     var oilCondition = OilCondition("1000", "1", "B027")
 
-    var processing: Boolean = false
-    var sortText = ""
+    var _processing = MutableLiveData<Boolean>()
+    val processing : LiveData<Boolean> get() = _processing
 
-    private var stationInfoRepository : StationInfoRepository = StationInfoRepository()
+    var _sortText = MutableLiveData<String>()
+    val sortText : LiveData<String> get() = _sortText
+
     private val _oilListLiveData = MutableLiveData<List<TotalOilInfo>>()
     val oilListLiveData: LiveData<List<TotalOilInfo>> get() = _oilListLiveData
+
+    val stationInfoRepository : StationInfoRepository
+    init {
+        stationInfoRepository = StationInfoRepository()
+        // TODO("추후 Hilt를 사용해서 주입 받아야 함.")
+    }
 
     fun requestOilList(wgsX: String, wgsY: String, katecX: String, katecY: String) {
 
@@ -33,6 +45,7 @@ class OilInfoViewModel : ViewModel() {
                 oilCondition.sort,
                 oilCondition.oilKind
             )
+
             withContext(Dispatchers.Main) {
                 _oilListLiveData.value = stationInfoRepository.getOilList()
             }

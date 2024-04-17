@@ -9,12 +9,14 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import dagger.hilt.android.AndroidEntryPoint
 import org.techtown.find_gas_station.databinding.ActivityMainBinding
 import org.techtown.find_gas_station.localdatabase.OilData
 import org.techtown.find_gas_station.localdatabase.SetViewModel
 import org.techtown.find_gas_station.presentation.oilroundinfo.OilInfoViewModel
 
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private val binding: ActivityMainBinding by lazy {
