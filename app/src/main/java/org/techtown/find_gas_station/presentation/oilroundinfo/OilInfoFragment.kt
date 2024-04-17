@@ -72,9 +72,6 @@ class OilInfoFragment : BaseFragment<FragmentOilInfoBinding>(R.layout.fragment_o
     }
 
     private lateinit var smoothScroller: LinearSmoothScroller
-
-    private val oilInfoViewModel: OilInfoViewModel by activityViewModels()
-
     private lateinit var gpsTracker: GpsTracker
     private lateinit var mMap: GoogleMap
 
@@ -82,6 +79,8 @@ class OilInfoFragment : BaseFragment<FragmentOilInfoBinding>(R.layout.fragment_o
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.ACCESS_COARSE_LOCATION
     )
+
+    private val oilInfoViewModel: OilInfoViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         childFragmentManager.beginTransaction()
@@ -146,15 +145,12 @@ class OilInfoFragment : BaseFragment<FragmentOilInfoBinding>(R.layout.fragment_o
 
     private fun observeOilList() {
         oilInfoViewModel.oilListLiveData.observe(viewLifecycleOwner) { oilList ->
-
             activeProgressBar(false)
-
             binding.listRecycler.adapter =
                 OilInfoAdapter(oilList, mMap, oilInfoViewModel.oilCondition.sort)
             upRecyclerView()
             checkListEmpty(oilList.size)
         }
-
     }
 
     private fun activeProgressBar(state: Boolean) {
@@ -176,7 +172,7 @@ class OilInfoFragment : BaseFragment<FragmentOilInfoBinding>(R.layout.fragment_o
     }
 
     private fun showEmptyMessage() {
-        Toast.makeText(context, R.string.data_empty_message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), R.string.data_empty_message, Toast.LENGTH_SHORT).show()
     }
 
 
@@ -184,7 +180,7 @@ class OilInfoFragment : BaseFragment<FragmentOilInfoBinding>(R.layout.fragment_o
         initWindowSet()
         initLocationRequest()
         binding.listRecycler.layoutManager =
-            LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
     }
 
     private fun initWindowSet() {
@@ -192,7 +188,7 @@ class OilInfoFragment : BaseFragment<FragmentOilInfoBinding>(R.layout.fragment_o
             WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
             WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
         )
-    }//화면이 꺼지지 않도록 유지
+    }
 
     private fun initLocationRequest() {
         LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
