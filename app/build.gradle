@@ -46,7 +46,7 @@ android {
     }
 
     kotlinOptions {
-        freeCompilerArgs = ['-Xjvm-default=enable']
+        freeCompilerArgs = ['-Xjvm-default=compatibility']
         jvmTarget = '1.8'
     }
 
@@ -115,10 +115,8 @@ dependencies {
     //View Pager2
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
 
-
-
-
-
+    implementation 'com.google.dagger:hilt-android:2.42'
+    annotationProcessor 'com.google.dagger:hilt-compiler:2.42'
 }
 
 
