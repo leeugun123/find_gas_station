@@ -8,12 +8,16 @@ import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -37,6 +41,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.techtown.find_gas_station.BaseFragment
 import org.techtown.find_gas_station.R
+import org.techtown.find_gas_station.databinding.ActivityMainBinding
 import org.techtown.find_gas_station.databinding.FragmentOilInfoBinding
 import org.techtown.find_gas_station.util.constant.ConstantGuide
 import org.techtown.find_gas_station.util.constant.ConstantsTime
@@ -44,9 +49,10 @@ import org.techtown.find_gas_station.util.gps.GeoTrans
 import org.techtown.find_gas_station.util.gps.GeoTransPoint
 import org.techtown.find_gas_station.util.gps.GpsTracker
 
-class OilInfoFragment : BaseFragment<FragmentOilInfoBinding>(R.layout.fragment_oil_info),
+class OilInfoFragment : Fragment(),
     OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
+    private lateinit var binding: FragmentOilInfoBinding
     private var wgsX = ""
     private var wgsY = ""
 
@@ -77,6 +83,16 @@ class OilInfoFragment : BaseFragment<FragmentOilInfoBinding>(R.layout.fragment_o
     )
 
     private val oilInfoViewModel: OilInfoViewModel by activityViewModels()
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_oil_info, container, false)
+        binding.lifecycleOwner = viewLifecycleOwner
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         childFragmentManager.beginTransaction()

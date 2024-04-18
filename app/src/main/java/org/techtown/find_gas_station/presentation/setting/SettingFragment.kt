@@ -24,6 +24,7 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
             id: Long
         ) {
             (adapterView.getChildAt(0) as? TextView)?.setTextColor(Color.BLACK)
+           // val selectedItem = adapterView.getItemAtPosition(position).toString()
         }
 
         override fun onNothingSelected(adapterView: AdapterView<*>?) {}
