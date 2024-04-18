@@ -1,6 +1,7 @@
 package org.techtown.find_gas_station
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.activity.viewModels
@@ -40,7 +41,16 @@ class MainActivity : AppCompatActivity() {
 
         setupWindowInsetsListener()
         setupBackPressedDispatcher()
-        getLocalOilCondition()
+
+        observeLocalData()
+    }
+
+    private fun observeLocalData() {
+        setViewModel.roomDbOilCondition.observe(this){ roomDbOilCondition->
+            oilInfoViewModel.oilCondition.radius =  roomDbOilCondition.oilRad.toString()
+            oilInfoViewModel.oilCondition.sort =  roomDbOilCondition.oilSort.toString()
+            oilInfoViewModel.oilCondition.oilKind =  roomDbOilCondition.oilName.toString()
+        }
     }
 
     private fun setupWindowInsetsListener() {
@@ -66,25 +76,19 @@ class MainActivity : AppCompatActivity() {
         val currentTime = System.currentTimeMillis()
         if (currentTime - backPressedTime < ASK_AGAIN_EXIT_DURATION) {
             updateOilCondition()
-            finish()
+            //finish()
         } else {
             backPressedTime = currentTime
             Toast.makeText(this, R.string.back_press_exit_guide, Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun getLocalOilCondition() {
-        oilInfoViewModel.oilCondition.radius = setViewModel.localOilCondition?.oilRad.toString()
-        oilInfoViewModel.oilCondition.sort = setViewModel.localOilCondition?.oilSort.toString()
-        oilInfoViewModel.oilCondition.oilKind = setViewModel.localOilCondition?.oilName.toString()
-    }
-
     private fun updateOilCondition() {
         setViewModel.updateData(
             OilData(
+                oilInfoViewModel.oilCondition.oilKind,
                 oilInfoViewModel.oilCondition.radius,
                 oilInfoViewModel.oilCondition.sort,
-                oilInfoViewModel.oilCondition.oilKind
             )
         )
     }

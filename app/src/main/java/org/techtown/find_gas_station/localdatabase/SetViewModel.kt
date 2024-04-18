@@ -2,6 +2,8 @@ package org.techtown.find_gas_station.localdatabase
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -11,11 +13,13 @@ import org.techtown.find_gas_station.repository.SetRepository
 class SetViewModel(application: Application) : AndroidViewModel(application) {
 
 
-    var localOilCondition : OilData?
+    private val _roomDbOilCondition = MutableLiveData<OilData>()
+    val roomDbOilCondition: LiveData<OilData> get() = _roomDbOilCondition
+
     private val setRepository: SetRepository
+    // TODO("HilT로 변형)
 
     init {
-        localOilCondition = OilData("D047", "1000", "1")
         val oilDao = RoomDB.getAppDatabase(application).setDao()
         setRepository = SetRepository(oilDao)
         requestLocalOilCondition()
@@ -24,15 +28,13 @@ class SetViewModel(application: Application) : AndroidViewModel(application) {
     private fun requestLocalOilCondition() {
         viewModelScope.launch(Dispatchers.IO) {
             val localData = setRepository.getOilLocalData()
-
             withContext(Dispatchers.Main) {
-                localOilCondition = localData
+                _roomDbOilCondition.value = localData
             }
         }
     }
 
     fun updateData(set: OilData) {
-
         viewModelScope.launch(Dispatchers.IO) {
             setRepository.deleteAll()
             setRepository.insert(set)
