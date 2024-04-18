@@ -8,6 +8,7 @@ import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -90,11 +91,12 @@ class OilInfoFragment : Fragment(),
         savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_oil_info, container, false)
-        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+
         childFragmentManager.beginTransaction()
             .replace(R.id.map, mapFragment)
             .commit()
@@ -144,7 +146,7 @@ class OilInfoFragment : Fragment(),
     }
 
     private fun updateSortText() {
-        oilInfoViewModel._sortText.value = when (oilInfoViewModel.oilCondition.sort) {
+        oilInfoViewModel.sortText = when (oilInfoViewModel.oilCondition.sort) {
             "1" -> requireContext().getString(R.string.sort_price)
             "2" -> requireContext().getString(R.string.sort_direct_distance)
             "3" -> requireContext().getString(R.string.sort_road_distance)
@@ -169,7 +171,7 @@ class OilInfoFragment : Fragment(),
     }
 
     private fun activeProgressBar(state: Boolean) {
-        oilInfoViewModel._processing.value = state
+        oilInfoViewModel.setLoading(state)
     }
 
     private fun upRecyclerView() {

@@ -12,15 +12,15 @@ import org.techtown.find_gas_station.Data.TotalOilInfo
 
 class OilInfoViewModel : ViewModel() {
 
-    var _processing = MutableLiveData<Boolean>()
-    val processing: LiveData<Boolean> get() = _processing
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean>
+        get() = _isLoading
 
-    var _sortText = MutableLiveData<String>()
-    val sortText: LiveData<String> get() = _sortText
+    var sortText = ""
 
     // var conditionChangeFlag  = true
     var oilCondition = OilCondition("1000", "1", "D047")
-   // var afterOilCondition = OilCondition("","","")
+    // var afterOilCondition = OilCondition("","","")
 
 
     private val _oilListLiveData = MutableLiveData<List<TotalOilInfo>>()
@@ -46,5 +46,9 @@ class OilInfoViewModel : ViewModel() {
                 _oilListLiveData.value = stationInfoRepository.getOilList()
             }
         }
+    }
+
+    fun setLoading(isLoading: Boolean) {
+        _isLoading.value = isLoading
     }
 }
