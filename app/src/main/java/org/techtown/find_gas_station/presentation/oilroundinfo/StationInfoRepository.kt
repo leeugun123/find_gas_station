@@ -1,6 +1,5 @@
 package org.techtown.find_gas_station.presentation.oilroundinfo
 
-import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.Data.OilList.GasStationInfoResult
@@ -16,12 +15,10 @@ import org.techtown.find_gas_station.util.api.ApiKey
 import org.techtown.find_gas_station.util.api.Api_Instance
 import org.techtown.find_gas_station.util.comparator.OilRoadDistanceComparator
 import org.techtown.find_gas_station.util.comparator.OilSpendTimeComparator
-import org.techtown.find_gas_station.util.constant.ConstantGuide
 import org.techtown.find_gas_station.util.constant.ConstantsTime
 import org.techtown.find_gas_station.util.gps.GeoTrans
 import org.techtown.find_gas_station.util.gps.GeoTransPoint
 import java.util.Collections
-import javax.inject.Inject
 
 class StationInfoRepository {
 
@@ -60,7 +57,6 @@ class StationInfoRepository {
             val size = oilResponse?.oilInfoListResult?.oilInfoList?.size
             apiSizeCheck(oilResponse, size!!, oilKind, sort)
         }
-
     }
 
     private fun initWgsPos(wgsX: String, wgsY: String) {
@@ -108,7 +104,6 @@ class StationInfoRepository {
                 out.y.toFloat()
             )
         }
-
     }
 
     private fun adjustSize(it: GasStationInfoResult) =
@@ -148,7 +143,6 @@ class StationInfoRepository {
                 destinationX,
                 destinationY
             )
-
     }
 
     private suspend fun handleOilDetailResponse(
@@ -183,16 +177,13 @@ class StationInfoRepository {
 
             checkTempListSize(size, sort)
         }
-
     }
 
     private suspend fun checkTempListSize(size: Int, sort: String) {
-
         if ((tempList.size == size || tempList.size == KAKAO_API_PARAMETER_LIMIT) &&
             (sort == "3" || sort == "4")
         )
             getOilKakaoApi(sort)
-
     }
 
 
@@ -211,30 +202,24 @@ class StationInfoRepository {
             )
         )
 
-
         if (kakaoApiResponse.isSuccessful)
             handleKakaoApiResponse(kakaoApiResponse.body(), sort)
-
     }
 
     private fun destinationsProcessing(destinations: Array<Destination?>) {
-
         for (i in tempList.indices) {
             val uid = tempList[i].uid
             val wgsX = tempList[i].wgs84X.toDouble()
             val wgsY = tempList[i].wgs84Y.toDouble()
             destinations[i] = Destination(uid, wgsX, wgsY)
         }
-
     }
 
     private fun handleKakaoApiResponse(directionResponse: DirectionResponse?, sort: String) {
-
         directionResponse?.let {
             insertPlusList(it.routes)
             checkRoadOrSpend(sort)
         }
-
     }
 
     private fun insertPlusList(routes: List<Route>) {
@@ -246,14 +231,11 @@ class StationInfoRepository {
 
 
     private fun checkRoadOrSpend(sort: String) {
-
         if (sort == "4")
             Collections.sort(tempList, OilSpendTimeComparator())
         else
             Collections.sort(tempList, OilRoadDistanceComparator())
-
     }
-
 
     private fun getTrademarkImageResource(trademark: String) =
         when (trademark) {
@@ -268,14 +250,13 @@ class StationInfoRepository {
             else -> R.drawable.oil_2
         }
 
-
     private fun getOilType(oilKind: String) =
         when (oilKind) {
             "B027" -> "휘발유"
             "D047" -> "경유"
             "B034" -> "고급 휘발유"
             "C004" -> "실내 등유"
-            else ->"자동차 부탄"
+            else -> "자동차 부탄"
         }
 
     private fun listClear() {
@@ -285,6 +266,4 @@ class StationInfoRepository {
     companion object {
         private const val KAKAO_API_PARAMETER_LIMIT = 30
     }
-
-
 }
