@@ -16,6 +16,11 @@ class SetViewModel(application: Application) : AndroidViewModel(application) {
     private val _roomDbOilCondition = MutableLiveData<OilData>()
     val roomDbOilCondition: LiveData<OilData> get() = _roomDbOilCondition
 
+
+    private val _updateComplete = MutableLiveData<Boolean>()
+
+    val updateComplete: LiveData<Boolean> get() = _updateComplete
+
     private val setRepository: SetRepository
     // TODO("HilT로 변형)
 
@@ -38,6 +43,7 @@ class SetViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.IO) {
             setRepository.deleteAll()
             setRepository.insert(set)
+            _updateComplete.value = true
         }
     }
 
