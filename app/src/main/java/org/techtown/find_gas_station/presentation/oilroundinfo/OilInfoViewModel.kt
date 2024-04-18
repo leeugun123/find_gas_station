@@ -18,8 +18,7 @@ class OilInfoViewModel : ViewModel() {
     var _sortText = MutableLiveData<String>()
     val sortText: LiveData<String> get() = _sortText
 
-    var conditionChangeFlag  = true
-
+    // var conditionChangeFlag  = true
     var oilCondition = OilCondition("1000", "1", "D047")
    // var afterOilCondition = OilCondition("","","")
 

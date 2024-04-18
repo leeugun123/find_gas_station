@@ -107,8 +107,7 @@ class OilInfoFragment : Fragment(),
 
         observeOilList()
 
-        if (oilInfoViewModel.conditionChangeFlag)
-            requestRoundOilInfo()
+        requestRoundOilInfo()
     }
 
     private fun initSmoothScroller() {
