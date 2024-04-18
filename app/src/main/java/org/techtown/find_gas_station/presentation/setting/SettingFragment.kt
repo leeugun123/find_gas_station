@@ -47,27 +47,48 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
     }
 
     private fun setAdapterSelection() {
+        setOilKindAdapterSelection()
+        setDistanceAdapterSelection()
+        setSortAdapterSelection()
+    }
 
+    private fun setOilKindAdapterSelection() {
         when (oilInfoViewModel.oilCondition.oilKind) {
-            "B027" -> binding.typeSpinner.setSelection(0)
-            "D047" -> binding.typeSpinner.setSelection(1)
-            "B034" -> binding.typeSpinner.setSelection(2)
-            "C004" -> binding.typeSpinner.setSelection(3)
-            "K015" -> binding.typeSpinner.setSelection(4)
+            "B027" -> typeSpinnerSelection(0)
+            "D047" -> typeSpinnerSelection(1)
+            "B034" -> typeSpinnerSelection(2)
+            "C004" -> typeSpinnerSelection(3)
+            "K015" -> typeSpinnerSelection(4)
         }
+    }
 
+    private fun setDistanceAdapterSelection() {
         when (oilInfoViewModel.oilCondition.radius) {
-            "1000" -> binding.distanceSpinner.setSelection(0)
-            "3000" -> binding.distanceSpinner.setSelection(1)
-            "5000" -> binding.distanceSpinner.setSelection(2)
+            "1000" -> distanceSpinnerSelection(0)
+            "3000" -> distanceSpinnerSelection(1)
+            "5000" -> distanceSpinnerSelection(2)
         }
+    }
 
+    private fun setSortAdapterSelection() {
         when (oilInfoViewModel.oilCondition.sort) {
-            "1" -> binding.sortSpinner.setSelection(0)
-            "2" -> binding.sortSpinner.setSelection(1)
-            "3" -> binding.sortSpinner.setSelection(2)
-            "4" -> binding.sortSpinner.setSelection(3)
+            "1" -> sortSpinnerSelection(0)
+            "2" -> sortSpinnerSelection(1)
+            "3" -> sortSpinnerSelection(2)
+            "4" -> sortSpinnerSelection(3)
         }
+    }
+
+    private fun typeSpinnerSelection(idx: Int) {
+        binding.typeSpinner.setSelection(idx)
+    }
+
+    private fun distanceSpinnerSelection(idx: Int) {
+        binding.distanceSpinner.setSelection(idx)
+    }
+
+    private fun sortSpinnerSelection(idx: Int) {
+        binding.sortSpinner.setSelection(idx)
     }
 
     private fun changeValue(selectedItem: String) {
