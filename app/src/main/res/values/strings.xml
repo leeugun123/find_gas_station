@@ -59,6 +59,7 @@
     <string name="diesel_oil_code">D047</string>
     <string name="premium_gasoline_code">B034</string>
     <string name="indoor_kerosene_code">C004</string>
+    <string name="car_butane_code">K015</string>
 
     <!-- SettingFragment -->
     <string name="one_km">1km</string>

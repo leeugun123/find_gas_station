@@ -24,12 +24,12 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
             id: Long
         ) {
             (adapterView.getChildAt(0) as? TextView)?.setTextColor(Color.BLACK)
-           // val selectedItem = adapterView.getItemAtPosition(position).toString()
+            val selectedItem = adapterView.getItemAtPosition(position).toString()
+            changeValue(selectedItem)
         }
 
         override fun onNothingSelected(adapterView: AdapterView<*>?) {}
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,6 +46,22 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
         binding.sortSpinner.onItemSelectedListener = onItemSelectedListener
     }
 
+    private fun changeValue(selectedItem: String) {
+        when (selectedItem) {
+            "휘발유" -> oilInfoViewModel.oilCondition.oilKind = "B027"
+            "경유" -> oilInfoViewModel.oilCondition.oilKind = "D047"
+            "고급 휘발유" -> oilInfoViewModel.oilCondition.oilKind = "B034"
+            "실내 등유" -> oilInfoViewModel.oilCondition.oilKind = "C004"
+            "자동차 부탄" -> oilInfoViewModel.oilCondition.oilKind = "K015"
+            "1km" -> oilInfoViewModel.oilCondition.radius = "1000"
+            "3km" -> oilInfoViewModel.oilCondition.radius = "3000"
+            "5km" -> oilInfoViewModel.oilCondition.radius = "5000"
+            "가격순" -> oilInfoViewModel.oilCondition.sort = "1"
+            "직경 거리순" -> oilInfoViewModel.oilCondition.sort = "2"
+            "도로 거리순" -> oilInfoViewModel.oilCondition.sort = "3"
+            "소요 시간순" -> oilInfoViewModel.oilCondition.sort = "4"
+        }
+    }
 
     private fun goBack() {
         findNavController().popBackStack()

@@ -21,7 +21,7 @@ class OilInfoViewModel : ViewModel() {
     var conditionChangeFlag  = true
 
     var oilCondition = OilCondition("1000", "1", "D047")
-    var afterOilCondition = OilCondition("","","")
+   // var afterOilCondition = OilCondition("","","")
 
 
     private val _oilListLiveData = MutableLiveData<List<TotalOilInfo>>()

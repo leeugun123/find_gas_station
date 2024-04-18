@@ -16,7 +16,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     private val dailyFragment by lazy { DailyFragment() }
     private val homeFragmentManager by lazy { childFragmentManager }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initChildFragment()
