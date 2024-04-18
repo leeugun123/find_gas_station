@@ -34,7 +34,7 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initBinding()
-
+        setAdapterSelection()
     }
 
     private fun initBinding() {
@@ -44,6 +44,30 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
         binding.typeSpinner.onItemSelectedListener = onItemSelectedListener
         binding.distanceSpinner.onItemSelectedListener = onItemSelectedListener
         binding.sortSpinner.onItemSelectedListener = onItemSelectedListener
+    }
+
+    private fun setAdapterSelection() {
+
+        when (oilInfoViewModel.oilCondition.oilKind) {
+            "B027" -> binding.typeSpinner.setSelection(0)
+            "D047" -> binding.typeSpinner.setSelection(1)
+            "B034" -> binding.typeSpinner.setSelection(2)
+            "C004" -> binding.typeSpinner.setSelection(3)
+            "K015" -> binding.typeSpinner.setSelection(4)
+        }
+
+        when (oilInfoViewModel.oilCondition.radius) {
+            "1000" -> binding.distanceSpinner.setSelection(0)
+            "3000" -> binding.distanceSpinner.setSelection(1)
+            "5000" -> binding.distanceSpinner.setSelection(2)
+        }
+
+        when (oilInfoViewModel.oilCondition.sort) {
+            "1" -> binding.sortSpinner.setSelection(0)
+            "2" -> binding.sortSpinner.setSelection(1)
+            "3" -> binding.sortSpinner.setSelection(2)
+            "4" -> binding.sortSpinner.setSelection(3)
+        }
     }
 
     private fun changeValue(selectedItem: String) {
