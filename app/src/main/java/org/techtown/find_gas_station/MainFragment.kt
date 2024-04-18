@@ -58,7 +58,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                     showDailyFragment()
                 }
 
-                else -> throw IllegalArgumentException(ConstantGuide.INVALID_GUIDE)
+                else -> throw IllegalArgumentException(INVALID_ID)
             }
             true
         }
@@ -66,6 +66,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     companion object {
         private const val OIL_FRAGMENT_TAG = "OilInfoFragment"
         private const val DAILY_FRAGMENT_TAG = "DailyFragment"
+        private const val INVALID_ID = "Invalid itemId"
     }
 
 }
