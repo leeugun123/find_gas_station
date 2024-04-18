@@ -18,19 +18,17 @@ class OilInfoViewModel : ViewModel() {
     var _sortText = MutableLiveData<String>()
     val sortText: LiveData<String> get() = _sortText
 
+    var conditionChangeFlag  = true
 
-    var oilCondition = OilCondition("1000", "1", "B027")
+    var oilCondition = OilCondition("1000", "1", "D047")
+    var afterOilCondition = OilCondition("","","")
 
 
     private val _oilListLiveData = MutableLiveData<List<TotalOilInfo>>()
     val oilListLiveData: LiveData<List<TotalOilInfo>> get() = _oilListLiveData
 
-    val stationInfoRepository: StationInfoRepository
-
-    init {
-        stationInfoRepository = StationInfoRepository()
-        // TODO("추후 Hilt를 사용해서 주입 받아야 함.")
-    }
+    private val stationInfoRepository = StationInfoRepository()
+    //TODO("viewModel에서 객체를 생성 -> 추후 Hilt를 적용하여 객체를 주입 받아야 함.")
 
     fun requestOilList(wgsX: String, wgsY: String, katecX: String, katecY: String) {
 

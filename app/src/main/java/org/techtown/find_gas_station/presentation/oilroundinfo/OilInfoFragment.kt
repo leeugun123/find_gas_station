@@ -32,7 +32,6 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.material.snackbar.Snackbar
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -45,7 +44,6 @@ import org.techtown.find_gas_station.util.gps.GeoTrans
 import org.techtown.find_gas_station.util.gps.GeoTransPoint
 import org.techtown.find_gas_station.util.gps.GpsTracker
 
-@AndroidEntryPoint
 class OilInfoFragment : BaseFragment<FragmentOilInfoBinding>(R.layout.fragment_oil_info),
     OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
@@ -66,9 +64,7 @@ class OilInfoFragment : BaseFragment<FragmentOilInfoBinding>(R.layout.fragment_o
     }
 
     private val locationCallback: LocationCallback = object : LocationCallback() {
-        override fun onLocationResult(locationResult: LocationResult) {
-            super.onLocationResult(locationResult)
-        }
+        override fun onLocationResult(locationResult: LocationResult) {}
     }
 
     private lateinit var smoothScroller: LinearSmoothScroller
@@ -92,8 +88,11 @@ class OilInfoFragment : BaseFragment<FragmentOilInfoBinding>(R.layout.fragment_o
         initSmoothScroller()
         initSetting()
         initBinding()
-        requestRoundOilInfo()
+
         observeOilList()
+
+        if (oilInfoViewModel.conditionChangeFlag)
+            requestRoundOilInfo()
     }
 
     private fun initSmoothScroller() {
@@ -140,7 +139,8 @@ class OilInfoFragment : BaseFragment<FragmentOilInfoBinding>(R.layout.fragment_o
     }
 
     private fun moveToSettingFragment() {
-        requireParentFragment().findNavController().navigate(R.id.action_mainFragment_to_settingFragment)
+        requireParentFragment().findNavController()
+            .navigate(R.id.action_mainFragment_to_settingFragment)
     }
 
     private fun observeOilList() {
@@ -158,7 +158,6 @@ class OilInfoFragment : BaseFragment<FragmentOilInfoBinding>(R.layout.fragment_o
     }
 
     private fun upRecyclerView() {
-
         lifecycleScope.launch(Dispatchers.Main) {
             delay(UP_RECYCLERVIEW_TIME)
             smoothScroller.targetPosition = 0
@@ -174,7 +173,6 @@ class OilInfoFragment : BaseFragment<FragmentOilInfoBinding>(R.layout.fragment_o
     private fun showEmptyMessage() {
         Toast.makeText(requireContext(), R.string.data_empty_message, Toast.LENGTH_SHORT).show()
     }
-
 
     private fun initSetting() {
         initWindowSet()

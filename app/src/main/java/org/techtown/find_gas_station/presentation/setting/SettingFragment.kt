@@ -1,9 +1,10 @@
 package org.techtown.find_gas_station.presentation.setting
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.Spinner
+import android.widget.AdapterView
+import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import org.techtown.find_gas_station.BaseFragment
@@ -17,31 +18,55 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initBinding()
-        setSelectAdapter()
+
     }
 
     private fun initBinding() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = oilInfoViewModel
         binding.goBackClick = ::goBack
-    }
 
-    private fun setSelectAdapter() {
-        initSpinner(binding.typeSpinner, R.array.oil_Type_Items)
-        initSpinner(binding.distanceSpinner, R.array.distance_Type_Items)
-        initSpinner(binding.sortSpinner, R.array.sort_Items)
-    }
+        binding.typeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                adapterView: AdapterView<*>,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
+                (adapterView.getChildAt(0) as TextView).setTextColor(Color.BLACK)
+            }
 
-    fun initSpinner(spinner: Spinner, itemsArrayResId: Int) {
-        ArrayAdapter.createFromResource(
-            requireContext(),
-            itemsArrayResId,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner.adapter = adapter
+            override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+        }
+
+        binding.distanceSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    adapterView: AdapterView<*>,
+                    view: View,
+                    position: Int,
+                    id: Long
+                ) {
+                    (adapterView.getChildAt(0) as TextView).setTextColor(Color.BLACK)
+                }
+
+                override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+            }
+
+        binding.sortSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                adapterView: AdapterView<*>,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
+                (adapterView.getChildAt(0) as TextView).setTextColor(Color.BLACK)
+            }
+
+            override fun onNothingSelected(adapterView: AdapterView<*>?) {}
         }
     }
+
 
     private fun goBack() {
         findNavController().popBackStack()

@@ -15,13 +15,13 @@ class SetViewModel(application: Application) : AndroidViewModel(application) {
     private val setRepository: SetRepository
 
     init {
-        localOilCondition = OilData("B027", "1000", "1")
+        localOilCondition = OilData("D047", "1000", "1")
         val oilDao = RoomDB.getAppDatabase(application).setDao()
         setRepository = SetRepository(oilDao)
-        requestLocalOilCondtion()
+        requestLocalOilCondition()
     }
 
-    private fun requestLocalOilCondtion() {
+    private fun requestLocalOilCondition() {
         viewModelScope.launch(Dispatchers.IO) {
             val localData = setRepository.getOilLocalData()
 

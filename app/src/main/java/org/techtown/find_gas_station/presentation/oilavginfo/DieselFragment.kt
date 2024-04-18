@@ -35,9 +35,5 @@ class DieselFragment : Fragment() {
             getOilAvgViewModel,
             "D047"
         )
-
-
     }
-
-
 }
