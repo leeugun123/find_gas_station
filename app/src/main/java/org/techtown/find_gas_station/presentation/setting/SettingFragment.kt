@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import org.techtown.find_gas_station.BaseFragment
@@ -34,7 +35,15 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initBinding()
+        initCheckConditionChange()
+        initOnBackPressed()
+
         setAdapterSelection()
+    }
+
+    private fun initCheckConditionChange() {
+        oilInfoViewModel.conditionChangeFlag = false
+        oilInfoViewModel.afterOilCondition = oilInfoViewModel.oilCondition.copy()
     }
 
     private fun initBinding() {
@@ -108,7 +117,26 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
         }
     }
 
+    private fun initOnBackPressed() {
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    goBack()
+                }
+            })
+    }
+
     private fun goBack() {
+        checkChange()
         findNavController().popBackStack()
+    }
+
+    private fun checkChange() {
+        if (oilInfoViewModel.oilCondition.sort != oilInfoViewModel.afterOilCondition.sort
+            || oilInfoViewModel.oilCondition.radius != oilInfoViewModel.afterOilCondition.radius
+            || oilInfoViewModel.oilCondition.oilKind != oilInfoViewModel.afterOilCondition.oilKind
+        )
+            oilInfoViewModel.conditionChangeFlag = true
     }
 }

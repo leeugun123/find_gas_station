@@ -8,6 +8,7 @@ import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -93,7 +94,6 @@ class OilInfoFragment : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-
         childFragmentManager.beginTransaction()
             .replace(R.id.map, mapFragment)
             .commit()
@@ -106,7 +106,11 @@ class OilInfoFragment : Fragment(),
 
         observeOilList()
 
-        requestRoundOilInfo()
+
+        Log.e("TAG",oilInfoViewModel.conditionChangeFlag.toString())
+
+        if(oilInfoViewModel.conditionChangeFlag)
+            requestRoundOilInfo()
     }
 
     private fun initSmoothScroller() {
