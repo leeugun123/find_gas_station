@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
+import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.FragmentDailyBinding
 
 class DailyFragment : Fragment() {
@@ -38,28 +39,24 @@ class DailyFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        connectPagerAdater()
+        connectPagerAdapter()
         controlTabLayOut()
     }
 
     private fun controlTabLayOut() {
-
-        /*
         TabLayoutMediator(mBinding.oilAvgtabs, viewPager) { tab, position ->
             tab.text = when (position) {
-                0 -> GASOLINE_KOREAN
-                1 -> VIA_KOREAN
-                2 -> PREMIUM_GASOLINE_KOREAN
-                3 -> INDOOR_KEROSENE_KOREAN
-                4 -> CAR_BUTANE_KOREAN
+                0 -> requireContext().getString(R.string.gasoline)
+                1 -> requireContext().getString(R.string.diesel_oil)
+                2 -> requireContext().getString(R.string.premium_gasoline)
+                3 -> requireContext().getString(R.string.indoor_kerosene)
+                4 -> requireContext().getString(R.string.car_butane)
                 else -> throw IllegalArgumentException("Invalid position")
             }
         }.attach()
-        */
-
     }
 
-    private fun connectPagerAdater() {
+    private fun connectPagerAdapter() {
         viewPager.adapter = pagerAdapter
     }
 
