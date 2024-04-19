@@ -1,13 +1,16 @@
 package org.techtown.find_gas_station.presentation.oilavginfo
 
+import android.content.Context
 import android.graphics.Color
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.google.android.gms.common.api.internal.ActivityLifecycleObserver
 import org.techtown.find_gas_station.util.unitconverter.RidRoundMath
 import org.techtown.find_gas_station.databinding.FragmentOilAvgBinding
 
@@ -15,18 +18,18 @@ class OilAvgViewCreated {
 
     fun setupOilChartAndRecycler(
         oilKind : String,
-        fragmentActivity : FragmentActivity,
+        context : Context,
         binding : FragmentOilAvgBinding,
         oilAvgViewModel: OilAvgViewModel,
-        oilCode: String
+        oilCode: String,
+        lifecycleOwner: LifecycleOwner
     ) {
         binding.oilKind.text = oilKind
-
-        binding.oilAvgRecyclerView.layoutManager = LinearLayoutManager(fragmentActivity)
+        binding.oilAvgRecyclerView.layoutManager = LinearLayoutManager(context)
 
         oilAvgViewModel.requestOilAvg(oilCode)
 
-        oilAvgViewModel.oilAvgLiveData.observe(fragmentActivity) { oilAvgPriceInfoList ->
+        oilAvgViewModel.oilAvgLiveData.observe(lifecycleOwner) { oilAvgPriceInfoList ->
             val entries = oilAvgPriceInfoList.mapIndexed { index, it ->
                 Entry(index.toFloat(), it.oilPrice.toFloat())
             }

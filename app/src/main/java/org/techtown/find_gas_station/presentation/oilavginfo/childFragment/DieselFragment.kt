@@ -23,7 +23,8 @@ class DieselFragment : BaseFragment<FragmentOilAvgBinding>(R.layout.fragment_oil
             requireActivity(),
             binding,
             oilAvgViewModel,
-            "D047"
+            "D047",
+            viewLifecycleOwner
         )
     }
 }

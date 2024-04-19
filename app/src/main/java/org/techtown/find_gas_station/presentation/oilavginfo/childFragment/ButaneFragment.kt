@@ -24,7 +24,8 @@ class ButaneFragment : BaseFragment<FragmentOilAvgBinding>(R.layout.fragment_oil
             requireActivity(),
             binding,
             oilAvgViewModel,
-            "K015"
+            "K015",
+            viewLifecycleOwner
         )
     }
 

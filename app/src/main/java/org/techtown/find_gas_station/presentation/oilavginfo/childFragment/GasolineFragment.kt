@@ -19,10 +19,11 @@ class GasolineFragment : BaseFragment<FragmentOilAvgBinding>(R.layout.fragment_o
         super.onViewCreated(view, savedInstanceState)
         OilAvgViewCreated().setupOilChartAndRecycler(
             " 휘발유 ",
-            requireActivity(),
+            requireContext(),
             binding,
             oilAvgViewModel,
-            "B027"
+            "B027",
+            viewLifecycleOwner
         )
     }
 }
