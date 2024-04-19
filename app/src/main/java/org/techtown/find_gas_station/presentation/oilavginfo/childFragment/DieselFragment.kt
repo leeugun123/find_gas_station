@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.presentation.oilavginfo
+package org.techtown.find_gas_station.presentation.oilavginfo.childFragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import org.techtown.find_gas_station.databinding.FragmentOilAvgBinding
+import org.techtown.find_gas_station.presentation.oilavginfo.GetOilAvgViewModel
+import org.techtown.find_gas_station.presentation.oilavginfo.OilAvgViewCreated
 
-class HighGasolineFragment : Fragment() {
+class DieselFragment : Fragment() {
 
     private val getOilAvgViewModel by viewModels<GetOilAvgViewModel>()
     private lateinit var mBinding: FragmentOilAvgBinding
@@ -21,22 +23,19 @@ class HighGasolineFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         mBinding = FragmentOilAvgBinding.inflate(layoutInflater, container, false)
         return mBinding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         OilAvgViewCreated().setupOilChartAndRecycler(
-            " 고급 휘발유 ",
+            " 경유 ",
             requireActivity(),
             mBinding,
             getOilAvgViewModel,
-            "B034"
+            "D047"
         )
     }
-
 }

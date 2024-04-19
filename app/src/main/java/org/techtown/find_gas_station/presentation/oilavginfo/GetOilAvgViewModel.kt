@@ -8,7 +8,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.Data.oilAvg.OilAveragePriceInfo
-import org.techtown.find_gas_station.repository.GetOilAvgRepository
 
 class GetOilAvgViewModel() : ViewModel() {
 

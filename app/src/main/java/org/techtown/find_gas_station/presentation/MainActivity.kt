@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station
+package org.techtown.find_gas_station.presentation
 
 import android.os.Bundle
 import android.widget.Toast
@@ -10,6 +10,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import dagger.hilt.android.AndroidEntryPoint
+import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.ActivityMainBinding
 import org.techtown.find_gas_station.localdatabase.OilData
 import org.techtown.find_gas_station.localdatabase.SetViewModel

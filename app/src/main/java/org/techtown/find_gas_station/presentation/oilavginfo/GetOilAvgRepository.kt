@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.repository
+package org.techtown.find_gas_station.presentation.oilavginfo
 
 import org.techtown.find_gas_station.Data.oilAvg.OilAveragePriceInfo
 import org.techtown.find_gas_station.util.api.ApiKey

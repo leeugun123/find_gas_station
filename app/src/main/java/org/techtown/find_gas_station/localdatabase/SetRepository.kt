@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.repository
+package org.techtown.find_gas_station.localdatabase
 
 import org.techtown.find_gas_station.localdatabase.OilData
 import org.techtown.find_gas_station.localdatabase.SetDao

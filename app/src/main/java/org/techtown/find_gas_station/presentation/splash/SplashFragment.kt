@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.techtown.find_gas_station.BaseFragment
+import org.techtown.find_gas_station.presentation.BaseFragment
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.FragmentSplashBinding
 

@@ -1,8 +1,9 @@
-package org.techtown.find_gas_station
+package org.techtown.find_gas_station.presentation
 
 import android.app.Application
 import com.kakao.sdk.common.KakaoSdk
 import dagger.hilt.android.HiltAndroidApp
+import org.techtown.find_gas_station.BuildConfig
 
 
 @HiltAndroidApp

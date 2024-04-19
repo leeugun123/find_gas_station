@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import org.techtown.find_gas_station.BaseFragment
+import org.techtown.find_gas_station.presentation.BaseFragment
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.FragmentSettingBinding
 import org.techtown.find_gas_station.presentation.oilroundinfo.OilInfoViewModel

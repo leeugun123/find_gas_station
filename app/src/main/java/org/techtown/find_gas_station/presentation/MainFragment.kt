@@ -1,12 +1,12 @@
-package org.techtown.find_gas_station
+package org.techtown.find_gas_station.presentation
 
 import android.os.Bundle
 import android.view.View
 import dagger.hilt.android.AndroidEntryPoint
+import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.FragmentMainBinding
 import org.techtown.find_gas_station.presentation.oilavginfo.DailyFragment
 import org.techtown.find_gas_station.presentation.oilroundinfo.OilInfoFragment
-import org.techtown.find_gas_station.util.constant.ConstantGuide
 
 
 @AndroidEntryPoint
