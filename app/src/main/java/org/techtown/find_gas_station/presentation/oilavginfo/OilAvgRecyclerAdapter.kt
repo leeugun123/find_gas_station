@@ -7,18 +7,18 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import org.techtown.find_gas_station.Data.oilAvg.OilAveragePriceInfo
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.util.unitconverter.RidRoundMath.roundStringToInteger
 import org.techtown.find_gas_station.databinding.OilavgBinding
+import org.techtown.find_gas_station.util.unitconverter.RidRoundMath.roundStringToInteger
 import java.text.ParseException
 import java.text.SimpleDateFormat
 
-class OilAvgRecyclerAdapter(private val oilAvgList: List<OilAveragePriceInfo>) : RecyclerView.Adapter<OilAvgRecyclerAdapter.ViewHolder>() {
+class OilAvgRecyclerAdapter(private val oilAvgList: List<OilAveragePriceInfo>) :
+    RecyclerView.Adapter<OilAvgRecyclerAdapter.ViewHolder>() {
 
-    inner class ViewHolder(val binding : OilavgBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class ViewHolder(val binding: OilavgBinding) : RecyclerView.ViewHolder(binding.root)
 
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
-                    = ViewHolder(OilavgBinding.inflate(LayoutInflater.from(parent.context),parent,false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        ViewHolder(OilavgBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
     override fun getItemCount() = oilAvgList.size
 
@@ -32,7 +32,12 @@ class OilAvgRecyclerAdapter(private val oilAvgList: List<OilAveragePriceInfo>) :
 
         if (position == 0) {
             holder.binding.priceGap.text = "-"
-            holder.binding.priceGap.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.gray))
+            holder.binding.priceGap.setTextColor(
+                ContextCompat.getColor(
+                    holder.itemView.context,
+                    R.color.gray
+                )
+            )
         } else {
 
             val gap = priceGap(position)
@@ -52,13 +57,11 @@ class OilAvgRecyclerAdapter(private val oilAvgList: List<OilAveragePriceInfo>) :
                 )
             }
         }
-
-
-
     }
 
 
-    private fun priceGap(pos: Int) = roundStringToInteger(oilAvgList[pos].oilPrice) - roundStringToInteger(oilAvgList[pos - 1].oilPrice)
+    private fun priceGap(pos: Int) =
+        roundStringToInteger(oilAvgList[pos].oilPrice) - roundStringToInteger(oilAvgList[pos - 1].oilPrice)
 
     @SuppressLint("SimpleDateFormat")
     private fun convertDateString(inputDate: String?): String {
@@ -72,13 +75,6 @@ class OilAvgRecyclerAdapter(private val oilAvgList: List<OilAveragePriceInfo>) :
         } catch (e: ParseException) {
             e.printStackTrace()
         }
-
         return ""
-
     }
-
-
-
-
-
 }

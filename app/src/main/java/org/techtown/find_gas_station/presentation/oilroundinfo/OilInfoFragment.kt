@@ -40,6 +40,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.techtown.find_gas_station.Data.TotalOilInfo
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.FragmentOilInfoBinding
 import org.techtown.find_gas_station.util.constant.ConstantGuide
@@ -106,11 +107,7 @@ class OilInfoFragment : Fragment(),
 
         observeOilList()
 
-
-        Log.e("TAG",oilInfoViewModel.conditionChangeFlag.toString())
-
-        if(oilInfoViewModel.conditionChangeFlag)
-            requestRoundOilInfo()
+        requestRoundOilInfo()
     }
 
     private fun initSmoothScroller() {
@@ -127,8 +124,10 @@ class OilInfoFragment : Fragment(),
     }
 
     private fun requestRoundOilInfo() {
-        getOilData()
-        updateSortText()
+        if(oilInfoViewModel.conditionChangeFlag){
+            getOilData()
+            updateSortText()
+        }
     }
 
     private fun getOilData() {
@@ -162,12 +161,18 @@ class OilInfoFragment : Fragment(),
 
     private fun observeOilList() {
         oilInfoViewModel.oilListLiveData.observe(requireActivity()) { oilList ->
-            activeProgressBar(false)
-            binding.listRecycler.adapter =
-                OilInfoAdapter(oilList, mMap, oilInfoViewModel.oilCondition.sort)
-            upRecyclerView()
-            checkListEmpty(oilList.size)
+            oilListUiSync(oilList)
         }
+    }
+
+    private fun oilListUiSync(oilList : List<TotalOilInfo>) {
+        activeProgressBar(false)
+        binding.listRecycler.adapter =
+            OilInfoAdapter(oilList, mMap, oilInfoViewModel.oilCondition.sort)
+        checkListEmpty(oilList.size)
+
+        if(oilInfoViewModel.conditionChangeFlag)
+            upRecyclerView()
     }
 
     private fun activeProgressBar(state: Boolean) {

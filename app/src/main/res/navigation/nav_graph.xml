@@ -24,9 +24,7 @@
             android:id="@+id/action_mainFragment_to_settingFragment"
             app:destination="@id/settingFragment"
             app:enterAnim="@anim/slide_up"
-            app:exitAnim="@anim/slide_down"
-            app:popEnterAnim="@anim/slide_up"
-            app:popExitAnim="@anim/slide_down" />
+            app:popEnterAnim="@anim/slide_up"/>
     </fragment>
 
     <fragment

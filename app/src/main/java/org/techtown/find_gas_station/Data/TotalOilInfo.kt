@@ -4,23 +4,23 @@ import java.io.Serializable
 
 data class TotalOilInfo(
 
-    val uid : String,
-    val name : String,
-    val price: String,
-    val distance: String,
-    val oilKind : String,
-    val image : Int,
+    var uid : String = "",
+    var name : String = "",
+    var price: String = "",
+    var distance: String = "1000",
+    var oilKind : String = "",
+    var image : Int = 0,
 
-    val wgs84X : Float,
-    val wgs84Y : Float,
+    var wgs84X : Float = 0f,
+    var wgs84Y : Float = 0f,
 
-    val carWash : String,
-    val conStore : String,
-    val lotNumberAdd : String,
-    val roadAdd : String,
-    val tel : String,
-    val sector : String, //업종구분
-    var actDistance : String,
-    var spendTime : String
+    var carWash : String = "",
+    var conStore : String = "",
+    var lotNumberAdd : String = "",
+    var roadAdd : String = "",
+    var tel : String = "",
+    var sector : String = "", //업종구분
+    var actDistance : String = "1000",
+    var spendTime : String = "1000"
 
 ) : Serializable
