@@ -8,7 +8,6 @@ import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,9 +39,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.techtown.find_gas_station.BaseFragment
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.databinding.ActivityMainBinding
 import org.techtown.find_gas_station.databinding.FragmentOilInfoBinding
 import org.techtown.find_gas_station.util.constant.ConstantGuide
 import org.techtown.find_gas_station.util.constant.ConstantsTime
@@ -131,7 +128,6 @@ class OilInfoFragment : Fragment(),
     }
 
     private fun getOilData() {
-
         activeProgressBar(true)
         initGpsTracker()
         val katecPos =
@@ -161,7 +157,7 @@ class OilInfoFragment : Fragment(),
     }
 
     private fun observeOilList() {
-        oilInfoViewModel.oilListLiveData.observe(viewLifecycleOwner) { oilList ->
+        oilInfoViewModel.oilListLiveData.observe(requireActivity()) { oilList ->
             activeProgressBar(false)
             binding.listRecycler.adapter =
                 OilInfoAdapter(oilList, mMap, oilInfoViewModel.oilCondition.sort)
@@ -326,5 +322,4 @@ class OilInfoFragment : Fragment(),
     companion object {
         private const val UP_RECYCLERVIEW_TIME = 500L
     }
-
 }
