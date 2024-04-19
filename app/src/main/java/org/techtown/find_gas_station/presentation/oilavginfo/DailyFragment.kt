@@ -3,9 +3,9 @@ package org.techtown.find_gas_station.presentation.oilavginfo
 import android.os.Bundle
 import android.view.View
 import com.google.android.material.tabs.TabLayoutMediator
-import org.techtown.find_gas_station.presentation.BaseFragment
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.FragmentDailyBinding
+import org.techtown.find_gas_station.presentation.BaseFragment
 import org.techtown.find_gas_station.presentation.oilavginfo.childFragment.ButaneFragment
 import org.techtown.find_gas_station.presentation.oilavginfo.childFragment.DieselFragment
 import org.techtown.find_gas_station.presentation.oilavginfo.childFragment.GasolineFragment
@@ -14,22 +14,6 @@ import org.techtown.find_gas_station.presentation.oilavginfo.childFragment.Keros
 
 class DailyFragment : BaseFragment<FragmentDailyBinding>(R.layout.fragment_daily) {
 
-    private val viewPager by lazy { binding.oilAvgViewPager }
-
-    private val pagerAdapter by lazy {
-        OilAvgPagerAdapter(
-            childFragmentManager,
-            lifecycle,
-            listOf(
-                GasolineFragment(),
-                DieselFragment(),
-                HighGasolineFragment(),
-                KeroseneFragment(),
-                ButaneFragment()
-            )
-        )
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         connectPagerAdapter()
@@ -37,7 +21,7 @@ class DailyFragment : BaseFragment<FragmentDailyBinding>(R.layout.fragment_daily
     }
 
     private fun controlTabLayOut() {
-        TabLayoutMediator(binding.oilAvgtabs, viewPager) { tab, position ->
+        TabLayoutMediator(binding.oilAvgtabs, binding.oilAvgViewPager) { tab, position ->
             tab.text = when (position) {
                 0 -> requireContext().getString(R.string.gasoline)
                 1 -> requireContext().getString(R.string.diesel_oil)
@@ -50,6 +34,17 @@ class DailyFragment : BaseFragment<FragmentDailyBinding>(R.layout.fragment_daily
     }
 
     private fun connectPagerAdapter() {
-        viewPager.adapter = pagerAdapter
+        binding.oilAvgViewPager.adapter = OilAvgPagerAdapter(
+            childFragmentManager,
+            lifecycle,
+            listOf(
+                GasolineFragment(),
+                DieselFragment(),
+                HighGasolineFragment(),
+                KeroseneFragment(),
+                ButaneFragment()
+            )
+        )
     }
+
 }

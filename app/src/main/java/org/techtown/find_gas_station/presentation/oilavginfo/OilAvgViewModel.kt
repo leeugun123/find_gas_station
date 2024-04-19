@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.Data.oilAvg.OilAveragePriceInfo
 
-class GetOilAvgViewModel() : ViewModel() {
+class OilAvgViewModel() : ViewModel() {
 
     private var _oilAvgInfoLiveData : MutableLiveData<List<OilAveragePriceInfo>> = MutableLiveData()
     val oilAvgLiveData : LiveData<List<OilAveragePriceInfo>> get() = _oilAvgInfoLiveData

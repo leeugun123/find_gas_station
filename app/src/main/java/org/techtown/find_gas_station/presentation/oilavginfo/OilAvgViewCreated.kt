@@ -17,16 +17,16 @@ class OilAvgViewCreated {
         oilKind : String,
         fragmentActivity : FragmentActivity,
         binding : FragmentOilAvgBinding,
-        getOilAvgViewModel: GetOilAvgViewModel,
+        oilAvgViewModel: OilAvgViewModel,
         oilCode: String
     ) {
         binding.oilKind.text = oilKind
 
         binding.oilAvgRecyclerView.layoutManager = LinearLayoutManager(fragmentActivity)
 
-        getOilAvgViewModel.requestOilAvg(oilCode)
+        oilAvgViewModel.requestOilAvg(oilCode)
 
-        getOilAvgViewModel.oilAvgLiveData.observe(fragmentActivity) { oilAvgPriceInfoList ->
+        oilAvgViewModel.oilAvgLiveData.observe(fragmentActivity) { oilAvgPriceInfoList ->
             val entries = oilAvgPriceInfoList.mapIndexed { index, it ->
                 Entry(index.toFloat(), it.oilPrice.toFloat())
             }
