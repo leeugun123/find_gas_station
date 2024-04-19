@@ -1,8 +1,7 @@
-package org.techtown.find_gas_station.presentation.oilavginfo
+package org.techtown.find_gas_station.presentation.oilavginfo.childFragment
 
 import android.content.Context
 import android.graphics.Color
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mikephil.charting.components.XAxis
@@ -10,9 +9,10 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import com.google.android.gms.common.api.internal.ActivityLifecycleObserver
 import org.techtown.find_gas_station.util.unitconverter.RidRoundMath
 import org.techtown.find_gas_station.databinding.FragmentOilAvgBinding
+import org.techtown.find_gas_station.presentation.oilavginfo.OilAvgRecyclerAdapter
+import org.techtown.find_gas_station.presentation.oilavginfo.OilAvgViewModel
 
 class OilAvgViewCreated {
 
