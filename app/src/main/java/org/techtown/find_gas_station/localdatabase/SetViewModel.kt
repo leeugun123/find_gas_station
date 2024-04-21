@@ -42,7 +42,9 @@ class SetViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.IO) {
             setRepository.deleteAll()
             setRepository.insert(set)
-            _updateComplete.value = true
+            withContext(Dispatchers.Main) {
+                _updateComplete.value = true
+            }
         }
     }
 
