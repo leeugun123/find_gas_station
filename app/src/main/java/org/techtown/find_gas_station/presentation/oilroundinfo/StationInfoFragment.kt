@@ -37,20 +37,20 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.techtown.find_gas_station.data.TotalOilInfo
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.databinding.FragmentOilInfoBinding
-import org.techtown.find_gas_station.presentation.oilroundinfo.oilroundrecyclerview.OilInfoAdapter
+import org.techtown.find_gas_station.data.TotalOilInfo
+import org.techtown.find_gas_station.databinding.FragmentStationInfoBinding
+import org.techtown.find_gas_station.presentation.oilroundinfo.oilroundrecyclerview.StationInfoAdapter
 import org.techtown.find_gas_station.util.constant.ConstantGuide
 import org.techtown.find_gas_station.util.constant.ConstantsTime
 import org.techtown.find_gas_station.util.gps.GeoTrans
 import org.techtown.find_gas_station.util.gps.GeoTransPoint
 import org.techtown.find_gas_station.util.gps.GpsTracker
 
-class OilInfoFragment : Fragment(),
+class StationInfoFragment : Fragment(),
     OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
-    private lateinit var binding: FragmentOilInfoBinding
+    private lateinit var binding: FragmentStationInfoBinding
     private var wgsX = ""
     private var wgsY = ""
 
@@ -80,14 +80,15 @@ class OilInfoFragment : Fragment(),
         Manifest.permission.ACCESS_COARSE_LOCATION
     )
 
-    private val oilInfoViewModel: OilInfoViewModel by activityViewModels()
+    private val stationInfoViewModel: StationInfoViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_oil_info, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_station_info, container, false)
         return binding.root
     }
 
@@ -118,11 +119,11 @@ class OilInfoFragment : Fragment(),
         binding.lifecycleOwner = viewLifecycleOwner
         binding.requestOilDataClick = ::getOilData
         binding.moveToSettingFragmentClick = ::moveToSettingFragment
-        binding.oilInfoViewModel = oilInfoViewModel
+        binding.stationInfoViewModel = stationInfoViewModel
     }
 
     private fun requestRoundOilInfo() {
-        if(oilInfoViewModel.conditionChangeFlag){
+        if (stationInfoViewModel.conditionChangeFlag) {
             getOilData()
             updateSortText()
         }
@@ -134,7 +135,7 @@ class OilInfoFragment : Fragment(),
         val katecPos =
             transFormPoint(gpsTracker.getLatitude().toFloat(), gpsTracker.getLongitude().toFloat())
 
-        oilInfoViewModel.requestOilList(
+        stationInfoViewModel.requestOilList(
             wgsX,
             wgsY,
             katecPos.x.toString(),
@@ -143,7 +144,7 @@ class OilInfoFragment : Fragment(),
     }
 
     private fun updateSortText() {
-        oilInfoViewModel.sortText = when (oilInfoViewModel.oilCondition.sort) {
+        stationInfoViewModel.sortText = when (stationInfoViewModel.oilCondition.sort) {
             "1" -> requireContext().getString(R.string.sort_price)
             "2" -> requireContext().getString(R.string.sort_direct_distance)
             "3" -> requireContext().getString(R.string.sort_road_distance)
@@ -158,23 +159,23 @@ class OilInfoFragment : Fragment(),
     }
 
     private fun observeOilList() {
-        oilInfoViewModel.oilListLiveData.observe(requireActivity()) { oilList ->
+        stationInfoViewModel.oilListLiveData.observe(requireActivity()) { oilList ->
             oilListUiSync(oilList)
         }
     }
 
-    private fun oilListUiSync(oilList : List<TotalOilInfo>) {
+    private fun oilListUiSync(oilList: List<TotalOilInfo>) {
         activeProgressBar(false)
         binding.listRecycler.adapter =
-            OilInfoAdapter(oilList, mMap, oilInfoViewModel.oilCondition.sort)
+            StationInfoAdapter(oilList, mMap, stationInfoViewModel.oilCondition.sort)
         checkListEmpty(oilList.size)
 
-        if(oilInfoViewModel.conditionChangeFlag)
+        if (stationInfoViewModel.conditionChangeFlag)
             upRecyclerView()
     }
 
     private fun activeProgressBar(state: Boolean) {
-        oilInfoViewModel.setLoading(state)
+        stationInfoViewModel.setLoading(state)
     }
 
     private fun upRecyclerView() {

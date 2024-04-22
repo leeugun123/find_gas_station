@@ -6,13 +6,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.FragmentMainBinding
 import org.techtown.find_gas_station.presentation.oilavginfo.DailyFragment
-import org.techtown.find_gas_station.presentation.oilroundinfo.OilInfoFragment
+import org.techtown.find_gas_station.presentation.oilroundinfo.StationInfoFragment
 
 
 @AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
-    private val oilInfoFragment by lazy { OilInfoFragment() }
+    private val stationInfoFragment by lazy { StationInfoFragment() }
     private val dailyFragment by lazy { DailyFragment() }
     private val homeFragmentManager by lazy { childFragmentManager }
 
@@ -23,10 +23,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     }
 
     private fun initChildFragment() {
-        addFragment()
+        addFragments()
     }
 
-    private fun addFragment() {
+    private fun addFragments() {
 
         if (homeFragmentManager.findFragmentByTag(OIL_FRAGMENT_TAG) != null ||
             homeFragmentManager.findFragmentByTag(DAILY_FRAGMENT_TAG) != null
@@ -34,26 +34,26 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             return
 
         homeFragmentManager.beginTransaction()
-            .add(R.id.main_frame, oilInfoFragment, OIL_FRAGMENT_TAG).commit()
+            .add(R.id.main_frame, stationInfoFragment, OIL_FRAGMENT_TAG).commit()
         homeFragmentManager.beginTransaction()
             .add(R.id.main_frame, dailyFragment, DAILY_FRAGMENT_TAG).commit()
     }
 
-    private fun showOilInfoFragment() {
-        homeFragmentManager.beginTransaction().show(oilInfoFragment).commit()
+    private fun showStationInfoFragment() {
+        homeFragmentManager.beginTransaction().show(stationInfoFragment).commit()
         homeFragmentManager.beginTransaction().hide(dailyFragment).commit()
     }
 
     private fun showDailyFragment() {
         homeFragmentManager.beginTransaction().show(dailyFragment).commit()
-        homeFragmentManager.beginTransaction().hide(oilInfoFragment).commit()
+        homeFragmentManager.beginTransaction().hide(stationInfoFragment).commit()
     }
 
     private fun initBottomNavigationBar() =
         binding.bottomNav.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.Home_fragment -> {
-                    showOilInfoFragment()
+                R.id.station_fragment -> {
+                    showStationInfoFragment()
                 }
 
                 R.id.Daily_fragment -> {

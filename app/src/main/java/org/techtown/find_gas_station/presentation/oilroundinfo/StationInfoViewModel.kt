@@ -9,8 +9,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.data.TotalOilInfo
 
-
-class OilInfoViewModel : ViewModel() {
+class StationInfoViewModel : ViewModel() {
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean>

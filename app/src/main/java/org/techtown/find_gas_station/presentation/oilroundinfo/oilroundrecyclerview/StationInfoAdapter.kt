@@ -13,18 +13,18 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import org.techtown.find_gas_station.data.TotalOilInfo
 
-class OilInfoAdapter(
+class StationInfoAdapter(
     private val oilInfoList: List<TotalOilInfo>,
     private val googleMap: GoogleMap,
     private val sort: String,
-) : RecyclerView.Adapter<OilInfoViewHolder>() {
+) : RecyclerView.Adapter<StationInfoViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
-    ): OilInfoViewHolder = OilInfoViewHolder(parent)
+    ): StationInfoViewHolder = StationInfoViewHolder(parent)
 
     @SuppressLint("SetTextI18n")
-    override fun onBindViewHolder(holder: OilInfoViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: StationInfoViewHolder, position: Int) {
         holder.bind(oilInfoList[position], sort)
 
         addMarkerToMap(oilInfoList[position], holder)
@@ -37,7 +37,7 @@ class OilInfoAdapter(
         }
     }
 
-    private fun addMarkerToMap(oilInfo: TotalOilInfo, holder: OilInfoViewHolder) {
+    private fun addMarkerToMap(oilInfo: TotalOilInfo, holder: StationInfoViewHolder) {
 
         val pos = LatLng(oilInfo.wgs84Y.toDouble(), oilInfo.wgs84X.toDouble())
         val bitmapDraw =

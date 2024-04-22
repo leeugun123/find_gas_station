@@ -17,7 +17,7 @@ import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.data.TotalOilInfo
 import org.techtown.find_gas_station.databinding.ItemRecyclerviewBinding
 
-class OilInfoViewHolder(
+class StationInfoViewHolder(
     parent: ViewGroup
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.item_recyclerview, parent, false)
@@ -36,7 +36,7 @@ class OilInfoViewHolder(
         if (NaviClient.instance.isKakaoNaviInstalled(itemView.context))
             moveToKakaoApp(totalOilInfo)
         else
-            moveToKakaoWebViewUri()
+            moveToKakaoWebView()
     }
 
     private fun moveToKakaoApp(totalOilInfo: TotalOilInfo) {
@@ -57,7 +57,7 @@ class OilInfoViewHolder(
         KakaoNaviService.getInstance().navigate(itemView.context, params)
     }
 
-    private fun moveToKakaoWebViewUri() {
+    private fun moveToKakaoWebView() {
         itemView.context.startActivity(
             Intent(
                 Intent.ACTION_VIEW,
@@ -69,5 +69,4 @@ class OilInfoViewHolder(
     private fun navigateToStationDetail() {
         // TODO("StationDetail 프래그먼트로 이동하는 로직 구현")
     }
-
 }

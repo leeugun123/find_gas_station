@@ -8,14 +8,14 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import org.techtown.find_gas_station.presentation.BaseFragment
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.FragmentSettingBinding
-import org.techtown.find_gas_station.presentation.oilroundinfo.OilInfoViewModel
+import org.techtown.find_gas_station.presentation.BaseFragment
+import org.techtown.find_gas_station.presentation.oilroundinfo.StationInfoViewModel
 
 class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment_setting) {
 
-    private val oilInfoViewModel: OilInfoViewModel by activityViewModels()
+    private val stationInfoViewModel: StationInfoViewModel by activityViewModels()
 
     private val onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(
@@ -42,13 +42,13 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
     }
 
     private fun initCheckConditionChange() {
-        oilInfoViewModel.conditionChangeFlag = false
-        oilInfoViewModel.afterOilCondition = oilInfoViewModel.oilCondition.copy()
+        stationInfoViewModel.conditionChangeFlag = false
+        stationInfoViewModel.afterOilCondition = stationInfoViewModel.oilCondition.copy()
     }
 
     private fun initBinding() {
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewModel = oilInfoViewModel
+        binding.viewModel = stationInfoViewModel
         binding.goBackClick = ::goBack
         binding.typeSpinner.onItemSelectedListener = onItemSelectedListener
         binding.distanceSpinner.onItemSelectedListener = onItemSelectedListener
@@ -62,7 +62,7 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
     }
 
     private fun setOilKindAdapterSelection() {
-        when (oilInfoViewModel.oilCondition.oilKind) {
+        when (stationInfoViewModel.oilCondition.oilKind) {
             "B027" -> typeSpinnerSelection(0)
             "D047" -> typeSpinnerSelection(1)
             "B034" -> typeSpinnerSelection(2)
@@ -72,7 +72,7 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
     }
 
     private fun setDistanceAdapterSelection() {
-        when (oilInfoViewModel.oilCondition.radius) {
+        when (stationInfoViewModel.oilCondition.radius) {
             "1000" -> distanceSpinnerSelection(0)
             "3000" -> distanceSpinnerSelection(1)
             "5000" -> distanceSpinnerSelection(2)
@@ -80,7 +80,7 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
     }
 
     private fun setSortAdapterSelection() {
-        when (oilInfoViewModel.oilCondition.sort) {
+        when (stationInfoViewModel.oilCondition.sort) {
             "1" -> sortSpinnerSelection(0)
             "2" -> sortSpinnerSelection(1)
             "3" -> sortSpinnerSelection(2)
@@ -102,18 +102,18 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
 
     private fun changeValue(selectedItem: String) {
         when (selectedItem) {
-            "휘발유" -> oilInfoViewModel.oilCondition.oilKind = "B027"
-            "경유" -> oilInfoViewModel.oilCondition.oilKind = "D047"
-            "고급 휘발유" -> oilInfoViewModel.oilCondition.oilKind = "B034"
-            "실내 등유" -> oilInfoViewModel.oilCondition.oilKind = "C004"
-            "자동차 부탄" -> oilInfoViewModel.oilCondition.oilKind = "K015"
-            "1km" -> oilInfoViewModel.oilCondition.radius = "1000"
-            "3km" -> oilInfoViewModel.oilCondition.radius = "3000"
-            "5km" -> oilInfoViewModel.oilCondition.radius = "5000"
-            "가격순" -> oilInfoViewModel.oilCondition.sort = "1"
-            "직경 거리순" -> oilInfoViewModel.oilCondition.sort = "2"
-            "도로 거리순" -> oilInfoViewModel.oilCondition.sort = "3"
-            "소요 시간순" -> oilInfoViewModel.oilCondition.sort = "4"
+            "휘발유" -> stationInfoViewModel.oilCondition.oilKind = "B027"
+            "경유" -> stationInfoViewModel.oilCondition.oilKind = "D047"
+            "고급 휘발유" -> stationInfoViewModel.oilCondition.oilKind = "B034"
+            "실내 등유" -> stationInfoViewModel.oilCondition.oilKind = "C004"
+            "자동차 부탄" -> stationInfoViewModel.oilCondition.oilKind = "K015"
+            "1km" -> stationInfoViewModel.oilCondition.radius = "1000"
+            "3km" -> stationInfoViewModel.oilCondition.radius = "3000"
+            "5km" -> stationInfoViewModel.oilCondition.radius = "5000"
+            "가격순" -> stationInfoViewModel.oilCondition.sort = "1"
+            "직경 거리순" -> stationInfoViewModel.oilCondition.sort = "2"
+            "도로 거리순" -> stationInfoViewModel.oilCondition.sort = "3"
+            "소요 시간순" -> stationInfoViewModel.oilCondition.sort = "4"
         }
     }
 
@@ -133,10 +133,10 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
     }
 
     private fun checkChange() {
-        if (oilInfoViewModel.oilCondition.sort != oilInfoViewModel.afterOilCondition.sort
-            || oilInfoViewModel.oilCondition.radius != oilInfoViewModel.afterOilCondition.radius
-            || oilInfoViewModel.oilCondition.oilKind != oilInfoViewModel.afterOilCondition.oilKind
+        if (stationInfoViewModel.oilCondition.sort != stationInfoViewModel.afterOilCondition.sort
+            || stationInfoViewModel.oilCondition.radius != stationInfoViewModel.afterOilCondition.radius
+            || stationInfoViewModel.oilCondition.oilKind != stationInfoViewModel.afterOilCondition.oilKind
         )
-            oilInfoViewModel.conditionChangeFlag = true
+            stationInfoViewModel.conditionChangeFlag = true
     }
 }
