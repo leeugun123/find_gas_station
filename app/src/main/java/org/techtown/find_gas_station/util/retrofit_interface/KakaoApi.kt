@@ -8,7 +8,7 @@ import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
 
-interface Kakao_RetrofitApi {
+interface KakaoApi {
     @Headers(
         "Content-Type: application/json",
         "Authorization: KakaoAK " + BuildConfig.KAKAO_API_KEY

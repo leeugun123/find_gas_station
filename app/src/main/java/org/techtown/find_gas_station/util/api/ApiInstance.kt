@@ -1,14 +1,14 @@
 package org.techtown.find_gas_station.util.api
 
 import com.google.gson.GsonBuilder
-import org.techtown.find_gas_station.util.retrofit_interface.Kakao_RetrofitApi
-import org.techtown.find_gas_station.util.retrofit_interface.Opinet_RetrofitApi
+import org.techtown.find_gas_station.util.retrofit_interface.KakaoApi
+import org.techtown.find_gas_station.util.retrofit_interface.OpinetApi
 import org.techtown.find_gas_station.util.api.ApiBaseUrl.KAKAO_BASE_URL
 import org.techtown.find_gas_station.util.api.ApiBaseUrl.OPINET_BASE_URL
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object Api_Instance {
+object ApiInstance {
 
     val gson = GsonBuilder().setLenient().create()
 
@@ -23,8 +23,6 @@ object Api_Instance {
                         .build()
 
 
-    val opiRetrofitApi = opinetRetrofit.create(Opinet_RetrofitApi::class.java)!!
-    val kakaoRetrofitApi = kakaoRetrofit.create(Kakao_RetrofitApi::class.java)!!
-
-
+    val opiRetrofitApi = opinetRetrofit.create(OpinetApi::class.java)
+    val kakaoRetrofitApi = kakaoRetrofit.create(KakaoApi::class.java)
 }

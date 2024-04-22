@@ -32,7 +32,7 @@ class StationInfoViewModel : ViewModel() {
     fun requestOilList(wgsX: String, wgsY: String, katecX: String, katecY: String) {
 
         viewModelScope.launch(Dispatchers.IO) {
-            stationInfoRepository.requestOilList(
+            stationInfoRepository.requestStationList(
                 wgsX,
                 wgsY,
                 katecX,
@@ -43,7 +43,7 @@ class StationInfoViewModel : ViewModel() {
             )
 
             withContext(Dispatchers.Main) {
-                _oilListLiveData.value = stationInfoRepository.getOilList()
+                _oilListLiveData.value = stationInfoRepository.getStationList()
             }
         }
     }

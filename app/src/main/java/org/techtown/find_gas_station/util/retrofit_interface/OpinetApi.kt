@@ -7,9 +7,9 @@ import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface Opinet_RetrofitApi {
+interface OpinetApi {
     @GET("api/aroundAll.do")
-    suspend fun getOilList(
+    suspend fun getStationList(
         @Query("code") code : String,
         @Query("out") out : String,
         @Query("x") x : String,
@@ -20,7 +20,7 @@ interface Opinet_RetrofitApi {
     ) : Response<GasStationInfoResult>
 
     @GET("api/detailById.do")
-    suspend fun getOilDetail(
+    suspend fun getStationDetail(
         @Query("code") code : String,
         @Query("out") out : String,
         @Query("id") id : String
