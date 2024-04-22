@@ -28,21 +28,7 @@ class OilInfoViewHolder(
     fun bind(totalOilInfo: TotalOilInfo, sort: String) {
 
         binding.gasStationInfo = totalOilInfo
-
-        when (sort) {
-            "3" -> {
-                binding.distance.text = changeKm(totalOilInfo.actDistance) + "km"
-            }
-
-            "4" -> {
-                binding.distance.text = formatSeconds(totalOilInfo.spendTime.toInt())
-            }
-
-            else -> {
-                binding.distance.text = changeKm(totalOilInfo.distance) + "km"
-            }
-        }
-
+        binding.sort = sort
 
         if (totalOilInfo.carWash == "Y")
             binding.carWashStore.setImageResource(R.drawable.car_wash)
@@ -97,20 +83,4 @@ class OilInfoViewHolder(
         )
     }
 
-    private fun changeKm(distance: String) = String.format("%.1f", distance.toDouble() / 1000)
-
-    private fun formatSeconds(seconds: Int): String {
-        require(seconds >= 0) { "초는 음수일 수 없습니다." }
-
-        val minutes = seconds / 60
-        val leftSeconds = seconds % 60
-
-        return if (minutes == 0) {
-            "$leftSeconds 초"
-        } else if (leftSeconds == 0) {
-            "$minutes 분"
-        } else {
-            "$minutes 분 $leftSeconds 초"
-        }
-    }
 }

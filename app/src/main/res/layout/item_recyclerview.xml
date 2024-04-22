@@ -7,6 +7,10 @@
         <import type="kotlin.Unit" />
 
         <variable
+            name="sort"
+            type="String" />
+
+        <variable
             name="gasStationInfo"
             type="org.techtown.find_gas_station.data.TotalOilInfo" />
 
@@ -83,10 +87,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:text="10분 30초"
             android:textColor="#4CAF50"
             android:textSize="25sp"
             android:textStyle="bold"
+            app:sort="@{sort}"
+            app:totalOilInfo="@{gasStationInfo}"
             app:layout_constraintBottom_toBottomOf="@+id/price"
             app:layout_constraintStart_toEndOf="@+id/textView4" />
 
