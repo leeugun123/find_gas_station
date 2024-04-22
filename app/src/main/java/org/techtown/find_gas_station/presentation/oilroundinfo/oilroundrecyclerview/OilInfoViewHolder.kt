@@ -117,20 +117,17 @@ class OilInfoViewHolder(
     private fun changeKm(distance: String) = String.format("%.1f", distance.toDouble() / 1000)
 
     private fun formatSeconds(seconds: Int): String {
-
-        var seconds = seconds
         require(seconds >= 0) { "초는 음수일 수 없습니다." }
 
         val minutes = seconds / 60
-        seconds %= 60
+        val leftSeconds = seconds % 60
 
         return if (minutes == 0) {
-            seconds.toString() + "초"
-        } else if (seconds == 0) {
-            minutes.toString() + "분"
+            "$leftSeconds 초"
+        } else if (leftSeconds == 0) {
+            "$minutes 분"
         } else {
-            minutes.toString() + "분 " + seconds + "초"
+            "$minutes 분 $leftSeconds 초"
         }
     }
-
 }
