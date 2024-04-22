@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
-        android:name=".GasApplication"
+        android:name=".presentation.GasApplication"
         android:allowBackup="true"
         android:icon="@mipmap/main_icon"
         android:label="@string/app_title"
@@ -24,42 +24,28 @@
         android:usesCleartextTraffic="true"
         tools:ignore="Instantiatable"
         tools:targetApi="m">
-
         <activity
-            android:name=".View.Activity.FragmentActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="false"
-            tools:ignore="MissingClass" />
-
-        <activity
-            android:name=".View.Activity.OilDetailActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".View.Activity.SettingActivity"
-            android:exported="true" />
-
-        <activity
-            android:name=".View.Activity.SplashActivity"
-            android:exported="true">
+            android:name=".presentation.MainActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
+        <activity
+            android:name=".presentation.gasdetailinfo.OilDetailActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${google_api_key}" />
-
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="${kakao_api_key}" />
 
     </application>
-
 
 </manifest>

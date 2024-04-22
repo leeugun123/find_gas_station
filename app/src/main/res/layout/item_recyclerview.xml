@@ -1,136 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:background="@color/white">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data></data>
 
-    <ImageView
-        android:id="@+id/oil_image"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="5dp"
-        android:contentDescription="@string/gas_station_img"
-        android:src="@drawable/oil_2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/oil_kind"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
-        android:text="휘발유"
-        android:textColor="@color/app_background"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/oil_image"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:text="현리주유소"
-        android:textColor="@color/black"
-        android:textSize="17sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/oil_kind"
-        app:layout_constraintStart_toEndOf="@+id/oil_kind"
-        app:layout_constraintTop_toTopOf="@+id/oil_kind" />
-
-
-    <TextView
-        android:id="@+id/price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:gravity="center_vertical"
-        android:text="1670"
-        android:textColor="#000000"
-        android:textSize="35sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/oil_image"
-        app:layout_constraintTop_toBottomOf="@+id/oil_kind" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/won"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/price"
-        app:layout_constraintStart_toEndOf="@+id/price" />
-
-    <TextView
-        android:id="@+id/distance"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="4분 30초"
-        android:textColor="#4CAF50"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/price"
-        app:layout_constraintStart_toEndOf="@+id/textView4" />
-
-    <TextView
-        android:id="@+id/navi_button_kakao"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:background="@color/kakao_background"
-        android:gravity="center"
-        android:text="@string/navi"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        app:drawableStartCompat="@drawable/navi_blue"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/intelButton" />
-
-    <ImageButton
-        android:id="@+id/intelButton"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:background="@color/app_background"
-        android:contentDescription="@string/gas_station_info_detail"
-        android:src="@drawable/gas"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/navi_button_kakao" />
-
-
-    <ImageView
-        android:id="@+id/carWashStore"
-        android:layout_width="30dp"
-        android:layout_height="25dp"
-        android:contentDescription="@string/car_wash_exist"
-        android:src="@drawable/car_wash"
-        app:layout_constraintBottom_toTopOf="@+id/intelButton"
-        app:layout_constraintStart_toStartOf="@+id/intelButton" />
-
-    <ImageView
-        android:id="@+id/conStore"
-        android:layout_width="30dp"
-        android:layout_height="25dp"
-        android:contentDescription="@string/convenience_store_exist"
-        android:src="@drawable/convenstore"
-        app:layout_constraintBottom_toBottomOf="@+id/carWashStore"
-        app:layout_constraintStart_toEndOf="@+id/carWashStore"
-        app:layout_constraintTop_toTopOf="@+id/carWashStore" />
-
-    <View
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#aaa"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_height="100dp"
+        android:background="@color/white">
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/oil_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="5dp"
+            android:contentDescription="@string/gas_station_img"
+            android:src="@drawable/oil_2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/oil_kind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:text="휘발유"
+            android:textColor="@color/app_background"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/oil_image"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="현리주유소"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/oil_kind"
+            app:layout_constraintStart_toEndOf="@+id/oil_kind"
+            app:layout_constraintTop_toTopOf="@+id/oil_kind" />
+
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:gravity="center_vertical"
+            android:text="1670"
+            android:textColor="#000000"
+            android:textSize="35sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/oil_image"
+            app:layout_constraintTop_toBottomOf="@+id/oil_kind" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/won"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/price"
+            app:layout_constraintStart_toEndOf="@+id/price" />
+
+        <TextView
+            android:id="@+id/distance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="10분 30초"
+            android:textColor="#4CAF50"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/price"
+            app:layout_constraintStart_toEndOf="@+id/textView4" />
+
+        <TextView
+            android:id="@+id/navi_button_kakao"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/kaka_navi_background"
+            android:gravity="center"
+            android:text="@string/navi"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:drawableStartCompat="@drawable/navi_blue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/intelButton" />
+
+        <ImageButton
+            android:id="@+id/intelButton"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/gas_station_detail_background"
+            android:contentDescription="@string/gas_station_info_detail"
+            android:src="@drawable/gas"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/navi_button_kakao" />
+
+
+        <ImageView
+            android:id="@+id/carWashStore"
+            android:layout_width="30dp"
+            android:layout_height="25dp"
+            android:contentDescription="@string/car_wash_exist"
+            android:src="@drawable/car_wash"
+            app:layout_constraintBottom_toTopOf="@+id/intelButton"
+            app:layout_constraintStart_toStartOf="@+id/intelButton" />
+
+        <ImageView
+            android:id="@+id/conStore"
+            android:layout_width="30dp"
+            android:layout_height="25dp"
+            android:contentDescription="@string/convenience_store_exist"
+            android:src="@drawable/convenstore"
+            app:layout_constraintBottom_toBottomOf="@+id/carWashStore"
+            app:layout_constraintStart_toEndOf="@+id/carWashStore"
+            app:layout_constraintTop_toTopOf="@+id/carWashStore" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#aaa"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
