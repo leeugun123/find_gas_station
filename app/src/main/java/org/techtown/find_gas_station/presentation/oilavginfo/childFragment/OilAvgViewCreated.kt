@@ -22,14 +22,14 @@ class OilAvgViewCreated {
         binding: FragmentOilAvgBinding,
         oilAvgViewModel: OilAvgViewModel,
         oilCode: String,
-        lifecycleOwner: LifecycleOwner
+        viewLifecycleOwner: LifecycleOwner
     ) {
         binding.oilKind.text = oilKind
         binding.oilAvgRecyclerView.layoutManager = LinearLayoutManager(context)
 
         oilAvgViewModel.requestOilAvg(oilCode)
 
-        oilAvgViewModel.oilAvgLiveData.observe(lifecycleOwner) { oilAvgPriceInfoList ->
+        oilAvgViewModel.oilAvgLiveData.observe(viewLifecycleOwner) { oilAvgPriceInfoList ->
             val entries = oilAvgPriceInfoList.mapIndexed { index, it ->
                 Entry(index.toFloat(), it.oilPrice.toFloat())
             }
@@ -66,4 +66,5 @@ class OilAvgViewCreated {
             binding.oilAvgRecyclerView.adapter = OilAvgRecyclerAdapter(oilAvgPriceInfoList)
         }
     }
+
 }
