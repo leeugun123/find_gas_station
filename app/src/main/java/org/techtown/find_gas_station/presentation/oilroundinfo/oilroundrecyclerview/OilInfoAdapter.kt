@@ -56,10 +56,14 @@ class OilInfoAdapter(
     private fun navigateToLocation(wgsY: Double, wgsX: Double) {
         googleMap.animateCamera(
             CameraUpdateFactory.newLatLng(LatLng(wgsY, wgsX)),
-            600,
+            GOOGLE_MAP_DURATION,
             null
         )
     }
 
     override fun getItemCount() = oilInfoList.size
+
+    companion object {
+        private const val GOOGLE_MAP_DURATION = 600
+    }
 }

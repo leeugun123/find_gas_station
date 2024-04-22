@@ -73,7 +73,7 @@
             app:layout_constraintTop_toBottomOf="@+id/oil_kind" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/won"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/won"
@@ -93,7 +93,7 @@
             app:sort="@{sort}"
             app:totalOilInfo="@{gasStationInfo}"
             app:layout_constraintBottom_toBottomOf="@+id/price"
-            app:layout_constraintStart_toEndOf="@+id/textView4" />
+            app:layout_constraintStart_toEndOf="@+id/won" />
 
         <TextView
             android:id="@+id/navi_button_kakao"
@@ -126,8 +126,8 @@
             android:id="@+id/carWashStore"
             android:layout_width="30dp"
             android:layout_height="25dp"
+            app:setCarWashImg="@{gasStationInfo.carWash}"
             android:contentDescription="@string/car_wash_exist"
-            android:src="@drawable/car_wash"
             app:layout_constraintBottom_toTopOf="@+id/intelButton"
             app:layout_constraintStart_toStartOf="@+id/intelButton" />
 
@@ -136,7 +136,7 @@
             android:layout_width="30dp"
             android:layout_height="25dp"
             android:contentDescription="@string/convenience_store_exist"
-            android:src="@drawable/convenstore"
+            app:setConStoreImg="@{gasStationInfo.conStore}"
             app:layout_constraintBottom_toBottomOf="@+id/carWashStore"
             app:layout_constraintStart_toEndOf="@+id/carWashStore"
             app:layout_constraintTop_toTopOf="@+id/carWashStore" />

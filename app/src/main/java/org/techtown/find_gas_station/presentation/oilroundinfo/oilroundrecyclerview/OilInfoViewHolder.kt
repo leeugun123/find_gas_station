@@ -30,16 +30,6 @@ class OilInfoViewHolder(
         binding.gasStationInfo = totalOilInfo
         binding.sort = sort
 
-        if (totalOilInfo.carWash == "Y")
-            binding.carWashStore.setImageResource(R.drawable.car_wash)
-        else
-            binding.carWashStore.setImageResource(R.color.white)
-
-        if (totalOilInfo.conStore == "Y")
-            binding.conStore.setImageResource(R.drawable.convenstore)
-        else
-            binding.conStore.setImageResource(R.color.white)
-
         binding.naviButtonKakao.setOnClickListener {
             checkKakaoInstall(totalOilInfo)
         }
