@@ -46,6 +46,17 @@
     <string name="car_butane">자동차 부탄</string>
     <string name="won">원</string>
 
+    <string name="gas_station_price">주유소 가격</string>
+
+    <string name="recent_week_price">최근 일주일 전국 유가 가격</string>
+    <string name="seven_day_ago">7일전</string>
+    <string name="six_day_ago">6일전</string>
+    <string name="five_day_ago">5일전</string>
+    <string name="four_day_ago">4일전</string>
+    <string name="three_day_ago">3일전</string>
+    <string name="two_day_ago">2일전</string>
+    <string name="one_day_ago">1일전</string>
+
     <!-- OilRepository -->
     <string name="ske">SKE</string>
     <string name="gsx">GSC</string>
