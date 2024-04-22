@@ -26,17 +26,10 @@ class OilInfoViewHolder(
     private val binding = ItemRecyclerviewBinding.bind(itemView)
 
     fun bind(totalOilInfo: TotalOilInfo, sort: String) {
-
         binding.gasStationInfo = totalOilInfo
         binding.sort = sort
-
-        binding.naviButtonKakao.setOnClickListener {
-            checkKakaoInstall(totalOilInfo)
-        }
-
-        binding.intelButton.setOnClickListener {
-            // TODO("OilDetailActivity 프래그먼트로 이동하는 로직 구현")
-        }
+        binding.moveKakaoBtnClick = { ::checkKakaoInstall.invoke(totalOilInfo) }
+        binding.moveStationDetailBtnClick = ::navigateToStationDetail
     }
 
     private fun checkKakaoInstall(totalOilInfo: TotalOilInfo) {
@@ -71,6 +64,10 @@ class OilInfoViewHolder(
                 Uri.parse(WEB_NAVI_INSTALL)
             ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         )
+    }
+
+    private fun navigateToStationDetail() {
+        // TODO("StationDetail 프래그먼트로 이동하는 로직 구현")
     }
 
 }

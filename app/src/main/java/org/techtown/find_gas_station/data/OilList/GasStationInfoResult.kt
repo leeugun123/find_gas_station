@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class GasStationInfoResult(
 
     @SerializedName("RESULT")
-    val oilInfoListResult : Result
+    val oilInfoListResult: Result
 
 )
 
