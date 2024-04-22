@@ -22,7 +22,7 @@ import java.util.Collections
 
 class StationInfoRepository {
 
-    private var tempList: MutableList<TotalOilInfo> = mutableListOf()
+    private var tempList = mutableListOf<TotalOilInfo>()
 
     private var wgsX = ""
     private var wgsY = ""
