@@ -24,8 +24,8 @@ import com.kakao.sdk.navi.Constants.WEB_NAVI_INSTALL
 import com.kakao.sdk.navi.NaviClient
 import org.techtown.find_gas_station.Data.TotalOilInfo
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.presentation.gasdetailinfo.OilDetailActivity
 import org.techtown.find_gas_station.databinding.ItemRecyclerviewBinding
+import org.techtown.find_gas_station.presentation.gasdetailinfo.OilDetailActivity
 
 class OilInfoAdapter(
     private val oilInfoList: List<TotalOilInfo>,
@@ -71,14 +71,14 @@ class OilInfoAdapter(
         holder.binding.oilKind.text = oilInfo.oilKind
         holder.binding.oilImage.setImageResource(oilInfo.image)
 
-        if (oilInfo.carWash == "Y") {
+        if (oilInfo.carWash == "Y")
             holder.binding.carWashStore.setImageResource(R.drawable.car_wash)
-        } else
+        else
             holder.binding.carWashStore.setImageResource(R.color.white)
 
-        if (oilInfo.conStore == "Y") {
+        if (oilInfo.conStore == "Y")
             holder.binding.conStore.setImageResource(R.drawable.convenstore)
-        } else
+        else
             holder.binding.conStore.setImageResource(R.color.white)
 
         holder.binding.root.setOnClickListener {
@@ -128,8 +128,6 @@ class OilInfoAdapter(
             holder.itemView.context.startActivity(intent)
 
         }
-
-
     }
 
     private fun navigateToLocation(wgsY: Double, wgsX: Double) {
@@ -143,7 +141,8 @@ class OilInfoAdapter(
     private fun addMarkerToMap(oilInfo: TotalOilInfo, holder: ViewHolder) {
 
         val pos = LatLng(oilInfo.wgs84Y.toDouble(), oilInfo.wgs84X.toDouble())
-        val bitmapDraw = ContextCompat.getDrawable(holder.itemView.context, oilInfo.image) as BitmapDrawable
+        val bitmapDraw =
+            ContextCompat.getDrawable(holder.itemView.context, oilInfo.image) as BitmapDrawable
         val smallMarker = Bitmap.createScaledBitmap(bitmapDraw.bitmap, 80, 80, false)
         val markerOptions = MarkerOptions()
 
@@ -153,7 +152,6 @@ class OilInfoAdapter(
             .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
 
         googleMap.addMarker(markerOptions)
-
     }
 
     private fun formatSeconds(seconds: Int): String {
@@ -171,12 +169,8 @@ class OilInfoAdapter(
         } else {
             minutes.toString() + "분 " + seconds + "초"
         }
-
-
     }
 
     private fun changeKm(distance: String) = String.format("%.1f", distance.toDouble() / 1000)
     //m -> km 변경 메소드
-
-
 }

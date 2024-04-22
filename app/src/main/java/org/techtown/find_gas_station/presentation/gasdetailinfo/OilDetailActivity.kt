@@ -35,7 +35,6 @@ class OilDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         binding.callBtn.setOnClickListener {
             startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:${oilInfoData.tel}")))
         }
-
     }
 
     private fun uiInit() {
@@ -49,7 +48,6 @@ class OilDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment!!.getMapAsync(this)
     }
 
-
     private fun textInit() {
 
         binding.gasImg.setImageResource(oilInfoData.image)
@@ -62,7 +60,6 @@ class OilDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun setFeatureStatus(textView: TextView, feature: String?) {
-
         textView.text = if (feature == "Y") "O" else "X"
         textView.setTextColor(
             if (feature == "Y") Color.parseColor("#009900") else Color.parseColor(
@@ -88,8 +85,6 @@ class OilDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             }
 
         }
-
-
         mapInit()
     }
 
@@ -107,7 +102,5 @@ class OilDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
 
         detailMap.addMarker(markerOptions)
-
     }
-
 }

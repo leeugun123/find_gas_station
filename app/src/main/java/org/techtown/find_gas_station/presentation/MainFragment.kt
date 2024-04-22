@@ -28,12 +28,15 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
     private fun addFragment() {
 
-        if(homeFragmentManager.findFragmentByTag(OIL_FRAGMENT_TAG) != null ||
-            homeFragmentManager.findFragmentByTag(DAILY_FRAGMENT_TAG) != null)
+        if (homeFragmentManager.findFragmentByTag(OIL_FRAGMENT_TAG) != null ||
+            homeFragmentManager.findFragmentByTag(DAILY_FRAGMENT_TAG) != null
+        )
             return
 
-        homeFragmentManager.beginTransaction().add(R.id.main_frame, oilInfoFragment, OIL_FRAGMENT_TAG).commit()
-        homeFragmentManager.beginTransaction().add(R.id.main_frame, dailyFragment, DAILY_FRAGMENT_TAG).commit()
+        homeFragmentManager.beginTransaction()
+            .add(R.id.main_frame, oilInfoFragment, OIL_FRAGMENT_TAG).commit()
+        homeFragmentManager.beginTransaction()
+            .add(R.id.main_frame, dailyFragment, DAILY_FRAGMENT_TAG).commit()
     }
 
     private fun showOilInfoFragment() {
@@ -67,5 +70,4 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         private const val DAILY_FRAGMENT_TAG = "DailyFragment"
         private const val INVALID_ID = "Invalid itemId"
     }
-
 }
