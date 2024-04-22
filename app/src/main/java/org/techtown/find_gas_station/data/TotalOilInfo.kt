@@ -23,4 +23,4 @@ data class TotalOilInfo(
     var actDistance: String = "1000",
     var spendTime: String = "1000"
 
-)
+) : Serializable

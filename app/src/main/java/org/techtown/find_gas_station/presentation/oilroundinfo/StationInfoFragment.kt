@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -167,11 +168,25 @@ class StationInfoFragment : Fragment(),
     private fun oilListUiSync(oilList: List<TotalOilInfo>) {
         activeProgressBar(false)
         binding.listRecycler.adapter =
-            StationInfoAdapter(oilList, mMap, stationInfoViewModel.oilCondition.sort)
+            StationInfoAdapter(
+                oilList,
+                mMap,
+                stationInfoViewModel.oilCondition.sort,
+                totalOilInfoClick = ::navigateToStationDetail
+            )
         checkListEmpty(oilList.size)
 
         if (stationInfoViewModel.conditionChangeFlag)
             upRecyclerView()
+    }
+
+
+    private fun navigateToStationDetail(stationInfo: TotalOilInfo) {
+
+        val bundle = bundleOf("stationInfo" to stationInfo)
+
+        requireParentFragment().findNavController()
+            .navigate(R.id.action_mainFragment_to_stationDetailFragment,bundle)
     }
 
     private fun activeProgressBar(state: Boolean) {

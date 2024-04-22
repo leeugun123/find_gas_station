@@ -18,18 +18,22 @@ import org.techtown.find_gas_station.data.TotalOilInfo
 import org.techtown.find_gas_station.databinding.ItemRecyclerviewBinding
 
 class StationInfoViewHolder(
-    parent: ViewGroup
+    parent: ViewGroup,
+    totalOilInfoClick: (totalOilInfo : TotalOilInfo) -> Unit
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.item_recyclerview, parent, false)
 ) {
 
     private val binding = ItemRecyclerviewBinding.bind(itemView)
 
+    init {
+        binding.moveStationDetailBtnClick = {totalOilInfoClick(it)}
+    }
+
     fun bind(totalOilInfo: TotalOilInfo, sort: String) {
         binding.gasStationInfo = totalOilInfo
         binding.sort = sort
         binding.moveKakaoBtnClick = { ::checkKakaoInstall.invoke(totalOilInfo) }
-        binding.moveStationDetailBtnClick = ::navigateToStationDetail
     }
 
     private fun checkKakaoInstall(totalOilInfo: TotalOilInfo) {
@@ -66,7 +70,4 @@ class StationInfoViewHolder(
         )
     }
 
-    private fun navigateToStationDetail() {
-        // TODO("StationDetail 프래그먼트로 이동하는 로직 구현")
-    }
 }

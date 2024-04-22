@@ -17,11 +17,12 @@ class StationInfoAdapter(
     private val oilInfoList: List<TotalOilInfo>,
     private val googleMap: GoogleMap,
     private val sort: String,
+    private val totalOilInfoClick: (totalOilInfo: TotalOilInfo) -> Unit,
 ) : RecyclerView.Adapter<StationInfoViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
-    ): StationInfoViewHolder = StationInfoViewHolder(parent)
+    ): StationInfoViewHolder = StationInfoViewHolder(parent , totalOilInfoClick = totalOilInfoClick)
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: StationInfoViewHolder, position: Int) {

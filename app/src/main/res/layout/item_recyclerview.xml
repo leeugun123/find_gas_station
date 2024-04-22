@@ -20,7 +20,7 @@
 
         <variable
             name="moveStationDetailBtnClick"
-            type="kotlin.jvm.functions.Function0" />
+            type="kotlin.jvm.functions.Function1&lt;org.techtown.find_gas_station.data.TotalOilInfo, Unit>" />
 
     </data>
 
@@ -125,7 +125,7 @@
             android:layout_marginEnd="5dp"
             android:background="@drawable/gas_station_detail_background"
             android:contentDescription="@string/gas_station_info_detail"
-            android:onClick="@{() -> moveStationDetailBtnClick.invoke()}"
+            android:onClick="@{() -> moveStationDetailBtnClick.invoke(gasStationInfo)}"
             android:src="@drawable/gas"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
