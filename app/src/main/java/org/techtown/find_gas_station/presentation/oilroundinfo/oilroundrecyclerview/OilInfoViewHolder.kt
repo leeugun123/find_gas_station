@@ -43,7 +43,6 @@ class OilInfoViewHolder(
             }
         }
 
-        binding.oilImage.setImageResource(totalOilInfo.image)
 
         if (totalOilInfo.carWash == "Y")
             binding.carWashStore.setImageResource(R.drawable.car_wash)
@@ -56,40 +55,46 @@ class OilInfoViewHolder(
             binding.conStore.setImageResource(R.color.white)
 
         binding.naviButtonKakao.setOnClickListener {
-
-            if (NaviClient.instance.isKakaoNaviInstalled(itemView.context)) {
-
-                val destination = com.kakao.kakaonavi.Location.newBuilder(
-                    totalOilInfo.name,
-                    totalOilInfo.wgs84X.toDouble(),
-                    totalOilInfo.wgs84Y.toDouble()
-                ).build()
-
-
-                val options = NaviOptions.newBuilder().setCoordType(CoordType.WGS84)
-                    .setVehicleType(VehicleType.FIRST)
-                    .setRpOption(RpOption.FAST).build()
-
-                val params = KakaoNaviParams.newBuilder(destination)
-                    .setNaviOptions(options)
-                    .build()
-
-                KakaoNaviService.getInstance().navigate(itemView.context, params)
-
-            } else {
-                itemView.context.startActivity(
-                    Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse(WEB_NAVI_INSTALL)
-                    ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                )
-            }
+            checkKakaoInstall(totalOilInfo)
         }
 
         binding.intelButton.setOnClickListener {
             // TODO("OilDetailActivity 프래그먼트로 이동하는 로직 구현")
         }
+    }
 
+    private fun checkKakaoInstall(totalOilInfo: TotalOilInfo) {
+        if (NaviClient.instance.isKakaoNaviInstalled(itemView.context))
+            moveToKakaoApp(totalOilInfo)
+        else
+            moveToKakaoWebViewUri()
+    }
+
+    private fun moveToKakaoApp(totalOilInfo: TotalOilInfo) {
+        val destination = com.kakao.kakaonavi.Location.newBuilder(
+            totalOilInfo.name,
+            totalOilInfo.wgs84X.toDouble(),
+            totalOilInfo.wgs84Y.toDouble()
+        ).build()
+
+        val options = NaviOptions.newBuilder().setCoordType(CoordType.WGS84)
+            .setVehicleType(VehicleType.FIRST)
+            .setRpOption(RpOption.FAST).build()
+
+        val params = KakaoNaviParams.newBuilder(destination)
+            .setNaviOptions(options)
+            .build()
+
+        KakaoNaviService.getInstance().navigate(itemView.context, params)
+    }
+
+    private fun moveToKakaoWebViewUri() {
+        itemView.context.startActivity(
+            Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse(WEB_NAVI_INSTALL)
+            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        )
     }
 
     private fun changeKm(distance: String) = String.format("%.1f", distance.toDouble() / 1000)
