@@ -43,9 +43,6 @@ class OilInfoViewHolder(
             }
         }
 
-        binding.name.text = totalOilInfo.name
-        binding.price.text = totalOilInfo.price
-        binding.oilKind.text = totalOilInfo.oilKind
         binding.oilImage.setImageResource(totalOilInfo.image)
 
         if (totalOilInfo.carWash == "Y")
