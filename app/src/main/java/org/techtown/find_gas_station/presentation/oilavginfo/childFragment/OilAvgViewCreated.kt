@@ -9,17 +9,17 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import org.techtown.find_gas_station.util.unitconverter.RidRoundMath
 import org.techtown.find_gas_station.databinding.FragmentOilAvgBinding
 import org.techtown.find_gas_station.presentation.oilavginfo.OilAvgRecyclerAdapter
 import org.techtown.find_gas_station.presentation.oilavginfo.OilAvgViewModel
+import org.techtown.find_gas_station.util.unitconverter.RidRoundMath
 
 class OilAvgViewCreated {
 
     fun setupOilChartAndRecycler(
-        oilKind : String,
-        context : Context,
-        binding : FragmentOilAvgBinding,
+        oilKind: String,
+        context: Context,
+        binding: FragmentOilAvgBinding,
         oilAvgViewModel: OilAvgViewModel,
         oilCode: String,
         lifecycleOwner: LifecycleOwner
@@ -63,12 +63,7 @@ class OilAvgViewCreated {
                     RidRoundMath.roundStringToInteger(oilAvgPriceInfoList.last().oilPrice)
                         .toString()
             }
-
             binding.oilAvgRecyclerView.adapter = OilAvgRecyclerAdapter(oilAvgPriceInfoList)
         }
-
     }
-
-
-
 }

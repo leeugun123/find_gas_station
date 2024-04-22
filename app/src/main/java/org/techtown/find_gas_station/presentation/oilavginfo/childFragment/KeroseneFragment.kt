@@ -14,16 +14,17 @@ class KeroseneFragment : BaseFragment<FragmentOilAvgBinding>(R.layout.fragment_o
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setOilAvgViewCreated()
+    }
 
+    private fun setOilAvgViewCreated() {
         OilAvgViewCreated().setupOilChartAndRecycler(
-            " 실내등유 ",
+            requireContext().getString(R.string.indoor_kerosene),
             requireActivity(),
             binding,
             oilAvgViewModel,
-            "C004",
+            requireContext().getString(R.string.indoor_kerosene_code),
             viewLifecycleOwner
         )
-
     }
-
 }

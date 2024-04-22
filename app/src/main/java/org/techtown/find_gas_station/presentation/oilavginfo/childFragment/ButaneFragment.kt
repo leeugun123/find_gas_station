@@ -14,15 +14,17 @@ class ButaneFragment : BaseFragment<FragmentOilAvgBinding>(R.layout.fragment_oil
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setOilAvgViewCreated()
+    }
 
+    private fun setOilAvgViewCreated() {
         OilAvgViewCreated().setupOilChartAndRecycler(
-            " 자동차 부탄 ",
+            requireContext().getString(R.string.car_butane),
             requireActivity(),
             binding,
             oilAvgViewModel,
-            "K015",
+            requireContext().getString(R.string.car_butane_code),
             viewLifecycleOwner
         )
     }
-
 }

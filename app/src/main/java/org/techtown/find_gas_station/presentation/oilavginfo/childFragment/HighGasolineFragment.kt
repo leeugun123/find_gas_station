@@ -8,21 +8,23 @@ import org.techtown.find_gas_station.databinding.FragmentOilAvgBinding
 import org.techtown.find_gas_station.presentation.BaseFragment
 import org.techtown.find_gas_station.presentation.oilavginfo.OilAvgViewModel
 
-class HighGasolineFragment : BaseFragment<FragmentOilAvgBinding>(R.layout.fragment_oil_avg){
+class HighGasolineFragment : BaseFragment<FragmentOilAvgBinding>(R.layout.fragment_oil_avg) {
 
     private val oilAvgViewModel: OilAvgViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setOilAvgViewCreated()
+    }
 
+    private fun setOilAvgViewCreated() {
         OilAvgViewCreated().setupOilChartAndRecycler(
-            " 고급 휘발유 ",
+            requireContext().getString(R.string.premium_gasoline),
             requireActivity(),
             binding,
             oilAvgViewModel,
-            "B034",
+            requireContext().getString(R.string.premium_gasoline_code),
             viewLifecycleOwner
         )
     }
-
 }
