@@ -2,14 +2,14 @@ package org.techtown.find_gas_station.presentation.oilroundinfo
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.techtown.find_gas_station.Data.OilList.GasStationInfoResult
-import org.techtown.find_gas_station.Data.TotalOilInfo
-import org.techtown.find_gas_station.Data.kakao.Request.Destination
-import org.techtown.find_gas_station.Data.kakao.Request.DirectionRequest
-import org.techtown.find_gas_station.Data.kakao.Request.Origin
-import org.techtown.find_gas_station.Data.kakao.Response.DirectionResponse
-import org.techtown.find_gas_station.Data.kakao.Response.Route
-import org.techtown.find_gas_station.Data.oilDetail.GasStationDetailInfoResult
+import org.techtown.find_gas_station.data.OilList.GasStationInfoResult
+import org.techtown.find_gas_station.data.TotalOilInfo
+import org.techtown.find_gas_station.kakao.Request.Destination
+import org.techtown.find_gas_station.kakao.Request.DirectionRequest
+import org.techtown.find_gas_station.kakao.Request.Origin
+import org.techtown.find_gas_station.kakao.Response.DirectionResponse
+import org.techtown.find_gas_station.kakao.Response.Route
+import org.techtown.find_gas_station.data.oilDetail.GasStationDetailInfoResult
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.util.api.ApiKey
 import org.techtown.find_gas_station.util.api.Api_Instance

@@ -21,9 +21,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
@@ -39,7 +37,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.techtown.find_gas_station.Data.TotalOilInfo
+import org.techtown.find_gas_station.data.TotalOilInfo
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.FragmentOilInfoBinding
 import org.techtown.find_gas_station.presentation.oilroundinfo.oilroundrecyclerview.OilInfoAdapter

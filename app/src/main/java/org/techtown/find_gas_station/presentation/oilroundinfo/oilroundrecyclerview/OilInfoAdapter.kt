@@ -6,11 +6,12 @@ import android.graphics.drawable.BitmapDrawable
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import org.techtown.find_gas_station.Data.TotalOilInfo
+import org.techtown.find_gas_station.data.TotalOilInfo
 
 class OilInfoAdapter(
     private val oilInfoList: List<TotalOilInfo>,
@@ -24,8 +25,16 @@ class OilInfoAdapter(
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: OilInfoViewHolder, position: Int) {
-        holder.bind(oilInfoList[position], sort, googleMap)
+        holder.bind(oilInfoList[position], sort)
+
         addMarkerToMap(oilInfoList[position], holder)
+
+        holder.itemView.setOnClickListener {
+            navigateToLocation(
+                oilInfoList[position].wgs84Y.toDouble(),
+                oilInfoList[position].wgs84X.toDouble()
+            )
+        }
     }
 
     private fun addMarkerToMap(oilInfo: TotalOilInfo, holder: OilInfoViewHolder) {
@@ -42,6 +51,14 @@ class OilInfoAdapter(
             .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
 
         googleMap.addMarker(markerOptions)
+    }
+
+    private fun navigateToLocation(wgsY: Double, wgsX: Double) {
+        googleMap.animateCamera(
+            CameraUpdateFactory.newLatLng(LatLng(wgsY, wgsX)),
+            600,
+            null
+        )
     }
 
     override fun getItemCount() = oilInfoList.size

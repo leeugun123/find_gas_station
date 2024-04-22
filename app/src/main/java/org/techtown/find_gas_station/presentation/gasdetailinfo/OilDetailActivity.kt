@@ -16,7 +16,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import org.techtown.find_gas_station.Data.TotalOilInfo
+import org.techtown.find_gas_station.data.TotalOilInfo
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.ActivityIntelBinding
 

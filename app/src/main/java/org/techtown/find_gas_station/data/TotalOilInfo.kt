@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.Data
+package org.techtown.find_gas_station.data
 
 import java.io.Serializable
 
@@ -23,4 +23,4 @@ data class TotalOilInfo(
     var actDistance: String = "1000",
     var spendTime: String = "1000"
 
-) : Serializable
+)

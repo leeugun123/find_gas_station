@@ -6,6 +6,9 @@
 
         <import type="kotlin.Unit" />
 
+        <variable
+            name="gasStationInfo"
+            type="org.techtown.find_gas_station.data.TotalOilInfo" />
 
     </data>
 
@@ -31,7 +34,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
-            android:text="휘발유"
             android:textColor="@color/app_background"
             android:textSize="20sp"
             android:textStyle="bold"

@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.Data.OilList
+package org.techtown.find_gas_station.data.OilList
 
 import com.google.gson.annotations.SerializedName
 

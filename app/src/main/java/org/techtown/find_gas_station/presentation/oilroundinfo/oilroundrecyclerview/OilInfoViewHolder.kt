@@ -5,9 +5,6 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.LatLng
 import com.kakao.kakaonavi.KakaoNaviParams
 import com.kakao.kakaonavi.KakaoNaviService
 import com.kakao.kakaonavi.NaviOptions
@@ -16,8 +13,8 @@ import com.kakao.kakaonavi.options.RpOption
 import com.kakao.kakaonavi.options.VehicleType
 import com.kakao.sdk.navi.Constants.WEB_NAVI_INSTALL
 import com.kakao.sdk.navi.NaviClient
-import org.techtown.find_gas_station.Data.TotalOilInfo
 import org.techtown.find_gas_station.R
+import org.techtown.find_gas_station.data.TotalOilInfo
 import org.techtown.find_gas_station.databinding.ItemRecyclerviewBinding
 
 class OilInfoViewHolder(
@@ -28,8 +25,9 @@ class OilInfoViewHolder(
 
     private val binding = ItemRecyclerviewBinding.bind(itemView)
 
-    fun bind(totalOilInfo: TotalOilInfo, sort: String, googleMap: GoogleMap) {
-        //binding.stationInfo = totalOilInfo
+    fun bind(totalOilInfo: TotalOilInfo, sort: String) {
+
+        binding.gasStationInfo = totalOilInfo
 
         when (sort) {
             "3" -> {
@@ -45,7 +43,6 @@ class OilInfoViewHolder(
             }
         }
 
-
         binding.name.text = totalOilInfo.name
         binding.price.text = totalOilInfo.price
         binding.oilKind.text = totalOilInfo.oilKind
@@ -60,14 +57,6 @@ class OilInfoViewHolder(
             binding.conStore.setImageResource(R.drawable.convenstore)
         else
             binding.conStore.setImageResource(R.color.white)
-
-        binding.root.setOnClickListener {
-            navigateToLocation(
-                googleMap,
-                totalOilInfo.wgs84Y.toDouble(),
-                totalOilInfo.wgs84X.toDouble()
-            )
-        }
 
         binding.naviButtonKakao.setOnClickListener {
 
@@ -104,14 +93,6 @@ class OilInfoViewHolder(
             // TODO("OilDetailActivity 프래그먼트로 이동하는 로직 구현")
         }
 
-    }
-
-    private fun navigateToLocation(googleMap: GoogleMap, wgsY: Double, wgsX: Double) {
-        googleMap.animateCamera(
-            CameraUpdateFactory.newLatLng(LatLng(wgsY, wgsX)),
-            600,
-            null
-        )
     }
 
     private fun changeKm(distance: String) = String.format("%.1f", distance.toDouble() / 1000)

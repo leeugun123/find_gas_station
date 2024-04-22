@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.techtown.find_gas_station.Data.TotalOilInfo
+import org.techtown.find_gas_station.data.TotalOilInfo
 
 
 class OilInfoViewModel : ViewModel() {

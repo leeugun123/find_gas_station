@@ -1,8 +1,8 @@
 package org.techtown.find_gas_station.util.retrofit_interface
 
-import org.techtown.find_gas_station.Data.OilList.GasStationInfoResult
-import org.techtown.find_gas_station.Data.oilAvg.OilAveragePriceInfoResult
-import org.techtown.find_gas_station.Data.oilDetail.GasStationDetailInfoResult
+import org.techtown.find_gas_station.data.OilList.GasStationInfoResult
+import org.techtown.find_gas_station.data.oilAvg.OilAveragePriceInfoResult
+import org.techtown.find_gas_station.data.oilDetail.GasStationDetailInfoResult
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
