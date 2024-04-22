@@ -8,7 +8,6 @@ import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,6 +42,7 @@ import kotlinx.coroutines.launch
 import org.techtown.find_gas_station.Data.TotalOilInfo
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.FragmentOilInfoBinding
+import org.techtown.find_gas_station.presentation.oilroundinfo.oilroundrecyclerview.OilInfoAdapter
 import org.techtown.find_gas_station.util.constant.ConstantGuide
 import org.techtown.find_gas_station.util.constant.ConstantsTime
 import org.techtown.find_gas_station.util.gps.GeoTrans
@@ -199,8 +199,6 @@ class OilInfoFragment : Fragment(),
     private fun initSetting() {
         initWindowSet()
         initLocationRequest()
-        binding.listRecycler.layoutManager =
-            LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
     }
 
     private fun initWindowSet() {
