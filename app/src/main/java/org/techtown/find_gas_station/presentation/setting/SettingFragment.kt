@@ -41,11 +41,6 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
         setAdapterSelection()
     }
 
-    private fun initCheckConditionChange() {
-        stationInfoViewModel.conditionChangeFlag = false
-        stationInfoViewModel.afterOilCondition = stationInfoViewModel.oilCondition.copy()
-    }
-
     private fun initBinding() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = stationInfoViewModel
@@ -55,49 +50,23 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
         binding.sortSpinner.onItemSelectedListener = onItemSelectedListener
     }
 
-    private fun setAdapterSelection() {
-        setOilKindAdapterSelection()
-        setDistanceAdapterSelection()
-        setSortAdapterSelection()
+    private fun goBack() {
+        checkChange()
+        findNavController().popBackStack()
     }
 
-    private fun setOilKindAdapterSelection() {
-        when (stationInfoViewModel.oilCondition.oilKind) {
-            "B027" -> typeSpinnerSelection(0)
-            "D047" -> typeSpinnerSelection(1)
-            "B034" -> typeSpinnerSelection(2)
-            "C004" -> typeSpinnerSelection(3)
-            "K015" -> typeSpinnerSelection(4)
-        }
+    private fun checkChange() {
+        if (stationInfoViewModel.oilCondition.sort != stationInfoViewModel.afterOilCondition.sort
+            || stationInfoViewModel.oilCondition.radius != stationInfoViewModel.afterOilCondition.radius
+            || stationInfoViewModel.oilCondition.oilKind != stationInfoViewModel.afterOilCondition.oilKind
+        )
+            stationInfoViewModel.conditionChangeFlag = true
     }
 
-    private fun setDistanceAdapterSelection() {
-        when (stationInfoViewModel.oilCondition.radius) {
-            "1000" -> distanceSpinnerSelection(0)
-            "3000" -> distanceSpinnerSelection(1)
-            "5000" -> distanceSpinnerSelection(2)
-        }
-    }
 
-    private fun setSortAdapterSelection() {
-        when (stationInfoViewModel.oilCondition.sort) {
-            "1" -> sortSpinnerSelection(0)
-            "2" -> sortSpinnerSelection(1)
-            "3" -> sortSpinnerSelection(2)
-            "4" -> sortSpinnerSelection(3)
-        }
-    }
-
-    private fun typeSpinnerSelection(idx: Int) {
-        binding.typeSpinner.setSelection(idx)
-    }
-
-    private fun distanceSpinnerSelection(idx: Int) {
-        binding.distanceSpinner.setSelection(idx)
-    }
-
-    private fun sortSpinnerSelection(idx: Int) {
-        binding.sortSpinner.setSelection(idx)
+    private fun initCheckConditionChange() {
+        stationInfoViewModel.conditionChangeFlag = false
+        stationInfoViewModel.afterOilCondition = stationInfoViewModel.oilCondition.copy()
     }
 
     private fun changeValue(selectedItem: String) {
@@ -127,16 +96,48 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
             })
     }
 
-    private fun goBack() {
-        checkChange()
-        findNavController().popBackStack()
+    private fun setAdapterSelection() {
+        setOilKindAdapterSelection()
+        setDistanceAdapterSelection()
+        setSortAdapterSelection()
     }
 
-    private fun checkChange() {
-        if (stationInfoViewModel.oilCondition.sort != stationInfoViewModel.afterOilCondition.sort
-            || stationInfoViewModel.oilCondition.radius != stationInfoViewModel.afterOilCondition.radius
-            || stationInfoViewModel.oilCondition.oilKind != stationInfoViewModel.afterOilCondition.oilKind
-        )
-            stationInfoViewModel.conditionChangeFlag = true
+    private fun setOilKindAdapterSelection() {
+        when (stationInfoViewModel.oilCondition.oilKind) {
+            "B027" -> typeSpinnerSelection(0)
+            "D047" -> typeSpinnerSelection(1)
+            "B034" -> typeSpinnerSelection(2)
+            "C004" -> typeSpinnerSelection(3)
+            "K015" -> typeSpinnerSelection(4)
+        }
+    }
+
+    private fun typeSpinnerSelection(idx: Int) {
+        binding.typeSpinner.setSelection(idx)
+    }
+
+    private fun setDistanceAdapterSelection() {
+        when (stationInfoViewModel.oilCondition.radius) {
+            "1000" -> distanceSpinnerSelection(0)
+            "3000" -> distanceSpinnerSelection(1)
+            "5000" -> distanceSpinnerSelection(2)
+        }
+    }
+
+    private fun distanceSpinnerSelection(idx: Int) {
+        binding.distanceSpinner.setSelection(idx)
+    }
+
+    private fun setSortAdapterSelection() {
+        when (stationInfoViewModel.oilCondition.sort) {
+            "1" -> sortSpinnerSelection(0)
+            "2" -> sortSpinnerSelection(1)
+            "3" -> sortSpinnerSelection(2)
+            "4" -> sortSpinnerSelection(3)
+        }
+    }
+
+    private fun sortSpinnerSelection(idx: Int) {
+        binding.sortSpinner.setSelection(idx)
     }
 }

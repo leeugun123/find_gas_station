@@ -101,62 +101,47 @@ class StationInfoFragment : Fragment(),
 
         mapFragment.getMapAsync(this)
 
-        initSmoothScroller()
         initSetting()
         initBinding()
+        initSmoothScroller()
 
         observeOilList()
 
         requestRoundOilInfo()
     }
 
-    private fun initSmoothScroller() {
-        smoothScroller = object : LinearSmoothScroller(binding.listRecycler.context) {
-            override fun getVerticalSnapPreference() = SNAP_TO_START
-        }
+    private fun initSetting() {
+        initWindowSet()
+        initLocationRequest()
+    }
+
+    private fun initWindowSet() {
+        requireActivity().window.setFlags(
+            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
+            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+        )
+    }
+
+    private fun initLocationRequest() {
+        LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
     }
 
     private fun initBinding() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.requestOilDataClick = ::getOilData
-        binding.moveToSettingFragmentClick = ::moveToSettingFragment
+        binding.moveToSettingFragmentClick = ::navigateSettingFragment
         binding.stationInfoViewModel = stationInfoViewModel
     }
 
-    private fun requestRoundOilInfo() {
-        if (stationInfoViewModel.conditionChangeFlag) {
-            getOilData()
-            updateSortText()
-        }
-    }
-
-    private fun getOilData() {
-        activeProgressBar(true)
-        initGpsTracker()
-        val katecPos =
-            transFormPoint(gpsTracker.getLatitude().toFloat(), gpsTracker.getLongitude().toFloat())
-
-        stationInfoViewModel.requestOilList(
-            wgsX,
-            wgsY,
-            katecPos.x.toString(),
-            katecPos.y.toString(),
-        )
-    }
-
-    private fun updateSortText() {
-        stationInfoViewModel.sortText = when (stationInfoViewModel.oilCondition.sort) {
-            "1" -> requireContext().getString(R.string.sort_price)
-            "2" -> requireContext().getString(R.string.sort_direct_distance)
-            "3" -> requireContext().getString(R.string.sort_road_distance)
-            "4" -> requireContext().getString(R.string.sort_spend_time)
-            else -> ""
-        }
-    }
-
-    private fun moveToSettingFragment() {
+    private fun navigateSettingFragment() {
         requireParentFragment().findNavController()
             .navigate(R.id.action_mainFragment_to_settingFragment)
+    }
+
+    private fun initSmoothScroller() {
+        smoothScroller = object : LinearSmoothScroller(binding.listRecycler.context) {
+            override fun getVerticalSnapPreference() = SNAP_TO_START
+        }
     }
 
     private fun observeOilList() {
@@ -180,21 +165,13 @@ class StationInfoFragment : Fragment(),
             upRecyclerView()
     }
 
-
-    private fun navigateToStationDetail(stationInfo: TotalOilInfo) {
-        keepConditionChangeFlag()
-        val bundle = bundleOf("stationInfo" to stationInfo)
-
-        requireParentFragment().findNavController()
-            .navigate(R.id.action_mainFragment_to_stationDetailFragment,bundle)
-    }
-
-    private fun keepConditionChangeFlag() {
-        stationInfoViewModel.conditionChangeFlag = false
-    }
-
     private fun activeProgressBar(state: Boolean) {
         stationInfoViewModel.setLoading(state)
+    }
+
+    private fun checkListEmpty(oilListSize: Int) {
+        if (oilListSize == 0)
+            showEmptyMessage()
     }
 
     private fun upRecyclerView() {
@@ -205,33 +182,55 @@ class StationInfoFragment : Fragment(),
         }
     }
 
-    private fun checkListEmpty(oilListSize: Int) {
-        if (oilListSize == 0)
-            showEmptyMessage()
+    private fun requestRoundOilInfo() {
+        if (stationInfoViewModel.conditionChangeFlag) {
+            getOilData()
+            updateSortText()
+        }
     }
 
-    private fun showEmptyMessage() {
-        Toast.makeText(requireContext(), R.string.data_empty_message, Toast.LENGTH_SHORT).show()
-    }
+    private fun getOilData() {
+        activeProgressBar(true)
+        initGpsTracker()
+        val katecPos =
+            transFormPoint(gpsTracker.getLatitude().toFloat(), gpsTracker.getLongitude().toFloat())
 
-    private fun initSetting() {
-        initWindowSet()
-        initLocationRequest()
-    }
-
-    private fun initWindowSet() {
-        requireActivity().window.setFlags(
-            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
-            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+        stationInfoViewModel.requestOilList(
+            wgsX,
+            wgsY,
+            katecPos.x.toString(),
+            katecPos.y.toString(),
         )
-    }
-
-    private fun initLocationRequest() {
-        LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
     }
 
     private fun initGpsTracker() {
         gpsTracker = GpsTracker(requireContext())
+    }
+
+    private fun updateSortText() {
+        stationInfoViewModel.sortText = when (stationInfoViewModel.oilCondition.sort) {
+            "1" -> requireContext().getString(R.string.sort_price)
+            "2" -> requireContext().getString(R.string.sort_direct_distance)
+            "3" -> requireContext().getString(R.string.sort_road_distance)
+            "4" -> requireContext().getString(R.string.sort_spend_time)
+            else -> ""
+        }
+    }
+
+    private fun navigateToStationDetail(stationInfo: TotalOilInfo) {
+        keepConditionChangeFlag()
+        val bundle = bundleOf("stationInfo" to stationInfo)
+
+        requireParentFragment().findNavController()
+            .navigate(R.id.action_mainFragment_to_stationDetailFragment, bundle)
+    }
+
+    private fun keepConditionChangeFlag() {
+        stationInfoViewModel.conditionChangeFlag = false
+    }
+
+    private fun showEmptyMessage() {
+        Toast.makeText(requireContext(), R.string.data_empty_message, Toast.LENGTH_SHORT).show()
     }
 
     private fun transFormPoint(latitude: Float, longtitude: Float): GeoTransPoint {

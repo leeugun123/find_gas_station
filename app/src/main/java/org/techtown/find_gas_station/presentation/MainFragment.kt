@@ -39,16 +39,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             .add(R.id.main_frame, dailyFragment, DAILY_FRAGMENT_TAG).commit()
     }
 
-    private fun showStationInfoFragment() {
-        homeFragmentManager.beginTransaction().show(stationInfoFragment).commit()
-        homeFragmentManager.beginTransaction().hide(dailyFragment).commit()
-    }
-
-    private fun showDailyFragment() {
-        homeFragmentManager.beginTransaction().show(dailyFragment).commit()
-        homeFragmentManager.beginTransaction().hide(stationInfoFragment).commit()
-    }
-
     private fun initBottomNavigationBar() =
         binding.bottomNav.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
@@ -64,6 +54,16 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             }
             true
         }
+
+    private fun showStationInfoFragment() {
+        homeFragmentManager.beginTransaction().show(stationInfoFragment).commit()
+        homeFragmentManager.beginTransaction().hide(dailyFragment).commit()
+    }
+
+    private fun showDailyFragment() {
+        homeFragmentManager.beginTransaction().show(dailyFragment).commit()
+        homeFragmentManager.beginTransaction().hide(stationInfoFragment).commit()
+    }
 
     companion object {
         private const val OIL_FRAGMENT_TAG = "OilInfoFragment"
