@@ -8,6 +8,7 @@ import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -107,8 +108,6 @@ class StationInfoFragment : Fragment(),
         initBinding()
         initSmoothScroller()
 
-        observeOilList()
-
         requestRoundOilInfo()
     }
 
@@ -192,6 +191,10 @@ class StationInfoFragment : Fragment(),
     }
 
     private fun getOilData() {
+
+        if(stationInfoViewModel.isLoading.value == true)
+            return
+
         activeProgressBar(true)
         initGpsTracker()
         val katecPos =
@@ -289,6 +292,7 @@ class StationInfoFragment : Fragment(),
             setOnMapClickListener(GoogleMap.OnMapClickListener { })
         }
 
+        observeOilList()
     }
 
     private fun handleLocationPermissionRequest() {
