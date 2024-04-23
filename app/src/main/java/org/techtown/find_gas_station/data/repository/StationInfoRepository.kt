@@ -2,24 +2,23 @@ package org.techtown.find_gas_station.data.repository
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.techtown.find_gas_station.BuildConfig
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.data.OilList.GasStationInfoResult
 import org.techtown.find_gas_station.data.TotalOilInfo
-import org.techtown.find_gas_station.data.oilDetail.GasStationDetailInfoResult
 import org.techtown.find_gas_station.data.kakao.Request.Destination
 import org.techtown.find_gas_station.data.kakao.Request.DirectionRequest
 import org.techtown.find_gas_station.data.kakao.Request.Origin
 import org.techtown.find_gas_station.data.kakao.Response.DirectionResponse
 import org.techtown.find_gas_station.data.kakao.Response.Route
-import org.techtown.find_gas_station.util.api.ApiInstance
-import org.techtown.find_gas_station.util.api.ApiKey
+import org.techtown.find_gas_station.data.oilDetail.GasStationDetailInfoResult
+import org.techtown.find_gas_station.data.repository.module.ApiModule
 import org.techtown.find_gas_station.util.comparator.OilRoadDistanceComparator
 import org.techtown.find_gas_station.util.comparator.OilSpendTimeComparator
 import org.techtown.find_gas_station.util.constant.ConstantsTime
 import org.techtown.find_gas_station.util.gps.GeoTrans
 import org.techtown.find_gas_station.util.gps.GeoTransPoint
 import java.util.Collections
-import javax.inject.Inject
 
 class StationInfoRepository {
 
@@ -43,8 +42,8 @@ class StationInfoRepository {
         initWgsPos(wgsX, wgsY)
         listClear()
 
-        val stationResponse = ApiInstance.opiRetrofitApi.getStationList(
-            ApiKey.OPI_API_KEY,
+        val stationResponse = ApiModule.provideOpinetApi().getStationList(
+            BuildConfig.GAS_API_KEY,
             "json",
             katecX,
             katecY,
@@ -126,7 +125,7 @@ class StationInfoRepository {
     ) {
 
         val response = withContext(Dispatchers.IO) {
-            ApiInstance.opiRetrofitApi.getStationDetail(ApiKey.OPI_API_KEY, "json", uid)
+            ApiModule.provideOpinetApi().getStationDetail(BuildConfig.GAS_API_KEY, "json", uid)
         }
 
         if (response.isSuccessful)
@@ -193,7 +192,7 @@ class StationInfoRepository {
         val destinations = arrayOfNulls<Destination>(tempList.size)
         destinationsProcessing(destinations)
 
-        val kakaoApiResponse = ApiInstance.kakaoRetrofitApi.getMultiDirections(
+        val kakaoApiResponse = ApiModule.provideKakaoApi().getMultiDirections(
             DirectionRequest(
                 Origin(
                     wgsX.toDouble(), wgsY.toDouble()

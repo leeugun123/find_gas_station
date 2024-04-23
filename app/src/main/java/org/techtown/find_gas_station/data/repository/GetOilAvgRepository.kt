@@ -1,8 +1,8 @@
 package org.techtown.find_gas_station.data.repository
 
+import org.techtown.find_gas_station.BuildConfig
 import org.techtown.find_gas_station.data.oilAvg.OilAveragePriceInfo
-import org.techtown.find_gas_station.util.api.ApiInstance
-import org.techtown.find_gas_station.util.api.ApiKey
+import org.techtown.find_gas_station.data.repository.module.ApiModule
 
 class GetOilAvgRepository() {
 
@@ -11,7 +11,7 @@ class GetOilAvgRepository() {
     suspend fun getOilAvg(prodCd: String): MutableList<OilAveragePriceInfo> {
 
         val response =
-            ApiInstance.opiRetrofitApi.getAvgRecentPrice(ApiKey.OPI_API_KEY, "json", prodCd)
+            ApiModule.provideOpinetApi().getAvgRecentPrice(BuildConfig.GAS_API_KEY, "json", prodCd)
 
         if (response.isSuccessful)
             oilAvgList =
