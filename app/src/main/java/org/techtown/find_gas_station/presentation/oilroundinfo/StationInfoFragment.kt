@@ -8,6 +8,7 @@ import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -104,8 +105,6 @@ class StationInfoFragment : Fragment(),
         initSetting()
         initBinding()
         initSmoothScroller()
-
-        observeOilList()
 
         requestRoundOilInfo()
     }
@@ -291,6 +290,7 @@ class StationInfoFragment : Fragment(),
             setOnMapClickListener(GoogleMap.OnMapClickListener { })
         }
 
+        observeOilList()
     }
 
     private fun handleLocationPermissionRequest() {
