@@ -6,7 +6,6 @@ plugins {
     id 'org.jetbrains.kotlin.kapt'
 }
 
-//선언 및 키 값을 불러옴
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 

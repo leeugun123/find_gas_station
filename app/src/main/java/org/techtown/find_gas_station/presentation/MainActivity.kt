@@ -12,9 +12,8 @@ import androidx.navigation.fragment.NavHostFragment
 import dagger.hilt.android.AndroidEntryPoint
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.ActivityMainBinding
-import org.techtown.find_gas_station.localdatabase.OilData
-import org.techtown.find_gas_station.localdatabase.SetViewModel
-import org.techtown.find_gas_station.presentation.oilroundinfo.StationInfoViewModel
+import org.techtown.find_gas_station.data.localdatabase.OilData
+import org.techtown.find_gas_station.presentation.ui.oilroundinfo.StationInfoViewModel
 
 
 @AndroidEntryPoint
