@@ -3,12 +3,10 @@ package org.techtown.find_gas_station.presentation.gasdetailinfo
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.widget.TextView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -26,45 +24,27 @@ class StationDetailFragment :
     OnMapReadyCallback {
 
     private lateinit var detailMap: GoogleMap
-    private val stationInfo : TotalOilInfo by lazy { requireArguments().getParcelable<TotalOilInfo>("stationInfo")!! }
+    private val stationInfo: TotalOilInfo by lazy { requireArguments().getParcelable("stationInfo")!! }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initUi()
-
-        binding.callBtn.setOnClickListener {
-            startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:${stationInfo.tel}")))
-        }
+        initBinding()
+        initMapFragment()
     }
 
-    private fun initUi() {
-        initMapFragment()
-        initText()
+    private fun initBinding() {
+        binding.callBtnClick = ::navigateCall
+        binding.gasStationInfo = stationInfo
+    }
+
+    private fun navigateCall() {
+        startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:${stationInfo.tel}")))
     }
 
     private fun initMapFragment() {
-        val mapFragment = childFragmentManager.findFragmentById(R.id.detailMap) as? SupportMapFragment
+        val mapFragment =
+            childFragmentManager.findFragmentById(R.id.detailMap) as? SupportMapFragment
         mapFragment!!.getMapAsync(this)
-    }
-
-    private fun initText() {
-
-        binding.gasImg.setImageResource(stationInfo.image)
-        binding.lotAddress.text = stationInfo.lotNumberAdd
-        binding.roadAddress.text = stationInfo.roadAdd
-        binding.tel.text = stationInfo.tel
-
-        setFeatureStatus(binding.carWash, stationInfo.carWash)
-        setFeatureStatus(binding.convenStore, stationInfo.conStore)
-    }
-
-    private fun setFeatureStatus(textView: TextView, feature: String?) {
-        textView.text = if (feature == "Y") "O" else "X"
-        textView.setTextColor(
-            if (feature == "Y") Color.parseColor("#009900") else Color.parseColor(
-                "#ff0000"
-            )
-        )
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -102,5 +82,4 @@ class StationDetailFragment :
 
         detailMap.addMarker(markerOptions)
     }
-
 }

@@ -1,10 +1,11 @@
 package org.techtown.find_gas_station.bindingadapter
 
+import android.graphics.Color
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import org.techtown.find_gas_station.data.TotalOilInfo
 
-@BindingAdapter("sort" ,"totalOilInfo")
+@BindingAdapter("sort", "totalOilInfo")
 fun TextView.setDistanceText(sort: String, totalOilInfo: TotalOilInfo) {
 
     var distanceText = ""
@@ -41,4 +42,14 @@ private fun formatSeconds(seconds: Int): String {
     } else {
         "$minutes 분 $leftSeconds 초"
     }
+}
+
+@BindingAdapter("app:setFeatureStatus")
+fun TextView.setFeatureStatus(feature: String) {
+    text = if (feature == "Y") "O" else "X"
+    setTextColor(
+        if (feature == "Y") Color.parseColor("#009900") else Color.parseColor(
+            "#ff0000"
+        )
+    )
 }
