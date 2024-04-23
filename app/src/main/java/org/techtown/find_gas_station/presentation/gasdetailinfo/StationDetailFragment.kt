@@ -69,7 +69,6 @@ class StationDetailFragment :
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun initMap() {
-
         val pos = LatLng(stationInfo.wgs84Y.toDouble(), stationInfo.wgs84X.toDouble())
         val bitmapDraw = binding.gasImg.resources.getDrawable(stationInfo.image) as BitmapDrawable
         val smallMarker = Bitmap.createScaledBitmap(bitmapDraw.bitmap, 120, 120, false)

@@ -182,11 +182,15 @@ class StationInfoFragment : Fragment(),
 
 
     private fun navigateToStationDetail(stationInfo: TotalOilInfo) {
-
+        keepConditionChangeFlag()
         val bundle = bundleOf("stationInfo" to stationInfo)
 
         requireParentFragment().findNavController()
             .navigate(R.id.action_mainFragment_to_stationDetailFragment,bundle)
+    }
+
+    private fun keepConditionChangeFlag() {
+        stationInfoViewModel.conditionChangeFlag = false
     }
 
     private fun activeProgressBar(state: Boolean) {
