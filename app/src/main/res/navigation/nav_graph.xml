@@ -24,7 +24,14 @@
             android:id="@+id/action_mainFragment_to_settingFragment"
             app:destination="@id/settingFragment"
             app:enterAnim="@anim/slide_up"
-            app:popEnterAnim="@anim/slide_up"/>
+            app:popEnterAnim="@anim/slide_up" />
+
+        <action
+            android:id="@+id/action_mainFragment_to_stationDetailFragment"
+            app:destination="@id/stationDetailFragment"
+            app:enterAnim="@anim/slide_up"
+            app:popEnterAnim="@anim/slide_up" />
+
     </fragment>
 
     <fragment
@@ -32,5 +39,15 @@
         android:name="org.techtown.find_gas_station.presentation.setting.SettingFragment"
         android:label="SettingFragment"
         tools:layout="@layout/fragment_setting" />
+
+    <fragment
+        android:id="@+id/stationDetailFragment"
+        android:name="org.techtown.find_gas_station.presentation.gasdetailinfo.StationDetailFragment"
+        android:label="StationDetailFragment"
+        tools:layout="@layout/fragment_station_detail">
+        <argument
+            android:name="stationInfoArg"
+            app:argType="org.techtown.find_gas_station.data.TotalOilInfo" />
+    </fragment>
 
 </navigation>

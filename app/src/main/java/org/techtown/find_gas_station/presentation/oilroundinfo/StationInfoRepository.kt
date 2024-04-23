@@ -2,17 +2,17 @@ package org.techtown.find_gas_station.presentation.oilroundinfo
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.techtown.find_gas_station.Data.OilList.GasStationInfoResult
-import org.techtown.find_gas_station.Data.TotalOilInfo
-import org.techtown.find_gas_station.Data.kakao.Request.Destination
-import org.techtown.find_gas_station.Data.kakao.Request.DirectionRequest
-import org.techtown.find_gas_station.Data.kakao.Request.Origin
-import org.techtown.find_gas_station.Data.kakao.Response.DirectionResponse
-import org.techtown.find_gas_station.Data.kakao.Response.Route
-import org.techtown.find_gas_station.Data.oilDetail.GasStationDetailInfoResult
 import org.techtown.find_gas_station.R
+import org.techtown.find_gas_station.data.OilList.GasStationInfoResult
+import org.techtown.find_gas_station.data.TotalOilInfo
+import org.techtown.find_gas_station.data.oilDetail.GasStationDetailInfoResult
+import org.techtown.find_gas_station.kakao.Request.Destination
+import org.techtown.find_gas_station.kakao.Request.DirectionRequest
+import org.techtown.find_gas_station.kakao.Request.Origin
+import org.techtown.find_gas_station.kakao.Response.DirectionResponse
+import org.techtown.find_gas_station.kakao.Response.Route
+import org.techtown.find_gas_station.util.api.ApiInstance
 import org.techtown.find_gas_station.util.api.ApiKey
-import org.techtown.find_gas_station.util.api.Api_Instance
 import org.techtown.find_gas_station.util.comparator.OilRoadDistanceComparator
 import org.techtown.find_gas_station.util.comparator.OilSpendTimeComparator
 import org.techtown.find_gas_station.util.constant.ConstantsTime
@@ -22,14 +22,14 @@ import java.util.Collections
 
 class StationInfoRepository {
 
-    private var tempList: MutableList<TotalOilInfo> = mutableListOf()
+    private var tempList = mutableListOf<TotalOilInfo>()
 
     private var wgsX = ""
     private var wgsY = ""
 
-    fun getOilList() = tempList
+    fun getStationList() = tempList
 
-    suspend fun requestOilList(
+    suspend fun requestStationList(
         wgsX: String,
         wgsY: String,
         katecX: String,
@@ -42,7 +42,7 @@ class StationInfoRepository {
         initWgsPos(wgsX, wgsY)
         listClear()
 
-        val oilResponse = Api_Instance.opiRetrofitApi.getOilList(
+        val stationResponse = ApiInstance.opiRetrofitApi.getStationList(
             ApiKey.OPI_API_KEY,
             "json",
             katecX,
@@ -52,10 +52,9 @@ class StationInfoRepository {
             sort
         )
 
-        if (oilResponse.isSuccessful) {
-            val oilResponse = oilResponse.body()
-            val size = oilResponse?.oilInfoListResult?.oilInfoList?.size
-            apiSizeCheck(oilResponse, size!!, oilKind, sort)
+        if (stationResponse.isSuccessful) {
+            val size = stationResponse.body()?.oilInfoListResult?.oilInfoList?.size
+            apiSizeCheck(stationResponse.body(), size!!, oilKind, sort)
         }
     }
 
@@ -71,11 +70,11 @@ class StationInfoRepository {
         sort: String
     ) {
         if (size > 0)
-            handleOilListResponse(oilResponse, oilKind, sort)
+            handleStationListResponse(oilResponse, oilKind, sort)
     }// api 호출이 만료되면 빈 데이터가 들어옴. 따라서 만료되거나 점검하는지 체크하는 메소드
 
 
-    private suspend fun handleOilListResponse(
+    private suspend fun handleStationListResponse(
         gasStationData: GasStationInfoResult?,
         oilKind: String,
         sort: String
@@ -91,7 +90,7 @@ class StationInfoRepository {
                 GeoTrans.GEO,
                 GeoTransPoint(oilInfo.gisX.toDouble(), oilInfo.gisY.toDouble())
             )
-            getOilDetail(
+            getStationDetail(
                 sort,
                 result.size,
                 oilInfo.id,
@@ -112,7 +111,7 @@ class StationInfoRepository {
         else
             it.oilInfoListResult.oilInfoList
 
-    private suspend fun getOilDetail(
+    private suspend fun getStationDetail(
         sort: String,
         size: Int,
         uid: String,
@@ -126,11 +125,11 @@ class StationInfoRepository {
     ) {
 
         val response = withContext(Dispatchers.IO) {
-            Api_Instance.opiRetrofitApi.getOilDetail(ApiKey.OPI_API_KEY, "json", uid)
+            ApiInstance.opiRetrofitApi.getStationDetail(ApiKey.OPI_API_KEY, "json", uid)
         }
 
         if (response.isSuccessful)
-            handleOilDetailResponse(
+            handleStationDetailResponse(
                 response.body(),
                 sort,
                 size,
@@ -145,7 +144,7 @@ class StationInfoRepository {
             )
     }
 
-    private suspend fun handleOilDetailResponse(
+    private suspend fun handleStationDetailResponse(
         gasStationDetailInfo: GasStationDetailInfoResult?, sort: String, size: Int,
         uid: String, name: String, gasPrice: String, distance: String, inputOil: String,
         imageResource: Int, destinationX: Float, destinationY: Float
@@ -183,17 +182,17 @@ class StationInfoRepository {
         if ((tempList.size == size || tempList.size == KAKAO_API_PARAMETER_LIMIT) &&
             (sort == "3" || sort == "4")
         )
-            getOilKakaoApi(sort)
+            getStationKakaoApi(sort)
     }
 
 
     //카카오 api는 wgs 좌표를 사용
-    private suspend fun getOilKakaoApi(sort: String) {
+    private suspend fun getStationKakaoApi(sort: String) {
 
         val destinations = arrayOfNulls<Destination>(tempList.size)
         destinationsProcessing(destinations)
 
-        val kakaoApiResponse = Api_Instance.kakaoRetrofitApi.getMultiDirections(
+        val kakaoApiResponse = ApiInstance.kakaoRetrofitApi.getMultiDirections(
             DirectionRequest(
                 Origin(
                     wgsX.toDouble(), wgsY.toDouble()

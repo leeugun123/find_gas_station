@@ -14,7 +14,7 @@ import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.ActivityMainBinding
 import org.techtown.find_gas_station.localdatabase.OilData
 import org.techtown.find_gas_station.localdatabase.SetViewModel
-import org.techtown.find_gas_station.presentation.oilroundinfo.OilInfoViewModel
+import org.techtown.find_gas_station.presentation.oilroundinfo.StationInfoViewModel
 
 
 @AndroidEntryPoint
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     private var backPressedTime: Long = 0
 
     private val setViewModel: SetViewModel by viewModels()
-    private val oilInfoViewModel: OilInfoViewModel by viewModels()
+    private val stationInfoViewModel: StationInfoViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,14 +44,6 @@ class MainActivity : AppCompatActivity() {
 
         observeLocalData()
         observeUpdateComplete()
-    }
-
-    private fun observeLocalData() {
-        setViewModel.roomDbOilCondition.observe(this) { roomDbOilCondition ->
-            oilInfoViewModel.oilCondition.radius = roomDbOilCondition.oilRad.toString()
-            oilInfoViewModel.oilCondition.sort = roomDbOilCondition.oilSort.toString()
-            oilInfoViewModel.oilCondition.oilKind = roomDbOilCondition.oilName.toString()
-        }
     }
 
     private fun setupWindowInsetsListener() {
@@ -86,11 +78,19 @@ class MainActivity : AppCompatActivity() {
     private fun updateOilCondition() {
         setViewModel.updateData(
             OilData(
-                oilInfoViewModel.oilCondition.oilKind,
-                oilInfoViewModel.oilCondition.radius,
-                oilInfoViewModel.oilCondition.sort,
+                stationInfoViewModel.oilCondition.oilKind,
+                stationInfoViewModel.oilCondition.radius,
+                stationInfoViewModel.oilCondition.sort,
             )
         )
+    }
+
+    private fun observeLocalData() {
+        setViewModel.roomDbOilCondition.observe(this) { roomDbOilCondition ->
+            stationInfoViewModel.oilCondition.radius = roomDbOilCondition.oilRad.toString()
+            stationInfoViewModel.oilCondition.sort = roomDbOilCondition.oilSort.toString()
+            stationInfoViewModel.oilCondition.oilKind = roomDbOilCondition.oilName.toString()
+        }
     }
 
     private fun observeUpdateComplete() {

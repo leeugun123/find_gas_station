@@ -10,9 +10,9 @@ import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.techtown.find_gas_station.presentation.BaseFragment
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.FragmentSplashBinding
+import org.techtown.find_gas_station.presentation.BaseFragment
 
 class SplashFragment : BaseFragment<FragmentSplashBinding>(R.layout.fragment_splash) {
 
@@ -25,13 +25,15 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(R.layout.fragment_spl
             }
         }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        requestPermission()
+    private fun splashAction() {
+        lifecycleScope.launch(Dispatchers.Main) {
+            delay(SPLASH_WAIT_TIME)
+            moveMainFragment()
+        }
     }
 
-    private fun requestPermission() {
-        requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+    private fun moveMainFragment() {
+        findNavController().navigate(R.id.action_splashFragment_to_mainFragment)
     }
 
     private fun finishApp() {
@@ -43,15 +45,13 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(R.layout.fragment_spl
         requireActivity().finish()
     }
 
-    private fun splashAction() {
-        lifecycleScope.launch(Dispatchers.Main) {
-            delay(SPLASH_WAIT_TIME)
-            moveMainFragment()
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        requestPermission()
     }
 
-    private fun moveMainFragment() {
-        findNavController().navigate(R.id.action_splashFragment_to_mainFragment)
+    private fun requestPermission() {
+        requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
     companion object {

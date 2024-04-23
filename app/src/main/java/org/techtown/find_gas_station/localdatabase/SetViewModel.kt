@@ -15,9 +15,7 @@ class SetViewModel(application: Application) : AndroidViewModel(application) {
     private val _roomDbOilCondition = MutableLiveData<OilData>()
     val roomDbOilCondition: LiveData<OilData> get() = _roomDbOilCondition
 
-
     private val _updateComplete = MutableLiveData<Boolean>()
-
     val updateComplete: LiveData<Boolean> get() = _updateComplete
 
     private val setRepository: SetRepository
@@ -47,5 +45,4 @@ class SetViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }
-
 }

@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import org.techtown.find_gas_station.Data.oilAvg.OilAveragePriceInfo
+import org.techtown.find_gas_station.data.oilAvg.OilAveragePriceInfo
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.OilavgBinding
 import org.techtown.find_gas_station.util.unitconverter.RidRoundMath.roundStringToInteger
