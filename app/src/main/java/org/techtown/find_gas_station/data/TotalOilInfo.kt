@@ -1,7 +1,9 @@
 package org.techtown.find_gas_station.data
 
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class TotalOilInfo(
 
     var uid: String = "",
@@ -23,4 +25,4 @@ data class TotalOilInfo(
     var actDistance: String = "1000",
     var spendTime: String = "1000"
 
-) : Serializable
+) : Parcelable

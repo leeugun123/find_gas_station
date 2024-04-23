@@ -43,13 +43,11 @@
     <fragment
         android:id="@+id/stationDetailFragment"
         android:name="org.techtown.find_gas_station.presentation.gasdetailinfo.StationDetailFragment"
-        android:label="DetailFragment"
-        tools:layout="@layout/fragment_station_detail" >
-
+        android:label="StationDetailFragment"
+        tools:layout="@layout/fragment_station_detail">
         <argument
-            android:name="stationDetailInfo"
+            android:name="stationInfoArg"
             app:argType="org.techtown.find_gas_station.data.TotalOilInfo" />
-
     </fragment>
 
 </navigation>
