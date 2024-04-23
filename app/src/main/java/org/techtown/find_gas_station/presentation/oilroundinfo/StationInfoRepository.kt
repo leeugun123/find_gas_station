@@ -153,6 +153,9 @@ class StationInfoRepository {
 
             val oilDetailInfo = it.gasStationDetailInfoResult.gasStationDetailInfo
 
+            if(oilDetailInfo.isEmpty())
+                return
+
             tempList.add(
                 TotalOilInfo(
                     uid,
