@@ -190,6 +190,10 @@ class StationInfoFragment : Fragment(),
     }
 
     private fun getOilData() {
+
+        if(stationInfoViewModel.isLoading.value == true)
+            return
+
         activeProgressBar(true)
         initGpsTracker()
         val katecPos =
