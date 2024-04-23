@@ -10,7 +10,9 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class DiModule {
+
     @Singleton
     @Provides
     fun provideStationInfoRepository(): StationInfoRepository = StationInfoRepository()
+
 }

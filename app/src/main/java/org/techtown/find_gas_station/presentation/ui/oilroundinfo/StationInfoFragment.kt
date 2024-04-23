@@ -35,6 +35,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -48,6 +49,7 @@ import org.techtown.find_gas_station.util.gps.GeoTrans
 import org.techtown.find_gas_station.util.gps.GeoTransPoint
 import org.techtown.find_gas_station.util.gps.GpsTracker
 
+@AndroidEntryPoint
 class StationInfoFragment : Fragment(),
     OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 

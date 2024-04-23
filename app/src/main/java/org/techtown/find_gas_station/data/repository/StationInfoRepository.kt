@@ -19,6 +19,7 @@ import org.techtown.find_gas_station.util.constant.ConstantsTime
 import org.techtown.find_gas_station.util.gps.GeoTrans
 import org.techtown.find_gas_station.util.gps.GeoTransPoint
 import java.util.Collections
+import javax.inject.Inject
 
 class StationInfoRepository {
 

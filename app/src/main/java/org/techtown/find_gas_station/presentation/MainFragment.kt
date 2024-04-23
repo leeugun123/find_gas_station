@@ -10,7 +10,6 @@ import org.techtown.find_gas_station.presentation.ui.oilroundinfo.StationInfoFra
 import org.techtown.find_gas_station.presentation.ui.BaseFragment
 
 
-@AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
     private val stationInfoFragment by lazy { StationInfoFragment() }

@@ -14,7 +14,6 @@ import org.techtown.find_gas_station.data.localdatabase.SetRepository
 
 class SetViewModel(application: Application) : AndroidViewModel(application) {
 
-
     private val _roomDbOilCondition = MutableLiveData<OilData>()
     val roomDbOilCondition: LiveData<OilData> get() = _roomDbOilCondition
 

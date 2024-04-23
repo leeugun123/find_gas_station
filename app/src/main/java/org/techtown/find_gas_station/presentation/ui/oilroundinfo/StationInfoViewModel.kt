@@ -4,13 +4,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.data.TotalOilInfo
 import org.techtown.find_gas_station.data.repository.StationInfoRepository
+import javax.inject.Inject
 
-class StationInfoViewModel : ViewModel() {
+@HiltViewModel
+class StationInfoViewModel @Inject constructor(
+    private val stationInfoRepository : StationInfoRepository
+) : ViewModel() {
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean>
@@ -22,13 +27,9 @@ class StationInfoViewModel : ViewModel() {
     var oilCondition = OilCondition("1000", "1", "D047")
     var afterOilCondition = OilCondition("", "", "")
 
-
     private val _oilListLiveData = MutableLiveData<List<TotalOilInfo>>()
     val oilListLiveData: LiveData<List<TotalOilInfo>>
         get() = _oilListLiveData
-
-    private val stationInfoRepository = StationInfoRepository()
-    //TODO("viewModel에서 객체를 생성 -> 추후 Hilt를 적용하여 객체를 주입 받아야 함.")
 
     fun requestOilList(wgsX: String, wgsY: String, katecX: String, katecY: String) {
 
