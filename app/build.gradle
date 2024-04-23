@@ -17,7 +17,7 @@ android {
         applicationId "com.roid.androidApp"
         minSdk 21
         targetSdkVersion 33
-        versionCode 42
+        versionCode 44
         versionName "4.00"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -31,6 +31,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
     }
     compileOptions {
