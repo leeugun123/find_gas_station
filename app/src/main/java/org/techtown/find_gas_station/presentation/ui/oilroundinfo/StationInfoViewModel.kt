@@ -4,18 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.data.TotalOilInfo
-import org.techtown.find_gas_station.data.repository.StationInfoRepository
-import javax.inject.Inject
+import org.techtown.find_gas_station.data.repository.RepositoryModule
 
-@HiltViewModel
-class StationInfoViewModel @Inject constructor(
-    private val stationInfoRepository : StationInfoRepository
-) : ViewModel() {
+class StationInfoViewModel() : ViewModel() {
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean>
@@ -30,6 +25,8 @@ class StationInfoViewModel @Inject constructor(
     private val _oilListLiveData = MutableLiveData<List<TotalOilInfo>>()
     val oilListLiveData: LiveData<List<TotalOilInfo>>
         get() = _oilListLiveData
+
+    private val stationInfoRepository = RepositoryModule.provideStationInfoRepository()
 
     fun requestOilList(wgsX: String, wgsY: String, katecX: String, katecY: String) {
 

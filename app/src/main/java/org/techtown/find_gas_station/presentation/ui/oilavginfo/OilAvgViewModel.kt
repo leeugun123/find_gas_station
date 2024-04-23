@@ -8,28 +8,24 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.data.oilAvg.OilAveragePriceInfo
-import org.techtown.find_gas_station.data.repository.GetOilAvgRepository
+import org.techtown.find_gas_station.data.repository.RepositoryModule
 
 class OilAvgViewModel() : ViewModel() {
 
-    private var _oilAvgInfoLiveData : MutableLiveData<List<OilAveragePriceInfo>> = MutableLiveData()
-    val oilAvgLiveData : LiveData<List<OilAveragePriceInfo>> get() = _oilAvgInfoLiveData
+    private var _oilAvgInfoLiveData: MutableLiveData<List<OilAveragePriceInfo>> = MutableLiveData()
+    val oilAvgLiveData: LiveData<List<OilAveragePriceInfo>> get() = _oilAvgInfoLiveData
 
-    private var getOilAvgRepository = GetOilAvgRepository()
+    private var getOilAvgRepository = RepositoryModule.provideGetOilAvgRepository()
 
-    fun requestOilAvg(prodcd : String) {
+    fun requestOilAvg(prodcd: String) {
 
         viewModelScope.launch(Dispatchers.IO) {
 
             val getOilAvgResponse = getOilAvgRepository.getOilAvg(prodcd)
 
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
                 _oilAvgInfoLiveData.value = getOilAvgResponse
             }
-
         }
-
     }
-
-
 }
