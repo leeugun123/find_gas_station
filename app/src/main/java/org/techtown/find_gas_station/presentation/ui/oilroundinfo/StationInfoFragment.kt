@@ -47,6 +47,7 @@ import kotlinx.coroutines.launch
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.data.TotalOilInfo
 import org.techtown.find_gas_station.databinding.FragmentStationInfoBinding
+import org.techtown.find_gas_station.presentation.ui.BaseFragment
 import org.techtown.find_gas_station.presentation.ui.oilroundinfo.oilroundrecyclerview.StationInfoAdapter
 import org.techtown.find_gas_station.util.constant.ConstantGuide
 import org.techtown.find_gas_station.util.constant.ConstantsTime
@@ -55,10 +56,9 @@ import org.techtown.find_gas_station.util.gps.GeoTransPoint
 import org.techtown.find_gas_station.util.gps.GpsTracker
 
 @AndroidEntryPoint
-class StationInfoFragment : Fragment(),
+class StationInfoFragment : BaseFragment<FragmentStationInfoBinding>(R.layout.fragment_station_info),
     OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
-    private lateinit var binding: FragmentStationInfoBinding
     private var wgsX = ""
     private var wgsY = ""
 
@@ -89,16 +89,6 @@ class StationInfoFragment : Fragment(),
     )
 
     private val stationInfoViewModel: StationInfoViewModel by activityViewModels()
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_station_info, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -150,12 +140,10 @@ class StationInfoFragment : Fragment(),
     }
 
     private fun observeOilList() {
-        lifecycleScope.launch(Dispatchers.Main) {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             stationInfoViewModel.oilListFlow.collect {list ->
-                repeatOnLifecycle(Lifecycle.State.STARTED){
-                    Log.e("TAG","collect  " + list.size)
-                    oilListUiSync(list)
-                }
+                Log.e("TAG","collect " + list?.size)
+                list?.let { oilListUiSync(it) }
             }
         }
     }
@@ -171,6 +159,8 @@ class StationInfoFragment : Fragment(),
             )
 
         checkListEmpty(oilList.size)
+
+       // Log.e("TAG",stationInfoViewModel.conditionChangeFlag.toString())
 
         if (stationInfoViewModel.conditionChangeFlag)
             upRecyclerView()
@@ -349,6 +339,7 @@ class StationInfoFragment : Fragment(),
         super.onStop()
         mFusedLocationClient.removeLocationUpdates(locationCallback)
     }
+
 
     override fun onMarkerClick(marker: Marker) = false
 
