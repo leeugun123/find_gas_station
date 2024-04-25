@@ -1,11 +1,13 @@
 package org.techtown.find_gas_station.presentation.ui.oilroundinfo
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.techtown.find_gas_station.data.TotalOilInfo
@@ -24,12 +26,8 @@ class StationInfoViewModel() : ViewModel() {
     var afterOilCondition = OilCondition("", "", "")
 
     private val _oilListFlow = MutableStateFlow<List<TotalOilInfo>>(emptyList())
-    val oilListFlow: StateFlow<List<TotalOilInfo>?>
-        get() = _oilListFlow.stateIn(
-            initialValue = null,
-            started = SharingStarted.WhileSubscribed(5_000),
-            scope = viewModelScope
-        )
+    val oilListFlow: StateFlow<List<TotalOilInfo>?> = _oilListFlow.asStateFlow()
+
 
     private val stationInfoRepository = RepositoryModule.provideStationInfoRepository()
 
@@ -49,7 +47,7 @@ class StationInfoViewModel() : ViewModel() {
             )
 
             val collectStationList = stationInfoRepository.getStationList()
-            _oilListFlow.emit(collectStationList)
+            _oilListFlow.value = collectStationList
 
             _isLoading.value = false
         }

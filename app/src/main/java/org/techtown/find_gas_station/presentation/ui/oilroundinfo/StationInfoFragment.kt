@@ -9,21 +9,15 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearSmoothScroller
 import com.google.android.gms.location.LocationCallback
@@ -40,9 +34,12 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.data.TotalOilInfo
@@ -56,7 +53,8 @@ import org.techtown.find_gas_station.util.gps.GeoTransPoint
 import org.techtown.find_gas_station.util.gps.GpsTracker
 
 @AndroidEntryPoint
-class StationInfoFragment : BaseFragment<FragmentStationInfoBinding>(R.layout.fragment_station_info),
+class StationInfoFragment :
+    BaseFragment<FragmentStationInfoBinding>(R.layout.fragment_station_info),
     OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private var wgsX = ""
@@ -101,8 +99,14 @@ class StationInfoFragment : BaseFragment<FragmentStationInfoBinding>(R.layout.fr
         initSetting()
         initBinding()
         initSmoothScroller()
+        checkFlag()
+    }
 
-        requestRoundOilInfo()
+    private fun checkFlag() {
+        if (stationInfoViewModel.conditionChangeFlag){
+            requestRoundOilInfo()
+            stationInfoViewModel.conditionChangeFlag = false
+        }
     }
 
     private fun initSetting() {
@@ -139,12 +143,22 @@ class StationInfoFragment : BaseFragment<FragmentStationInfoBinding>(R.layout.fr
         }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private fun observeOilList() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            stationInfoViewModel.oilListFlow.collect {list ->
-                Log.e("TAG","collect " + list?.size)
-                list?.let { oilListUiSync(it) }
-            }
+            stationInfoViewModel.oilListFlow
+                .flatMapLatest { list ->
+                    flow { emit(list) }
+                }.collect { list ->
+
+                    Log.e("TAG","사이즈" + list?.size.toString())
+
+                    list?.forEach {
+                        Log.e("TAG"," 이름 " + it.name + " 가격 " +it.price + " 직경 거리 " + it.distance + " 도로 거리 " + it.actDistance + " 소요 시간  " +
+                                it.spendTime +" ")
+                    }
+                    list?.let { oilListUiSync(it) }
+                }
         }
     }
 
@@ -158,9 +172,7 @@ class StationInfoFragment : BaseFragment<FragmentStationInfoBinding>(R.layout.fr
                 totalOilInfoClick = ::navigateToStationDetail
             )
 
-        checkListEmpty(oilList.size)
-
-       // Log.e("TAG",stationInfoViewModel.conditionChangeFlag.toString())
+        // checkListEmpty(oilList.size)
 
         if (stationInfoViewModel.conditionChangeFlag)
             upRecyclerView()
@@ -180,17 +192,19 @@ class StationInfoFragment : BaseFragment<FragmentStationInfoBinding>(R.layout.fr
     }
 
     private fun requestRoundOilInfo() {
-        if (stationInfoViewModel.conditionChangeFlag) {
-            getOilData()
-            updateSortText()
-        }
+        Log.e("TAG","요청됨")
+        getOilData()
+        updateSortText()
     }
 
     private fun getOilData() {
-        if(!stationInfoViewModel.isLoading.value){
+        if (!stationInfoViewModel.isLoading.value) {
             initGpsTracker()
             val katecPos =
-                transFormPoint(gpsTracker.getLatitude().toFloat(), gpsTracker.getLongitude().toFloat())
+                transFormPoint(
+                    gpsTracker.getLatitude().toFloat(),
+                    gpsTracker.getLongitude().toFloat()
+                )
 
             stationInfoViewModel.requestOilList(
                 wgsX,
@@ -216,15 +230,10 @@ class StationInfoFragment : BaseFragment<FragmentStationInfoBinding>(R.layout.fr
     }
 
     private fun navigateToStationDetail(stationInfo: TotalOilInfo) {
-        keepConditionChangeFlag()
         val bundle = bundleOf("stationInfo" to stationInfo)
 
         requireParentFragment().findNavController()
             .navigate(R.id.action_mainFragment_to_stationDetailFragment, bundle)
-    }
-
-    private fun keepConditionChangeFlag() {
-        stationInfoViewModel.conditionChangeFlag = false
     }
 
     private fun showEmptyMessage() {
