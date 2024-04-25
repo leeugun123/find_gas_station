@@ -38,7 +38,9 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.data.TotalOilInfo
@@ -146,13 +148,16 @@ class StationInfoFragment : Fragment(),
     }
 
     private fun observeOilList() {
-        stationInfoViewModel.oilListLiveData.observe(requireActivity()) { oilList ->
-            oilListUiSync(oilList)
+        lifecycleScope.launch(Dispatchers.Main) {
+            stationInfoViewModel.oilListFlow.collect {list ->
+                Log.e("TAG","collect  " + list.size)
+                oilListUiSync(list)
+            }
         }
     }
 
     private fun oilListUiSync(oilList: List<TotalOilInfo>) {
-        activeProgressBar(false)
+
         binding.listRecycler.adapter =
             StationInfoAdapter(
                 oilList,
@@ -160,14 +165,11 @@ class StationInfoFragment : Fragment(),
                 stationInfoViewModel.oilCondition.sort,
                 totalOilInfoClick = ::navigateToStationDetail
             )
+
         checkListEmpty(oilList.size)
 
         if (stationInfoViewModel.conditionChangeFlag)
             upRecyclerView()
-    }
-
-    private fun activeProgressBar(state: Boolean) {
-        stationInfoViewModel.setLoading(state)
     }
 
     private fun checkListEmpty(oilListSize: Int) {
@@ -191,11 +193,6 @@ class StationInfoFragment : Fragment(),
     }
 
     private fun getOilData() {
-
-        if(stationInfoViewModel.isLoading.value == true)
-            return
-
-        activeProgressBar(true)
         initGpsTracker()
         val katecPos =
             transFormPoint(gpsTracker.getLatitude().toFloat(), gpsTracker.getLongitude().toFloat())

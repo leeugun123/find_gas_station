@@ -18,7 +18,8 @@ fun TextView.setDistanceText(sort: String, totalOilInfo: TotalOilInfo) {
         }
 
         "4" -> {
-            distanceText = formatSeconds(totalOilInfo.spendTime.toInt())
+            if(totalOilInfo.spendTime.isNotEmpty())
+                distanceText = formatSeconds(totalOilInfo.spendTime.toInt())
         }
 
         else -> {
