@@ -21,7 +21,9 @@ import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearSmoothScroller
 import com.google.android.gms.location.LocationCallback
@@ -150,8 +152,10 @@ class StationInfoFragment : Fragment(),
     private fun observeOilList() {
         lifecycleScope.launch(Dispatchers.Main) {
             stationInfoViewModel.oilListFlow.collect {list ->
-                Log.e("TAG","collect  " + list.size)
-                oilListUiSync(list)
+                repeatOnLifecycle(Lifecycle.State.STARTED){
+                    Log.e("TAG","collect  " + list.size)
+                    oilListUiSync(list)
+                }
             }
         }
     }
@@ -193,16 +197,18 @@ class StationInfoFragment : Fragment(),
     }
 
     private fun getOilData() {
-        initGpsTracker()
-        val katecPos =
-            transFormPoint(gpsTracker.getLatitude().toFloat(), gpsTracker.getLongitude().toFloat())
+        if(!stationInfoViewModel.isLoading.value){
+            initGpsTracker()
+            val katecPos =
+                transFormPoint(gpsTracker.getLatitude().toFloat(), gpsTracker.getLongitude().toFloat())
 
-        stationInfoViewModel.requestOilList(
-            wgsX,
-            wgsY,
-            katecPos.x.toString(),
-            katecPos.y.toString(),
-        )
+            stationInfoViewModel.requestOilList(
+                wgsX,
+                wgsY,
+                katecPos.x.toString(),
+                katecPos.y.toString(),
+            )
+        }
     }
 
     private fun initGpsTracker() {
