@@ -17,7 +17,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearSmoothScroller
 import com.google.android.gms.location.LocationCallback
@@ -95,7 +97,7 @@ class StationInfoFragment :
 
         mapFragment.getMapAsync(this)
 
-        initSetting()
+        initLocationRequest()
         initBinding()
         initSmoothScroller()
         checkFlag()
@@ -106,18 +108,6 @@ class StationInfoFragment :
             requestRoundOilInfo()
             stationInfoViewModel.conditionChangeFlag = false
         }
-    }
-
-    private fun initSetting() {
-        initWindowSet()
-        initLocationRequest()
-    }
-
-    private fun initWindowSet() {
-        requireActivity().window.setFlags(
-            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
-            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-        )
     }
 
     private fun initLocationRequest() {
@@ -142,22 +132,18 @@ class StationInfoFragment :
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     private fun observeOilList() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            stationInfoViewModel.oilListFlow
-                .flatMapLatest { list ->
-                    flow { emit(list) }
-                }.collect { list ->
-
-                    Log.e("TAG","사이즈" + list?.size.toString())
-
-                    list?.forEach {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                stationInfoViewModel.oilListFlow.collect { list ->
+                    Log.e("TAG","사이즈" + list.size.toString())
+                    list.forEach {
                         Log.e("TAG"," 이름 " + it.name + " 가격 " +it.price + " 직경 거리 " + it.distance + " 도로 거리 " + it.actDistance + " 소요 시간  " +
                                 it.spendTime +" ")
                     }
-                    list?.let { syncStationUi(it) }
+                    list.let { syncStationUi(it) }
                 }
+            }
         }
     }
 
@@ -170,10 +156,10 @@ class StationInfoFragment :
                 totalOilInfoClick = ::navigateToStationDetail
             )
 
-        // checkListEmpty(oilList.size)
-
-        if (stationInfoViewModel.conditionChangeFlag)
+        if (stationInfoViewModel.conditionChangeFlag){
+            checkListEmpty(oilList.size)
             upRecyclerView()
+        }
     }
 
     private fun checkListEmpty(oilListSize: Int) {
@@ -182,21 +168,20 @@ class StationInfoFragment :
     }
 
     private fun upRecyclerView() {
-        lifecycleScope.launch(Dispatchers.Main) {
-            delay(UP_RECYCLERVIEW_TIME)
-            smoothScroller.targetPosition = 0
-            binding.listRecycler.layoutManager!!.startSmoothScroll(smoothScroller)
-        }
+        smoothScroller.targetPosition = 0
+        binding.listRecycler.layoutManager!!.startSmoothScroll(smoothScroller)
     }
 
     private fun requestRoundOilInfo() {
-        Log.e("TAG","요청됨")
         getOilData()
         updateSortText()
     }
 
     private fun getOilData() {
         if (!stationInfoViewModel.isLoading.value) {
+
+            Log.e("TAG","요청됨")
+
             initGpsTracker()
             val katecPos =
                 transFormPoint(

@@ -1,13 +1,12 @@
 package org.techtown.find_gas_station.presentation.ui.oilroundinfo
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.techtown.find_gas_station.data.TotalOilInfo
@@ -26,15 +25,18 @@ class StationInfoViewModel() : ViewModel() {
     var afterOilCondition = OilCondition("", "", "")
 
     private val _oilListFlow = MutableStateFlow<List<TotalOilInfo>>(emptyList())
-    val oilListFlow: StateFlow<List<TotalOilInfo>?> = _oilListFlow.asStateFlow()
-
+    val oilListFlow: StateFlow<List<TotalOilInfo>> = _oilListFlow.filterNotNull().stateIn(
+        initialValue = listOf(),
+        started = SharingStarted.WhileSubscribed(5_000),
+        scope = viewModelScope
+    )
 
     private val stationInfoRepository = RepositoryModule.provideStationInfoRepository()
 
     fun requestOilList(wgsX: String, wgsY: String, katecX: String, katecY: String) {
 
         viewModelScope.launch(Dispatchers.IO) {
-            _isLoading.value = true
+            setLoading(true)
 
             stationInfoRepository.requestStationList(
                 wgsX,
@@ -45,11 +47,13 @@ class StationInfoViewModel() : ViewModel() {
                 oilCondition.sort,
                 oilCondition.oilKind
             )
+            _oilListFlow.value = stationInfoRepository.getStationList()
+            setLoading(false)
 
-            val collectStationList = stationInfoRepository.getStationList()
-            _oilListFlow.value = collectStationList
-
-            _isLoading.value = false
         }
+    }
+
+    private fun setLoading(loading: Boolean) {
+        _isLoading.value = loading
     }
 }
