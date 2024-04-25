@@ -5,11 +5,11 @@ import android.view.View
 import dagger.hilt.android.AndroidEntryPoint
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.FragmentMainBinding
-import org.techtown.find_gas_station.presentation.oilavginfo.DailyFragment
-import org.techtown.find_gas_station.presentation.oilroundinfo.StationInfoFragment
+import org.techtown.find_gas_station.presentation.ui.oilavginfo.DailyFragment
+import org.techtown.find_gas_station.presentation.ui.oilroundinfo.StationInfoFragment
+import org.techtown.find_gas_station.presentation.ui.BaseFragment
 
 
-@AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
     private val stationInfoFragment by lazy { StationInfoFragment() }
