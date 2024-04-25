@@ -37,7 +37,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
@@ -157,13 +156,12 @@ class StationInfoFragment :
                         Log.e("TAG"," 이름 " + it.name + " 가격 " +it.price + " 직경 거리 " + it.distance + " 도로 거리 " + it.actDistance + " 소요 시간  " +
                                 it.spendTime +" ")
                     }
-                    list?.let { oilListUiSync(it) }
+                    list?.let { syncStationUi(it) }
                 }
         }
     }
 
-    private fun oilListUiSync(oilList: List<TotalOilInfo>) {
-
+    private fun syncStationUi(oilList: List<TotalOilInfo>) {
         binding.listRecycler.adapter =
             StationInfoAdapter(
                 oilList,
