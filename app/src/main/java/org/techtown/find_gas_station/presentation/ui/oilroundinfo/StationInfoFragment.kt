@@ -133,17 +133,8 @@ class StationInfoFragment :
     }
 
     private fun observeOilList() {
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                stationInfoViewModel.oilListFlow.collect { list ->
-                    Log.e("TAG","사이즈" + list.size.toString())
-                    list.forEach {
-                        Log.e("TAG"," 이름 " + it.name + " 가격 " +it.price + " 직경 거리 " + it.distance + " 도로 거리 " + it.actDistance + " 소요 시간  " +
-                                it.spendTime +" ")
-                    }
-                    list.let { syncStationUi(it) }
-                }
-            }
+        stationInfoViewModel.oilList.observe(viewLifecycleOwner){list ->
+            syncStationUi(list)
         }
     }
 
@@ -179,9 +170,6 @@ class StationInfoFragment :
 
     private fun getOilData() {
         if (!stationInfoViewModel.isLoading.value) {
-
-            Log.e("TAG","요청됨")
-
             initGpsTracker()
             val katecPos =
                 transFormPoint(
