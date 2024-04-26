@@ -147,21 +147,12 @@ class StationInfoFragment :
                 stationInfoViewModel.oilCondition.sort,
                 totalOilInfoClick = ::navigateToStationDetail
             )
-
-        if (stationInfoViewModel.conditionChangeFlag){
-            checkListEmpty(oilList.size)
-            upRecyclerView()
-        }
+        checkListEmpty(oilList.size)
     }
 
     private fun checkListEmpty(oilListSize: Int) {
         if (oilListSize == 0)
             showEmptyMessage()
-    }
-
-    private fun upRecyclerView() {
-        smoothScroller.targetPosition = 0
-        binding.listRecycler.layoutManager!!.startSmoothScroll(smoothScroller)
     }
 
     private fun requestRoundOilInfo() {
