@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.data.localdatabase.OilData
 import org.techtown.find_gas_station.data.localdatabase.RoomDB
-import org.techtown.find_gas_station.data.localdatabase.SetRepository
+import org.techtown.find_gas_station.data.repository.SetRepository
 
 class SetViewModel(application: Application) : AndroidViewModel(application) {
 

@@ -65,7 +65,6 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
 
 
     private fun initCheckConditionChange() {
-        stationInfoViewModel.conditionChangeFlag = false
         stationInfoViewModel.afterOilCondition = stationInfoViewModel.oilCondition.copy()
     }
 
