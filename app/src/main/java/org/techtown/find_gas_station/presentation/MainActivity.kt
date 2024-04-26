@@ -96,9 +96,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun observeLocalData() {
         setViewModel.roomDbOilCondition.observe(this) { roomDbOilCondition ->
-            stationInfoViewModel.oilCondition.radius = roomDbOilCondition.oilRad.toString()
-            stationInfoViewModel.oilCondition.sort = roomDbOilCondition.oilSort.toString()
-            stationInfoViewModel.oilCondition.oilKind = roomDbOilCondition.oilName.toString()
+
+            if(roomDbOilCondition == null){
+                stationInfoViewModel.oilCondition.radius = "1000"
+                stationInfoViewModel.oilCondition.sort = "1"
+                stationInfoViewModel.oilCondition.oilKind = "B027"
+            }else{
+                stationInfoViewModel.oilCondition.radius = roomDbOilCondition.oilRad.toString()
+                stationInfoViewModel.oilCondition.sort = roomDbOilCondition.oilSort.toString()
+                stationInfoViewModel.oilCondition.oilKind = roomDbOilCondition.oilName.toString()
+            }
         }
     }
 
