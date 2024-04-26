@@ -18,6 +18,8 @@ class DailyFragment : BaseFragment<FragmentDailyBinding>(R.layout.fragment_daily
         super.onViewCreated(view, savedInstanceState)
         connectPagerAdapter()
         controlTabLayOut()
+
+
     }
 
     private fun connectPagerAdapter() {
