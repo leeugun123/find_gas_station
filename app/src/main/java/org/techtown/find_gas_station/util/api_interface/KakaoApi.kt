@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.util.retrofit_interface
+package org.techtown.find_gas_station.util.api_interface
 
 import org.techtown.find_gas_station.BuildConfig
 import org.techtown.find_gas_station.data.kakao.Request.DirectionRequest
