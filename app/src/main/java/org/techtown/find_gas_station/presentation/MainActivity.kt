@@ -1,6 +1,7 @@
 package org.techtown.find_gas_station.presentation
 
 import android.os.Bundle
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.activity.viewModels
@@ -12,9 +13,8 @@ import androidx.navigation.fragment.NavHostFragment
 import dagger.hilt.android.AndroidEntryPoint
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.ActivityMainBinding
-import org.techtown.find_gas_station.localdatabase.OilData
-import org.techtown.find_gas_station.localdatabase.SetViewModel
-import org.techtown.find_gas_station.presentation.oilroundinfo.StationInfoViewModel
+import org.techtown.find_gas_station.data.localdatabase.OilData
+import org.techtown.find_gas_station.presentation.ui.oilroundinfo.StationInfoViewModel
 
 
 @AndroidEntryPoint
@@ -39,11 +39,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        initWindowSet()
+
         setupWindowInsetsListener()
         setupBackPressedDispatcher()
 
         observeLocalData()
         observeUpdateComplete()
+    }
+
+    private fun initWindowSet() {
+        this.window.setFlags(
+            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
+            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+        )
     }
 
     private fun setupWindowInsetsListener() {
@@ -87,9 +96,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun observeLocalData() {
         setViewModel.roomDbOilCondition.observe(this) { roomDbOilCondition ->
-            stationInfoViewModel.oilCondition.radius = roomDbOilCondition.oilRad.toString()
-            stationInfoViewModel.oilCondition.sort = roomDbOilCondition.oilSort.toString()
-            stationInfoViewModel.oilCondition.oilKind = roomDbOilCondition.oilName.toString()
+
+            if(roomDbOilCondition == null){
+                stationInfoViewModel.oilCondition.radius = "1000"
+                stationInfoViewModel.oilCondition.sort = "1"
+                stationInfoViewModel.oilCondition.oilKind = "B027"
+            }else{
+                stationInfoViewModel.oilCondition.radius = roomDbOilCondition.oilRad.toString()
+                stationInfoViewModel.oilCondition.sort = roomDbOilCondition.oilSort.toString()
+                stationInfoViewModel.oilCondition.oilKind = roomDbOilCondition.oilName.toString()
+            }
         }
     }
 
