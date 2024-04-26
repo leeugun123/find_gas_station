@@ -8,20 +8,14 @@ import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
-import android.util.Log
 import android.view.View
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearSmoothScroller
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
@@ -35,16 +29,11 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.data.TotalOilInfo
 import org.techtown.find_gas_station.databinding.FragmentStationInfoBinding
+import org.techtown.find_gas_station.presentation.repeatOnStarted
 import org.techtown.find_gas_station.presentation.ui.BaseFragment
 import org.techtown.find_gas_station.presentation.ui.oilroundinfo.oilroundrecyclerview.StationInfoAdapter
 import org.techtown.find_gas_station.util.constant.ConstantGuide
@@ -78,7 +67,6 @@ class StationInfoFragment :
         override fun onLocationResult(locationResult: LocationResult) {}
     }
 
-    private lateinit var smoothScroller: LinearSmoothScroller
     private lateinit var gpsTracker: GpsTracker
     private lateinit var mMap: GoogleMap
 
@@ -99,9 +87,18 @@ class StationInfoFragment :
 
         initLocationRequest()
         initBinding()
-        initSmoothScroller()
+
+        observeEmptyCheck()
 
         checkFlag()
+    }
+
+    private fun observeEmptyCheck() {
+        repeatOnStarted {
+            stationInfoViewModel.emptyCheck.collect {
+                showEmptyMessage()
+            }
+        }
     }
 
     private fun initLocationRequest() {
@@ -120,22 +117,18 @@ class StationInfoFragment :
             .navigate(R.id.action_mainFragment_to_settingFragment)
     }
 
-    private fun initSmoothScroller() {
-        smoothScroller = object : LinearSmoothScroller(binding.listRecycler.context) {
-            override fun getVerticalSnapPreference() = SNAP_TO_START
-        }
-    }
-
     private fun checkFlag() {
-        if (stationInfoViewModel.conditionChangeFlag){
+        if (stationInfoViewModel.conditionChangeFlag) {
             requestRoundOilInfo()
             stationInfoViewModel.conditionChangeFlag = false
         }
     }
 
     private fun observeOilList() {
-        stationInfoViewModel.oilList.observe(viewLifecycleOwner){list ->
-            syncStationUi(list)
+        repeatOnStarted {
+            stationInfoViewModel.oilList.collect { list ->
+                syncStationUi(list)
+            }
         }
     }
 
@@ -147,21 +140,6 @@ class StationInfoFragment :
                 stationInfoViewModel.oilCondition.sort,
                 totalOilInfoClick = ::navigateToStationDetail
             )
-
-        if (stationInfoViewModel.conditionChangeFlag){
-            checkListEmpty(oilList.size)
-            upRecyclerView()
-        }
-    }
-
-    private fun checkListEmpty(oilListSize: Int) {
-        if (oilListSize == 0)
-            showEmptyMessage()
-    }
-
-    private fun upRecyclerView() {
-        smoothScroller.targetPosition = 0
-        binding.listRecycler.layoutManager!!.startSmoothScroll(smoothScroller)
     }
 
     private fun requestRoundOilInfo() {

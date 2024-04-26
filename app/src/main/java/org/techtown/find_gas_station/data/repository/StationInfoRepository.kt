@@ -1,11 +1,10 @@
 package org.techtown.find_gas_station.data.repository
 
-import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.BuildConfig
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.data.OilList.GasStationInfoResult
+import org.techtown.find_gas_station.data.oilList.GasStationInfoResult
 import org.techtown.find_gas_station.data.TotalOilInfo
 import org.techtown.find_gas_station.data.kakao.Request.Destination
 import org.techtown.find_gas_station.data.kakao.Request.DirectionRequest

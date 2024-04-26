@@ -1,8 +1,8 @@
 package org.techtown.find_gas_station.data.repository.module
 
 import com.google.gson.GsonBuilder
-import org.techtown.find_gas_station.util.retrofit_interface.KakaoApi
-import org.techtown.find_gas_station.util.retrofit_interface.OpinetApi
+import org.techtown.find_gas_station.util.api_interface.KakaoApi
+import org.techtown.find_gas_station.util.api_interface.OpinetApi
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
