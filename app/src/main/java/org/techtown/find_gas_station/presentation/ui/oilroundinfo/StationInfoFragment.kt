@@ -100,14 +100,8 @@ class StationInfoFragment :
         initLocationRequest()
         initBinding()
         initSmoothScroller()
-        checkFlag()
-    }
 
-    private fun checkFlag() {
-        if (stationInfoViewModel.conditionChangeFlag){
-            requestRoundOilInfo()
-            stationInfoViewModel.conditionChangeFlag = false
-        }
+        checkFlag()
     }
 
     private fun initLocationRequest() {
@@ -129,6 +123,13 @@ class StationInfoFragment :
     private fun initSmoothScroller() {
         smoothScroller = object : LinearSmoothScroller(binding.listRecycler.context) {
             override fun getVerticalSnapPreference() = SNAP_TO_START
+        }
+    }
+
+    private fun checkFlag() {
+        if (stationInfoViewModel.conditionChangeFlag){
+            requestRoundOilInfo()
+            stationInfoViewModel.conditionChangeFlag = false
         }
     }
 
