@@ -31,7 +31,6 @@ class OilAvgViewCreated {
     ) {
 
         binding.oilKind.text = oilKind
-        binding.oilAvgRecyclerView.layoutManager = LinearLayoutManager(context)
 
         oilAvgViewModel.requestOilAvg(oilCode)
 
@@ -83,6 +82,7 @@ class OilAvgViewCreated {
                             RidRoundMath.roundStringToInteger(oilAvgPriceInfoList.last().oilPrice)
                                 .toString()
                     }
+
                     binding.oilAvgRecyclerView.adapter = OilAvgRecyclerAdapter(oilAvgPriceInfoList)
                 }
             }
