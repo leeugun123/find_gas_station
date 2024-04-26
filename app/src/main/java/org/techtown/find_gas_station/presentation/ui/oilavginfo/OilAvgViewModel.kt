@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.data.oilAvg.OilAveragePriceInfo
 import org.techtown.find_gas_station.data.repository.module.RepositoryModule
 
@@ -23,14 +22,8 @@ class OilAvgViewModel() : ViewModel() {
     private var getOilAvgRepository = RepositoryModule.provideGetOilAvgRepository()
 
     fun requestOilAvg(prodcd: String) {
-
         viewModelScope.launch(Dispatchers.IO) {
-
-            val getOilAvgResponse = getOilAvgRepository.getOilAvg(prodcd)
-
-            withContext(Dispatchers.Main) {
-                _oilAvgInfo.value = getOilAvgResponse
-            }
+            _oilAvgInfo.value = getOilAvgRepository.getOilAvg(prodcd)
         }
     }
 }
