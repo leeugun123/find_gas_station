@@ -4,7 +4,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.BuildConfig
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.data.oilList.GasStationInfoResult
 import org.techtown.find_gas_station.data.TotalOilInfo
 import org.techtown.find_gas_station.data.kakao.Request.Destination
 import org.techtown.find_gas_station.data.kakao.Request.DirectionRequest
@@ -12,10 +11,10 @@ import org.techtown.find_gas_station.data.kakao.Request.Origin
 import org.techtown.find_gas_station.data.kakao.Response.DirectionResponse
 import org.techtown.find_gas_station.data.kakao.Response.Route
 import org.techtown.find_gas_station.data.oilDetail.GasStationDetailInfoResult
+import org.techtown.find_gas_station.data.oilList.GasStationInfoResult
 import org.techtown.find_gas_station.data.repository.module.ApiModule
 import org.techtown.find_gas_station.util.comparator.OilRoadDistanceComparator
 import org.techtown.find_gas_station.util.comparator.OilSpendTimeComparator
-import org.techtown.find_gas_station.util.constant.ConstantsTime
 import org.techtown.find_gas_station.util.gps.GeoTrans
 import org.techtown.find_gas_station.util.gps.GeoTransPoint
 import java.util.Collections
@@ -153,7 +152,7 @@ class StationInfoRepository {
 
             val oilDetailInfo = it.gasStationDetailInfoResult.gasStationDetailInfo
 
-            if(oilDetailInfo.isEmpty())
+            if (oilDetailInfo.isEmpty())
                 return
 
             tempList.add(
@@ -200,7 +199,7 @@ class StationInfoRepository {
                 Origin(
                     wgsX.toDouble(), wgsY.toDouble()
                 ),
-                destinations, ConstantsTime.KAKAO_REQUEST_RADIUS
+                destinations, KAKAO_REQUEST_RADIUS
             )
         )
 
@@ -267,5 +266,6 @@ class StationInfoRepository {
 
     companion object {
         private const val KAKAO_API_PARAMETER_LIMIT = 30
+        private const val KAKAO_REQUEST_RADIUS = 10000
     }
 }

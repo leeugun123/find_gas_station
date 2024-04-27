@@ -26,9 +26,9 @@
         tools:targetApi="m">
         <activity
             android:name=".presentation.MainActivity"
+            android:configChanges="density|fontScale|fontWeightAdjustment|layoutDirection|locale|orientation|screenLayout|screenSize"
             android:exported="true"
             android:screenOrientation="portrait">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
