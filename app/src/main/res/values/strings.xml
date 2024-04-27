@@ -21,6 +21,9 @@
     <string name="car_wash_exist">세차장 유무</string>
     <string name="convenience_store_exist">편의점 유무</string>
 
+    <string name="confirm">확인</string>
+    <string name="require_location_permission_guide">"이 앱을 실행하려면 위치 접근 권한이 필요합니다."</string>
+
     <!-- 정렬 기준 화면-->
     <string name="gas_station_setting">주유소 설정</string>
     <string name="oil_kind">기름 종류</string>
