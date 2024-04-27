@@ -199,7 +199,7 @@ class StationInfoRepository {
                 Origin(
                     wgsX.toDouble(), wgsY.toDouble()
                 ),
-                destinations, KAKAO_API_PARAMETER_LIMIT
+                destinations, KAKAO_REQUEST_RADIUS
             )
         )
 
@@ -266,5 +266,6 @@ class StationInfoRepository {
 
     companion object {
         private const val KAKAO_API_PARAMETER_LIMIT = 30
+        private const val KAKAO_REQUEST_RADIUS = 10000
     }
 }
