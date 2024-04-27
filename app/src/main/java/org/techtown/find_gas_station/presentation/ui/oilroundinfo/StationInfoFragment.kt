@@ -36,8 +36,6 @@ import org.techtown.find_gas_station.databinding.FragmentStationInfoBinding
 import org.techtown.find_gas_station.presentation.repeatOnStarted
 import org.techtown.find_gas_station.presentation.ui.BaseFragment
 import org.techtown.find_gas_station.presentation.ui.oilroundinfo.oilroundrecyclerview.StationInfoAdapter
-import org.techtown.find_gas_station.util.constant.ConstantGuide
-import org.techtown.find_gas_station.util.constant.ConstantsTime
 import org.techtown.find_gas_station.util.gps.GeoTrans
 import org.techtown.find_gas_station.util.gps.GeoTransPoint
 import org.techtown.find_gas_station.util.gps.GpsTracker
@@ -59,8 +57,8 @@ class StationInfoFragment :
     private val locationRequest by lazy {
         LocationRequest()
             .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-            .setInterval(ConstantsTime.UPDATE_INTERVAL_MS.toLong())
-            .setFastestInterval(ConstantsTime.FASTEST_UPDATE_INTERVAL_MS.toLong())
+            .setInterval(UPDATE_INTERVAL_MS.toLong())
+            .setFastestInterval(FASTEST_UPDATE_INTERVAL_MS.toLong())
     }
 
     private val locationCallback: LocationCallback = object : LocationCallback() {
@@ -256,19 +254,19 @@ class StationInfoFragment :
         ) {
             Snackbar.make(
                 binding.layoutMain,
-                ConstantGuide.REQUIRE_LOCATION_PERMISSION_GUIDE,
+                requireContext().getString(R.string.require_location_permission_guide),
                 Snackbar.LENGTH_INDEFINITE
-            ).setAction(ConstantGuide.CONFIRM_GUIDE) {
+            ).setAction(requireContext().getString(R.string.confirm)) {
                 ActivityCompat.requestPermissions(
                     requireActivity(), requiredPermission,
-                    ConstantsTime.PERMISSIONS_REQUEST_CODE
+                    PERMISSIONS_REQUEST_CODE
                 )
             }.show()
         } else
             ActivityCompat.requestPermissions(
                 requireActivity(),
                 requiredPermission,
-                ConstantsTime.PERMISSIONS_REQUEST_CODE
+                PERMISSIONS_REQUEST_CODE
             )
     }
 
@@ -299,10 +297,12 @@ class StationInfoFragment :
         mFusedLocationClient.removeLocationUpdates(locationCallback)
     }
 
-
     override fun onMarkerClick(marker: Marker) = false
 
     companion object {
-        private const val UP_RECYCLERVIEW_TIME = 500L
+        private const val UPDATE_INTERVAL_MS = 1000 // 1초
+        private const val FASTEST_UPDATE_INTERVAL_MS = 500 // 0.5초
+        private const val PERMISSIONS_REQUEST_CODE = 100
+        private const val KAKAO_REQUEST_RADIUS = 10000
     }
 }
