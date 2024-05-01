@@ -18,10 +18,7 @@ import org.techtown.find_gas_station.data.repository.module.RepositoryModule
 
 class StationInfoViewModel() : ViewModel() {
 
-    private val _isLoading = MutableStateFlow(false)
-    val isLoading: StateFlow<Boolean>
-        get() = _isLoading.asStateFlow()
-
+    val isLoading = MutableStateFlow(false)
     private val _emptyCheck = MutableStateFlow(false)
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -84,7 +81,7 @@ class StationInfoViewModel() : ViewModel() {
     }
 
     private fun setLoading(loading: Boolean) {
-        _isLoading.value = loading
+        isLoading.value = loading
     }
 
     private fun setEmptyCheck(check: Boolean) {
