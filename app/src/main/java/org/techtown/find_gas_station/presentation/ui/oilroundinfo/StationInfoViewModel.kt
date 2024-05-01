@@ -7,8 +7,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
@@ -21,6 +19,7 @@ class StationInfoViewModel() : ViewModel() {
     val isLoading = MutableStateFlow(false)
 
     private val _emptyCheck = MutableStateFlow(false)
+
     @OptIn(ExperimentalCoroutinesApi::class)
     val emptyCheck: Flow<Boolean>
         get() = _emptyCheck
@@ -52,7 +51,7 @@ class StationInfoViewModel() : ViewModel() {
 
         viewModelScope.launch(Dispatchers.IO) {
 
-            setLoading(true)
+            setLoading(LoadingState.LOADING)
 
             stationInfoRepository.requestStationList(
                 wgsX,
@@ -67,9 +66,16 @@ class StationInfoViewModel() : ViewModel() {
             val getList = stationInfoRepository.getStationList()
             _oilList.value = getList
 
-            setLoading(false)
+            setLoading(LoadingState.NOT_LOADING)
 
             checkList(getList.size)
+        }
+    }
+
+    private fun setLoading(loadingState: LoadingState) {
+        when (loadingState) {
+            LoadingState.LOADING -> isLoading.value = true
+            LoadingState.NOT_LOADING -> isLoading.value = false
         }
     }
 
@@ -78,10 +84,6 @@ class StationInfoViewModel() : ViewModel() {
             setEmptyCheck(true)
         else
             setEmptyCheck(false)
-    }
-
-    private fun setLoading(loading: Boolean) {
-        isLoading.value = loading
     }
 
     private fun setEmptyCheck(check: Boolean) {
