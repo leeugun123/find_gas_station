@@ -25,7 +25,7 @@
         tools:ignore="Instantiatable"
         tools:targetApi="m">
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".presentation.ui.home.MainActivity"
             android:configChanges="density|fontScale|fontWeightAdjustment|layoutDirection|locale|orientation|screenLayout|screenSize"
             android:exported="true"
             android:screenOrientation="portrait">

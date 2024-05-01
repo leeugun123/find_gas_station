@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="org.techtown.find_gas_station.presentation.MainFragment"
+        android:name="org.techtown.find_gas_station.presentation.ui.home.MainFragment"
         android:label="MainFragment"
         tools:layout="@layout/fragment_main">
         <action

@@ -1,8 +1,7 @@
-package org.techtown.find_gas_station.presentation
+package org.techtown.find_gas_station.presentation.ui.home
 
 import android.os.Bundle
 import android.view.View
-import dagger.hilt.android.AndroidEntryPoint
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.FragmentMainBinding
 import org.techtown.find_gas_station.presentation.ui.oilavginfo.DailyFragment

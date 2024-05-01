@@ -1,7 +1,6 @@
-package org.techtown.find_gas_station.presentation
+package org.techtown.find_gas_station.presentation.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.addCallback

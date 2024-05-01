@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.presentation
+package org.techtown.find_gas_station.presentation.ui.home
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
