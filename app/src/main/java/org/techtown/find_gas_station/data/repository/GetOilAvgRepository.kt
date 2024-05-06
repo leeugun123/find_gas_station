@@ -1,7 +1,7 @@
 package org.techtown.find_gas_station.data.repository
 
 import org.techtown.find_gas_station.BuildConfig
-import org.techtown.find_gas_station.domain.model.oilAvg.OilAveragePriceInfo
+import org.techtown.find_gas_station.domain.areaprice.model.OilAveragePriceInfo
 import org.techtown.find_gas_station.presentation.di.ApiModule
 
 class GetOilAvgRepository() {

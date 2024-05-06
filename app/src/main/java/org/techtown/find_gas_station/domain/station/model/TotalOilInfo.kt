@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.domain.model
+package org.techtown.find_gas_station.domain.station.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

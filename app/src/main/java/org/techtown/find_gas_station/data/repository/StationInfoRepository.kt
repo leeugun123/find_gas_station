@@ -4,13 +4,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.BuildConfig
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.domain.model.TotalOilInfo
+import org.techtown.find_gas_station.domain.station.model.TotalOilInfo
 import org.techtown.find_gas_station.domain.kakao.Request.Destination
 import org.techtown.find_gas_station.domain.kakao.Request.DirectionRequest
 import org.techtown.find_gas_station.domain.kakao.Request.Origin
 import org.techtown.find_gas_station.domain.kakao.Response.DirectionResponse
 import org.techtown.find_gas_station.domain.kakao.Response.Route
-import org.techtown.find_gas_station.domain.model.oilDetail.GasStationDetailInfoResult
+import org.techtown.find_gas_station.domain.station.model.oilDetail.GasStationDetailInfoResult
 import org.techtown.find_gas_station.data.oilList.GasStationInfoResult
 import org.techtown.find_gas_station.presentation.di.ApiModule
 import org.techtown.find_gas_station.presentation.common.util.comparator.OilRoadDistanceComparator
