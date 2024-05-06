@@ -4,31 +4,32 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.BuildConfig
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.domain.station.model.TotalOilInfo
+import org.techtown.find_gas_station.data.oilList.GasStationInfoResult
 import org.techtown.find_gas_station.domain.kakao.Request.Destination
 import org.techtown.find_gas_station.domain.kakao.Request.DirectionRequest
 import org.techtown.find_gas_station.domain.kakao.Request.Origin
 import org.techtown.find_gas_station.domain.kakao.Response.DirectionResponse
 import org.techtown.find_gas_station.domain.kakao.Response.Route
+import org.techtown.find_gas_station.domain.station.model.TotalOilInfo
 import org.techtown.find_gas_station.domain.station.model.oilDetail.GasStationDetailInfoResult
-import org.techtown.find_gas_station.data.oilList.GasStationInfoResult
-import org.techtown.find_gas_station.presentation.di.ApiModule
+import org.techtown.find_gas_station.domain.station.repository.StationInfoRepository
 import org.techtown.find_gas_station.presentation.common.util.comparator.OilRoadDistanceComparator
 import org.techtown.find_gas_station.presentation.common.util.comparator.OilSpendTimeComparator
 import org.techtown.find_gas_station.presentation.common.util.gps.GeoTrans
 import org.techtown.find_gas_station.presentation.common.util.gps.GeoTransPoint
+import org.techtown.find_gas_station.presentation.di.ApiModule
 import java.util.Collections
 
-class StationInfoRepository {
+class StationInfoRepositoryImpl : StationInfoRepository {
 
-    private var tempList = mutableListOf<TotalOilInfo>()
+    override var tempList = mutableListOf<TotalOilInfo>()
 
-    private var wgsX = ""
-    private var wgsY = ""
+    override var wgsX: String? = ""
+    override var wgsY: String? = ""
 
-    fun getStationList() = tempList
+    override fun getStationList() = tempList
 
-    suspend fun requestStationList(
+    override suspend fun requestStationList(
         wgsX: String,
         wgsY: String,
         katecX: String,
@@ -110,7 +111,7 @@ class StationInfoRepository {
         else
             it.oilInfoListResult.oilInfoList
 
-    private suspend fun getStationDetail(
+    override suspend fun getStationDetail(
         sort: String,
         size: Int,
         uid: String,
@@ -197,7 +198,7 @@ class StationInfoRepository {
         val kakaoApiResponse = ApiModule.provideKakaoApi().getMultiDirections(
             DirectionRequest(
                 Origin(
-                    wgsX.toDouble(), wgsY.toDouble()
+                    wgsX!!.toDouble(), wgsY!!.toDouble()
                 ),
                 destinations, KAKAO_REQUEST_RADIUS
             )
