@@ -17,7 +17,7 @@ import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.FragmentOilAvgBinding
 import org.techtown.find_gas_station.presentation.ui.oilavginfo.OilAvgRecyclerAdapter
 import org.techtown.find_gas_station.presentation.ui.oilavginfo.OilAvgViewModel
-import org.techtown.find_gas_station.util.unitconverter.RidRoundMath
+import org.techtown.find_gas_station.presentation.common.util.convertor.RidRoundMath
 
 class OilAvgViewCreated {
 

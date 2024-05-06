@@ -14,12 +14,12 @@ import com.kakao.kakaonavi.options.VehicleType
 import com.kakao.sdk.navi.Constants.WEB_NAVI_INSTALL
 import com.kakao.sdk.navi.NaviClient
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.domain.stationsInfo.model.TotalOilInfo
 import org.techtown.find_gas_station.databinding.ItemRecyclerviewBinding
+import org.techtown.find_gas_station.domain.model.TotalOilInfo
 
 class StationInfoViewHolder(
     parent: ViewGroup,
-    totalOilInfoClick: (totalOilInfo : TotalOilInfo) -> Unit
+    totalOilInfoClick: (totalOilInfo: TotalOilInfo) -> Unit
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.item_recyclerview, parent, false)
 ) {
@@ -27,7 +27,7 @@ class StationInfoViewHolder(
     private val binding = ItemRecyclerviewBinding.bind(itemView)
 
     init {
-        binding.moveStationDetailBtnClick = {totalOilInfoClick(it)}
+        binding.moveStationDetailBtnClick = { totalOilInfoClick(it) }
     }
 
     fun bind(totalOilInfo: TotalOilInfo, sort: String) {

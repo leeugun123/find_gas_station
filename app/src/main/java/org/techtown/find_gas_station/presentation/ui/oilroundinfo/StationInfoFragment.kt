@@ -31,14 +31,14 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.domain.stationsInfo.model.TotalOilInfo
+import org.techtown.find_gas_station.domain.model.TotalOilInfo
 import org.techtown.find_gas_station.databinding.FragmentStationInfoBinding
-import org.techtown.find_gas_station.presentation.repeatOnStarted
-import org.techtown.find_gas_station.presentation.ui.BaseFragment
+import org.techtown.find_gas_station.presentation.common.extension.repeatOnStarted
+import org.techtown.find_gas_station.presentation.common.base.BaseFragment
 import org.techtown.find_gas_station.presentation.ui.oilroundinfo.oilroundrecyclerview.StationInfoAdapter
-import org.techtown.find_gas_station.util.gps.GeoTrans
-import org.techtown.find_gas_station.util.gps.GeoTransPoint
-import org.techtown.find_gas_station.util.gps.GpsTracker
+import org.techtown.find_gas_station.presentation.common.util.gps.GeoTrans
+import org.techtown.find_gas_station.presentation.common.util.gps.GeoTransPoint
+import org.techtown.find_gas_station.presentation.common.util.gps.GpsTracker
 
 @AndroidEntryPoint
 class StationInfoFragment :

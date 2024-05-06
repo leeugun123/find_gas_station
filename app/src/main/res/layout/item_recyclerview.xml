@@ -12,7 +12,7 @@
 
         <variable
             name="gasStationInfo"
-            type="org.techtown.find_gas_station.domain.stationsInfo.model.TotalOilInfo" />
+            type="org.techtown.find_gas_station.domain.model.TotalOilInfo" />
 
         <variable
             name="moveKakaoBtnClick"
@@ -20,7 +20,7 @@
 
         <variable
             name="moveStationDetailBtnClick"
-            type="kotlin.jvm.functions.Function1&lt;org.techtown.find_gas_station.data.TotalOilInfo, Unit>" />
+            type="kotlin.jvm.functions.Function1&lt;org.techtown.find_gas_station.domain.model.TotalOilInfo, Unit>" />
 
     </data>
 

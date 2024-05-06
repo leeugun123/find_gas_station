@@ -1,7 +1,7 @@
 package org.techtown.find_gas_station.data.repository
 
-import org.techtown.find_gas_station.domain.localdatabase.OilData
-import org.techtown.find_gas_station.domain.localdatabase.SetDao
+import org.techtown.find_gas_station.data.db.OilData
+import org.techtown.find_gas_station.data.db.SetDao
 
 class SetRepository(private val setDao: SetDao) {
 

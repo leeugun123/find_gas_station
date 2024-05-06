@@ -10,7 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.FragmentSettingBinding
-import org.techtown.find_gas_station.presentation.ui.BaseFragment
+import org.techtown.find_gas_station.presentation.common.base.BaseFragment
 import org.techtown.find_gas_station.presentation.ui.oilroundinfo.StationInfoViewModel
 
 class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment_setting) {

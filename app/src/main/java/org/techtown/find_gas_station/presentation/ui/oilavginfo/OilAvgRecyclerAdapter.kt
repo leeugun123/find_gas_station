@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import org.techtown.find_gas_station.domain.oilAvg.OilAveragePriceInfo
+import org.techtown.find_gas_station.domain.model.oilAvg.OilAveragePriceInfo
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.OilavgBinding
-import org.techtown.find_gas_station.util.unitconverter.RidRoundMath.roundStringToInteger
+import org.techtown.find_gas_station.presentation.common.util.convertor.RidRoundMath.roundStringToInteger
 import java.text.ParseException
 import java.text.SimpleDateFormat
 

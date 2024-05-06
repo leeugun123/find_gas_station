@@ -5,7 +5,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.FragmentOilAvgBinding
-import org.techtown.find_gas_station.presentation.ui.BaseFragment
+import org.techtown.find_gas_station.presentation.common.base.BaseFragment
 import org.techtown.find_gas_station.presentation.ui.oilavginfo.OilAvgViewModel
 
 class DieselFragment : BaseFragment<FragmentOilAvgBinding>(R.layout.fragment_oil_avg) {

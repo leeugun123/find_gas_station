@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import org.techtown.find_gas_station.domain.stationsInfo.model.TotalOilInfo
-import org.techtown.find_gas_station.data.repository.module.RepositoryModule
+import org.techtown.find_gas_station.domain.model.TotalOilInfo
+import org.techtown.find_gas_station.presentation.di.RepositoryModule
 
 class StationInfoViewModel() : ViewModel() {
 

@@ -2,20 +2,15 @@ package org.techtown.find_gas_station.presentation.ui.home
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.techtown.find_gas_station.domain.localdatabase.OilData
-import org.techtown.find_gas_station.domain.localdatabase.RoomDB
+import org.techtown.find_gas_station.data.db.OilData
+import org.techtown.find_gas_station.data.db.RoomDB
 import org.techtown.find_gas_station.data.repository.SetRepository
 
 class SetViewModel(application: Application) : AndroidViewModel(application) {
