@@ -2,7 +2,6 @@ package org.techtown.find_gas_station.presentation.ui.oilroundinfo.oilroundrecyc
 
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +14,7 @@ import com.kakao.kakaonavi.options.VehicleType
 import com.kakao.sdk.navi.Constants.WEB_NAVI_INSTALL
 import com.kakao.sdk.navi.NaviClient
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.data.TotalOilInfo
+import org.techtown.find_gas_station.domain.stationsInfo.model.TotalOilInfo
 import org.techtown.find_gas_station.databinding.ItemRecyclerviewBinding
 
 class StationInfoViewHolder(

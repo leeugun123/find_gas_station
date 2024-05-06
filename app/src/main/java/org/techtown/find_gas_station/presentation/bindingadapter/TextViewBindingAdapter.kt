@@ -3,7 +3,7 @@ package org.techtown.find_gas_station.presentation.bindingadapter
 import android.graphics.Color
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import org.techtown.find_gas_station.data.TotalOilInfo
+import org.techtown.find_gas_station.domain.stationsInfo.model.TotalOilInfo
 
 @BindingAdapter("sort", "totalOilInfo")
 fun TextView.setDistanceText(sort: String, totalOilInfo: TotalOilInfo) {

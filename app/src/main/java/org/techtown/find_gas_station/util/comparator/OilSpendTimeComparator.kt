@@ -1,6 +1,6 @@
 package org.techtown.find_gas_station.util.comparator
 
-import org.techtown.find_gas_station.data.TotalOilInfo
+import org.techtown.find_gas_station.domain.stationsInfo.model.TotalOilInfo
 
 
 class OilSpendTimeComparator : Comparator<TotalOilInfo> {
