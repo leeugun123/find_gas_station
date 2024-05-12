@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.domain.kakao.Request
+package org.techtown.find_gas_station.data.remote.model.station.kakao.request
 
 import com.google.gson.annotations.SerializedName
 

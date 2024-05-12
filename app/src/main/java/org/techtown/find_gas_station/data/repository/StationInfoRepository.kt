@@ -4,15 +4,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.techtown.find_gas_station.BuildConfig
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.data.oilList.GasStationInfoResult
-import org.techtown.find_gas_station.domain.kakao.Request.Destination
-import org.techtown.find_gas_station.domain.kakao.Request.DirectionRequest
-import org.techtown.find_gas_station.domain.kakao.Request.Origin
-import org.techtown.find_gas_station.domain.kakao.Response.DirectionResponse
-import org.techtown.find_gas_station.domain.kakao.Response.Route
-import org.techtown.find_gas_station.domain.station.model.TotalOilInfo
-import org.techtown.find_gas_station.domain.station.model.oilDetail.GasStationDetailInfoResult
-import org.techtown.find_gas_station.domain.station.repository.StationInfoRepository
+import org.techtown.find_gas_station.data.remote.model.station.GasStationInfoResult
+import org.techtown.find_gas_station.data.remote.model.station.TotalOilInfo
+import org.techtown.find_gas_station.data.remote.model.station.kakao.request.Destination
+import org.techtown.find_gas_station.data.remote.model.station.kakao.request.DirectionRequest
+import org.techtown.find_gas_station.data.remote.model.station.kakao.request.Origin
+import org.techtown.find_gas_station.data.remote.model.station.kakao.response.DirectionResponse
+import org.techtown.find_gas_station.data.remote.model.station.kakao.response.Route
+import org.techtown.find_gas_station.data.remote.model.station.oilDetail.GasStationDetailInfoResult
 import org.techtown.find_gas_station.presentation.common.util.comparator.OilRoadDistanceComparator
 import org.techtown.find_gas_station.presentation.common.util.comparator.OilSpendTimeComparator
 import org.techtown.find_gas_station.presentation.common.util.gps.GeoTrans
@@ -20,16 +19,16 @@ import org.techtown.find_gas_station.presentation.common.util.gps.GeoTransPoint
 import org.techtown.find_gas_station.presentation.di.ApiModule
 import java.util.Collections
 
-class StationInfoRepositoryImpl : StationInfoRepository {
+class StationInfoRepository {
 
-    override var tempList = mutableListOf<TotalOilInfo>()
+    var tempList = mutableListOf<TotalOilInfo>()
 
-    override var wgsX: String? = ""
-    override var wgsY: String? = ""
+    var wgsX: String? = ""
+    var wgsY: String? = ""
 
-    override fun getStationList() = tempList
+    fun getStationList() = tempList
 
-    override suspend fun requestStationList(
+    suspend fun requestStationList(
         wgsX: String,
         wgsY: String,
         katecX: String,
@@ -111,7 +110,7 @@ class StationInfoRepositoryImpl : StationInfoRepository {
         else
             it.oilInfoListResult.oilInfoList
 
-    override suspend fun getStationDetail(
+    suspend fun getStationDetail(
         sort: String,
         size: Int,
         uid: String,

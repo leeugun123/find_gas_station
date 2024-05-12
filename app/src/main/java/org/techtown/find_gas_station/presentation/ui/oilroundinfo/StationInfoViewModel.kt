@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import org.techtown.find_gas_station.domain.station.model.TotalOilInfo
+import org.techtown.find_gas_station.data.remote.model.station.TotalOilInfo
 import org.techtown.find_gas_station.presentation.di.RepositoryModule
 
 class StationInfoViewModel() : ViewModel() {
@@ -36,7 +36,6 @@ class StationInfoViewModel() : ViewModel() {
             )
 
     private val _oilList = MutableStateFlow<List<TotalOilInfo>>(emptyList())
-
     val oilList = _oilList.stateIn(
         initialValue = listOf(),
         started = SharingStarted.WhileSubscribed(5_000),

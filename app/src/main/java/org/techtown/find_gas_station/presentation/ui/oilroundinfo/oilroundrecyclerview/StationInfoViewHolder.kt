@@ -15,7 +15,7 @@ import com.kakao.sdk.navi.Constants.WEB_NAVI_INSTALL
 import com.kakao.sdk.navi.NaviClient
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.ItemRecyclerviewBinding
-import org.techtown.find_gas_station.domain.station.model.TotalOilInfo
+import org.techtown.find_gas_station.data.remote.model.station.TotalOilInfo
 
 class StationInfoViewHolder(
     parent: ViewGroup,

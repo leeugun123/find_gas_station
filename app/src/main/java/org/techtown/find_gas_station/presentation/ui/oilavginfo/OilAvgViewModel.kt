@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import org.techtown.find_gas_station.domain.stationavgprice.model.OilAveragePriceInfo
+import org.techtown.find_gas_station.data.remote.model.oilavg.OilAveragePriceInfo
 import org.techtown.find_gas_station.presentation.di.RepositoryModule
 
 class OilAvgViewModel() : ViewModel() {

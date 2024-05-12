@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.domain.stationavgprice.model
+package org.techtown.find_gas_station.data.remote.model.oilavg
 
 import com.google.gson.annotations.SerializedName
 
