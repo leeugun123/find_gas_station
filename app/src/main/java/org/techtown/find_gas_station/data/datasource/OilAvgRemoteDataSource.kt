@@ -8,12 +8,12 @@ import org.techtown.find_gas_station.presentation.di.ApiModule
 
 class OilAvgRemoteDataSource {
 
-    private val apiService = ApiModule.provideOpinetApi()
+    private val opinetApiService = ApiModule.provideOpinetApi()
 
-    fun getOilAvg(prodCd: String): Flow<List<OilAveragePriceInfo>> = flow {
-        val response = apiService.getAvgRecentPrice(BuildConfig.GAS_API_KEY, "json", prodCd)
+    suspend fun getOilAvg(prodCd: String) : List<OilAveragePriceInfo> {
+        val response = opinetApiService.getAvgRecentPrice(BuildConfig.GAS_API_KEY, "json", prodCd)
         if (response.isSuccessful) {
-            emit(response.body()!!.oilAveragePriceInfoResult.oilAveragePriceInfo)
+            return response.body()!!.oilAveragePriceInfoResult.oilAveragePriceInfo
         } else {
             throw Exception("Failed to fetch data")
         }
