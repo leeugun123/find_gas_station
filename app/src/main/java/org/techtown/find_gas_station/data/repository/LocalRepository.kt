@@ -1,9 +1,9 @@
 package org.techtown.find_gas_station.data.repository
 
-import org.techtown.find_gas_station.data.db.OilData
-import org.techtown.find_gas_station.data.db.SetDao
+import org.techtown.find_gas_station.data.local.model.OilData
+import org.techtown.find_gas_station.data.local.SetDao
 
-class SetRepository(private val setDao: SetDao) {
+class LocalRepository(private val setDao: SetDao) {
 
     suspend fun getOilLocalData() = setDao.getOilLocalData()
 

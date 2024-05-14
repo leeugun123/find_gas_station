@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.data.db
+package org.techtown.find_gas_station.data.local.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

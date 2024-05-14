@@ -1,11 +1,11 @@
-package org.techtown.find_gas_station.data.db
+package org.techtown.find_gas_station.data.local
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import org.techtown.find_gas_station.data.db.OilData
+import org.techtown.find_gas_station.data.local.model.OilData
 
 @Dao
 interface SetDao {
