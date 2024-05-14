@@ -9,9 +9,9 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import org.techtown.find_gas_station.data.db.OilData
-import org.techtown.find_gas_station.data.db.RoomDB
-import org.techtown.find_gas_station.data.repository.SetRepository
+import org.techtown.find_gas_station.data.local.model.OilData
+import org.techtown.find_gas_station.data.local.RoomDB
+import org.techtown.find_gas_station.data.repository.LocalRepository
 
 class SetViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -29,12 +29,12 @@ class SetViewModel(application: Application) : AndroidViewModel(application) {
         scope = viewModelScope
     )
 
-    private val setRepository: SetRepository
+    private val setRepository: LocalRepository
     // TODO("HilT로 변형)
 
     init {
         val oilDao = RoomDB.getAppDatabase(application).setDao()
-        setRepository = SetRepository(oilDao)
+        setRepository = LocalRepository(oilDao)
         requestLocalOilCondition()
     }
 

@@ -1,12 +1,11 @@
 package org.techtown.find_gas_station.presentation.di
 
-import org.techtown.find_gas_station.data.repository.GetOilAvgRepository
-import org.techtown.find_gas_station.data.repository.StationInfoRepositoryImpl
-
+import org.techtown.find_gas_station.data.repository.OilAvgRepository
+import org.techtown.find_gas_station.data.repository.StationInfoRepository
 
 object RepositoryModule {
-    fun provideStationInfoRepository() = StationInfoRepositoryImpl()
+    fun provideStationInfoRepository() = StationInfoRepository()
 
-    fun provideGetOilAvgRepository() = GetOilAvgRepository()
+    fun provideGetOilAvgRepository() = OilAvgRepository()
 
 }

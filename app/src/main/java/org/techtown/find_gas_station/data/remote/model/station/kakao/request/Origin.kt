@@ -1,0 +1,13 @@
+package org.techtown.find_gas_station.data.remote.model.station.kakao.request
+
+import com.google.gson.annotations.SerializedName
+
+class Origin(
+
+    @SerializedName("x")
+    private val x : Double,
+
+    @SerializedName("y")
+    private val y : Double
+
+)

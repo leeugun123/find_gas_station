@@ -14,7 +14,7 @@ import androidx.navigation.fragment.NavHostFragment
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.data.db.OilData
+import org.techtown.find_gas_station.data.local.model.OilData
 import org.techtown.find_gas_station.databinding.ActivityMainBinding
 import org.techtown.find_gas_station.presentation.ui.oilroundinfo.StationInfoViewModel
 

@@ -31,7 +31,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.domain.station.model.TotalOilInfo
+import org.techtown.find_gas_station.data.remote.model.station.TotalOilInfo
 import org.techtown.find_gas_station.databinding.FragmentStationInfoBinding
 import org.techtown.find_gas_station.presentation.common.extension.repeatOnStarted
 import org.techtown.find_gas_station.presentation.common.base.BaseFragment
