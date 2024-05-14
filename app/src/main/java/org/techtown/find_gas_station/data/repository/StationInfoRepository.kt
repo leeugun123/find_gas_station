@@ -39,7 +39,7 @@ class StationInfoRepository {
     ) {
 
         initWgsPos(wgsX, wgsY)
-        listClear()
+        clearList()
 
         val stationResponse = ApiModule.provideOpinetApi().getStationList(
             BuildConfig.GAS_API_KEY,
@@ -260,7 +260,7 @@ class StationInfoRepository {
             else -> "자동차 부탄"
         }
 
-    private fun listClear() {
+    private fun clearList() {
         tempList.clear()
     }
 
