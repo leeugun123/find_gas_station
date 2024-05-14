@@ -33,12 +33,12 @@ import kotlinx.coroutines.flow.collect
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.data.remote.model.station.TotalOilInfo
 import org.techtown.find_gas_station.databinding.FragmentStationInfoBinding
-import org.techtown.find_gas_station.presentation.common.extension.repeatOnStarted
 import org.techtown.find_gas_station.presentation.common.base.BaseFragment
-import org.techtown.find_gas_station.presentation.ui.oilroundinfo.oilroundrecyclerview.StationInfoAdapter
+import org.techtown.find_gas_station.presentation.common.extension.repeatOnStarted
 import org.techtown.find_gas_station.presentation.common.util.gps.GeoTrans
 import org.techtown.find_gas_station.presentation.common.util.gps.GeoTransPoint
 import org.techtown.find_gas_station.presentation.common.util.gps.GpsTracker
+import org.techtown.find_gas_station.presentation.ui.oilroundinfo.oilroundrecyclerview.StationInfoAdapter
 
 @AndroidEntryPoint
 class StationInfoFragment :
@@ -124,9 +124,10 @@ class StationInfoFragment :
 
     private fun observeOilList() {
         repeatOnStarted {
-            stationInfoViewModel.oilList.collect { list ->
-                syncStationUi(list)
-            }
+            stationInfoViewModel.stationList
+                .collect { list ->
+                    syncStationUi(list)
+                }
         }
     }
 
@@ -158,7 +159,7 @@ class StationInfoFragment :
                 wgsX,
                 wgsY,
                 katecPos.x.toString(),
-                katecPos.y.toString(),
+                katecPos.y.toString()
             )
         }
     }

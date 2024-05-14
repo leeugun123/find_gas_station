@@ -1,5 +1,8 @@
 package org.techtown.find_gas_station.data.repository
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.data.datasource.StationRemoteDataSource
 import org.techtown.find_gas_station.data.remote.model.station.GasStationInfoResult
@@ -17,16 +20,13 @@ import java.util.Collections
 
 class StationInfoRepository {
 
-
     private val stationRemoteDataSource = StationRemoteDataSource()
     var tempList = mutableListOf<TotalOilInfo>()
 
     var wgsX: String? = ""
     var wgsY: String? = ""
 
-    fun getStationList() = tempList
-
-    suspend fun requestStationList(
+    fun requestStationList(
         wgsX: String,
         wgsY: String,
         katecX: String,
@@ -34,7 +34,7 @@ class StationInfoRepository {
         radius: String,
         sort: String,
         oilKind: String
-    ) {
+    ): Flow<List<TotalOilInfo>> = flow {
         initWgsPos(wgsX, wgsY)
         listClear()
 
@@ -44,13 +44,22 @@ class StationInfoRepository {
         stationResponse?.oilInfoListResult?.oilInfoList?.let { oilInfoList ->
             if (oilInfoList.isNotEmpty()) {
                 handleStationListResponse(stationResponse, oilKind, sort)
+                emit(tempList)
+            } else {
+                emit(emptyList())
             }
-        }
+        } ?: emit(emptyList())
+    }.catch { e ->
+        emit(emptyList()) // 에러 발생 시 빈 리스트 반환
     }
 
     private fun initWgsPos(wgsX: String, wgsY: String) {
         this.wgsX = wgsX
         this.wgsY = wgsY
+    }
+
+    private fun listClear() {
+        tempList.clear()
     }
 
     private suspend fun handleStationListResponse(
@@ -156,10 +165,12 @@ class StationInfoRepository {
     }
 
     private suspend fun checkTempListSize(size: Int, sort: String) {
-        if ((tempList.size == size || tempList.size == KAKAO_API_PARAMETER_LIMIT) && (sort == "3" || sort == "4")) {
+        if (isKakaoApiRequired(size, sort))
             getStationKakaoApi(sort)
-        }
     }
+
+    private fun isKakaoApiRequired(size: Int, sort: String) =
+        ((tempList.size == size || tempList.size == KAKAO_API_PARAMETER_LIMIT) && (sort == "3" || sort == "4"))
 
     private suspend fun getStationKakaoApi(sort: String) {
         val destinations = arrayOfNulls<Destination>(tempList.size)
@@ -223,10 +234,6 @@ class StationInfoRepository {
         "B034" -> "고급 휘발유"
         "C004" -> "실내 등유"
         else -> "자동차 부탄"
-    }
-
-    private fun listClear() {
-        tempList.clear()
     }
 
     companion object {

@@ -7,6 +7,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
@@ -35,12 +37,8 @@ class StationInfoViewModel() : ViewModel() {
                 scope = viewModelScope
             )
 
-    private val _oilList = MutableStateFlow<List<TotalOilInfo>>(emptyList())
-    val oilList = _oilList.stateIn(
-        initialValue = listOf(),
-        started = SharingStarted.WhileSubscribed(5_000),
-        scope = viewModelScope
-    )
+    private val _stationList = MutableStateFlow<List<TotalOilInfo>>(emptyList())
+    val stationList: StateFlow<List<TotalOilInfo>> get() = _stationList
 
     var sortText = ""
 
@@ -50,7 +48,9 @@ class StationInfoViewModel() : ViewModel() {
 
     private val stationInfoRepository = RepositoryModule.provideStationInfoRepository()
 
-    fun requestOilList(wgsX: String, wgsY: String, katecX: String, katecY: String) {
+    fun requestOilList(
+        wgsX: String, wgsY: String, katecX: String, katecY: String
+    ) {
 
         viewModelScope.launch(Dispatchers.IO) {
 
@@ -64,14 +64,12 @@ class StationInfoViewModel() : ViewModel() {
                 oilCondition.radius,
                 oilCondition.sort,
                 oilCondition.oilKind
-            )
-
-            val getList = stationInfoRepository.getStationList()
-            _oilList.value = getList
+            ).catch { e -> }
+                .collect {
+                    _stationList.value = it
+                }
 
             setLoading(LoadingState.NOT_LOADING)
-
-            checkList(getList.size)
         }
     }
 
