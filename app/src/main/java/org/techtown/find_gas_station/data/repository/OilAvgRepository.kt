@@ -5,11 +5,11 @@ import org.techtown.find_gas_station.data.remote.model.oilavg.OilAveragePriceInf
 
 class OilAvgRepository() {
 
-    private val remoteDataSource = OilAvgRemoteDataSource()
+    private val oilAvgRemoteDataSource = OilAvgRemoteDataSource()
     private var oilAvgList: MutableList<OilAveragePriceInfo> = mutableListOf()
 
     suspend fun getOilAvg(prodCd: String): List<OilAveragePriceInfo> {
-        oilAvgList = remoteDataSource.getOilAvg(prodCd).toMutableList()
+        oilAvgList = oilAvgRemoteDataSource.getOilAvg(prodCd).toMutableList()
         return oilAvgList
     }
 }
