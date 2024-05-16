@@ -2,9 +2,7 @@ package org.techtown.find_gas_station.presentation.ui.oilroundinfo
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.pm.PackageManager
-import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
@@ -281,11 +279,7 @@ class StationInfoFragment :
             )
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private fun checkLocationServicesStatus() =
-        with(requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager) {
-            isProviderEnabled(LocationManager.GPS_PROVIDER) || isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-        }
+
 
     @SuppressLint("MissingPermission")
     override fun onStart() {
