@@ -91,15 +91,6 @@ class StationInfoFragment :
         checkFlag()
     }
 
-    private fun observeEmptyCheck() {
-        repeatOnStarted {
-            stationInfoViewModel.emptyCheck.collect { empty ->
-                if (empty)
-                    showEmptyMessage()
-            }
-        }
-    }
-
     private fun initLocationRequest() {
         LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
     }
@@ -109,42 +100,6 @@ class StationInfoFragment :
         binding.requestOilDataClick = ::getOilData
         binding.moveToSettingFragmentClick = ::navigateSettingFragment
         binding.stationInfoViewModel = stationInfoViewModel
-    }
-
-    private fun navigateSettingFragment() {
-        requireParentFragment().findNavController()
-            .navigate(R.id.action_mainFragment_to_settingFragment)
-    }
-
-    private fun checkFlag() {
-        if (stationInfoViewModel.conditionChangeFlag) {
-            requestRoundOilInfo()
-            stationInfoViewModel.conditionChangeFlag = false
-        }
-    }
-
-    private fun observeOilList() {
-        repeatOnStarted {
-            stationInfoViewModel.stationList
-                .collect { list ->
-                    syncStationUi(list)
-                }
-        }
-    }
-
-    private fun syncStationUi(oilList: List<TotalOilInfo>) {
-        binding.listRecycler.adapter =
-            StationInfoAdapter(
-                oilList,
-                mMap,
-                stationInfoViewModel.oilCondition.sort,
-                totalOilInfoClick = ::navigateToStationDetail
-            )
-    }
-
-    private fun requestRoundOilInfo() {
-        getOilData()
-        updateSortText()
     }
 
     private fun getOilData() {
@@ -169,6 +124,36 @@ class StationInfoFragment :
         gpsTracker = GpsTracker(requireContext())
     }
 
+    private fun navigateSettingFragment() {
+        requireParentFragment().findNavController()
+            .navigate(R.id.action_mainFragment_to_settingFragment)
+    }
+
+    private fun observeEmptyCheck() {
+        repeatOnStarted {
+            stationInfoViewModel.emptyCheck.collect { empty ->
+                if (empty)
+                    showEmptyMessage()
+            }
+        }
+    }
+
+    private fun showEmptyMessage() {
+        Toast.makeText(requireContext(), R.string.data_empty_message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun checkFlag() {
+        if (stationInfoViewModel.conditionChangeFlag) {
+            requestRoundOilInfo()
+            stationInfoViewModel.conditionChangeFlag = false
+        }
+    }
+
+    private fun requestRoundOilInfo() {
+        getOilData()
+        updateSortText()
+    }
+
     private fun updateSortText() {
         stationInfoViewModel.sortText = when (stationInfoViewModel.oilCondition.sort) {
             "1" -> requireContext().getString(R.string.sort_price)
@@ -177,17 +162,6 @@ class StationInfoFragment :
             "4" -> requireContext().getString(R.string.sort_spend_time)
             else -> ""
         }
-    }
-
-    private fun navigateToStationDetail(stationInfo: TotalOilInfo) {
-        val bundle = bundleOf("stationInfo" to stationInfo)
-
-        requireParentFragment().findNavController()
-            .navigate(R.id.action_mainFragment_to_stationDetailFragment, bundle)
-    }
-
-    private fun showEmptyMessage() {
-        Toast.makeText(requireContext(), R.string.data_empty_message, Toast.LENGTH_SHORT).show()
     }
 
     private fun transFormPoint(latitude: Float, longtitude: Float): GeoTransPoint {
@@ -208,6 +182,15 @@ class StationInfoFragment :
             )
         }
     }
+
+    private fun checkPermission() = ContextCompat.checkSelfPermission(
+        requireContext(),
+        Manifest.permission.ACCESS_FINE_LOCATION
+    ) == PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     override fun onMapReady(googleMap: GoogleMap) {
@@ -247,6 +230,32 @@ class StationInfoFragment :
         observeOilList()
     }
 
+    private fun observeOilList() {
+        repeatOnStarted {
+            stationInfoViewModel.stationList
+                .collect { list ->
+                    syncStationUi(list)
+                }
+        }
+    }
+
+    private fun syncStationUi(oilList: List<TotalOilInfo>) {
+        binding.listRecycler.adapter =
+            StationInfoAdapter(
+                oilList,
+                mMap,
+                stationInfoViewModel.oilCondition.sort,
+                totalOilInfoClick = ::navigateToStationDetail
+            )
+    }
+
+    private fun navigateToStationDetail(stationInfo: TotalOilInfo) {
+        val bundle = bundleOf("stationInfo" to stationInfo)
+
+        requireParentFragment().findNavController()
+            .navigate(R.id.action_mainFragment_to_stationDetailFragment, bundle)
+    }
+
     private fun handleLocationPermissionRequest() {
 
         if (ActivityCompat.shouldShowRequestPermissionRationale(
@@ -271,15 +280,6 @@ class StationInfoFragment :
                 PERMISSIONS_REQUEST_CODE
             )
     }
-
-    private fun checkPermission() = ContextCompat.checkSelfPermission(
-        requireContext(),
-        Manifest.permission.ACCESS_FINE_LOCATION
-    ) == PackageManager.PERMISSION_GRANTED &&
-            ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     private fun checkLocationServicesStatus() =
