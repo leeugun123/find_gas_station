@@ -93,8 +93,9 @@ class StationInfoFragment :
 
     private fun observeEmptyCheck() {
         repeatOnStarted {
-            stationInfoViewModel.emptyCheck.collect {
-                showEmptyMessage()
+            stationInfoViewModel.emptyCheck.collect { empty ->
+                if (empty)
+                    showEmptyMessage()
             }
         }
     }
@@ -304,6 +305,5 @@ class StationInfoFragment :
         private const val UPDATE_INTERVAL_MS = 1000 // 1초
         private const val FASTEST_UPDATE_INTERVAL_MS = 500 // 0.5초
         private const val PERMISSIONS_REQUEST_CODE = 100
-        private const val KAKAO_REQUEST_RADIUS = 10000
     }
 }
