@@ -121,7 +121,7 @@ class StationInfoFragment :
     }
 
     private fun initGpsTracker() {
-        gpsTracker = GpsTracker(requireActivity())
+        gpsTracker = GpsTracker(requireContext())
     }
 
     private fun navigateSettingFragment() {
