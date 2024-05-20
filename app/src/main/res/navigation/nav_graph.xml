@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="org.techtown.find_gas_station.presentation.MainFragment"
+        android:name="org.techtown.find_gas_station.presentation.ui.home.MainFragment"
         android:label="MainFragment"
         tools:layout="@layout/fragment_main">
         <action
@@ -42,12 +42,12 @@
 
     <fragment
         android:id="@+id/stationDetailFragment"
-        android:name="org.techtown.find_gas_station.presentation.ui.gasdetailinfo.StationDetailFragment"
+        android:name="org.techtown.find_gas_station.presentation.ui.oilroundinfo.gasdetailinfo.StationDetailFragment"
         android:label="StationDetailFragment"
         tools:layout="@layout/fragment_station_detail">
         <argument
             android:name="stationInfoArg"
-            app:argType="org.techtown.find_gas_station.data.TotalOilInfo" />
+            app:argType="org.techtown.find_gas_station.data.remote.model.station.TotalOilInfo" />
     </fragment>
 
 </navigation>

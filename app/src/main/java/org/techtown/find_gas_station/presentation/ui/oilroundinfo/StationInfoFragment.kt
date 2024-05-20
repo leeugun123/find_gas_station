@@ -2,12 +2,11 @@ package org.techtown.find_gas_station.presentation.ui.oilroundinfo
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.pm.PackageManager
-import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -18,6 +17,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
@@ -31,14 +31,14 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.data.TotalOilInfo
+import org.techtown.find_gas_station.data.remote.model.station.TotalOilInfo
 import org.techtown.find_gas_station.databinding.FragmentStationInfoBinding
-import org.techtown.find_gas_station.presentation.repeatOnStarted
-import org.techtown.find_gas_station.presentation.ui.BaseFragment
+import org.techtown.find_gas_station.presentation.common.base.BaseFragment
+import org.techtown.find_gas_station.presentation.common.extension.repeatOnStarted
+import org.techtown.find_gas_station.presentation.common.util.gps.GeoTrans
+import org.techtown.find_gas_station.presentation.common.util.gps.GeoTransPoint
+import org.techtown.find_gas_station.presentation.common.util.gps.GpsTracker
 import org.techtown.find_gas_station.presentation.ui.oilroundinfo.oilroundrecyclerview.StationInfoAdapter
-import org.techtown.find_gas_station.util.gps.GeoTrans
-import org.techtown.find_gas_station.util.gps.GeoTransPoint
-import org.techtown.find_gas_station.util.gps.GpsTracker
 
 @AndroidEntryPoint
 class StationInfoFragment :
@@ -56,7 +56,7 @@ class StationInfoFragment :
     private val mapFragment by lazy { SupportMapFragment.newInstance() }
     private val locationRequest by lazy {
         LocationRequest()
-            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+            .setPriority(PRIORITY_HIGH_ACCURACY)
             .setInterval(UPDATE_INTERVAL_MS.toLong())
             .setFastestInterval(FASTEST_UPDATE_INTERVAL_MS.toLong())
     }
@@ -91,14 +91,6 @@ class StationInfoFragment :
         checkFlag()
     }
 
-    private fun observeEmptyCheck() {
-        repeatOnStarted {
-            stationInfoViewModel.emptyCheck.collect {
-                showEmptyMessage()
-            }
-        }
-    }
-
     private fun initLocationRequest() {
         LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
     }
@@ -108,41 +100,6 @@ class StationInfoFragment :
         binding.requestOilDataClick = ::getOilData
         binding.moveToSettingFragmentClick = ::navigateSettingFragment
         binding.stationInfoViewModel = stationInfoViewModel
-    }
-
-    private fun navigateSettingFragment() {
-        requireParentFragment().findNavController()
-            .navigate(R.id.action_mainFragment_to_settingFragment)
-    }
-
-    private fun checkFlag() {
-        if (stationInfoViewModel.conditionChangeFlag) {
-            requestRoundOilInfo()
-            stationInfoViewModel.conditionChangeFlag = false
-        }
-    }
-
-    private fun observeOilList() {
-        repeatOnStarted {
-            stationInfoViewModel.oilList.collect { list ->
-                syncStationUi(list)
-            }
-        }
-    }
-
-    private fun syncStationUi(oilList: List<TotalOilInfo>) {
-        binding.listRecycler.adapter =
-            StationInfoAdapter(
-                oilList,
-                mMap,
-                stationInfoViewModel.oilCondition.sort,
-                totalOilInfoClick = ::navigateToStationDetail
-            )
-    }
-
-    private fun requestRoundOilInfo() {
-        getOilData()
-        updateSortText()
     }
 
     private fun getOilData() {
@@ -158,13 +115,43 @@ class StationInfoFragment :
                 wgsX,
                 wgsY,
                 katecPos.x.toString(),
-                katecPos.y.toString(),
+                katecPos.y.toString()
             )
         }
     }
 
     private fun initGpsTracker() {
         gpsTracker = GpsTracker(requireContext())
+    }
+
+    private fun navigateSettingFragment() {
+        requireParentFragment().findNavController()
+            .navigate(R.id.action_mainFragment_to_settingFragment)
+    }
+
+    private fun observeEmptyCheck() {
+        repeatOnStarted {
+            stationInfoViewModel.emptyCheck.collect { empty ->
+                if (empty)
+                    showEmptyMessage()
+            }
+        }
+    }
+
+    private fun showEmptyMessage() {
+        Toast.makeText(requireContext(), R.string.data_empty_message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun checkFlag() {
+        if (stationInfoViewModel.conditionChangeFlag) {
+            requestRoundOilInfo()
+            stationInfoViewModel.conditionChangeFlag = false
+        }
+    }
+
+    private fun requestRoundOilInfo() {
+        getOilData()
+        updateSortText()
     }
 
     private fun updateSortText() {
@@ -175,17 +162,6 @@ class StationInfoFragment :
             "4" -> requireContext().getString(R.string.sort_spend_time)
             else -> ""
         }
-    }
-
-    private fun navigateToStationDetail(stationInfo: TotalOilInfo) {
-        val bundle = bundleOf("stationInfo" to stationInfo)
-
-        requireParentFragment().findNavController()
-            .navigate(R.id.action_mainFragment_to_stationDetailFragment, bundle)
-    }
-
-    private fun showEmptyMessage() {
-        Toast.makeText(requireContext(), R.string.data_empty_message, Toast.LENGTH_SHORT).show()
     }
 
     private fun transFormPoint(latitude: Float, longtitude: Float): GeoTransPoint {
@@ -206,6 +182,15 @@ class StationInfoFragment :
             )
         }
     }
+
+    private fun checkPermission() = ContextCompat.checkSelfPermission(
+        requireContext(),
+        Manifest.permission.ACCESS_FINE_LOCATION
+    ) == PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     override fun onMapReady(googleMap: GoogleMap) {
@@ -245,6 +230,32 @@ class StationInfoFragment :
         observeOilList()
     }
 
+    private fun observeOilList() {
+        repeatOnStarted {
+            stationInfoViewModel.stationList
+                .collect { list ->
+                    syncStationUi(list)
+                }
+        }
+    }
+
+    private fun syncStationUi(oilList: List<TotalOilInfo>) {
+        binding.listRecycler.adapter =
+            StationInfoAdapter(
+                oilList,
+                mMap,
+                stationInfoViewModel.oilCondition.sort,
+                totalOilInfoClick = ::navigateToStationDetail
+            )
+    }
+
+    private fun navigateToStationDetail(stationInfo: TotalOilInfo) {
+        val bundle = bundleOf("stationInfo" to stationInfo)
+
+        requireParentFragment().findNavController()
+            .navigate(R.id.action_mainFragment_to_stationDetailFragment, bundle)
+    }
+
     private fun handleLocationPermissionRequest() {
 
         if (ActivityCompat.shouldShowRequestPermissionRationale(
@@ -270,21 +281,6 @@ class StationInfoFragment :
             )
     }
 
-    private fun checkPermission() = ContextCompat.checkSelfPermission(
-        requireContext(),
-        Manifest.permission.ACCESS_FINE_LOCATION
-    ) == PackageManager.PERMISSION_GRANTED &&
-            ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private fun checkLocationServicesStatus() =
-        with(requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager) {
-            isProviderEnabled(LocationManager.GPS_PROVIDER) || isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-        }
-
     @SuppressLint("MissingPermission")
     override fun onStart() {
         super.onStart()
@@ -303,6 +299,5 @@ class StationInfoFragment :
         private const val UPDATE_INTERVAL_MS = 1000 // 1초
         private const val FASTEST_UPDATE_INTERVAL_MS = 500 // 0.5초
         private const val PERMISSIONS_REQUEST_CODE = 100
-        private const val KAKAO_REQUEST_RADIUS = 10000
     }
 }

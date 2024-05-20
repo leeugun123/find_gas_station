@@ -3,45 +3,22 @@ package org.techtown.find_gas_station.presentation.ui.oilroundinfo
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import org.techtown.find_gas_station.data.TotalOilInfo
-import org.techtown.find_gas_station.data.repository.module.RepositoryModule
+import org.techtown.find_gas_station.data.remote.model.station.TotalOilInfo
+import org.techtown.find_gas_station.presentation.di.RepositoryModule
 
 class StationInfoViewModel() : ViewModel() {
 
-    private val _isLoading = MutableStateFlow(false)
-    val isLoading: StateFlow<Boolean>
-        get() = _isLoading.asStateFlow()
+    val isLoading = MutableStateFlow(false)
 
-    private val _emptyCheck = MutableStateFlow(false)
+    val emptyCheck = MutableStateFlow(false)
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val emptyCheck: Flow<Boolean>
-        get() = _emptyCheck
-            .flatMapLatest { value ->
-                flow {
-                    if (value && !isLoading.value) {
-                        emit(value)
-                    }
-                }
-            }
-
-    private val _oilList = MutableStateFlow<List<TotalOilInfo>>(emptyList())
-
-    val oilList = _oilList.stateIn(
-        initialValue = listOf(),
-        started = SharingStarted.WhileSubscribed(5_000),
-        scope = viewModelScope
-    )
+    private val _stationList = MutableStateFlow<List<TotalOilInfo>>(emptyList())
+    val stationList: StateFlow<List<TotalOilInfo>> get() = _stationList
 
     var sortText = ""
 
@@ -51,11 +28,13 @@ class StationInfoViewModel() : ViewModel() {
 
     private val stationInfoRepository = RepositoryModule.provideStationInfoRepository()
 
-    fun requestOilList(wgsX: String, wgsY: String, katecX: String, katecY: String) {
+    fun requestOilList(
+        wgsX: String, wgsY: String, katecX: String, katecY: String
+    ) {
 
         viewModelScope.launch(Dispatchers.IO) {
 
-            setLoading(true)
+            setLoading(LoadingState.LOADING)
 
             stationInfoRepository.requestStationList(
                 wgsX,
@@ -65,14 +44,20 @@ class StationInfoViewModel() : ViewModel() {
                 oilCondition.radius,
                 oilCondition.sort,
                 oilCondition.oilKind
-            )
+            ).catch { e -> }
+            .collect {
+                _stationList.value = it
+                checkList(it.size)
+            }
 
-            val getList = stationInfoRepository.getStationList()
-            _oilList.value = getList
+            setLoading(LoadingState.NOT_LOADING)
+        }
+    }
 
-            setLoading(false)
-
-            checkList(getList.size)
+    private fun setLoading(loadingState: LoadingState) {
+        when (loadingState) {
+            LoadingState.LOADING -> isLoading.value = true
+            LoadingState.NOT_LOADING -> isLoading.value = false
         }
     }
 
@@ -83,11 +68,7 @@ class StationInfoViewModel() : ViewModel() {
             setEmptyCheck(false)
     }
 
-    private fun setLoading(loading: Boolean) {
-        _isLoading.value = loading
-    }
-
     private fun setEmptyCheck(check: Boolean) {
-        _emptyCheck.value = check
+        emptyCheck.value = check
     }
 }

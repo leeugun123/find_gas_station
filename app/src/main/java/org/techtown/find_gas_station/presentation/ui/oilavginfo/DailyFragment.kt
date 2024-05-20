@@ -5,7 +5,7 @@ import android.view.View
 import com.google.android.material.tabs.TabLayoutMediator
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.FragmentDailyBinding
-import org.techtown.find_gas_station.presentation.ui.BaseFragment
+import org.techtown.find_gas_station.presentation.common.base.BaseFragment
 import org.techtown.find_gas_station.presentation.ui.oilavginfo.childFragment.ButaneFragment
 import org.techtown.find_gas_station.presentation.ui.oilavginfo.childFragment.DieselFragment
 import org.techtown.find_gas_station.presentation.ui.oilavginfo.childFragment.GasolineFragment

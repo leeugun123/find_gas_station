@@ -1,34 +1,32 @@
 package org.techtown.find_gas_station.data.repository
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import org.techtown.find_gas_station.BuildConfig
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.data.TotalOilInfo
-import org.techtown.find_gas_station.data.kakao.Request.Destination
-import org.techtown.find_gas_station.data.kakao.Request.DirectionRequest
-import org.techtown.find_gas_station.data.kakao.Request.Origin
-import org.techtown.find_gas_station.data.kakao.Response.DirectionResponse
-import org.techtown.find_gas_station.data.kakao.Response.Route
-import org.techtown.find_gas_station.data.oilDetail.GasStationDetailInfoResult
-import org.techtown.find_gas_station.data.oilList.GasStationInfoResult
-import org.techtown.find_gas_station.data.repository.module.ApiModule
-import org.techtown.find_gas_station.util.comparator.OilRoadDistanceComparator
-import org.techtown.find_gas_station.util.comparator.OilSpendTimeComparator
-import org.techtown.find_gas_station.util.gps.GeoTrans
-import org.techtown.find_gas_station.util.gps.GeoTransPoint
+import org.techtown.find_gas_station.data.datasource.StationRemoteDataSource
+import org.techtown.find_gas_station.data.remote.model.station.GasStationInfoResult
+import org.techtown.find_gas_station.data.remote.model.station.TotalOilInfo
+import org.techtown.find_gas_station.data.remote.model.station.kakao.request.Destination
+import org.techtown.find_gas_station.data.remote.model.station.kakao.request.Origin
+import org.techtown.find_gas_station.data.remote.model.station.kakao.response.DirectionResponse
+import org.techtown.find_gas_station.data.remote.model.station.kakao.response.Route
+import org.techtown.find_gas_station.data.remote.model.station.oilDetail.GasStationDetailInfoResult
+import org.techtown.find_gas_station.presentation.common.util.comparator.OilRoadDistanceComparator
+import org.techtown.find_gas_station.presentation.common.util.comparator.OilSpendTimeComparator
+import org.techtown.find_gas_station.presentation.common.util.gps.GeoTrans
+import org.techtown.find_gas_station.presentation.common.util.gps.GeoTransPoint
 import java.util.Collections
 
 class StationInfoRepository {
 
-    private var tempList = mutableListOf<TotalOilInfo>()
+    private val stationRemoteDataSource = StationRemoteDataSource()
+    var tempList = mutableListOf<TotalOilInfo>()
 
-    private var wgsX = ""
-    private var wgsY = ""
+    var wgsX: String? = ""
+    var wgsY: String? = ""
 
-    fun getStationList() = tempList
-
-    suspend fun requestStationList(
+    fun requestStationList(
         wgsX: String,
         wgsY: String,
         katecX: String,
@@ -36,25 +34,23 @@ class StationInfoRepository {
         radius: String,
         sort: String,
         oilKind: String
-    ) {
-
+    ): Flow<List<TotalOilInfo>> = flow {
         initWgsPos(wgsX, wgsY)
         listClear()
 
-        val stationResponse = ApiModule.provideOpinetApi().getStationList(
-            BuildConfig.GAS_API_KEY,
-            "json",
-            katecX,
-            katecY,
-            radius,
-            oilKind,
-            sort
-        )
+        val stationResponse =
+            stationRemoteDataSource.fetchStationList(katecX, katecY, radius, sort, oilKind)
 
-        if (stationResponse.isSuccessful) {
-            val size = stationResponse.body()?.oilInfoListResult?.oilInfoList?.size
-            apiSizeCheck(stationResponse.body(), size!!, oilKind, sort)
-        }
+        stationResponse?.oilInfoListResult?.oilInfoList?.let { oilInfoList ->
+            if (oilInfoList.isNotEmpty()) {
+                handleStationListResponse(stationResponse, oilKind, sort)
+                emit(tempList)
+            } else {
+                emit(emptyList())
+            }
+        } ?: emit(emptyList())
+    }.catch { e ->
+        emit(emptyList()) // 에러 발생 시 빈 리스트 반환
     }
 
     private fun initWgsPos(wgsX: String, wgsY: String) {
@@ -62,28 +58,19 @@ class StationInfoRepository {
         this.wgsY = wgsY
     }
 
-    private suspend fun apiSizeCheck(
-        oilResponse: GasStationInfoResult?,
-        size: Int,
-        oilKind: String,
-        sort: String
-    ) {
-        if (size > 0)
-            handleStationListResponse(oilResponse, oilKind, sort)
-    }// api 호출이 만료되면 빈 데이터가 들어옴. 따라서 만료되거나 점검하는지 체크하는 메소드
-
+    private fun listClear() {
+        tempList.clear()
+    }
 
     private suspend fun handleStationListResponse(
         gasStationData: GasStationInfoResult?,
         oilKind: String,
         sort: String
     ) {
-
         val result = gasStationData?.let { adjustSize(it) }
         val inputOil = getOilType(oilKind)
 
         result?.forEach { oilInfo ->
-
             val out = GeoTrans.convert(
                 GeoTrans.KATEC,
                 GeoTrans.GEO,
@@ -122,14 +109,11 @@ class StationInfoRepository {
         destinationX: Float,
         destinationY: Float
     ) {
+        val response = stationRemoteDataSource.fetchStationDetail(uid)
 
-        val response = withContext(Dispatchers.IO) {
-            ApiModule.provideOpinetApi().getStationDetail(BuildConfig.GAS_API_KEY, "json", uid)
-        }
-
-        if (response.isSuccessful)
+        response?.let {
             handleStationDetailResponse(
-                response.body(),
+                response,
                 sort,
                 size,
                 uid,
@@ -141,6 +125,7 @@ class StationInfoRepository {
                 destinationX,
                 destinationY
             )
+        }
     }
 
     private suspend fun handleStationDetailResponse(
@@ -149,7 +134,6 @@ class StationInfoRepository {
         imageResource: Int, destinationX: Float, destinationY: Float
     ) {
         gasStationDetailInfo?.let {
-
             val oilDetailInfo = it.gasStationDetailInfoResult.gasStationDetailInfo
 
             if (oilDetailInfo.isEmpty())
@@ -181,30 +165,24 @@ class StationInfoRepository {
     }
 
     private suspend fun checkTempListSize(size: Int, sort: String) {
-        if ((tempList.size == size || tempList.size == KAKAO_API_PARAMETER_LIMIT) &&
-            (sort == "3" || sort == "4")
-        )
+        if (isKakaoApiRequired(size, sort))
             getStationKakaoApi(sort)
     }
 
+    private fun isKakaoApiRequired(size: Int, sort: String) =
+        ((tempList.size == size || tempList.size == KAKAO_API_PARAMETER_LIMIT) && (sort == "3" || sort == "4"))
 
-    //카카오 api는 wgs 좌표를 사용
     private suspend fun getStationKakaoApi(sort: String) {
-
         val destinations = arrayOfNulls<Destination>(tempList.size)
         destinationsProcessing(destinations)
 
-        val kakaoApiResponse = ApiModule.provideKakaoApi().getMultiDirections(
-            DirectionRequest(
-                Origin(
-                    wgsX.toDouble(), wgsY.toDouble()
-                ),
-                destinations, KAKAO_REQUEST_RADIUS
-            )
+        val kakaoApiResponse = stationRemoteDataSource.fetchKakaoDirections(
+            Origin(wgsX!!.toDouble(), wgsY!!.toDouble()), destinations
         )
 
-        if (kakaoApiResponse.isSuccessful)
-            handleKakaoApiResponse(kakaoApiResponse.body(), sort)
+        kakaoApiResponse?.let {
+            handleKakaoApiResponse(it, sort)
+        }
     }
 
     private fun destinationsProcessing(destinations: Array<Destination?>) {
@@ -230,42 +208,35 @@ class StationInfoRepository {
         }
     }
 
-
     private fun checkRoadOrSpend(sort: String) {
-        if (sort == "4")
+        if (sort == "4") {
             Collections.sort(tempList, OilSpendTimeComparator())
-        else
+        } else {
             Collections.sort(tempList, OilRoadDistanceComparator())
+        }
     }
 
-    private fun getTrademarkImageResource(trademark: String) =
-        when (trademark) {
-            "SKE" -> R.drawable.sk
-            "GSC" -> R.drawable.gs
-            "HDO" -> R.drawable.hdoil
-            "SOL" -> R.drawable.so
-            "RTO", "RTX" -> R.drawable.rto
-            "NHO" -> R.drawable.nho
-            "E1G" -> R.drawable.e1
-            "SKG" -> R.drawable.skgas
-            else -> R.drawable.oil_2
-        }
+    private fun getTrademarkImageResource(trademark: String) = when (trademark) {
+        "SKE" -> R.drawable.sk
+        "GSC" -> R.drawable.gs
+        "HDO" -> R.drawable.hdoil
+        "SOL" -> R.drawable.so
+        "RTO", "RTX" -> R.drawable.rto
+        "NHO" -> R.drawable.nho
+        "E1G" -> R.drawable.e1
+        "SKG" -> R.drawable.skgas
+        else -> R.drawable.oil_2
+    }
 
-    private fun getOilType(oilKind: String) =
-        when (oilKind) {
-            "B027" -> "휘발유"
-            "D047" -> "경유"
-            "B034" -> "고급 휘발유"
-            "C004" -> "실내 등유"
-            else -> "자동차 부탄"
-        }
-
-    private fun listClear() {
-        tempList.clear()
+    private fun getOilType(oilKind: String) = when (oilKind) {
+        "B027" -> "휘발유"
+        "D047" -> "경유"
+        "B034" -> "고급 휘발유"
+        "C004" -> "실내 등유"
+        else -> "자동차 부탄"
     }
 
     companion object {
         private const val KAKAO_API_PARAMETER_LIMIT = 30
-        private const val KAKAO_REQUEST_RADIUS = 10000
     }
 }
