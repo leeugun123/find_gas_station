@@ -45,10 +45,10 @@ class StationInfoViewModel() : ViewModel() {
                 oilCondition.sort,
                 oilCondition.oilKind
             ).catch { e -> }
-                .collect {
-                    _stationList.value = it
-                    checkList(it.size)
-                }
+            .collect {
+                _stationList.value = it
+                checkList(it.size)
+            }
 
             setLoading(LoadingState.NOT_LOADING)
         }

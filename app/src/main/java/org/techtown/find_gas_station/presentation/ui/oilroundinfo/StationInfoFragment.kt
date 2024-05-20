@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -16,6 +17,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
@@ -54,7 +56,7 @@ class StationInfoFragment :
     private val mapFragment by lazy { SupportMapFragment.newInstance() }
     private val locationRequest by lazy {
         LocationRequest()
-            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+            .setPriority(PRIORITY_HIGH_ACCURACY)
             .setInterval(UPDATE_INTERVAL_MS.toLong())
             .setFastestInterval(FASTEST_UPDATE_INTERVAL_MS.toLong())
     }
@@ -119,7 +121,7 @@ class StationInfoFragment :
     }
 
     private fun initGpsTracker() {
-        gpsTracker = GpsTracker(requireContext())
+        gpsTracker = GpsTracker(requireActivity())
     }
 
     private fun navigateSettingFragment() {
@@ -278,8 +280,6 @@ class StationInfoFragment :
                 PERMISSIONS_REQUEST_CODE
             )
     }
-
-
 
     @SuppressLint("MissingPermission")
     override fun onStart() {
