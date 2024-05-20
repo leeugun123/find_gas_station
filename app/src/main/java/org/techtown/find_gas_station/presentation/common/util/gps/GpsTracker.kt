@@ -48,16 +48,6 @@ class GpsTracker(private val mContext: Context) : LocationListener {
                 return null
             }
 
-            if (isNetworkEnabled) {
-                locationManager!!.requestLocationUpdates(
-                    LocationManager.NETWORK_PROVIDER,
-                    MIN_TIME_BW_UPDATES,
-                    MIN_DISTANCE_CHANGE_FOR_UPDATES.toFloat(),
-                    this
-                )
-                location = locationManager!!.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-            }
-
             if (isGPSEnabled) {
                 locationManager!!.requestLocationUpdates(
                     LocationManager.GPS_PROVIDER,
