@@ -3,15 +3,10 @@ package org.techtown.find_gas_station.presentation.ui.oilroundinfo
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.techtown.find_gas_station.data.remote.model.station.TotalOilInfo
 import org.techtown.find_gas_station.presentation.di.RepositoryModule
@@ -20,22 +15,7 @@ class StationInfoViewModel() : ViewModel() {
 
     val isLoading = MutableStateFlow(false)
 
-    private val _emptyCheck = MutableStateFlow(false)
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val emptyCheck: StateFlow<Boolean>
-        get() = _emptyCheck
-            .flatMapLatest { value ->
-                flow {
-                    if (value && !isLoading.value) {
-                        emit(value)
-                    }
-                }
-            }.stateIn(
-                initialValue = false,
-                started = SharingStarted.WhileSubscribed(5_000),
-                scope = viewModelScope
-            )
+    val emptyCheck = MutableStateFlow(false)
 
     private val _stationList = MutableStateFlow<List<TotalOilInfo>>(emptyList())
     val stationList: StateFlow<List<TotalOilInfo>> get() = _stationList
@@ -65,9 +45,10 @@ class StationInfoViewModel() : ViewModel() {
                 oilCondition.sort,
                 oilCondition.oilKind
             ).catch { e -> }
-                .collect {
-                    _stationList.value = it
-                }
+            .collect {
+                _stationList.value = it
+                checkList(it.size)
+            }
 
             setLoading(LoadingState.NOT_LOADING)
         }
@@ -88,6 +69,6 @@ class StationInfoViewModel() : ViewModel() {
     }
 
     private fun setEmptyCheck(check: Boolean) {
-        _emptyCheck.value = check
+        emptyCheck.value = check
     }
 }
