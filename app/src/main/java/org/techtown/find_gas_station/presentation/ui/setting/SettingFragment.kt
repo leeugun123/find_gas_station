@@ -25,6 +25,8 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
             id: Long
         ) {
             (adapterView.getChildAt(0) as? TextView)?.setTextColor(Color.BLACK)
+            (adapterView.getChildAt(0) as? TextView)?.textSize = 11.0F
+
             val selectedItem = adapterView.getItemAtPosition(position).toString()
             changeValue(selectedItem)
         }
@@ -56,13 +58,14 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
     }
 
     private fun checkChange() {
-        if (stationInfoViewModel.oilCondition.sort != stationInfoViewModel.afterOilCondition.sort
-            || stationInfoViewModel.oilCondition.radius != stationInfoViewModel.afterOilCondition.radius
-            || stationInfoViewModel.oilCondition.oilKind != stationInfoViewModel.afterOilCondition.oilKind
-        )
+        if (checkCondition())
             stationInfoViewModel.conditionChangeFlag = true
     }
 
+    private fun checkCondition() =
+        stationInfoViewModel.oilCondition.sort != stationInfoViewModel.afterOilCondition.sort
+                || stationInfoViewModel.oilCondition.radius != stationInfoViewModel.afterOilCondition.radius
+                || stationInfoViewModel.oilCondition.oilKind != stationInfoViewModel.afterOilCondition.oilKind
 
     private fun initCheckConditionChange() {
         stationInfoViewModel.afterOilCondition = stationInfoViewModel.oilCondition.copy()
@@ -70,18 +73,41 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
 
     private fun changeValue(selectedItem: String) {
         when (selectedItem) {
-            "휘발유" -> stationInfoViewModel.oilCondition.oilKind = "B027"
-            "경유" -> stationInfoViewModel.oilCondition.oilKind = "D047"
-            "고급 휘발유" -> stationInfoViewModel.oilCondition.oilKind = "B034"
-            "실내 등유" -> stationInfoViewModel.oilCondition.oilKind = "C004"
-            "자동차 부탄" -> stationInfoViewModel.oilCondition.oilKind = "K015"
-            "1km" -> stationInfoViewModel.oilCondition.radius = "1000"
-            "3km" -> stationInfoViewModel.oilCondition.radius = "3000"
-            "5km" -> stationInfoViewModel.oilCondition.radius = "5000"
-            "가격순" -> stationInfoViewModel.oilCondition.sort = "1"
-            "직경 거리순" -> stationInfoViewModel.oilCondition.sort = "2"
-            "도로 거리순" -> stationInfoViewModel.oilCondition.sort = "3"
-            "소요 시간순" -> stationInfoViewModel.oilCondition.sort = "4"
+            requireContext().getString(R.string.gasoline) -> stationInfoViewModel.oilCondition.oilKind =
+                requireContext().getString(R.string.gasoline_code)
+
+            requireContext().getString(R.string.diesel_oil) -> stationInfoViewModel.oilCondition.oilKind =
+                requireContext().getString(R.string.diesel_oil_code)
+
+            requireContext().getString(R.string.premium_gasoline) -> stationInfoViewModel.oilCondition.oilKind =
+                requireContext().getString(R.string.premium_gasoline_code)
+
+            requireContext().getString(R.string.indoor_kerosene) -> stationInfoViewModel.oilCondition.oilKind =
+                requireContext().getString(R.string.indoor_kerosene_code)
+
+            requireContext().getString(R.string.car_butane) -> stationInfoViewModel.oilCondition.oilKind =
+                requireContext().getString(R.string.car_butane_code)
+
+            requireContext().getString(R.string.one_km) -> stationInfoViewModel.oilCondition.radius =
+                requireContext().getString(R.string.one_km_number)
+
+            requireContext().getString(R.string.three_km) -> stationInfoViewModel.oilCondition.radius =
+                requireContext().getString(R.string.three_km_number)
+
+            requireContext().getString(R.string.five_km) -> stationInfoViewModel.oilCondition.radius =
+                requireContext().getString(R.string.five_km_number)
+
+            requireContext().getString(R.string.sort_price) -> stationInfoViewModel.oilCondition.sort =
+                requireContext().getString(R.string.one)
+
+            requireContext().getString(R.string.sort_direct_distance) -> stationInfoViewModel.oilCondition.sort =
+                requireContext().getString(R.string.two)
+
+            requireContext().getString(R.string.sort_road_distance) -> stationInfoViewModel.oilCondition.sort =
+                requireContext().getString(R.string.three)
+
+            requireContext().getString(R.string.sort_spend_time) -> stationInfoViewModel.oilCondition.sort =
+                requireContext().getString(R.string.four)
         }
     }
 
@@ -103,11 +129,11 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
 
     private fun setOilKindAdapterSelection() {
         when (stationInfoViewModel.oilCondition.oilKind) {
-            "B027" -> typeSpinnerSelection(0)
-            "D047" -> typeSpinnerSelection(1)
-            "B034" -> typeSpinnerSelection(2)
-            "C004" -> typeSpinnerSelection(3)
-            "K015" -> typeSpinnerSelection(4)
+            requireContext().getString(R.string.gasoline_code) -> typeSpinnerSelection(0)
+            requireContext().getString(R.string.diesel_oil_code) -> typeSpinnerSelection(1)
+            requireContext().getString(R.string.premium_gasoline_code) -> typeSpinnerSelection(2)
+            requireContext().getString(R.string.indoor_kerosene_code) -> typeSpinnerSelection(3)
+            requireContext().getString(R.string.car_butane_code) -> typeSpinnerSelection(4)
         }
     }
 
@@ -117,9 +143,9 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
 
     private fun setDistanceAdapterSelection() {
         when (stationInfoViewModel.oilCondition.radius) {
-            "1000" -> distanceSpinnerSelection(0)
-            "3000" -> distanceSpinnerSelection(1)
-            "5000" -> distanceSpinnerSelection(2)
+            requireContext().getString(R.string.one_km_number) -> distanceSpinnerSelection(0)
+            requireContext().getString(R.string.three_km_number) -> distanceSpinnerSelection(1)
+            requireContext().getString(R.string.five_km_number) -> distanceSpinnerSelection(2)
         }
     }
 
@@ -129,10 +155,10 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
 
     private fun setSortAdapterSelection() {
         when (stationInfoViewModel.oilCondition.sort) {
-            "1" -> sortSpinnerSelection(0)
-            "2" -> sortSpinnerSelection(1)
-            "3" -> sortSpinnerSelection(2)
-            "4" -> sortSpinnerSelection(3)
+            requireContext().getString(R.string.one) -> sortSpinnerSelection(0)
+            requireContext().getString(R.string.two) -> sortSpinnerSelection(1)
+            requireContext().getString(R.string.three) -> sortSpinnerSelection(2)
+            requireContext().getString(R.string.four) -> sortSpinnerSelection(3)
         }
     }
 

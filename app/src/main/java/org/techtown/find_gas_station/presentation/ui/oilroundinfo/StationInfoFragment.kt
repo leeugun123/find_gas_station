@@ -156,10 +156,10 @@ class StationInfoFragment :
 
     private fun updateSortText() {
         stationInfoViewModel.sortText = when (stationInfoViewModel.oilCondition.sort) {
-            "1" -> requireContext().getString(R.string.sort_price)
-            "2" -> requireContext().getString(R.string.sort_direct_distance)
-            "3" -> requireContext().getString(R.string.sort_road_distance)
-            "4" -> requireContext().getString(R.string.sort_spend_time)
+            requireContext().getString(R.string.one) -> requireContext().getString(R.string.sort_price)
+            requireContext().getString(R.string.two) -> requireContext().getString(R.string.sort_direct_distance)
+            requireContext().getString(R.string.three) -> requireContext().getString(R.string.sort_road_distance)
+            requireContext().getString(R.string.four) -> requireContext().getString(R.string.sort_spend_time)
             else -> ""
         }
     }
