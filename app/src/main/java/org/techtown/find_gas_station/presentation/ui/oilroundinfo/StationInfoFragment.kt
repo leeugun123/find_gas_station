@@ -88,7 +88,7 @@ class StationInfoFragment :
 
         observeEmptyCheck()
 
-        checkFlag()
+        requestRoundOilInfo()
     }
 
     private fun initLocationRequest() {
@@ -134,6 +134,7 @@ class StationInfoFragment :
             stationInfoViewModel.emptyCheck.collect { empty ->
                 if (empty)
                     showEmptyMessage()
+                Log.e("TAG","observe됨.")
             }
         }
     }
@@ -142,14 +143,8 @@ class StationInfoFragment :
         Toast.makeText(requireContext(), R.string.data_empty_message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun checkFlag() {
-        if (stationInfoViewModel.conditionChangeFlag) {
-            requestRoundOilInfo()
-            stationInfoViewModel.conditionChangeFlag = false
-        }
-    }
-
     private fun requestRoundOilInfo() {
+        Log.e("TAG","requestRoundOilInfo")
         getOilData()
         updateSortText()
     }
