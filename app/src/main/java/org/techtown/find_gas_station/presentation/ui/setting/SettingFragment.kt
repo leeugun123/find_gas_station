@@ -25,7 +25,7 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
             id: Long
         ) {
             (adapterView.getChildAt(0) as? TextView)?.setTextColor(Color.BLACK)
-            (adapterView.getChildAt(0) as? TextView)?.textSize = 11.0F
+            (adapterView.getChildAt(0) as? TextView)?.textSize = 15.0F
 
             val selectedItem = adapterView.getItemAtPosition(position).toString()
             changeValue(selectedItem)
