@@ -39,9 +39,9 @@ class DailyFragment : BaseFragment<FragmentDailyBinding>(R.layout.fragment_daily
             tab.text = when (position) {
                 0 -> requireContext().getString(R.string.gasoline)
                 1 -> requireContext().getString(R.string.diesel_oil)
-                2 -> requireContext().getString(R.string.premium_gasoline_line)
+                2 -> requireContext().getString(R.string.premium_gasoline)
                 3 -> requireContext().getString(R.string.indoor_kerosene)
-                4 -> requireContext().getString(R.string.car_butane_line)
+                4 -> requireContext().getString(R.string.car_butane)
                 else -> throw IllegalArgumentException("Invalid position")
             }
         }.attach()
