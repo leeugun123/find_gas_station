@@ -27,6 +27,7 @@
             android:background="@color/white"
             app:itemBackground="@android:color/white"
             app:itemIconTint="@drawable/menu_selector_color"
+            app:itemTextAppearanceActive="@style/Widget.Design.BottomNavigationView"
             app:itemTextColor="@drawable/menu_selector_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

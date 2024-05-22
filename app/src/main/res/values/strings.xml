@@ -21,6 +21,11 @@
     <string name="car_wash_exist">세차장 유무</string>
     <string name="convenience_store_exist">편의점 유무</string>
 
+    <string name="one">1</string>
+    <string name="two">2</string>
+    <string name="three">3</string>
+    <string name="four">4</string>
+
     <string name="confirm">확인</string>
     <string name="require_location_permission_guide">"이 앱을 실행하려면 위치 접근 권한이 필요합니다."</string>
 
@@ -40,6 +45,11 @@
     <string name="conven_store">편의점</string>
 
     <!-- Price Intel 유가 평균 가격 정보 -->
+
+    <string name="recent_week">최근 일주일</string>
+    <string name="price">가격</string>
+
+
     <string name="gasoline">휘발유</string>
     <string name="diesel_oil">경유</string>
     <string name="premium_gasoline_line">고급\n휘발유</string>
@@ -59,6 +69,9 @@
     <string name="three_day_ago">3일전</string>
     <string name="two_day_ago">2일전</string>
     <string name="one_day_ago">1일전</string>
+
+    <string name="today_oil_price">오늘의 유가</string>
+    <string name="line">-</string>
 
     <!-- OilRepository -->
     <string name="ske">SKE</string>
@@ -81,6 +94,10 @@
     <string name="one_km">1km</string>
     <string name="three_km">3km</string>
     <string name="five_km">5km</string>
+
+    <string name="one_km_number">1000</string>
+    <string name="three_km_number">3000</string>
+    <string name="five_km_number">5000</string>
 
     <string-array name="oil_Type_Items">
         <item>휘발유</item>
