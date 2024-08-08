@@ -10,13 +10,13 @@ Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 android {
-    compileSdk 33
+    compileSdk 34
 
 
     defaultConfig {
         applicationId "com.roid.androidApp"
         minSdk 21
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode 44
         versionName "4.00"
 
