@@ -6,9 +6,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -35,6 +33,7 @@ import org.techtown.find_gas_station.data.remote.model.station.TotalOilInfo
 import org.techtown.find_gas_station.databinding.FragmentStationInfoBinding
 import org.techtown.find_gas_station.presentation.common.base.BaseFragment
 import org.techtown.find_gas_station.presentation.common.extension.repeatOnStarted
+import org.techtown.find_gas_station.presentation.common.extension.showToast
 import org.techtown.find_gas_station.presentation.common.util.gps.GeoTrans
 import org.techtown.find_gas_station.presentation.common.util.gps.GeoTransPoint
 import org.techtown.find_gas_station.presentation.common.util.gps.GpsTracker
@@ -133,18 +132,12 @@ class StationInfoFragment :
         repeatOnStarted {
             stationInfoViewModel.emptyCheck.collect { empty ->
                 if (empty)
-                    showEmptyMessage()
-                Log.e("TAG","observe됨.")
+                    showToast(R.string.data_empty_message.toString())
             }
         }
     }
 
-    private fun showEmptyMessage() {
-        Toast.makeText(requireContext(), R.string.data_empty_message, Toast.LENGTH_SHORT).show()
-    }
-
     private fun requestRoundOilInfo() {
-        Log.e("TAG","requestRoundOilInfo")
         getOilData()
         updateSortText()
     }
