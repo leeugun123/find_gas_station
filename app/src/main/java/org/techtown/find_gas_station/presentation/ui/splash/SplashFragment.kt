@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.FragmentSplashBinding
 import org.techtown.find_gas_station.presentation.common.base.BaseFragment
+import org.techtown.find_gas_station.presentation.common.extension.showToast
 
 class SplashFragment : BaseFragment<FragmentSplashBinding>(R.layout.fragment_splash) {
 
@@ -28,20 +29,16 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(R.layout.fragment_spl
     private fun splashAction() {
         lifecycleScope.launch(Dispatchers.Main) {
             delay(SPLASH_WAIT_TIME)
-            moveMainFragment()
+            navigateMainFragment()
         }
     }
 
-    private fun moveMainFragment() {
+    private fun navigateMainFragment() {
         findNavController().navigate(R.id.action_splashFragment_to_mainFragment)
     }
 
     private fun finishApp() {
-        Toast.makeText(
-            requireContext(),
-            requireContext().getString(R.string.access_denied),
-            Toast.LENGTH_SHORT
-        ).show()
+        showToast(requireContext().getString(R.string.access_denied))
         requireActivity().finish()
     }
 
