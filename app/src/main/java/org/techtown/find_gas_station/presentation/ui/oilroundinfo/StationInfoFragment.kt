@@ -81,14 +81,11 @@ class StationInfoFragment :
         childFragmentManager.beginTransaction()
             .replace(R.id.map, mapFragment)
             .commit()
-
         mapFragment.getMapAsync(this)
 
         initLocationRequest()
         initBinding()
-
         observeEmptyCheck()
-
         requestRoundOilInfo()
     }
 
@@ -197,11 +194,8 @@ class StationInfoFragment :
 
     @SuppressLint("MissingPermission")
     private fun applyMap() {
-
         mMap.apply {
-
             initGpsTracker()
-
             moveCamera(
                 CameraUpdateFactory.newLatLngZoom(
                     LatLng(
@@ -220,7 +214,6 @@ class StationInfoFragment :
             }
             setOnMapClickListener(GoogleMap.OnMapClickListener { })
         }
-
         observeOilList()
     }
 
