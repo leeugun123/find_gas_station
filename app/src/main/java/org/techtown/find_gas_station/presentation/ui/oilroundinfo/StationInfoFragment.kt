@@ -61,10 +61,12 @@ class StationInfoFragment :
     }
 
     private val locationCallback: LocationCallback = object : LocationCallback() {
-        override fun onLocationResult(locationResult: LocationResult) {}
+        override fun onLocationResult(locationResult: LocationResult) {
+            locationResult.lastLocation
+        }
     }
 
-    private lateinit var gpsTracker: GpsTracker
+    private var gpsTracker: GpsTracker? = null
     private lateinit var mMap: GoogleMap
 
     private val requiredPermission = arrayOf(
@@ -103,11 +105,14 @@ class StationInfoFragment :
 
     private fun getOilData() {
         if (!stationInfoViewModel.isLoading.value) {
-            initGpsTracker()
+
+            if (gpsTracker == null)
+                initGpsTracker()
+
             val katecPos =
                 transFormPoint(
-                    gpsTracker.getLatitude().toFloat(),
-                    gpsTracker.getLongitude().toFloat()
+                    gpsTracker?.getLatitude() ?: 0.0f,
+                    gpsTracker?.getLongitude() ?: 0.0f
                 )
 
             stationInfoViewModel.requestOilList(
@@ -196,11 +201,12 @@ class StationInfoFragment :
         mMap.apply {
 
             initGpsTracker()
+
             moveCamera(
                 CameraUpdateFactory.newLatLngZoom(
                     LatLng(
-                        gpsTracker.getLatitude(),
-                        gpsTracker.getLongitude()
+                        gpsTracker?.getLatitude()?.toDouble() ?: 0.0,
+                        gpsTracker?.getLongitude()?.toDouble() ?: 0.0
                     ), 15f
                 )
             )

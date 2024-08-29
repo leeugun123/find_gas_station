@@ -8,9 +8,13 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.core.content.ContextCompat
+import dagger.hilt.android.qualifiers.ApplicationContext
 
 class GpsTracker(private val mContext: Context) : LocationListener {
+
 
     private var locationManager: LocationManager? = null
     private var location: Location? = null
@@ -37,16 +41,16 @@ class GpsTracker(private val mContext: Context) : LocationListener {
                     mContext,
                     Manifest.permission.ACCESS_FINE_LOCATION
                 )
-            val coarseLocationPermission = ContextCompat.checkSelfPermission(
-                mContext,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            )
+
+            val coarseLocationPermission =
+                ContextCompat.checkSelfPermission(
+                    mContext,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
 
             if (fineLocationPermission != PackageManager.PERMISSION_GRANTED ||
                 coarseLocationPermission != PackageManager.PERMISSION_GRANTED
-            ) {
-                return null
-            }
+            ) { return null }
 
             if (isGPSEnabled) {
                 locationManager!!.requestLocationUpdates(
@@ -58,21 +62,23 @@ class GpsTracker(private val mContext: Context) : LocationListener {
                 location = locationManager!!.getLastKnownLocation(LocationManager.GPS_PROVIDER)
             }
 
-        } catch (e: Exception) {
-        }
+        } catch (e: Exception) { }
 
         return location
-
     }
 
-    fun getLatitude() = location?.latitude ?: 0.0
+    fun getLatitude() : Float {
+        return location?.latitude?.toFloat() ?: 0.0f
+    }
 
-    fun getLongitude() = location?.longitude ?: 0.0
-
-    override fun onLocationChanged(location: Location) {}
-    override fun onProviderDisabled(provider: String) {}
-    override fun onProviderEnabled(provider: String) {}
-    override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
+    fun getLongitude() : Float {
+        return location?.longitude?.toFloat() ?: 0.0f
+    }
+    override fun onLocationChanged(location: Location) {
+        Toast.makeText(mContext,"위치가 변경되었습니다.",Toast.LENGTH_SHORT).show()
+        this.location?.latitude = location.latitude
+        this.location?.longitude = location.longitude
+    }
 }
 
 private const val MIN_DISTANCE_CHANGE_FOR_UPDATES: Long = 10
