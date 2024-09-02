@@ -132,7 +132,7 @@ class StationInfoFragment :
 
     private fun observeEmptyCheck() {
         repeatOnStarted {
-            stationInfoViewModel.emptyCheck.collect { empty ->
+            stationInfoViewModel.isEmpty.collect { empty ->
                 if (empty)
                     showToast(R.string.data_empty_message.toString())
             }

@@ -14,15 +14,14 @@ import org.techtown.find_gas_station.presentation.di.RepositoryModule
 class StationInfoViewModel : ViewModel() {
 
     val isLoading = MutableStateFlow(false)
-
-    val emptyCheck = MutableStateFlow(false)
+    val isEmpty = MutableStateFlow(false)
 
     private val _stationList = MutableStateFlow<List<TotalOilInfo>>(emptyList())
     val stationList: StateFlow<List<TotalOilInfo>> get() = _stationList
 
     var sortText = ""
 
-    var conditionChangeFlag = true
+    var isConditionChange = true
     var oilCondition = OilCondition("1000", "1", "D047")
     var afterOilCondition = OilCondition("", "", "")
 
@@ -31,11 +30,8 @@ class StationInfoViewModel : ViewModel() {
     fun requestOilList(
         wgsX: String, wgsY: String, katecX: String, katecY: String
     ) {
-
         viewModelScope.launch(Dispatchers.IO) {
-
-            setLoading(LoadingState.LOADING)
-
+            syncLoading(LoadingState.LOADING)
             stationInfoRepository.requestStationList(
                 wgsX,
                 wgsY,
@@ -45,23 +41,22 @@ class StationInfoViewModel : ViewModel() {
                 oilCondition.sort,
                 oilCondition.oilKind
             ).catch { e -> }
-            .collect {
-                _stationList.value = it
-                setEmptyCheck(it.size)
+            .collect { listData ->
+                _stationList.value = listData
+                syncEmptyCheck(listData.size)
             }
-
-            setLoading(LoadingState.NOT_LOADING)
+            syncLoading(LoadingState.NOT_LOADING)
         }
     }
 
-    private fun setLoading(loadingState: LoadingState) {
+    private fun syncLoading(loadingState: LoadingState) {
         when (loadingState) {
             LoadingState.LOADING -> isLoading.value = true
             LoadingState.NOT_LOADING -> isLoading.value = false
         }
     }
 
-    private fun setEmptyCheck(size: Int) {
-        emptyCheck.value = size == 0
+    private fun syncEmptyCheck(size: Int) {
+        isEmpty.value = size == 0
     }
 }

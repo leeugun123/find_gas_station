@@ -59,7 +59,7 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
 
     private fun checkChange() {
         if (checkCondition())
-            stationInfoViewModel.conditionChangeFlag = true
+            stationInfoViewModel.isConditionChange = true
     }
 
     private fun checkCondition() =
