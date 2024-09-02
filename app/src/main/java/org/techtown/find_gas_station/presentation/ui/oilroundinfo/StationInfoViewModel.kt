@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import org.techtown.find_gas_station.data.remote.model.station.TotalOilInfo
 import org.techtown.find_gas_station.presentation.di.RepositoryModule
 
-class StationInfoViewModel() : ViewModel() {
+class StationInfoViewModel : ViewModel() {
 
     val isLoading = MutableStateFlow(false)
 
@@ -47,7 +47,7 @@ class StationInfoViewModel() : ViewModel() {
             ).catch { e -> }
             .collect {
                 _stationList.value = it
-                checkList(it.size)
+                setEmptyCheck(it.size)
             }
 
             setLoading(LoadingState.NOT_LOADING)
@@ -61,14 +61,7 @@ class StationInfoViewModel() : ViewModel() {
         }
     }
 
-    private fun checkList(size: Int) {
-        if (size == 0)
-            setEmptyCheck(true)
-        else
-            setEmptyCheck(false)
-    }
-
-    private fun setEmptyCheck(check: Boolean) {
-        emptyCheck.value = check
+    private fun setEmptyCheck(size: Int) {
+        emptyCheck.value = size == 0
     }
 }
