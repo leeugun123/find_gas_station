@@ -53,13 +53,8 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
     }
 
     private fun goBack() {
-        checkChange()
+        stationInfoViewModel.isConditionChange = checkCondition()
         findNavController().popBackStack()
-    }
-
-    private fun checkChange() {
-        if (checkCondition())
-            stationInfoViewModel.conditionChangeFlag = true
     }
 
     private fun checkCondition() =

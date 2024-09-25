@@ -6,9 +6,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -35,6 +33,7 @@ import org.techtown.find_gas_station.data.remote.model.station.TotalOilInfo
 import org.techtown.find_gas_station.databinding.FragmentStationInfoBinding
 import org.techtown.find_gas_station.presentation.common.base.BaseFragment
 import org.techtown.find_gas_station.presentation.common.extension.repeatOnStarted
+import org.techtown.find_gas_station.presentation.common.extension.showToast
 import org.techtown.find_gas_station.presentation.common.util.gps.GeoTrans
 import org.techtown.find_gas_station.presentation.common.util.gps.GeoTransPoint
 import org.techtown.find_gas_station.presentation.common.util.gps.GpsTracker
@@ -62,10 +61,12 @@ class StationInfoFragment :
     }
 
     private val locationCallback: LocationCallback = object : LocationCallback() {
-        override fun onLocationResult(locationResult: LocationResult) {}
+        override fun onLocationResult(locationResult: LocationResult) {
+            locationResult.lastLocation
+        }
     }
 
-    private lateinit var gpsTracker: GpsTracker
+    private var gpsTracker: GpsTracker? = null
     private lateinit var mMap: GoogleMap
 
     private val requiredPermission = arrayOf(
@@ -80,15 +81,14 @@ class StationInfoFragment :
         childFragmentManager.beginTransaction()
             .replace(R.id.map, mapFragment)
             .commit()
-
         mapFragment.getMapAsync(this)
 
         initLocationRequest()
         initBinding()
-
         observeEmptyCheck()
 
-        requestRoundOilInfo()
+        if(stationInfoViewModel.localGasStationList.isEmpty() || stationInfoViewModel.isConditionChange)
+            requestStationInfo()
     }
 
     private fun initLocationRequest() {
@@ -104,11 +104,14 @@ class StationInfoFragment :
 
     private fun getOilData() {
         if (!stationInfoViewModel.isLoading.value) {
-            initGpsTracker()
+
+            if (gpsTracker == null)
+                initGpsTracker()
+
             val katecPos =
                 transFormPoint(
-                    gpsTracker.getLatitude().toFloat(),
-                    gpsTracker.getLongitude().toFloat()
+                    gpsTracker?.getLatitude() ?: 0.0f,
+                    gpsTracker?.getLongitude() ?: 0.0f
                 )
 
             stationInfoViewModel.requestOilList(
@@ -131,30 +134,24 @@ class StationInfoFragment :
 
     private fun observeEmptyCheck() {
         repeatOnStarted {
-            stationInfoViewModel.emptyCheck.collect { empty ->
+            stationInfoViewModel.isEmpty.collect { empty ->
                 if (empty)
-                    showEmptyMessage()
-                Log.e("TAG","observe됨.")
+                    showToast(R.string.data_empty_message.toString())
             }
         }
     }
 
-    private fun showEmptyMessage() {
-        Toast.makeText(requireContext(), R.string.data_empty_message, Toast.LENGTH_SHORT).show()
-    }
-
-    private fun requestRoundOilInfo() {
-        Log.e("TAG","requestRoundOilInfo")
+    private fun requestStationInfo() {
         getOilData()
         updateSortText()
     }
 
     private fun updateSortText() {
         stationInfoViewModel.sortText = when (stationInfoViewModel.oilCondition.sort) {
-            requireContext().getString(R.string.one) -> requireContext().getString(R.string.sort_price)
-            requireContext().getString(R.string.two) -> requireContext().getString(R.string.sort_direct_distance)
-            requireContext().getString(R.string.three) -> requireContext().getString(R.string.sort_road_distance)
-            requireContext().getString(R.string.four) -> requireContext().getString(R.string.sort_spend_time)
+            getString(R.string.one) -> getString(R.string.sort_price)
+            getString(R.string.two) -> getString(R.string.sort_direct_distance)
+            getString(R.string.three) -> getString(R.string.sort_road_distance)
+            getString(R.string.four) -> getString(R.string.sort_spend_time)
             else -> ""
         }
     }
@@ -199,15 +196,13 @@ class StationInfoFragment :
 
     @SuppressLint("MissingPermission")
     private fun applyMap() {
-
         mMap.apply {
-
             initGpsTracker()
             moveCamera(
                 CameraUpdateFactory.newLatLngZoom(
                     LatLng(
-                        gpsTracker.getLatitude(),
-                        gpsTracker.getLongitude()
+                        gpsTracker?.getLatitude()?.toDouble() ?: 0.0,
+                        gpsTracker?.getLongitude()?.toDouble() ?: 0.0
                     ), 15f
                 )
             )
@@ -221,7 +216,6 @@ class StationInfoFragment :
             }
             setOnMapClickListener(GoogleMap.OnMapClickListener { })
         }
-
         observeOilList()
     }
 
@@ -230,11 +224,15 @@ class StationInfoFragment :
             stationInfoViewModel.stationList
                 .collect { list ->
                     syncStationUi(list)
+                    stationInfoViewModel.localGasStationList = list
                 }
         }
     }
 
     private fun syncStationUi(oilList: List<TotalOilInfo>) {
+
+
+
         binding.listRecycler.adapter =
             StationInfoAdapter(
                 oilList,
@@ -246,7 +244,6 @@ class StationInfoFragment :
 
     private fun navigateToStationDetail(stationInfo: TotalOilInfo) {
         val bundle = bundleOf("stationInfo" to stationInfo)
-
         requireParentFragment().findNavController()
             .navigate(R.id.action_mainFragment_to_stationDetailFragment, bundle)
     }

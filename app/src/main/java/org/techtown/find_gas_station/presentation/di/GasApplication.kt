@@ -10,10 +10,6 @@ import org.techtown.find_gas_station.BuildConfig
 class GasApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        initKakaoApiSdk()
-    }
-
-    private fun initKakaoApiSdk() {
         KakaoSdk.init(this, "{" + BuildConfig.KAKAO_API_KEY + "}")
     }
 }
