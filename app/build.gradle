@@ -17,7 +17,7 @@ android {
         applicationId "com.roid.androidApp"
         minSdk 21
         targetSdkVersion 34
-        versionCode 44
+        versionCode 45
         versionName "4.00"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
