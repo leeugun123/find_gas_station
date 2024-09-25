@@ -19,11 +19,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(R.layout.fragment_spl
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-            if (isGranted) {
-                splashAction()
-            } else {
-                finishApp()
-            }
+            if (isGranted) splashAction() else finishApp()
         }
 
     private fun splashAction() {

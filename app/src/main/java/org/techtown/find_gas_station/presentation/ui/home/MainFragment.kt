@@ -17,16 +17,11 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initChildFragment()
+        addFragments()
         initBottomNavigationBar()
     }
 
-    private fun initChildFragment() {
-        addFragments()
-    }
-
     private fun addFragments() {
-
         if (homeFragmentManager.findFragmentByTag(OIL_FRAGMENT_TAG) != null ||
             homeFragmentManager.findFragmentByTag(DAILY_FRAGMENT_TAG) != null
         )

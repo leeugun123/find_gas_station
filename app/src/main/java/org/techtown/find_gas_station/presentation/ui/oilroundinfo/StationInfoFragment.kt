@@ -230,9 +230,6 @@ class StationInfoFragment :
     }
 
     private fun syncStationUi(oilList: List<TotalOilInfo>) {
-
-
-
         binding.listRecycler.adapter =
             StationInfoAdapter(
                 oilList,

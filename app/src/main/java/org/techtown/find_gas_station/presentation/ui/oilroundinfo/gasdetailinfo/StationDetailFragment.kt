@@ -48,21 +48,16 @@ class StationDetailFragment :
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-
         detailMap = googleMap
-
         detailMap.apply {
-
             val initDetailMapPos =
                 LatLng(stationInfo.wgs84Y.toDouble(), stationInfo.wgs84X.toDouble())
             moveCamera(CameraUpdateFactory.newLatLngZoom(initDetailMapPos, 18f))
-
             uiSettings.apply {
                 isZoomControlsEnabled = true
                 isZoomGesturesEnabled = true
                 isMyLocationButtonEnabled = true
             }
-
         }
         initMap()
     }
