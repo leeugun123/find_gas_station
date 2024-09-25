@@ -86,7 +86,9 @@ class StationInfoFragment :
         initLocationRequest()
         initBinding()
         observeEmptyCheck()
-        requestRoundOilInfo()
+
+        if(stationInfoViewModel.localGasStationList.isEmpty() || stationInfoViewModel.isConditionChange)
+            requestStationInfo()
     }
 
     private fun initLocationRequest() {
@@ -139,7 +141,7 @@ class StationInfoFragment :
         }
     }
 
-    private fun requestRoundOilInfo() {
+    private fun requestStationInfo() {
         getOilData()
         updateSortText()
     }
@@ -222,11 +224,15 @@ class StationInfoFragment :
             stationInfoViewModel.stationList
                 .collect { list ->
                     syncStationUi(list)
+                    stationInfoViewModel.localGasStationList = list
                 }
         }
     }
 
     private fun syncStationUi(oilList: List<TotalOilInfo>) {
+
+
+
         binding.listRecycler.adapter =
             StationInfoAdapter(
                 oilList,
@@ -238,7 +244,6 @@ class StationInfoFragment :
 
     private fun navigateToStationDetail(stationInfo: TotalOilInfo) {
         val bundle = bundleOf("stationInfo" to stationInfo)
-
         requireParentFragment().findNavController()
             .navigate(R.id.action_mainFragment_to_stationDetailFragment, bundle)
     }
