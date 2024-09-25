@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -18,6 +19,7 @@ import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.data.remote.model.station.TotalOilInfo
 import org.techtown.find_gas_station.databinding.FragmentStationDetailBinding
 import org.techtown.find_gas_station.presentation.common.base.BaseFragment
+import org.techtown.find_gas_station.presentation.ui.oilroundinfo.StationInfoViewModel
 
 class StationDetailFragment :
     BaseFragment<FragmentStationDetailBinding>(R.layout.fragment_station_detail),
@@ -25,9 +27,11 @@ class StationDetailFragment :
 
     private lateinit var detailMap: GoogleMap
     private val stationInfo: TotalOilInfo by lazy { requireArguments().getParcelable("stationInfo")!! }
+    private val stationInfoViewModel: StationInfoViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        stationInfoViewModel.isConditionChange = false
         initBinding()
         initMapFragment()
     }
