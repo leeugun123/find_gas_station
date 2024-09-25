@@ -86,9 +86,7 @@ class StationInfoFragment :
         initLocationRequest()
         initBinding()
         observeEmptyCheck()
-
-        if(stationInfoViewModel.localGasStationList.isEmpty() || stationInfoViewModel.isConditionChange)
-            requestStationInfo()
+        checkGetStationInfoCondition()
     }
 
     private fun initLocationRequest() {
@@ -139,6 +137,11 @@ class StationInfoFragment :
                     showToast(R.string.data_empty_message.toString())
             }
         }
+    }
+
+    private fun checkGetStationInfoCondition() {
+        if (stationInfoViewModel.localGasStationList.isEmpty() || stationInfoViewModel.isConditionChange)
+            requestStationInfo()
     }
 
     private fun requestStationInfo() {
@@ -230,9 +233,6 @@ class StationInfoFragment :
     }
 
     private fun syncStationUi(oilList: List<TotalOilInfo>) {
-
-
-
         binding.listRecycler.adapter =
             StationInfoAdapter(
                 oilList,

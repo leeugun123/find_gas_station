@@ -75,7 +75,7 @@ class GpsTracker(private val mContext: Context) : LocationListener {
         return location?.longitude?.toFloat() ?: 0.0f
     }
     override fun onLocationChanged(location: Location) {
-        Toast.makeText(mContext,"위치가 변경되었습니다.",Toast.LENGTH_SHORT).show()
+        // Toast.makeText(mContext,"위치가 변경되었습니다.",Toast.LENGTH_SHORT).show()
         this.location?.latitude = location.latitude
         this.location?.longitude = location.longitude
     }

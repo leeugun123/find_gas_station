@@ -124,28 +124,20 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
 
     private fun setOilKindAdapterSelection() {
         when (stationInfoViewModel.oilCondition.oilKind) {
-            requireContext().getString(R.string.gasoline_code) -> typeSpinnerSelection(0)
-            requireContext().getString(R.string.diesel_oil_code) -> typeSpinnerSelection(1)
-            requireContext().getString(R.string.premium_gasoline_code) -> typeSpinnerSelection(2)
-            requireContext().getString(R.string.indoor_kerosene_code) -> typeSpinnerSelection(3)
-            requireContext().getString(R.string.car_butane_code) -> typeSpinnerSelection(4)
+            requireContext().getString(R.string.gasoline_code) -> binding.typeSpinner.setSelection(0)
+            requireContext().getString(R.string.diesel_oil_code) -> binding.typeSpinner.setSelection(1)
+            requireContext().getString(R.string.premium_gasoline_code) -> binding.typeSpinner.setSelection(2)
+            requireContext().getString(R.string.indoor_kerosene_code) -> binding.typeSpinner.setSelection(3)
+            requireContext().getString(R.string.car_butane_code) -> binding.typeSpinner.setSelection(4)
         }
-    }
-
-    private fun typeSpinnerSelection(idx: Int) {
-        binding.typeSpinner.setSelection(idx)
     }
 
     private fun setDistanceAdapterSelection() {
         when (stationInfoViewModel.oilCondition.radius) {
-            requireContext().getString(R.string.one_km_number) -> distanceSpinnerSelection(0)
-            requireContext().getString(R.string.three_km_number) -> distanceSpinnerSelection(1)
-            requireContext().getString(R.string.five_km_number) -> distanceSpinnerSelection(2)
+            requireContext().getString(R.string.one_km_number) -> binding.distanceSpinner.setSelection(0)
+            requireContext().getString(R.string.three_km_number) -> binding.distanceSpinner.setSelection(1)
+            requireContext().getString(R.string.five_km_number) -> binding.distanceSpinner.setSelection(2)
         }
-    }
-
-    private fun distanceSpinnerSelection(idx: Int) {
-        binding.distanceSpinner.setSelection(idx)
     }
 
     private fun setSortAdapterSelection() {
