@@ -3,16 +3,14 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        jcenter() // Warning: this repository is going to shut down soon
+        /*
         maven {
             url 'http://devrepo.kakao.com:8088/nexus/content/groups/public/'
             allowInsecureProtocol = true //add this line
-
-        }
+        }*/
         maven {
             url "https://jitpack.io"
         }
-
     }
 }
 rootProject.name = "find_gas_station"

@@ -5,13 +5,7 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.kakao.sdk.navi.Constants.WEB_NAVI_INSTALL
-import com.kakao.sdk.navi.NaviClient
-import com.kakao.sdk.navi.model.CoordType
-import com.kakao.sdk.navi.model.Location
-import com.kakao.sdk.navi.model.NaviOption
-import com.kakao.sdk.navi.model.RpOption
-import com.kakao.sdk.navi.model.VehicleType
+
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.data.remote.model.station.TotalOilInfo
 import org.techtown.find_gas_station.databinding.ItemRecyclerviewBinding
@@ -36,13 +30,15 @@ class StationInfoViewHolder(
     }
 
     private fun checkKakaoInstall(totalOilInfo: TotalOilInfo) {
-        if (NaviClient.instance.isKakaoNaviInstalled(itemView.context))
+
+       /* if (NaviClient.instance.isKakaoNaviInstalled(itemView.context))
             moveToKakaoApp(totalOilInfo)
         else
-            moveToKakaoWebView()
+            moveToKakaoWebView()*/
     }
 
     private fun moveToKakaoApp(totalOilInfo: TotalOilInfo) {
+        /*
         val destination = Location(
             totalOilInfo.name,
             totalOilInfo.wgs84X.toString(),
@@ -58,16 +54,19 @@ class StationInfoViewHolder(
                     rpOption = RpOption.FAST
                 )
             )
-        )
+        )*/
     }
 
     private fun moveToKakaoWebView() {
+        /*
         itemView.context.startActivity(
             Intent(
                 Intent.ACTION_VIEW,
                 Uri.parse(WEB_NAVI_INSTALL)
             ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         )
+
+         */
     }
 
 }
