@@ -1,10 +1,8 @@
 package org.techtown.find_gas_station.data.datasource
 
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import org.techtown.find_gas_station.BuildConfig
 import org.techtown.find_gas_station.data.remote.model.oilavg.OilAveragePriceInfo
-import org.techtown.find_gas_station.presentation.di.ApiModule
+import org.techtown.find_gas_station.di.ApiModule
 
 class OilAvgRemoteDataSource {
 

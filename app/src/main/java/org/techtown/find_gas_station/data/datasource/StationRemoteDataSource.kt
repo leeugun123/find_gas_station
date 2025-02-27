@@ -7,7 +7,7 @@ import org.techtown.find_gas_station.data.remote.model.station.kakao.request.Dir
 import org.techtown.find_gas_station.data.remote.model.station.kakao.request.Origin
 import org.techtown.find_gas_station.data.remote.model.station.kakao.response.DirectionResponse
 import org.techtown.find_gas_station.data.remote.model.station.oilDetail.GasStationDetailInfoResult
-import org.techtown.find_gas_station.presentation.di.ApiModule
+import org.techtown.find_gas_station.di.ApiModule
 
 class StationRemoteDataSource {
 

@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.techtown.find_gas_station.data.remote.model.station.TotalOilInfo
-import org.techtown.find_gas_station.presentation.di.RepositoryModule
+import org.techtown.find_gas_station.di.RepositoryModule
 
 class StationInfoViewModel : ViewModel() {
 

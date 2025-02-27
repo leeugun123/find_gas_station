@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.presentation.di
+package org.techtown.find_gas_station.di
 
 import com.google.gson.GsonBuilder
 import org.techtown.find_gas_station.data.remote.api.KakaoApi
