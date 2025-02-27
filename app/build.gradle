@@ -52,8 +52,8 @@ android {
 
 dependencies {
 
-    implementation "com.kakao.sdk:v2-all:2.11.0"
-    implementation "com.kakao.sdk:v2-navi:2.11.0" // 카카오내비
+    implementation "com.kakao.sdk:v2-all:2.20.0"
+    implementation "com.kakao.sdk:v2-navi:2.20.0" // 카카오내비
     // 전체 모듈 설치, 2.11.0 버전부터 지원
 
     implementation 'androidx.appcompat:appcompat:1.4.2'

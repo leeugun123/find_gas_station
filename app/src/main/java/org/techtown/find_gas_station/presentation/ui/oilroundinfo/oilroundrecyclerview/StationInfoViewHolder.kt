@@ -5,17 +5,16 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.kakao.kakaonavi.KakaoNaviParams
-import com.kakao.kakaonavi.KakaoNaviService
-import com.kakao.kakaonavi.NaviOptions
-import com.kakao.kakaonavi.options.CoordType
-import com.kakao.kakaonavi.options.RpOption
-import com.kakao.kakaonavi.options.VehicleType
 import com.kakao.sdk.navi.Constants.WEB_NAVI_INSTALL
 import com.kakao.sdk.navi.NaviClient
+import com.kakao.sdk.navi.model.CoordType
+import com.kakao.sdk.navi.model.Location
+import com.kakao.sdk.navi.model.NaviOption
+import com.kakao.sdk.navi.model.RpOption
+import com.kakao.sdk.navi.model.VehicleType
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.databinding.ItemRecyclerviewBinding
 import org.techtown.find_gas_station.data.remote.model.station.TotalOilInfo
+import org.techtown.find_gas_station.databinding.ItemRecyclerviewBinding
 
 class StationInfoViewHolder(
     parent: ViewGroup,
@@ -44,21 +43,22 @@ class StationInfoViewHolder(
     }
 
     private fun moveToKakaoApp(totalOilInfo: TotalOilInfo) {
-        val destination = com.kakao.kakaonavi.Location.newBuilder(
+        val destination = Location(
             totalOilInfo.name,
-            totalOilInfo.wgs84X.toDouble(),
-            totalOilInfo.wgs84Y.toDouble()
-        ).build()
+            totalOilInfo.wgs84X.toString(),
+            totalOilInfo.wgs84Y.toString()
+        )
 
-        val options = NaviOptions.newBuilder().setCoordType(CoordType.WGS84)
-            .setVehicleType(VehicleType.FIRST)
-            .setRpOption(RpOption.FAST).build()
-
-        val params = KakaoNaviParams.newBuilder(destination)
-            .setNaviOptions(options)
-            .build()
-
-        KakaoNaviService.getInstance().navigate(itemView.context, params)
+        itemView.context.startActivity(
+            NaviClient.instance.navigateIntent(
+                destination,
+                NaviOption(
+                    coordType = CoordType.WGS84,
+                    vehicleType = VehicleType.FIRST,
+                    rpOption = RpOption.FAST
+                )
+            )
+        )
     }
 
     private fun moveToKakaoWebView() {
