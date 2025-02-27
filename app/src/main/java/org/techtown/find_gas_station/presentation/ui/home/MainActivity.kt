@@ -11,11 +11,11 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.data.local.model.OilData
+import org.techtown.find_gas_station.data.toEntity
 import org.techtown.find_gas_station.databinding.ActivityMainBinding
+import org.techtown.find_gas_station.domain.model.OilCondition
 import org.techtown.find_gas_station.presentation.ui.oilroundinfo.StationInfoViewModel
 
 
@@ -87,11 +87,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateOilCondition() {
         setViewModel.updateData(
-            OilData(
+            OilCondition(
                 stationInfoViewModel.oilCondition.oilKind,
                 stationInfoViewModel.oilCondition.radius,
                 stationInfoViewModel.oilCondition.sort,
-            )
+            ).toEntity()
         )
     }
 

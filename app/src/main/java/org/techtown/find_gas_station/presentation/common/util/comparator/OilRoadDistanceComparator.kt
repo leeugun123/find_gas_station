@@ -1,6 +1,6 @@
 package org.techtown.find_gas_station.presentation.common.util.comparator
 
-import org.techtown.find_gas_station.data.remote.model.station.TotalOilInfo
+import org.techtown.find_gas_station.domain.model.TotalOilInfo
 
 
 class OilRoadDistanceComparator : Comparator<TotalOilInfo> {

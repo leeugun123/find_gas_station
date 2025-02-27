@@ -1,13 +1,11 @@
 package org.techtown.find_gas_station.presentation.ui.oilroundinfo.oilroundrecyclerview
 
-import android.content.Intent
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.data.remote.model.station.TotalOilInfo
+import org.techtown.find_gas_station.domain.model.TotalOilInfo
 import org.techtown.find_gas_station.databinding.ItemRecyclerviewBinding
 
 class StationInfoViewHolder(

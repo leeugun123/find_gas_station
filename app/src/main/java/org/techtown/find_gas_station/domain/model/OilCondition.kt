@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.presentation.ui.oilroundinfo
+package org.techtown.find_gas_station.domain.model
 
 data class OilCondition(
     var radius : String = "1000",

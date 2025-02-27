@@ -27,9 +27,8 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.data.remote.model.station.TotalOilInfo
+import org.techtown.find_gas_station.domain.model.TotalOilInfo
 import org.techtown.find_gas_station.databinding.FragmentStationInfoBinding
 import org.techtown.find_gas_station.presentation.common.base.BaseFragment
 import org.techtown.find_gas_station.presentation.common.extension.repeatOnStarted
@@ -112,7 +111,7 @@ class StationInfoFragment :
                     gpsTracker?.getLongitude() ?: 0.0f
                 )
 
-            stationInfoViewModel.requestOilList(
+            stationInfoViewModel.requestStationList(
                 wgsX,
                 wgsY,
                 katecPos.x.toString(),

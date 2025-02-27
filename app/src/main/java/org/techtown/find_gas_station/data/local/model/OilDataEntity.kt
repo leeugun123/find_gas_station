@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 
 @Entity
-data class OilData(
+data class OilDataEntity(
     @ColumnInfo(name = "oilName")
     var oilName: String? = "",// 기름 종류
 

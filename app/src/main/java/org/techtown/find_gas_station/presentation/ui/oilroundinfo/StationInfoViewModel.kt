@@ -5,10 +5,10 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import org.techtown.find_gas_station.data.remote.model.station.TotalOilInfo
-import org.techtown.find_gas_station.di.RepositoryModule
+import org.techtown.find_gas_station.domain.model.TotalOilInfo
+import org.techtown.find_gas_station.domain.model.OilCondition
+import org.techtown.find_gas_station.domain.usecase.RequestStationListUseCase
 
 class StationInfoViewModel : ViewModel() {
 
@@ -19,30 +19,30 @@ class StationInfoViewModel : ViewModel() {
     val stationList: StateFlow<List<TotalOilInfo>> get() = _stationList
 
     var sortText = ""
-
     var isConditionChange = false
+
     var oilCondition = OilCondition("1000", "1", "D047")
     var afterOilCondition = OilCondition("", "", "")
 
     var localGasStationList: List<TotalOilInfo> = emptyList()
 
-    private val stationInfoRepository = RepositoryModule.provideStationInfoRepository()
+    private val requestStationUseCase : RequestStationListUseCase = RequestStationListUseCase()
 
-    fun requestOilList(
+    fun requestStationList(
         wgsX: String, wgsY: String, katecX: String, katecY: String
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             syncLoading(LoadingState.LOADING)
-            stationInfoRepository.requestStationList(
+
+            requestStationUseCase.invoke(
                 wgsX,
                 wgsY,
                 katecX,
                 katecY,
-                oilCondition.radius,
-                oilCondition.sort,
-                oilCondition.oilKind
+                oilCondition
             ).collect { listData ->
                 _stationList.value = listData
+
                 syncIsEmpty(listData.size)
                 syncLoading(LoadingState.COMPLETE)
             }

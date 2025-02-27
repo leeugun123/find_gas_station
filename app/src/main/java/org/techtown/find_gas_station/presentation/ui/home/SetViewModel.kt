@@ -9,15 +9,15 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import org.techtown.find_gas_station.data.local.model.OilData
 import org.techtown.find_gas_station.data.local.RoomDB
+import org.techtown.find_gas_station.data.local.model.OilDataEntity
 import org.techtown.find_gas_station.data.repository.LocalRepository
 
 class SetViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val _roomDbOilCondition = MutableStateFlow(OilData("B027", "1000", "1"))
+    private val _roomDbOilCondition = MutableStateFlow(OilDataEntity("B027", "1000", "1"))
     val roomDbOilCondition = _roomDbOilCondition.filterNotNull().stateIn(
-        initialValue = OilData("B027", "1000", "1"),
+        initialValue = OilDataEntity("B027", "1000", "1"),
         started = SharingStarted.WhileSubscribed(5_000),
         scope = viewModelScope
     )
@@ -44,10 +44,10 @@ class SetViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun updateData(set: OilData) {
+    fun updateData(oilDataEntity: OilDataEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             setRepository.deleteAll()
-            setRepository.insert(set)
+            setRepository.insert(oilDataEntity)
             _updateComplete.value = true
         }
     }

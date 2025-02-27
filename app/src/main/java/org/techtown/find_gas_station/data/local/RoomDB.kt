@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import org.techtown.find_gas_station.data.local.model.OilData
+import org.techtown.find_gas_station.data.local.model.OilDataEntity
 
-@Database(entities = [OilData::class], version = 2, exportSchema = false)
+@Database(entities = [OilDataEntity::class], version = 2, exportSchema = false)
 abstract class RoomDB : RoomDatabase() {
 
     abstract fun setDao(): SetDao

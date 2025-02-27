@@ -6,19 +6,20 @@ import kotlinx.coroutines.flow.flow
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.data.datasource.StationRemoteDataSource
 import org.techtown.find_gas_station.data.remote.model.station.GasStationInfoResult
-import org.techtown.find_gas_station.data.remote.model.station.TotalOilInfo
+import org.techtown.find_gas_station.domain.model.TotalOilInfo
 import org.techtown.find_gas_station.data.remote.model.station.kakao.request.Destination
 import org.techtown.find_gas_station.data.remote.model.station.kakao.request.Origin
 import org.techtown.find_gas_station.data.remote.model.station.kakao.response.DirectionResponse
 import org.techtown.find_gas_station.data.remote.model.station.kakao.response.Route
 import org.techtown.find_gas_station.data.remote.model.station.oilDetail.GasStationDetailInfoResult
+import org.techtown.find_gas_station.domain.repositoy.StationInfoRepository
 import org.techtown.find_gas_station.presentation.common.util.comparator.OilRoadDistanceComparator
 import org.techtown.find_gas_station.presentation.common.util.comparator.OilSpendTimeComparator
 import org.techtown.find_gas_station.presentation.common.util.gps.GeoTrans
 import org.techtown.find_gas_station.presentation.common.util.gps.GeoTransPoint
 import java.util.Collections
 
-class StationInfoRepository {
+class StationInfoRepositoryImpl : StationInfoRepository {
 
     private val stationRemoteDataSource = StationRemoteDataSource()
     var tempList = mutableListOf<TotalOilInfo>()
@@ -26,7 +27,7 @@ class StationInfoRepository {
     var wgsX: String? = ""
     var wgsY: String? = ""
 
-    fun requestStationList(
+    override fun requestStationList(
         wgsX: String,
         wgsY: String,
         katecX: String,

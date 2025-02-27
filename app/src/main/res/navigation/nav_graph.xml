@@ -47,7 +47,7 @@
         tools:layout="@layout/fragment_station_detail">
         <argument
             android:name="stationInfoArg"
-            app:argType="org.techtown.find_gas_station.data.remote.model.station.TotalOilInfo" />
+            app:argType="org.techtown.find_gas_station.domain.model.TotalOilInfo" />
     </fragment>
 
 </navigation>
