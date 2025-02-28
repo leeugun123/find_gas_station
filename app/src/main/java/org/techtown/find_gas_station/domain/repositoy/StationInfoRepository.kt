@@ -4,7 +4,6 @@ import kotlinx.coroutines.flow.Flow
 import org.techtown.find_gas_station.domain.model.TotalOilInfo
 
 interface StationInfoRepository {
-
     fun requestStationList(
         wgsX: String,
         wgsY: String,

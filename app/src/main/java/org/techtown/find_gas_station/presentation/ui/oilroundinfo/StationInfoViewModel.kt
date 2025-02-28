@@ -26,6 +26,25 @@ class StationInfoViewModel : ViewModel() {
 
     var localGasStationList: List<TotalOilInfo> = emptyList()
 
+    var stationDetailInfo = TotalOilInfo(
+        "",
+        "",
+        "",
+        "",
+        "",
+        0,
+        0f,
+        0f,
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+    )
+
     private val requestStationUseCase : RequestStationListUseCase = RequestStationListUseCase()
 
     fun requestStationList(
@@ -33,7 +52,6 @@ class StationInfoViewModel : ViewModel() {
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             syncLoading(LoadingState.LOADING)
-
             requestStationUseCase.invoke(
                 wgsX,
                 wgsY,
@@ -42,7 +60,6 @@ class StationInfoViewModel : ViewModel() {
                 oilCondition
             ).collect { listData ->
                 _stationList.value = listData
-
                 syncIsEmpty(listData.size)
                 syncLoading(LoadingState.COMPLETE)
             }

@@ -2,7 +2,7 @@ package org.techtown.find_gas_station.data.remote.model.oilavg
 
 import com.google.gson.annotations.SerializedName
 
-data class OilAveragePriceInfo(
+data class OilAveragePriceInfoDto(
 
     @SerializedName("DATE")
     val date : String,
