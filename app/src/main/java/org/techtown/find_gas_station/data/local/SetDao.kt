@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import org.techtown.find_gas_station.data.local.model.OilConditionEntity
+import org.techtown.find_gas_station.data.local.entity.OilConditionEntity
 
 @Dao
 interface SetDao {

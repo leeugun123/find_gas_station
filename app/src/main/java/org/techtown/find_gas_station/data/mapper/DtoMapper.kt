@@ -1,4 +1,4 @@
-package org.techtown.find_gas_station.data
+package org.techtown.find_gas_station.data.mapper
 
 import org.techtown.find_gas_station.data.remote.model.oilavg.OilAveragePriceInfoDto
 import org.techtown.find_gas_station.domain.model.OilAveragePriceInfo
