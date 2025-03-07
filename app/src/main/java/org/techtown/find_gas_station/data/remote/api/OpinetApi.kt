@@ -1,8 +1,8 @@
 package org.techtown.find_gas_station.data.remote.api
 
-import org.techtown.find_gas_station.data.remote.model.station.GasStationInfoResult
 import org.techtown.find_gas_station.data.remote.model.oilavg.OilAveragePriceInfoResult
-import org.techtown.find_gas_station.data.remote.model.station.oilDetail.GasStationDetailInfoResult
+import org.techtown.find_gas_station.data.remote.model.station.detail.GasStationDetailInfoResult
+import org.techtown.find_gas_station.data.remote.model.station.infomation.GasStationInfoResult
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

@@ -10,3 +10,11 @@ fun OilCondition.toEntity() : OilDataEntity{
         oilSort = this.sort
     )
 }
+
+fun OilDataEntity.toDomain() : OilCondition{
+    return OilCondition(
+        oilKind = this.oilName ?: "",
+        radius = this.oilRad ?: "",
+        sort = this.oilSort ?: ""
+    )
+}

@@ -9,15 +9,20 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import org.techtown.find_gas_station.data.local.RoomDB
-import org.techtown.find_gas_station.data.local.model.OilDataEntity
-import org.techtown.find_gas_station.data.repository.LocalRepository
+import org.techtown.find_gas_station.domain.model.OilCondition
+import org.techtown.find_gas_station.domain.usecase.GetLocalOilConditionUseCase
+import org.techtown.find_gas_station.domain.usecase.UpdateLocalOilConditionUseCase
 
 class SetViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val _roomDbOilCondition = MutableStateFlow(OilDataEntity("B027", "1000", "1"))
+    private val getLocalOilConditionUseCase : GetLocalOilConditionUseCase
+        = GetLocalOilConditionUseCase()
+    private val updateLocalOilCondition : UpdateLocalOilConditionUseCase
+        = UpdateLocalOilConditionUseCase()
+
+    private val _roomDbOilCondition = MutableStateFlow(OilCondition("B027", "1000", "1"))
     val roomDbOilCondition = _roomDbOilCondition.filterNotNull().stateIn(
-        initialValue = OilDataEntity("B027", "1000", "1"),
+        initialValue = OilCondition("B027", "1000", "1"),
         started = SharingStarted.WhileSubscribed(5_000),
         scope = viewModelScope
     )
@@ -29,25 +34,19 @@ class SetViewModel(application: Application) : AndroidViewModel(application) {
         scope = viewModelScope
     )
 
-    private val setRepository: LocalRepository
-    // TODO("HilT로 변형)
-
     init {
-        val oilDao = RoomDB.getAppDatabase(application).setDao()
-        setRepository = LocalRepository(oilDao)
         requestLocalOilCondition()
     }
 
     private fun requestLocalOilCondition() {
         viewModelScope.launch(Dispatchers.IO) {
-            _roomDbOilCondition.value = setRepository.getOilLocalData()
+            _roomDbOilCondition.value = getLocalOilConditionUseCase.invoke()
         }
     }
 
-    fun updateData(oilDataEntity: OilDataEntity) {
+    fun updateLocalOilCondition(oilCondition: OilCondition) {
         viewModelScope.launch(Dispatchers.IO) {
-            setRepository.deleteAll()
-            setRepository.insert(oilDataEntity)
+            updateLocalOilCondition.invoke(oilCondition)
             _updateComplete.value = true
         }
     }

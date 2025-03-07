@@ -16,5 +16,4 @@ interface KakaoApi {
     @POST("v1/destinations/directions")
     suspend fun getMultiDirections(@Body request : DirectionRequest) : Response<DirectionResponse>
     //다중 목적지
-
 }

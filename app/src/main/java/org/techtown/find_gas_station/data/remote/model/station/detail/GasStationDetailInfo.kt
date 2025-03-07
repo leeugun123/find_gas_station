@@ -1,9 +1,19 @@
-package org.techtown.find_gas_station.data.remote.model.station.oilDetail
+package org.techtown.find_gas_station.data.remote.model.station.detail
 
 import com.google.gson.annotations.SerializedName
 
-data class GasStationDetailInfo(
 
+data class GasStationDetailInfoResult(
+    @SerializedName("RESULT")
+    val gasStationDetailInfoResult : Result
+)
+
+data class Result(
+    @SerializedName("OIL")
+    val gasStationDetailInfo : List<GasStationDetailInfo>
+)
+
+data class GasStationDetailInfo(
     @SerializedName("UNI_ID")
     val uniqueId : String,
 
@@ -37,7 +47,9 @@ data class GasStationDetailInfo(
     @SerializedName("LPG_YN")
     val sector : String
     //업종 구분
-
 )
+
+
+
 
 

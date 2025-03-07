@@ -13,7 +13,6 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import kotlinx.coroutines.launch
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.data.toEntity
 import org.techtown.find_gas_station.databinding.ActivityMainBinding
 import org.techtown.find_gas_station.domain.model.OilCondition
 import org.techtown.find_gas_station.presentation.ui.oilroundinfo.StationInfoViewModel
@@ -86,21 +85,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateOilCondition() {
-        setViewModel.updateData(
+        setViewModel.updateLocalOilCondition(
             OilCondition(
                 stationInfoViewModel.oilCondition.oilKind,
                 stationInfoViewModel.oilCondition.radius,
                 stationInfoViewModel.oilCondition.sort,
-            ).toEntity()
+            )
         )
     }
 
     private fun observeLocalData() {
         lifecycleScope.launch {
             setViewModel.roomDbOilCondition.collect { oilData->
-                    stationInfoViewModel.oilCondition.radius = oilData.oilRad.toString()
-                    stationInfoViewModel.oilCondition.sort = oilData.oilSort.toString()
-                    stationInfoViewModel.oilCondition.oilKind = oilData.oilName.toString()
+                    stationInfoViewModel.oilCondition.radius = oilData.radius
+                    stationInfoViewModel.oilCondition.sort = oilData.sort
+                    stationInfoViewModel.oilCondition.oilKind = oilData.oilKind
             }
         }
     }

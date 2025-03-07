@@ -9,5 +9,26 @@ data class DirectionResponse(
 
     @SerializedName("routes")
     var routes : List<Route>
+)
 
+data class Route(
+    @SerializedName("result_code")
+    var resultCode : String,
+
+    @SerializedName("result_msg")
+    var resultMsg : String,
+
+    @SerializedName("key")
+    var key : String,
+
+    @SerializedName("summary")
+    var summary : Summary
+)
+
+data class Summary(
+    @SerializedName("distance")
+    val distance : String,
+
+    @SerializedName("duration")
+    val duration : String
 )

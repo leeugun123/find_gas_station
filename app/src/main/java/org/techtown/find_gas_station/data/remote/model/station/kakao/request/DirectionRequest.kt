@@ -12,6 +12,23 @@ data class DirectionRequest(
 
     @SerializedName("radius")
     private val radius: Int
+)
 
+class Origin(
+    @SerializedName("x")
+    private val x : Double,
 
+    @SerializedName("y")
+    private val y : Double
+)
+
+class Destination(
+    @SerializedName("key")
+    val key: String,
+
+    @SerializedName("x")
+    val x: Double,
+
+    @SerializedName("y")
+    val y: Double
 )

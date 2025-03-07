@@ -5,10 +5,8 @@ import org.techtown.find_gas_station.di.RepositoryModule
 import org.techtown.find_gas_station.domain.model.OilAveragePriceInfo
 
 class GetOilAvgPriceUseCase {
-
     private val oilAvgRepository = RepositoryModule.provideGetOilAvgRepository()
 
-    suspend operator fun invoke(prodCd : String) : Flow<List<OilAveragePriceInfo>> {
-        return oilAvgRepository.getOilAvg(prodCd)
-    }
+    suspend operator fun invoke(prodCd : String) : Flow<List<OilAveragePriceInfo>>
+        = oilAvgRepository.getOilAvg(prodCd)
 }

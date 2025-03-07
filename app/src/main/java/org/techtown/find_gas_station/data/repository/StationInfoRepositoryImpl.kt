@@ -5,13 +5,13 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.data.datasource.StationRemoteDataSource
-import org.techtown.find_gas_station.data.remote.model.station.GasStationInfoResult
-import org.techtown.find_gas_station.domain.model.TotalOilInfo
+import org.techtown.find_gas_station.data.remote.model.station.detail.GasStationDetailInfoResult
+import org.techtown.find_gas_station.data.remote.model.station.infomation.GasStationInfoResult
 import org.techtown.find_gas_station.data.remote.model.station.kakao.request.Destination
 import org.techtown.find_gas_station.data.remote.model.station.kakao.request.Origin
 import org.techtown.find_gas_station.data.remote.model.station.kakao.response.DirectionResponse
 import org.techtown.find_gas_station.data.remote.model.station.kakao.response.Route
-import org.techtown.find_gas_station.data.remote.model.station.oilDetail.GasStationDetailInfoResult
+import org.techtown.find_gas_station.domain.model.TotalOilInfo
 import org.techtown.find_gas_station.domain.repositoy.StationInfoRepository
 import org.techtown.find_gas_station.presentation.common.util.comparator.OilRoadDistanceComparator
 import org.techtown.find_gas_station.presentation.common.util.comparator.OilSpendTimeComparator
