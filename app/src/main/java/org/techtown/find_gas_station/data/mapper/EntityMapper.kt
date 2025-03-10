@@ -1,6 +1,6 @@
 package org.techtown.find_gas_station.data.mapper
 
-import org.techtown.find_gas_station.data.local.entity.OilConditionEntity
+import org.techtown.find_gas_station.data.local.model.OilConditionEntity
 import org.techtown.find_gas_station.domain.model.OilCondition
 
 fun OilCondition.toEntity() : OilConditionEntity {

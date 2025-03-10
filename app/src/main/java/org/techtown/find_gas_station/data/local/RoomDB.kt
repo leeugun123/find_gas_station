@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import org.techtown.find_gas_station.data.local.entity.OilConditionEntity
+import org.techtown.find_gas_station.data.local.model.OilConditionEntity
 
 @Database(entities = [OilConditionEntity::class], version = 3, exportSchema = false)
 abstract class RoomDB : RoomDatabase() {

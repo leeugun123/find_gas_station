@@ -7,10 +7,10 @@ import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.data.datasource.StationRemoteDataSource
 import org.techtown.find_gas_station.data.remote.model.station.detail.GasStationDetailInfoResult
 import org.techtown.find_gas_station.data.remote.model.station.infomation.GasStationInfoResult
-import org.techtown.find_gas_station.data.remote.model.station.kakao.request.Destination
-import org.techtown.find_gas_station.data.remote.model.station.kakao.request.Origin
-import org.techtown.find_gas_station.data.remote.model.station.kakao.response.DirectionResponse
-import org.techtown.find_gas_station.data.remote.model.station.kakao.response.Route
+import org.techtown.find_gas_station.data.remote.model.station.kakao.Destination
+import org.techtown.find_gas_station.data.remote.model.station.kakao.Origin
+import org.techtown.find_gas_station.data.remote.model.station.kakao.DirectionResponse
+import org.techtown.find_gas_station.data.remote.model.station.kakao.Route
 import org.techtown.find_gas_station.domain.model.TotalOilInfo
 import org.techtown.find_gas_station.domain.repositoy.StationInfoRepository
 import org.techtown.find_gas_station.presentation.common.util.comparator.OilRoadDistanceComparator

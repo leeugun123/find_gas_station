@@ -2,11 +2,11 @@ package org.techtown.find_gas_station.data.datasource
 
 import org.techtown.find_gas_station.BuildConfig
 import org.techtown.find_gas_station.data.remote.model.station.infomation.GasStationInfoResult
-import org.techtown.find_gas_station.data.remote.model.station.kakao.request.DirectionRequest
-import org.techtown.find_gas_station.data.remote.model.station.kakao.response.DirectionResponse
+import org.techtown.find_gas_station.data.remote.model.station.kakao.DirectionRequest
+import org.techtown.find_gas_station.data.remote.model.station.kakao.DirectionResponse
 import org.techtown.find_gas_station.data.remote.model.station.detail.GasStationDetailInfoResult
-import org.techtown.find_gas_station.data.remote.model.station.kakao.request.Destination
-import org.techtown.find_gas_station.data.remote.model.station.kakao.request.Origin
+import org.techtown.find_gas_station.data.remote.model.station.kakao.Destination
+import org.techtown.find_gas_station.data.remote.model.station.kakao.Origin
 import org.techtown.find_gas_station.di.ApiModule
 
 class StationRemoteDataSource {
