@@ -48,7 +48,7 @@ class StationInfoAdapter(
 
         markerOptions.position(pos)
             .title(oilInfo.name)
-            .snippet("현 위치로부터 거리 " + oilInfo.distance + "m")
+            .snippet("현 위치로부터 거리 " + oilInfo.directDistance + "m")
             .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
 
         googleMap.addMarker(markerOptions)

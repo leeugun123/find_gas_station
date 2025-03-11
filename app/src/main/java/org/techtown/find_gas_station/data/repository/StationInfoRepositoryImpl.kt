@@ -204,7 +204,7 @@ class StationInfoRepositoryImpl : StationInfoRepository {
 
     private fun insertPlusList(routes: List<Route>) {
         for (i in tempList.indices) {
-            tempList[i].actDistance = routes[i].summary.distance
+            tempList[i].actualDistance = routes[i].summary.distance
             tempList[i].spendTime = routes[i].summary.duration
         }
     }

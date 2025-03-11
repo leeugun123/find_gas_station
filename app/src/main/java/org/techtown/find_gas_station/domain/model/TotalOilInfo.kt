@@ -4,7 +4,7 @@ data class TotalOilInfo(
     var uid: String = "",
     var name: String = "",
     var price: String = "",
-    var distance: String = "1000",
+    var directDistance: String = "1000",
     var oilKind: String = "",
     var image: Int = 0,
 
@@ -17,6 +17,6 @@ data class TotalOilInfo(
     var roadAdd: String = "",
     var tel: String = "",
     var sector: String = "", //업종구분
-    var actDistance: String = "1000",
+    var actualDistance: String = "1000",
     var spendTime: String = "1000"
 )

@@ -8,7 +8,6 @@
             name="goBackClick"
             type="kotlin.jvm.functions.Function0" />
 
-
         <variable
             name="viewModel"
             type="org.techtown.find_gas_station.presentation.ui.oilroundinfo.StationInfoViewModel" />

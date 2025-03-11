@@ -13,8 +13,8 @@ fun TextView.setDistanceText(sort: String, totalOilInfo: TotalOilInfo) {
     when (sort) {
 
         "3" -> {
-            if (totalOilInfo.actDistance.isNotEmpty())
-                distanceText = changeKm(totalOilInfo.actDistance) + "km"
+            if (totalOilInfo.actualDistance.isNotEmpty())
+                distanceText = changeKm(totalOilInfo.actualDistance) + "km"
         }
 
         "4" -> {
@@ -23,8 +23,8 @@ fun TextView.setDistanceText(sort: String, totalOilInfo: TotalOilInfo) {
         }
 
         else -> {
-            if (totalOilInfo.distance.isNotEmpty())
-                distanceText = changeKm(totalOilInfo.distance) + "km"
+            if (totalOilInfo.directDistance.isNotEmpty())
+                distanceText = changeKm(totalOilInfo.directDistance) + "km"
         }
     }
 

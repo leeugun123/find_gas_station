@@ -1,7 +1,6 @@
 package org.techtown.find_gas_station.presentation.ui.home
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +12,7 @@ import org.techtown.find_gas_station.domain.model.OilCondition
 import org.techtown.find_gas_station.domain.usecase.GetLocalOilConditionUseCase
 import org.techtown.find_gas_station.domain.usecase.UpdateLocalOilConditionUseCase
 
-class SetViewModel(application: Application) : AndroidViewModel(application) {
+class SetViewModel() : ViewModel() {
 
     private val getLocalOilConditionUseCase : GetLocalOilConditionUseCase
         = GetLocalOilConditionUseCase()
