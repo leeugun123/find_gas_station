@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import org.techtown.find_gas_station.R
+import org.techtown.find_gas_station.presentation.common.TotalOilInfoParcelDTO
 import org.techtown.find_gas_station.domain.model.TotalOilInfo
 import org.techtown.find_gas_station.databinding.FragmentStationInfoBinding
 import org.techtown.find_gas_station.presentation.common.base.BaseFragment
@@ -241,8 +242,8 @@ class StationInfoFragment :
             )
     }
 
-    private fun navigateToStationDetail(stationInfo: TotalOilInfo) {
-        val bundle = bundleOf("stationInfo" to stationInfo)
+    private fun navigateToStationDetail(stationInfo: TotalOilInfoParcelDTO) {
+        val bundle = bundleOf("stationInfo" to stationInfo )
         requireParentFragment().findNavController()
             .navigate(R.id.action_mainFragment_to_stationDetailFragment, bundle)
     }

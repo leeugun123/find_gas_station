@@ -1,6 +1,10 @@
-package org.techtown.find_gas_station.domain.model
+package org.techtown.find_gas_station.presentation.common
 
-data class TotalOilInfo(
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+data class TotalOilInfoParcelDTO(
     var uid: String = "",
     var name: String = "",
     var price: String = "",
@@ -19,4 +23,4 @@ data class TotalOilInfo(
     var sector: String = "", //업종구분
     var actualDistance: String = "1000",
     var spendTime: String = "1000"
-)
+): Parcelable

@@ -3,26 +3,25 @@ package org.techtown.find_gas_station.presentation.ui.oilroundinfo.oilroundrecyc
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-
 import org.techtown.find_gas_station.R
+import org.techtown.find_gas_station.presentation.common.TotalOilInfoParcelDTO
+import org.techtown.find_gas_station.data.toParableDTO
 import org.techtown.find_gas_station.domain.model.TotalOilInfo
 import org.techtown.find_gas_station.databinding.ItemRecyclerviewBinding
 
 class StationInfoViewHolder(
     parent: ViewGroup,
-    totalOilInfoClick: (totalOilInfo: TotalOilInfo) -> Unit
+    totalOilInfoClick: (totalOilInfo: TotalOilInfoParcelDTO) -> Unit
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.item_recyclerview, parent, false)
 ) {
-
     private val binding = ItemRecyclerviewBinding.bind(itemView)
-
     init {
         binding.moveStationDetailBtnClick = { totalOilInfoClick(it) }
     }
 
     fun bind(totalOilInfo: TotalOilInfo, sort: String) {
-        binding.gasStationInfo = totalOilInfo
+        binding.gasStationInfo = totalOilInfo.toParableDTO()
         binding.sort = sort
         binding.moveKakaoBtnClick = { ::checkKakaoInstall.invoke(totalOilInfo) }
     }
