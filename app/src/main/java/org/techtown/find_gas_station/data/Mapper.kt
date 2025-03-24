@@ -13,13 +13,20 @@ fun OilCondition.toEntity() : OilConditionEntity {
     )
 }
 
-fun OilConditionEntity.toDomain() : OilCondition {
-    return OilCondition(
-        oilKind = this.oilName ?: "",
-        radius = this.oilRad ?: "",
-        sort = this.oilSort ?: ""
+fun OilConditionEntity?.toDomain(): OilCondition {
+    return this?.let {
+        OilCondition(
+            oilKind = it.oilName ?: "B027",
+            radius = it.oilRad ?: "1000",
+            sort = it.oilSort ?: "1"
+        )
+    } ?: OilCondition(
+        oilKind = "B027",
+        radius = "1000",
+        sort = "1"
     )
 }
+
 
 fun List<OilAveragePriceInfoDto>.toDomainList() : List<OilAveragePriceInfo> {
     return map { dto ->

@@ -59,22 +59,22 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
 
     private fun checkCondition() =
         stationInfoViewModel.oilCondition.sort != stationInfoViewModel.afterOilCondition.sort
-                || stationInfoViewModel.oilCondition.radius != stationInfoViewModel.afterOilCondition.radius
-                || stationInfoViewModel.oilCondition.oilKind != stationInfoViewModel.afterOilCondition.oilKind
+                    || stationInfoViewModel.oilCondition.radius != stationInfoViewModel.afterOilCondition.radius
+                    || stationInfoViewModel.oilCondition.oilKind != stationInfoViewModel.afterOilCondition.oilKind
 
-    private fun initCheckConditionChange() {
-        stationInfoViewModel.afterOilCondition = stationInfoViewModel.oilCondition.copy()
-    }
+            private fun initCheckConditionChange() {
+                stationInfoViewModel.afterOilCondition = stationInfoViewModel.oilCondition.copy()
+            }
 
-    private fun changeValue(selectedItem: String) {
-        when (selectedItem) {
-            requireContext().getString(R.string.gasoline) -> stationInfoViewModel.oilCondition.oilKind =
-                requireContext().getString(R.string.gasoline_code)
+            private fun changeValue(selectedItem: String) {
+                when (selectedItem) {
+                    requireContext().getString(R.string.gasoline) -> stationInfoViewModel.oilCondition.oilKind =
+                        requireContext().getString(R.string.gasoline_code)
 
-            requireContext().getString(R.string.diesel_oil) -> stationInfoViewModel.oilCondition.oilKind =
-                requireContext().getString(R.string.diesel_oil_code)
+                    requireContext().getString(R.string.diesel_oil) -> stationInfoViewModel.oilCondition.oilKind =
+                        requireContext().getString(R.string.diesel_oil_code)
 
-            requireContext().getString(R.string.premium_gasoline) -> stationInfoViewModel.oilCondition.oilKind =
+                    requireContext().getString(R.string.premium_gasoline) -> stationInfoViewModel.oilCondition.oilKind =
                 requireContext().getString(R.string.premium_gasoline_code)
 
             requireContext().getString(R.string.indoor_kerosene) -> stationInfoViewModel.oilCondition.oilKind =
@@ -133,10 +133,10 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
     }
 
     private fun setDistanceAdapterSelection() {
-        when (stationInfoViewModel.oilCondition.radius) {
-            requireContext().getString(R.string.one_km_number) -> binding.distanceSpinner.setSelection(0)
-            requireContext().getString(R.string.three_km_number) -> binding.distanceSpinner.setSelection(1)
-            requireContext().getString(R.string.five_km_number) -> binding.distanceSpinner.setSelection(2)
+            when (stationInfoViewModel.oilCondition.radius) {
+                requireContext().getString(R.string.one_km_number) -> binding.distanceSpinner.setSelection(0)
+                requireContext().getString(R.string.three_km_number) -> binding.distanceSpinner.setSelection(1)
+                requireContext().getString(R.string.five_km_number) -> binding.distanceSpinner.setSelection(2)
         }
     }
 

@@ -22,10 +22,9 @@ import java.util.Collections
 class StationInfoRepositoryImpl : StationInfoRepository {
 
     private val stationRemoteDataSource = StationRemoteDataSource()
-    var tempList = mutableListOf<TotalOilInfo>()
-
-    var wgsX: String? = ""
-    var wgsY: String? = ""
+    private var tempList = mutableListOf<TotalOilInfo>()
+    private var wgsX: String? = ""
+    private var wgsY: String? = ""
 
     override fun requestStationList(
         wgsX: String,
@@ -37,7 +36,7 @@ class StationInfoRepositoryImpl : StationInfoRepository {
         oilKind: String
     ): Flow<List<TotalOilInfo>> = flow {
         initWgsPos(wgsX, wgsY)
-        listClear()
+        tempList.clear()
 
         val stationResponse =
             stationRemoteDataSource.fetchStationList(katecX, katecY, radius, sort, oilKind)
@@ -46,21 +45,13 @@ class StationInfoRepositoryImpl : StationInfoRepository {
             if (oilInfoList.isNotEmpty()) {
                 handleStationListResponse(stationResponse, oilKind, sort)
                 emit(tempList)
-            } else {
-                emit(emptyList())
             }
         } ?: emit(emptyList())
-    }.catch { e ->
-        emit(emptyList()) // 에러 발생 시 빈 리스트 반환
     }
 
     private fun initWgsPos(wgsX: String, wgsY: String) {
         this.wgsX = wgsX
         this.wgsY = wgsY
-    }
-
-    private fun listClear() {
-        tempList.clear()
     }
 
     private suspend fun handleStationListResponse(
@@ -167,7 +158,7 @@ class StationInfoRepositoryImpl : StationInfoRepository {
 
     private suspend fun checkTempListSize(size: Int, sort: String) {
         if (isKakaoApiRequired(size, sort))
-            getStationKakaoApi(sort)
+                getStationKakaoApi(sort)
     }
 
     private fun isKakaoApiRequired(size: Int, sort: String) =
