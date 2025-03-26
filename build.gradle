@@ -12,7 +12,6 @@ buildscript {
             url 'https://devrepo.kakao.com/nexus/content/groups/public/'
             allowInsecureProtocol = true //add this line
         }
-
     }
 
     dependencies {

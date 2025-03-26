@@ -1,21 +1,31 @@
 package org.techtown.find_gas_station.presentation.ui.oilroundinfo.oilroundrecyclerview
 
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.kakao.sdk.navi.Constants.WEB_NAVI_INSTALL
+import com.kakao.sdk.navi.NaviClient
+import com.kakao.sdk.navi.model.CoordType
+import com.kakao.sdk.navi.model.Location
+import com.kakao.sdk.navi.model.NaviOption
+import com.kakao.sdk.navi.model.RpOption
+import com.kakao.sdk.navi.model.VehicleType
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.presentation.common.TotalOilInfoParcelDTO
 import org.techtown.find_gas_station.data.toParableDTO
-import org.techtown.find_gas_station.domain.model.TotalOilInfo
 import org.techtown.find_gas_station.databinding.ItemRecyclerviewBinding
+import org.techtown.find_gas_station.domain.model.TotalOilInfo
+import org.techtown.find_gas_station.presentation.common.TotalOilInfoParcelDTO
 
 class StationInfoViewHolder(
     parent: ViewGroup,
-    totalOilInfoClick: (totalOilInfo: TotalOilInfoParcelDTO) -> Unit
+    totalOilInfoClick: (totalOilInfoParcelDto: TotalOilInfoParcelDTO) -> Unit
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.item_recyclerview, parent, false)
 ) {
     private val binding = ItemRecyclerviewBinding.bind(itemView)
+
     init {
         binding.moveStationDetailBtnClick = { totalOilInfoClick(it) }
     }
@@ -23,19 +33,17 @@ class StationInfoViewHolder(
     fun bind(totalOilInfo: TotalOilInfo, sort: String) {
         binding.gasStationInfo = totalOilInfo.toParableDTO()
         binding.sort = sort
-        binding.moveKakaoBtnClick = { ::checkKakaoInstall.invoke(totalOilInfo) }
+        binding.moveKakaoBtnClick = { ::checkKakaoInstalled.invoke(totalOilInfo) }
     }
 
-    private fun checkKakaoInstall(totalOilInfo: TotalOilInfo) {
-
-       /* if (NaviClient.instance.isKakaoNaviInstalled(itemView.context))
+    private fun checkKakaoInstalled(totalOilInfo: TotalOilInfo) {
+        if (NaviClient.instance.isKakaoNaviInstalled(itemView.context))
             moveToKakaoApp(totalOilInfo)
         else
-            moveToKakaoWebView()*/
+            moveToKakaoWebView()
     }
 
     private fun moveToKakaoApp(totalOilInfo: TotalOilInfo) {
-        /*
         val destination = Location(
             totalOilInfo.name,
             totalOilInfo.wgs84X.toString(),
@@ -51,19 +59,15 @@ class StationInfoViewHolder(
                     rpOption = RpOption.FAST
                 )
             )
-        )*/
+        )
     }
 
     private fun moveToKakaoWebView() {
-        /*
         itemView.context.startActivity(
             Intent(
                 Intent.ACTION_VIEW,
                 Uri.parse(WEB_NAVI_INSTALL)
             ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         )
-
-         */
     }
-
 }
