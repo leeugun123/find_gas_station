@@ -52,8 +52,8 @@ android {
 }
 
 dependencies {
-   //  implementation group: 'com.kakao.sdk', name: 'kakaonavi', version: project.KAKAO_SDK_VERSION
-    implementation "com.kakao.sdk:v2-navi:2.20.0" // 카카오내비
+    implementation group: 'com.kakao.sdk', name: 'kakaonavi', version: project.KAKAO_SDK_VERSION
+    implementation "com.kakao.sdk:v2-navi:2.11.0" // 카카오내비
 
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'com.google.android.material:material:1.6.1'
