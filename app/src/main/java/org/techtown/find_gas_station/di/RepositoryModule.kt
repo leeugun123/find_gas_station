@@ -5,6 +5,7 @@ import org.techtown.find_gas_station.data.local.RoomDB
 import org.techtown.find_gas_station.data.repository.LocalRepositoryImpl
 import org.techtown.find_gas_station.data.repository.OilAvgRepositoryImpl
 import org.techtown.find_gas_station.data.repository.StationInfoRepositoryImpl
+import org.techtown.find_gas_station.domain.repositoy.OilAvgRepository
 
 object RepositoryModule {
 

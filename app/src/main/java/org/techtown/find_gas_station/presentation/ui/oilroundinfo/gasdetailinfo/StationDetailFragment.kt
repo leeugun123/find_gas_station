@@ -37,8 +37,7 @@ class StationDetailFragment :
 
     private fun initBinding() {
         binding.callBtnClick = ::navigateCall
-      //  TotalOilInfoParcelD
-      //  binding.gasStationInfo =
+        binding.gasStationInfo = stationInfo
     }
 
     private fun navigateCall() {

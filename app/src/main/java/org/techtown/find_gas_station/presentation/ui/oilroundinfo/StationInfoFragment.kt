@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
@@ -28,9 +29,8 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.presentation.common.TotalOilInfoParcelDTO
-import org.techtown.find_gas_station.domain.model.TotalOilInfo
 import org.techtown.find_gas_station.databinding.FragmentStationInfoBinding
+import org.techtown.find_gas_station.domain.model.TotalOilInfo
 import org.techtown.find_gas_station.presentation.common.base.BaseFragment
 import org.techtown.find_gas_station.presentation.common.extension.repeatOnStarted
 import org.techtown.find_gas_station.presentation.common.extension.showToast
@@ -242,10 +242,11 @@ class StationInfoFragment :
             )
     }
 
-    private fun navigateToStationDetail(stationInfo: TotalOilInfoParcelDTO) {
-        val bundle = bundleOf("stationInfo" to stationInfo )
+    private fun navigateToStationDetail(stationInfo: TotalOilInfo) {
+        Log.e("TAG",stationInfo.name)
+        stationInfoViewModel.stationDetailInfo = stationInfo
         requireParentFragment().findNavController()
-            .navigate(R.id.action_mainFragment_to_stationDetailFragment, bundle)
+            .navigate(R.id.action_mainFragment_to_stationDetailFragment)
     }
 
     private fun handleLocationPermissionRequest() {

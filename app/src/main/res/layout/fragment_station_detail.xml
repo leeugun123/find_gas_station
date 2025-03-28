@@ -3,10 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="gasStationInfo"
-            type="org.techtown.find_gas_station.presentation.common.TotalOilInfoParcelDTO" />
+            type="org.techtown.find_gas_station.domain.model.TotalOilInfo" />
 
         <variable
             name="callBtnClick"
