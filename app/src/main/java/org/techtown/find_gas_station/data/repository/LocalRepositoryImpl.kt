@@ -8,7 +8,7 @@ import org.techtown.find_gas_station.domain.repositoy.LocalRepository
 
 class LocalRepositoryImpl(private val setDao: SetDao)  : LocalRepository {
 
-    override suspend fun getOilLocalData() = setDao.getOilLocalData().toDomain()
+    override suspend fun getOilLocalData() = setDao.getOilLocalData()?.toDomain()
 
     override suspend fun insert(oilCondition: OilCondition) {
         setDao.insert(oilCondition.toEntity())

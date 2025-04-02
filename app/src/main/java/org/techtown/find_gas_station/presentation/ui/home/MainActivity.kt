@@ -1,6 +1,7 @@
 package org.techtown.find_gas_station.presentation.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.addCallback
@@ -87,9 +88,9 @@ class MainActivity : AppCompatActivity() {
     private fun updateOilCondition() {
         setViewModel.updateLocalOilCondition(
             OilCondition(
-                stationInfoViewModel.oilCondition.oilKind,
-                stationInfoViewModel.oilCondition.radius,
-                stationInfoViewModel.oilCondition.sort,
+                radius = stationInfoViewModel.oilCondition.radius,
+                sort = stationInfoViewModel.oilCondition.sort,
+                oilKind = stationInfoViewModel.oilCondition.oilKind,
             )
         )
     }

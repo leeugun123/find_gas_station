@@ -1,5 +1,6 @@
 package org.techtown.find_gas_station.data.datasource
 
+import android.util.Log
 import org.techtown.find_gas_station.BuildConfig
 import org.techtown.find_gas_station.data.remote.model.station.infomation.GasStationInfoResult
 import org.techtown.find_gas_station.data.remote.model.station.kakao.DirectionRequest
@@ -31,6 +32,7 @@ class StationRemoteDataSource {
             oilKind,
             sort
         )
+
         return if (response.isSuccessful) response.body() else null
     }
 

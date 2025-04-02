@@ -8,7 +8,7 @@ class GetLocalOilConditionUseCase {
 
     private val setRepository: LocalRepository = RepositoryModule.provideSetRepository()
 
-    suspend operator fun invoke() : OilCondition {
+    suspend operator fun invoke() : OilCondition? {
         return setRepository.getOilLocalData()
     }
 }
