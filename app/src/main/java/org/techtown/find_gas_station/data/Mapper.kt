@@ -15,9 +15,9 @@ fun OilCondition.toEntity(): OilConditionEntity {
 
 fun OilConditionEntity.toDomain(): OilCondition {
     return OilCondition(
-        oilKind = this.oilName.toString(),
-        radius = this.oilRad.toString(),
-        sort =  this.oilSort.toString()
+        oilKind = this.oilName,
+        radius = this.oilRad,
+        sort =  this.oilSort
     )
 }
 
