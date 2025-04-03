@@ -1,6 +1,5 @@
 package org.techtown.find_gas_station.presentation.ui.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -15,10 +14,10 @@ import org.techtown.find_gas_station.domain.usecase.UpdateLocalOilConditionUseCa
 
 class SetViewModel() : ViewModel() {
 
-    private val getLocalOilConditionUseCase : GetLocalOilConditionUseCase
-        = GetLocalOilConditionUseCase()
-    private val updateLocalOilCondition : UpdateLocalOilConditionUseCase
-        = UpdateLocalOilConditionUseCase()
+    private val getLocalOilConditionUseCase: GetLocalOilConditionUseCase =
+        GetLocalOilConditionUseCase()
+    private val updateLocalOilCondition: UpdateLocalOilConditionUseCase =
+        UpdateLocalOilConditionUseCase()
 
     private val _roomDbOilCondition = MutableStateFlow(OilCondition("1000", "1", "B027"))
     val roomDbOilCondition = _roomDbOilCondition.filterNotNull().stateIn(
@@ -40,7 +39,11 @@ class SetViewModel() : ViewModel() {
 
     private fun requestLocalOilCondition() {
         viewModelScope.launch(Dispatchers.IO) {
-            _roomDbOilCondition.value = getLocalOilConditionUseCase.invoke() ?: OilCondition(oilKind = "B027" , sort = "1", radius = "1000")
+            _roomDbOilCondition.value = getLocalOilConditionUseCase.invoke() ?: OilCondition(
+                oilKind = "B027",
+                sort = "1",
+                radius = "1000"
+            )
         }
     }
 

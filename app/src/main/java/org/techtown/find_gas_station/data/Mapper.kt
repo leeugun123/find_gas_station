@@ -21,10 +21,6 @@ fun OilConditionEntity.toDomain(): OilCondition {
     )
 }
 
-
-
-
-
 fun List<OilAveragePriceInfoDto>.toDomainList(): List<OilAveragePriceInfo> {
     return map { dto ->
         OilAveragePriceInfo(

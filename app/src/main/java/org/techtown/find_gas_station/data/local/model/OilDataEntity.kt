@@ -8,13 +8,13 @@ import androidx.room.PrimaryKey
 @Entity
 data class OilConditionEntity(
     @ColumnInfo(name = "oilName")
-    var oilName: String?,// 기름 종류
+    var oilName: String,// 기름 종류
 
     @ColumnInfo(name = "oilRad")
-    var oilRad: String?,// 반경 범위
+    var oilRad: String,// 반경 범위
 
     @ColumnInfo(name = "oilSort")
-    var oilSort: String?, // 정렬기준
+    var oilSort: String, // 정렬기준
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0

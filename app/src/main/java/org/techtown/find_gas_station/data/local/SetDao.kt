@@ -10,7 +10,6 @@ import org.techtown.find_gas_station.data.local.model.OilConditionEntity
 
 @Dao
 interface SetDao {
-
     @Query("SELECT * FROM OilConditionEntity")
     suspend fun getOilLocalData(): OilConditionEntity?
 
