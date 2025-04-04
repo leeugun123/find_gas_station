@@ -5,7 +5,7 @@
     <data>
         <variable
             name="gasStationInfo"
-            type="org.techtown.find_gas_station.domain.model.TotalOilInfo" />
+            type="org.techtown.find_gas_station.domain.model.StationDetailInfo" />
 
         <variable
             name="callBtnClick"

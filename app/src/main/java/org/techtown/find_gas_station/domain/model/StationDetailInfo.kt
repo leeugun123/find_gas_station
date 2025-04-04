@@ -1,6 +1,6 @@
 package org.techtown.find_gas_station.domain.model
 
-data class TotalOilInfo(
+data class StationDetailInfo(
     var uid: String = "",
     var name: String = "",
     var price: String = "",

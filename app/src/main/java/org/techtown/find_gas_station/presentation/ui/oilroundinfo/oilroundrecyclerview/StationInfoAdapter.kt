@@ -11,13 +11,13 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import org.techtown.find_gas_station.domain.model.TotalOilInfo
+import org.techtown.find_gas_station.domain.model.StationDetailInfo
 
 class StationInfoAdapter(
-    private val oilInfoList: List<TotalOilInfo>,
+    private val oilInfoList: List<StationDetailInfo>,
     private val googleMap: GoogleMap,
     private val sort: String,
-    private val totalOilInfoClick: (totalOilInfo: TotalOilInfo) -> Unit,
+    private val totalOilInfoClick: (stationDetailInfo: StationDetailInfo) -> Unit,
 ) : RecyclerView.Adapter<StationInfoViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -38,7 +38,7 @@ class StationInfoAdapter(
         }
     }
 
-    private fun addMarkerToMap(oilInfo: TotalOilInfo, holder: StationInfoViewHolder) {
+    private fun addMarkerToMap(oilInfo: StationDetailInfo, holder: StationInfoViewHolder) {
 
         val pos = LatLng(oilInfo.wgs84Y.toDouble(), oilInfo.wgs84X.toDouble())
         val bitmapDraw =

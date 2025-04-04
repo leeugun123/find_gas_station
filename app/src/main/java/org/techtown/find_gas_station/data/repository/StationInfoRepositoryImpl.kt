@@ -1,8 +1,6 @@
 package org.techtown.find_gas_station.data.repository
 
-import android.util.Log
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.data.datasource.StationRemoteDataSource
@@ -12,7 +10,7 @@ import org.techtown.find_gas_station.data.remote.model.station.kakao.Destination
 import org.techtown.find_gas_station.data.remote.model.station.kakao.Origin
 import org.techtown.find_gas_station.data.remote.model.station.kakao.DirectionResponse
 import org.techtown.find_gas_station.data.remote.model.station.kakao.Route
-import org.techtown.find_gas_station.domain.model.TotalOilInfo
+import org.techtown.find_gas_station.domain.model.StationDetailInfo
 import org.techtown.find_gas_station.domain.repositoy.StationInfoRepository
 import org.techtown.find_gas_station.presentation.common.util.comparator.OilRoadDistanceComparator
 import org.techtown.find_gas_station.presentation.common.util.comparator.OilSpendTimeComparator
@@ -23,7 +21,7 @@ import java.util.Collections
 class StationInfoRepositoryImpl : StationInfoRepository {
 
     private val stationRemoteDataSource = StationRemoteDataSource()
-    private var tempList = mutableListOf<TotalOilInfo>()
+    private var tempList = mutableListOf<StationDetailInfo>()
     private var wgsX: String? = ""
     private var wgsY: String? = ""
 
@@ -35,7 +33,7 @@ class StationInfoRepositoryImpl : StationInfoRepository {
         radius: String,
         sort: String,
         oilKind: String
-    ): Flow<List<TotalOilInfo>> = flow {
+    ): Flow<List<StationDetailInfo>> = flow {
         initWgsPos(wgsX, wgsY)
         tempList.clear()
 
@@ -133,7 +131,7 @@ class StationInfoRepositoryImpl : StationInfoRepository {
                 return
 
             tempList.add(
-                TotalOilInfo(
+                StationDetailInfo(
                     uid,
                     name,
                     gasPrice,

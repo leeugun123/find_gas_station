@@ -27,11 +27,10 @@
             app:popEnterAnim="@anim/slide_up" />
 
         <action
-            android:id="@+id/action_mainFragment_to_stationDetailFragment"
+            android:id="@+id/action_mainFragment_to_StationDetailFragment"
             app:destination="@id/stationDetailFragment"
             app:enterAnim="@anim/slide_up"
             app:popEnterAnim="@anim/slide_up" />
-
     </fragment>
 
     <fragment

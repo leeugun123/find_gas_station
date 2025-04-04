@@ -3,28 +3,28 @@ package org.techtown.find_gas_station.presentation.common.bindingadapter
 import android.graphics.Color
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import org.techtown.find_gas_station.domain.model.TotalOilInfo
+import org.techtown.find_gas_station.domain.model.StationDetailInfo
 
 @BindingAdapter("sort", "totalOilInfo")
-fun TextView.setDistanceText(sort: String, totalOilInfo: TotalOilInfo) {
+fun TextView.setDistanceText(sort: String, stationDetailInfo: StationDetailInfo) {
 
     var distanceText = ""
 
     when (sort) {
 
         "3" -> {
-            if (totalOilInfo.actualDistance.isNotEmpty())
-                distanceText = changeKm(totalOilInfo.actualDistance) + "km"
+            if (stationDetailInfo.actualDistance.isNotEmpty())
+                distanceText = changeKm(stationDetailInfo.actualDistance) + "km"
         }
 
         "4" -> {
-            if(totalOilInfo.spendTime.isNotEmpty())
-                distanceText = formatSeconds(totalOilInfo.spendTime.toInt())
+            if(stationDetailInfo.spendTime.isNotEmpty())
+                distanceText = formatSeconds(stationDetailInfo.spendTime.toInt())
         }
 
         else -> {
-            if (totalOilInfo.directDistance.isNotEmpty())
-                distanceText = changeKm(totalOilInfo.directDistance) + "km"
+            if (stationDetailInfo.directDistance.isNotEmpty())
+                distanceText = changeKm(stationDetailInfo.directDistance) + "km"
         }
     }
 

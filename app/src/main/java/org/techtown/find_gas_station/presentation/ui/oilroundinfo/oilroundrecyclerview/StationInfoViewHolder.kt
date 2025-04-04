@@ -14,38 +14,40 @@ import com.kakao.sdk.navi.model.RpOption
 import com.kakao.sdk.navi.model.VehicleType
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.ItemRecyclerviewBinding
-import org.techtown.find_gas_station.domain.model.TotalOilInfo
+import org.techtown.find_gas_station.domain.model.StationDetailInfo
 
 class StationInfoViewHolder(
     parent: ViewGroup,
-    totalOilInfoClick: (totalOilInfo: TotalOilInfo) -> Unit
+    totalOilInfoClick: (stationDetailInfo: StationDetailInfo) -> Unit
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.item_recyclerview, parent, false)
 ) {
     private val binding = ItemRecyclerviewBinding.bind(itemView)
-
+    
     init {
-        binding.moveStationDetailBtnClick = { totalOilInfoClick(it) }
+        binding.moveStationDetailBtnClick = { clickedStationDetailInfo ->
+            totalOilInfoClick(clickedStationDetailInfo)
+        }
     }
 
-    fun bind(totalOilInfo: TotalOilInfo, sort: String) {
-        binding.gasStationInfo = totalOilInfo
+    fun bind(stationDetailInfo: StationDetailInfo, sort: String) {
+        binding.gasStationInfo = stationDetailInfo
         binding.sort = sort
-        binding.moveKakaoBtnClick = { ::checkKakaoInstalled.invoke(totalOilInfo) }
+        binding.moveKakaoBtnClick = { ::checkKakaoNaviAppInstalled.invoke(stationDetailInfo) }
     }
 
-    private fun checkKakaoInstalled(totalOilInfo: TotalOilInfo) {
+    private fun checkKakaoNaviAppInstalled(stationDetailInfo: StationDetailInfo) {
         if (NaviClient.instance.isKakaoNaviInstalled(itemView.context))
-            moveToKakaoApp(totalOilInfo)
+            moveToKakaoApp(stationDetailInfo)
         else
             moveToKakaoWebView()
     }
 
-    private fun moveToKakaoApp(totalOilInfo: TotalOilInfo) {
+    private fun moveToKakaoApp(stationDetailInfo: StationDetailInfo) {
         val destination = Location(
-            totalOilInfo.name,
-            totalOilInfo.wgs84X.toString(),
-            totalOilInfo.wgs84Y.toString()
+            stationDetailInfo.name,
+            stationDetailInfo.wgs84X.toString(),
+            stationDetailInfo.wgs84Y.toString()
         )
 
         itemView.context.startActivity(

@@ -15,11 +15,13 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import dagger.hilt.android.AndroidEntryPoint
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.FragmentStationDetailBinding
 import org.techtown.find_gas_station.presentation.common.base.BaseFragment
 import org.techtown.find_gas_station.presentation.ui.oilroundinfo.StationInfoViewModel
 
+@AndroidEntryPoint
 class StationDetailFragment :
     BaseFragment<FragmentStationDetailBinding>(R.layout.fragment_station_detail),
     OnMapReadyCallback {

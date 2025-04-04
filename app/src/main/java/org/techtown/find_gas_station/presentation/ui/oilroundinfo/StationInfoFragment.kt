@@ -3,15 +3,11 @@ package org.techtown.find_gas_station.presentation.ui.oilroundinfo
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.os.Looper
-import android.util.Log
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.LocationCallback
@@ -27,10 +23,9 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.material.snackbar.Snackbar
-import dagger.hilt.android.AndroidEntryPoint
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.FragmentStationInfoBinding
-import org.techtown.find_gas_station.domain.model.TotalOilInfo
+import org.techtown.find_gas_station.domain.model.StationDetailInfo
 import org.techtown.find_gas_station.presentation.common.base.BaseFragment
 import org.techtown.find_gas_station.presentation.common.extension.repeatOnStarted
 import org.techtown.find_gas_station.presentation.common.extension.showToast
@@ -39,7 +34,6 @@ import org.techtown.find_gas_station.presentation.common.util.gps.GeoTransPoint
 import org.techtown.find_gas_station.presentation.common.util.gps.GpsTracker
 import org.techtown.find_gas_station.presentation.ui.oilroundinfo.oilroundrecyclerview.StationInfoAdapter
 
-@AndroidEntryPoint
 class StationInfoFragment :
     BaseFragment<FragmentStationInfoBinding>(R.layout.fragment_station_info),
     OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
@@ -166,7 +160,6 @@ class StationInfoFragment :
         return GeoTrans.convert(GeoTrans.GEO, GeoTrans.KATEC, geoTransPoint)
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("MissingPermission")
     private fun startLocationUpdates() {
         if (checkPermission()) {
@@ -187,7 +180,6 @@ class StationInfoFragment :
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         applyMap()
@@ -232,7 +224,7 @@ class StationInfoFragment :
         }
     }
 
-    private fun syncStationUi(oilList: List<TotalOilInfo>) {
+    private fun syncStationUi(oilList: List<StationDetailInfo>) {
         binding.listRecycler.adapter =
             StationInfoAdapter(
                 oilList,
@@ -242,11 +234,10 @@ class StationInfoFragment :
             )
     }
 
-    private fun navigateToStationDetail(stationInfo: TotalOilInfo) {
-        Log.e("TAG",stationInfo.name)
+    private fun navigateToStationDetail(stationInfo: StationDetailInfo) {
         stationInfoViewModel.stationDetailInfo = stationInfo
         requireParentFragment().findNavController()
-            .navigate(R.id.action_mainFragment_to_stationDetailFragment)
+            .navigate(R.id.action_mainFragment_to_StationDetailFragment)
     }
 
     private fun handleLocationPermissionRequest() {

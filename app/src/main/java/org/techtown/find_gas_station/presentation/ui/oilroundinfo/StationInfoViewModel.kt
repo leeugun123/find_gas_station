@@ -1,13 +1,12 @@
 package org.techtown.find_gas_station.presentation.ui.oilroundinfo
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import org.techtown.find_gas_station.domain.model.TotalOilInfo
+import org.techtown.find_gas_station.domain.model.StationDetailInfo
 import org.techtown.find_gas_station.domain.model.OilCondition
 import org.techtown.find_gas_station.domain.usecase.RequestStationListUseCase
 
@@ -16,8 +15,8 @@ class StationInfoViewModel : ViewModel() {
     val isLoading = MutableStateFlow(false)
     val isEmpty = MutableStateFlow(false)
 
-    private val _stationList = MutableStateFlow<List<TotalOilInfo>>(emptyList())
-    val stationList: StateFlow<List<TotalOilInfo>> get() = _stationList
+    private val _stationList = MutableStateFlow<List<StationDetailInfo>>(emptyList())
+    val stationList: StateFlow<List<StationDetailInfo>> get() = _stationList
 
     var sortText = ""
     var isConditionChange = false
@@ -25,9 +24,9 @@ class StationInfoViewModel : ViewModel() {
     var oilCondition = OilCondition("1000", "1", "D047")
     var afterOilCondition = OilCondition("", "", "")
 
-    var localGasStationList: List<TotalOilInfo> = emptyList()
+    var localGasStationList: List<StationDetailInfo> = emptyList()
 
-    var stationDetailInfo = TotalOilInfo(
+    var stationDetailInfo = StationDetailInfo(
         "",
         "",
         "",
