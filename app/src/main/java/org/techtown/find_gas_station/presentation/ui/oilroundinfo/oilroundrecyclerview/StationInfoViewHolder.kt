@@ -13,12 +13,14 @@ import com.kakao.sdk.navi.model.NaviOption
 import com.kakao.sdk.navi.model.RpOption
 import com.kakao.sdk.navi.model.VehicleType
 import org.techtown.find_gas_station.R
+import org.techtown.find_gas_station.data.toParableDTO
 import org.techtown.find_gas_station.databinding.ItemRecyclerviewBinding
 import org.techtown.find_gas_station.domain.model.StationDetailInfo
+import org.techtown.find_gas_station.presentation.common.TotalOilInfoParcelDTO
 
 class StationInfoViewHolder(
     parent: ViewGroup,
-    totalOilInfoClick: (stationDetailInfo: StationDetailInfo) -> Unit
+    totalOilInfoClick: (stationDetailInfo: TotalOilInfoParcelDTO) -> Unit
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.item_recyclerview, parent, false)
 ) {
@@ -31,7 +33,7 @@ class StationInfoViewHolder(
     }
 
     fun bind(stationDetailInfo: StationDetailInfo, sort: String) {
-        binding.gasStationInfo = stationDetailInfo
+        binding.stationDetailInfo = stationDetailInfo.toParableDTO()
         binding.sort = sort
         binding.moveKakaoBtnClick = { ::checkKakaoNaviAppInstalled.invoke(stationDetailInfo) }
     }

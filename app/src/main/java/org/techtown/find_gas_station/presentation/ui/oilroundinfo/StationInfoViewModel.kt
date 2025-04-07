@@ -25,26 +25,6 @@ class StationInfoViewModel : ViewModel() {
     var afterOilCondition = OilCondition("", "", "")
 
     var localGasStationList: List<StationDetailInfo> = emptyList()
-
-    var stationDetailInfo = StationDetailInfo(
-        "",
-        "",
-        "",
-        "",
-        "",
-        0,
-        0f,
-        0f,
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        ""
-    )
-
     private val requestStationUseCase : RequestStationListUseCase = RequestStationListUseCase()
 
     fun requestStationList(

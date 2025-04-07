@@ -12,12 +12,13 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import org.techtown.find_gas_station.domain.model.StationDetailInfo
+import org.techtown.find_gas_station.presentation.common.TotalOilInfoParcelDTO
 
 class StationInfoAdapter(
     private val oilInfoList: List<StationDetailInfo>,
     private val googleMap: GoogleMap,
     private val sort: String,
-    private val totalOilInfoClick: (stationDetailInfo: StationDetailInfo) -> Unit,
+    private val totalOilInfoClick: (stationDetailInfo: TotalOilInfoParcelDTO) -> Unit,
 ) : RecyclerView.Adapter<StationInfoViewHolder>() {
 
     override fun onCreateViewHolder(

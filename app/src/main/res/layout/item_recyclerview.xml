@@ -11,8 +11,8 @@
             type="String" />
 
         <variable
-            name="gasStationInfo"
-            type="org.techtown.find_gas_station.domain.model.StationDetailInfo" />
+            name="stationDetailInfo"
+            type="org.techtown.find_gas_station.presentation.common.TotalOilInfoParcelDTO" />
 
         <variable
             name="moveKakaoBtnClick"
@@ -20,7 +20,7 @@
 
         <variable
             name="moveStationDetailBtnClick"
-            type="kotlin.jvm.functions.Function1&lt;org.techtown.find_gas_station.domain.model.StationDetailInfo, Unit>" />
+            type="kotlin.jvm.functions.Function1&lt;org.techtown.find_gas_station.presentation.common.TotalOilInfoParcelDTO, Unit>" />
 
     </data>
 
@@ -38,7 +38,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:setImg="@{gasStationInfo.image}" />
+            app:setImg="@{stationDetailInfo.image}" />
 
         <TextView
             android:id="@+id/oil_kind"
@@ -46,9 +46,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
-            android:text="@{gasStationInfo.oilKind}"
+            android:text="@{stationDetailInfo.oilKind}"
             android:textColor="@color/app_background"
-            android:textSize="20sp"
+            android:textSize="20dp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/oil_image"
             app:layout_constraintTop_toTopOf="parent" />
@@ -58,9 +58,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="@{gasStationInfo.name}"
+            android:text="@{stationDetailInfo.name}"
             android:textColor="@color/black"
-            android:textSize="17sp"
+            android:textSize="17dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/oil_kind"
             app:layout_constraintStart_toEndOf="@+id/oil_kind"
@@ -72,9 +72,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:gravity="center_vertical"
-            android:text="@{gasStationInfo.price}"
+            android:text="@{stationDetailInfo.price}"
             android:textColor="#000000"
-            android:textSize="35sp"
+            android:textSize="35dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/oil_image"
@@ -86,7 +86,7 @@
             android:layout_height="wrap_content"
             android:text="@string/won"
             android:textColor="#000000"
-            android:textSize="20sp"
+            android:textSize="20dp"
             app:layout_constraintBottom_toBottomOf="@+id/price"
             app:layout_constraintStart_toEndOf="@+id/price" />
 
@@ -96,12 +96,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:textColor="#4CAF50"
-            android:textSize="25sp"
+            android:textSize="25dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/price"
             app:layout_constraintStart_toEndOf="@+id/won"
             app:sort="@{sort}"
-            app:totalOilInfo="@{gasStationInfo}" />
+            app:stationDetailInfo="@{stationDetailInfo}" />
 
         <TextView
             android:id="@+id/navi_button_kakao"
@@ -113,20 +113,20 @@
             android:onClick="@{() -> moveKakaoBtnClick.invoke()}"
             android:text="@string/navi"
             android:textColor="@color/black"
-            android:textSize="15sp"
+            android:textSize="15dp"
             android:textStyle="bold"
             app:drawableStartCompat="@drawable/navi_blue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/intelButton" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/intelButton"
             android:layout_width="60dp"
             android:layout_height="50dp"
             android:layout_marginEnd="5dp"
             android:background="@drawable/gas_station_detail_background"
             android:contentDescription="@string/gas_station_info_detail"
-            android:onClick="@{() -> moveStationDetailBtnClick.invoke(gasStationInfo)}"
+            android:onClick="@{() -> moveStationDetailBtnClick.invoke(stationDetailInfo)}"
             android:src="@drawable/gas"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -140,7 +140,7 @@
             android:contentDescription="@string/car_wash_exist"
             app:layout_constraintBottom_toTopOf="@+id/intelButton"
             app:layout_constraintStart_toStartOf="@+id/intelButton"
-            app:setCarWashImg="@{gasStationInfo.carWash}" />
+            app:setCarWashImg="@{stationDetailInfo.carWash}" />
 
         <ImageView
             android:id="@+id/conStore"
@@ -150,7 +150,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/carWashStore"
             app:layout_constraintStart_toEndOf="@+id/carWashStore"
             app:layout_constraintTop_toTopOf="@+id/carWashStore"
-            app:setConStoreImg="@{gasStationInfo.conStore}" />
+            app:setConStoreImg="@{stationDetailInfo.conStore}" />
 
         <View
             android:layout_width="match_parent"

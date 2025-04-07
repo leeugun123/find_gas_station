@@ -18,6 +18,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.AndroidEntryPoint
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.FragmentStationDetailBinding
+import org.techtown.find_gas_station.presentation.common.TotalOilInfoParcelDTO
 import org.techtown.find_gas_station.presentation.common.base.BaseFragment
 import org.techtown.find_gas_station.presentation.ui.oilroundinfo.StationInfoViewModel
 
@@ -28,13 +29,13 @@ class StationDetailFragment :
 
     private lateinit var detailMap: GoogleMap
     private val stationInfoViewModel: StationInfoViewModel by activityViewModels()
-    private val stationInfo = stationInfoViewModel.stationDetailInfo
+    private val stationInfo: TotalOilInfoParcelDTO by lazy { requireArguments().getParcelable("stationInfo")!! }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        stationInfoViewModel.isConditionChange = false
         initBinding()
         initMapFragment()
+        stationInfoViewModel.isConditionChange = false
     }
 
     private fun initBinding() {
