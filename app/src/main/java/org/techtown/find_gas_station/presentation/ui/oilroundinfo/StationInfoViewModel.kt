@@ -1,5 +1,6 @@
 package org.techtown.find_gas_station.presentation.ui.oilroundinfo
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -12,11 +13,8 @@ import org.techtown.find_gas_station.domain.usecase.RequestStationListUseCase
 
 class StationInfoViewModel : ViewModel() {
 
-    val isLoading = MutableStateFlow(false)
+    val loadingState = MutableStateFlow(LoadingState.INIT)
     val isEmpty = MutableStateFlow(false)
-
-    private val _stationList = MutableStateFlow<List<StationDetailInfo>>(emptyList())
-    val stationList: StateFlow<List<StationDetailInfo>> get() = _stationList
 
     var sortText = ""
     var isConditionChange = false
@@ -25,13 +23,19 @@ class StationInfoViewModel : ViewModel() {
     var afterOilCondition = OilCondition("", "", "")
 
     var localGasStationList: List<StationDetailInfo> = emptyList()
+
+    private val _stationList = MutableStateFlow<List<StationDetailInfo>>(emptyList())
+    val stationList: StateFlow<List<StationDetailInfo>> get() = _stationList
+
     private val requestStationUseCase : RequestStationListUseCase = RequestStationListUseCase()
 
     fun requestStationList(
         wgsX: String, wgsY: String, katecX: String, katecY: String
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            syncLoading(LoadingState.LOADING)
+            Log.e("TAG","dd")
+            loadingState.value = LoadingState.LOADING
+
             requestStationUseCase.invoke(
                 wgsX,
                 wgsY,
@@ -40,20 +44,9 @@ class StationInfoViewModel : ViewModel() {
                 oilCondition
             ).collect { listData ->
                 _stationList.value = listData
-                syncIsEmpty(listData.size)
-                syncLoading(LoadingState.COMPLETE)
+                isEmpty.value = listData.isEmpty()
+                loadingState.value = LoadingState.COMPLETE
             }
         }
-    }
-
-    private fun syncLoading(loadingState: LoadingState) {
-        when (loadingState) {
-            LoadingState.LOADING -> isLoading.value = true
-            LoadingState.COMPLETE -> isLoading.value = false
-        }
-    }
-
-    private fun syncIsEmpty(size: Int) {
-        isEmpty.value = size == 0
     }
 }

@@ -98,7 +98,7 @@ class StationInfoFragment :
     }
 
     private fun getOilData() {
-        if (!stationInfoViewModel.isLoading.value) {
+        if (stationInfoViewModel.loadingState.value != LoadingState.LOADING) {
 
             if (gpsTracker == null)
                 initGpsTracker()
