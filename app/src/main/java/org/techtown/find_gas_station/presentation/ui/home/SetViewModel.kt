@@ -2,6 +2,7 @@ package org.techtown.find_gas_station.presentation.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -11,15 +12,21 @@ import kotlinx.coroutines.launch
 import org.techtown.find_gas_station.domain.model.OilCondition
 import org.techtown.find_gas_station.domain.usecase.GetLocalOilConditionUseCase
 import org.techtown.find_gas_station.domain.usecase.UpdateLocalOilConditionUseCase
+import javax.inject.Inject
 
-class SetViewModel() : ViewModel() {
+@HiltViewModel
+class SetViewModel @Inject constructor(
+    private val getLocalOilConditionUseCase: GetLocalOilConditionUseCase,
+    private val updateLocalOilCondition: UpdateLocalOilConditionUseCase
+) : ViewModel() {
 
-    private val getLocalOilConditionUseCase: GetLocalOilConditionUseCase =
-        GetLocalOilConditionUseCase()
-    private val updateLocalOilCondition: UpdateLocalOilConditionUseCase =
-        UpdateLocalOilConditionUseCase()
-
-    private val _roomDbOilCondition = MutableStateFlow(OilCondition("1000", "1", "B027"))
+    private val _roomDbOilCondition = MutableStateFlow(
+        OilCondition(
+            "1000",
+            "1",
+            "B027"
+        )
+    )
     val roomDbOilCondition = _roomDbOilCondition.filterNotNull().stateIn(
         initialValue = OilCondition("1000", "1", "B027"),
         started = SharingStarted.WhileSubscribed(5_000),

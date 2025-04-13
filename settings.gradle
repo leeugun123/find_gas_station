@@ -9,3 +9,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "find_gas_station"
 include ':app'
+include ':domain'

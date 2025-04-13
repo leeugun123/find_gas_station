@@ -11,7 +11,6 @@ class GasApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         KakaoSdk.init(this, "{" + BuildConfig.KAKAO_API_KEY + "}")
-        RepositoryModule.init(this)
     }
 }
 

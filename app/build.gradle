@@ -10,7 +10,7 @@ Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 android {
-    compileSdk 34
+    compileSdk 35
     namespace "org.techtown.find_gas_station"
 
     defaultConfig {
@@ -112,6 +112,9 @@ dependencies {
     // Hilt
     implementation 'com.google.dagger:hilt-android:2.42'
     annotationProcessor 'com.google.dagger:hilt-compiler:2.42'
+
+
+    implementation project(':domain')
 }
 
 

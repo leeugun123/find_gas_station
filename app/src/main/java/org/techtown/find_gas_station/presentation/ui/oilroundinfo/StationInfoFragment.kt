@@ -25,6 +25,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.FragmentStationInfoBinding
 import org.techtown.find_gas_station.domain.model.StationDetailInfo
@@ -37,6 +38,7 @@ import org.techtown.find_gas_station.presentation.common.util.gps.GeoTransPoint
 import org.techtown.find_gas_station.presentation.common.util.gps.GpsTracker
 import org.techtown.find_gas_station.presentation.ui.oilroundinfo.oilroundrecyclerview.StationInfoAdapter
 
+@AndroidEntryPoint
 class StationInfoFragment :
     BaseFragment<FragmentStationInfoBinding>(R.layout.fragment_station_info),
     OnMapReadyCallback, GoogleMap.OnMarkerClickListener {

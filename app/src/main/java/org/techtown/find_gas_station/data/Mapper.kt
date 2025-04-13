@@ -19,7 +19,7 @@ fun OilConditionEntity.toDomain(): OilCondition {
     return OilCondition(
         oilKind = this.oilName,
         radius = this.oilRad,
-        sort =  this.oilSort
+        sort = this.oilSort
     )
 }
 

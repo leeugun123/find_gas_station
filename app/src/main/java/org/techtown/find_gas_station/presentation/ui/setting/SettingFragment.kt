@@ -8,11 +8,13 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.FragmentSettingBinding
 import org.techtown.find_gas_station.presentation.common.base.BaseFragment
 import org.techtown.find_gas_station.presentation.ui.oilroundinfo.StationInfoViewModel
 
+@AndroidEntryPoint
 class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment_setting) {
 
     private val stationInfoViewModel: StationInfoViewModel by activityViewModels()

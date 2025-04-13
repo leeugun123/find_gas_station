@@ -7,8 +7,8 @@ import org.techtown.find_gas_station.data.datasource.StationRemoteDataSource
 import org.techtown.find_gas_station.data.remote.model.station.detail.GasStationDetailInfoResult
 import org.techtown.find_gas_station.data.remote.model.station.infomation.GasStationInfoResult
 import org.techtown.find_gas_station.data.remote.model.station.kakao.Destination
-import org.techtown.find_gas_station.data.remote.model.station.kakao.Origin
 import org.techtown.find_gas_station.data.remote.model.station.kakao.DirectionResponse
+import org.techtown.find_gas_station.data.remote.model.station.kakao.Origin
 import org.techtown.find_gas_station.data.remote.model.station.kakao.Route
 import org.techtown.find_gas_station.domain.model.StationDetailInfo
 import org.techtown.find_gas_station.domain.repositoy.StationInfoRepository
@@ -17,10 +17,12 @@ import org.techtown.find_gas_station.presentation.common.util.comparator.OilSpen
 import org.techtown.find_gas_station.presentation.common.util.gps.GeoTrans
 import org.techtown.find_gas_station.presentation.common.util.gps.GeoTransPoint
 import java.util.Collections
+import javax.inject.Inject
 
-class StationInfoRepositoryImpl : StationInfoRepository {
+class StationInfoRepositoryImpl @Inject constructor(
+    private val stationRemoteDataSource: StationRemoteDataSource
+) : StationInfoRepository {
 
-    private val stationRemoteDataSource = StationRemoteDataSource()
     private var tempList = mutableListOf<StationDetailInfo>()
     private var wgsX: String? = ""
     private var wgsY: String? = ""
@@ -157,7 +159,7 @@ class StationInfoRepositoryImpl : StationInfoRepository {
 
     private suspend fun checkTempListSize(size: Int, sort: String) {
         if (isKakaoApiRequired(size, sort))
-                getStationKakaoApi(sort)
+            getStationKakaoApi(sort)
     }
 
     private fun isKakaoApiRequired(size: Int, sort: String) =
