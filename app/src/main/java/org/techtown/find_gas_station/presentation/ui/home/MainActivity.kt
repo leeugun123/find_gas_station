@@ -34,8 +34,8 @@ class MainActivity : AppCompatActivity() {
 
     private var backPressedTime: Long = 0
 
-    private val setViewModel: SetViewModel by viewModels()
     private val stationInfoViewModel: StationInfoViewModel by viewModels()
+    private val setViewModel: SetViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

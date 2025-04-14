@@ -11,10 +11,10 @@ import org.techtown.find_gas_station.data.remote.model.station.kakao.DirectionRe
 import org.techtown.find_gas_station.data.remote.model.station.kakao.Origin
 import javax.inject.Inject
 
-class StationRemoteDataSource @Inject constructor(
+class StationRemoteDataSource (
     private val opinetApiService: OpinetApi,
     private val kakaoApiService: KakaoApi
-) {
+){
 
     suspend fun fetchStationList(
         katecX: String,

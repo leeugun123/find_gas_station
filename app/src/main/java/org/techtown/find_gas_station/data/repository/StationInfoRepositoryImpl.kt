@@ -19,7 +19,7 @@ import org.techtown.find_gas_station.presentation.common.util.gps.GeoTransPoint
 import java.util.Collections
 import javax.inject.Inject
 
-class StationInfoRepositoryImpl @Inject constructor(
+class StationInfoRepositoryImpl (
     private val stationRemoteDataSource: StationRemoteDataSource
 ) : StationInfoRepository {
 

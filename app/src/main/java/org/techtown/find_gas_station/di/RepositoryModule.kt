@@ -1,12 +1,12 @@
 package org.techtown.find_gas_station.di
 
-import android.content.Context
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import org.techtown.find_gas_station.data.local.RoomDB
+import org.techtown.find_gas_station.data.datasource.OilAvgRemoteDataSource
+import org.techtown.find_gas_station.data.datasource.StationRemoteDataSource
+import org.techtown.find_gas_station.data.local.SetDao
 import org.techtown.find_gas_station.data.repository.LocalRepositoryImpl
 import org.techtown.find_gas_station.data.repository.OilAvgRepositoryImpl
 import org.techtown.find_gas_station.data.repository.StationInfoRepositoryImpl
@@ -19,17 +19,27 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideRoomDB(@ApplicationContext context: Context): RoomDB {
-        return RoomDB.getAppDatabase(context)
+    fun bindStationInfoRepository(
+        stationRemoteDataSource: StationRemoteDataSource
+    ): StationInfoRepository {
+        return StationInfoRepositoryImpl(stationRemoteDataSource)
     }
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideSetRepository(
-        roomDB: RoomDB // RoomDB 인스턴스를 Hilt로부터 주입받습니다.
+    fun bindOilAvgRepository(
+        oilAvgRemoteDataSource: OilAvgRemoteDataSource
+    ): OilAvgRepository {
+        return OilAvgRepositoryImpl(oilAvgRemoteDataSource)
+    }
+
+    @Binds
+    @Singleton
+    fun bindLocalRepository(
+        setDao: SetDao
     ): LocalRepository {
-        return LocalRepositoryImpl(roomDB.setDao())
+        return LocalRepositoryImpl(setDao)
     }
 }

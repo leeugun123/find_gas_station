@@ -3,7 +3,6 @@ package org.techtown.find_gas_station
 import android.app.Application
 import com.kakao.sdk.common.KakaoSdk
 import dagger.hilt.android.HiltAndroidApp
-import org.techtown.find_gas_station.di.RepositoryModule
 
 
 @HiltAndroidApp

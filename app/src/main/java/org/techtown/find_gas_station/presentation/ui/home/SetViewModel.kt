@@ -27,6 +27,7 @@ class SetViewModel @Inject constructor(
             "B027"
         )
     )
+
     val roomDbOilCondition = _roomDbOilCondition.filterNotNull().stateIn(
         initialValue = OilCondition("1000", "1", "B027"),
         started = SharingStarted.WhileSubscribed(5_000),

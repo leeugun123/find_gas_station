@@ -6,9 +6,9 @@ import org.techtown.find_gas_station.data.remote.model.oilavg.OilAveragePriceInf
 import org.techtown.find_gas_station.di.ApiModule
 import javax.inject.Inject
 
-class OilAvgRemoteDataSource @Inject constructor(
+class OilAvgRemoteDataSource (
     private val opinetApiService: OpinetApi
-){
+) {
 
     suspend fun getOilAvg(prodCd: String) : List<OilAveragePriceInfoDto> {
         val response = opinetApiService.getAvgRecentPrice(BuildConfig.GAS_API_KEY, "json", prodCd)

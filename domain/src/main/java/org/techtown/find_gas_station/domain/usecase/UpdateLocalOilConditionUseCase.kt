@@ -5,10 +5,10 @@ import org.techtown.find_gas_station.domain.repositoy.LocalRepository
 import javax.inject.Inject
 
 class UpdateLocalOilConditionUseCase @Inject constructor(
-    private val setRepository: LocalRepository
+    private val localRepository: LocalRepository
 ) {
     suspend operator fun invoke(oilCondition: OilCondition) {
-        setRepository.deleteAll()
-        setRepository.insert(oilCondition)
+        localRepository.deleteAll()
+        localRepository.insert(oilCondition)
     }
 }
