@@ -19,9 +19,9 @@ import org.techtown.find_gas_station.presentation.common.util.gps.GeoTransPoint
 import java.util.Collections
 import javax.inject.Inject
 
-class StationInfoRepositoryImpl (
+class StationInfoRepositoryImpl @Inject constructor(
     private val stationRemoteDataSource: StationRemoteDataSource
-) : StationInfoRepository {
+): StationInfoRepository {
 
     private var tempList = mutableListOf<StationDetailInfo>()
     private var wgsX: String? = ""

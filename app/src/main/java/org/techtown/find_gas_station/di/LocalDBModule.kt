@@ -20,13 +20,7 @@ object LocalDBModule {
     @Provides
     @Singleton
     fun provideRoomDB(@ApplicationContext context: Context): RoomDB {
-        return Room.databaseBuilder(
-            context.applicationContext,
-            RoomDB::class.java,
-            DATABASE_NAME
-        )
-        .fallbackToDestructiveMigration()
-        .build()
+        return RoomDB.getAppDatabase(context)
     }
 
     @Provides

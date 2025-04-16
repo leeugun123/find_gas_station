@@ -17,29 +17,20 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RepositoryModule {
+abstract class RepositoryModule {
 
     @Binds
-    @Singleton
-    fun bindStationInfoRepository(
-        stationRemoteDataSource: StationRemoteDataSource
-    ): StationInfoRepository {
-        return StationInfoRepositoryImpl(stationRemoteDataSource)
-    }
+    abstract fun bindStationInfoRepository(
+        stationInfoRepositoryImpl : StationInfoRepositoryImpl
+    ): StationInfoRepository
 
     @Binds
-    @Singleton
-    fun bindOilAvgRepository(
-        oilAvgRemoteDataSource: OilAvgRemoteDataSource
-    ): OilAvgRepository {
-        return OilAvgRepositoryImpl(oilAvgRemoteDataSource)
-    }
+    abstract fun bindOilAvgRepository(
+        oilAvgRepositoryImpl : OilAvgRepositoryImpl
+    ): OilAvgRepository
 
     @Binds
-    @Singleton
-    fun bindLocalRepository(
-        setDao: SetDao
-    ): LocalRepository {
-        return LocalRepositoryImpl(setDao)
-    }
+    abstract fun bindLocalRepository(
+        localRepositoryImpl :  LocalRepositoryImpl
+    ): LocalRepository
 }

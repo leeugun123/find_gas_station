@@ -11,7 +11,7 @@ import org.techtown.find_gas_station.data.remote.model.station.kakao.DirectionRe
 import org.techtown.find_gas_station.data.remote.model.station.kakao.Origin
 import javax.inject.Inject
 
-class StationRemoteDataSource (
+class StationRemoteDataSource @Inject constructor(
     private val opinetApiService: OpinetApi,
     private val kakaoApiService: KakaoApi
 ){
