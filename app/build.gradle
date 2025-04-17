@@ -53,6 +53,8 @@ android {
 }
 
 dependencies {
+    implementation project(':domain')
+
     implementation group: 'com.kakao.sdk', name: 'kakaonavi', version: project.KAKAO_SDK_VERSION
     implementation "com.kakao.sdk:v2-navi:2.11.0" // 카카오내비
 
@@ -111,10 +113,9 @@ dependencies {
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
 
     // Hilt
-    implementation 'com.google.dagger:hilt-android:2.51'
-    kapt 'com.google.dagger:hilt-android-compiler:2.51'
-
-    implementation project(':domain')
+    implementation 'com.google.dagger:hilt-android:2.50'
+    kapt 'com.google.dagger:hilt-android-compiler:2.50'
+    implementation 'androidx.hilt:hilt-navigation-fragment:1.2.0'
 }
 
 

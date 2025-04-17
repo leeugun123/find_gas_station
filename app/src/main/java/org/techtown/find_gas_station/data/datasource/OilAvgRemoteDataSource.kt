@@ -9,7 +9,6 @@ import javax.inject.Inject
 class OilAvgRemoteDataSource @Inject constructor(
     private val opinetApiService: OpinetApi
 ){
-
     suspend fun getOilAvg(prodCd: String) : List<OilAveragePriceInfoDto> {
         val response = opinetApiService.getAvgRecentPrice(BuildConfig.GAS_API_KEY, "json", prodCd)
         if (response.isSuccessful) {
