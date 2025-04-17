@@ -108,11 +108,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun observeUpdateComplete() {
         lifecycleScope.launch {
-            /*
             setViewModel.updateComplete.collect { complete ->
                 if (complete)
                         finish()
-            }*/
+            }
         }
     }
 
