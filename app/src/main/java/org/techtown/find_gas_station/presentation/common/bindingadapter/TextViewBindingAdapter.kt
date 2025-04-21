@@ -40,11 +40,11 @@ private fun formatSeconds(seconds: Int): String {
     val leftSeconds = seconds % 60
 
     return if (minutes == 0) {
-        "$leftSeconds 초"
+        "$leftSeconds" + "초"
     } else if (leftSeconds == 0) {
-        "$minutes 분"
+        "$minutes" + "분"
     } else {
-        "$minutes 분 $leftSeconds 초"
+        "$minutes" +"분" + " " + "$leftSeconds" + "초"
     }
 }
 

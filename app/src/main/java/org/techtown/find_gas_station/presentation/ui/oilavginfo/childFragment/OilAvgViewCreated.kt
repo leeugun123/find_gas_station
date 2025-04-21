@@ -11,7 +11,6 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.FragmentOilAvgBinding
@@ -92,7 +91,5 @@ class OilAvgViewCreated {
                     }
             }
         }
-
     }
-
 }

@@ -3,15 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white">
-
 
         <TextView
             android:id="@+id/textView5"
@@ -20,7 +15,7 @@
             android:layout_marginTop="5dp"
             android:text="@string/recent_week"
             android:textColor="@color/black"
-            android:textSize="25dp"
+            android:textSize="25sp"
             app:layout_constraintEnd_toStartOf="@+id/oilKind"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/app_background"
-            android:textSize="25dp"
+            android:textSize="25sp"
             app:layout_constraintEnd_toStartOf="@+id/textView6"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/textView5"
@@ -43,7 +38,7 @@
             android:layout_height="wrap_content"
             android:text="@string/price"
             android:textColor="@color/black"
-            android:textSize="25dp"
+            android:textSize="25sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/oilKind"
@@ -52,7 +47,8 @@
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/line_chart"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView5" />
@@ -61,9 +57,10 @@
             android:id="@+id/oilAvg_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:layout_marginTop="5dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@+id/textView9"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/line_chart"
             tools:listitem="@layout/oilavg" />
@@ -73,36 +70,37 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:layout_marginBottom="30dp"
             android:text="@string/today_oil_price"
             android:textColor="@color/black"
-            android:textSize="30dp"
-            app:layout_constraintBottom_toBottomOf="@+id/priceText"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/priceText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:text="@string/line"
             android:textColor="@color/app_background"
-            android:textSize="45dp"
+            android:textSize="45sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/textView9"
             app:layout_constraintEnd_toStartOf="@+id/textView10"
-            app:layout_constraintTop_toBottomOf="@+id/oilAvg_recyclerView" />
+            app:layout_constraintTop_toTopOf="@+id/textView9" />
 
         <TextView
             android:id="@+id/textView10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
+            android:layout_marginEnd="10dp"
             android:text="@string/won"
             android:textColor="@color/app_background"
-            android:textSize="30dp"
+            android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/priceText"
-            app:layout_constraintEnd_toEndOf="parent" />
-
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/priceText" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

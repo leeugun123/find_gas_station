@@ -15,8 +15,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object LocalDBModule {
 
-    private const val DATABASE_NAME = "RoomDB-db"
-
     @Provides
     @Singleton
     fun provideRoomDB(@ApplicationContext context: Context): RoomDB {
