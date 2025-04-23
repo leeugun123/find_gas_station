@@ -8,7 +8,6 @@ import org.techtown.find_gas_station.presentation.common.base.BaseFragment
 import org.techtown.find_gas_station.presentation.ui.oilavginfo.DailyFragment
 import org.techtown.find_gas_station.presentation.ui.oilroundinfo.StationInfoFragment
 
-
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
     private val stationInfoFragment by lazy { StationInfoFragment() }

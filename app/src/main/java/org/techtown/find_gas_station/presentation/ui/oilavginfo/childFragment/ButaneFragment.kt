@@ -9,10 +9,8 @@ import org.techtown.find_gas_station.databinding.FragmentOilAvgBinding
 import org.techtown.find_gas_station.presentation.common.base.BaseFragment
 import org.techtown.find_gas_station.presentation.ui.oilavginfo.OilAvgViewModel
 
-@AndroidEntryPoint
-class ButaneFragment : BaseFragment<FragmentOilAvgBinding>(R.layout.fragment_oil_avg) {
 
-    private val oilAvgViewModel: OilAvgViewModel by viewModels()
+class ButaneFragment(private val oilAvgViewModel : OilAvgViewModel) : BaseFragment<FragmentOilAvgBinding>(R.layout.fragment_oil_avg) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -20,9 +18,9 @@ class ButaneFragment : BaseFragment<FragmentOilAvgBinding>(R.layout.fragment_oil
     }
 
     private fun setOilAvgViewCreated() {
-        OilAvgViewCreated().setupOilChartAndRecycler(
+        OilAvgViewCreated.setupOilChartAndRecycler(
             requireContext().getString(R.string.car_butane),
-            requireActivity(),
+            requireContext(),
             binding,
             oilAvgViewModel,
             requireContext().getString(R.string.car_butane_code),

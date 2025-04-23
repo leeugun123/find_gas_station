@@ -2,6 +2,7 @@ package org.techtown.find_gas_station.presentation.ui.oilavginfo.childFragment
 
 import android.content.Context
 import android.graphics.Color
+import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -18,7 +19,7 @@ import org.techtown.find_gas_station.presentation.common.util.convertor.RidRound
 import org.techtown.find_gas_station.presentation.ui.oilavginfo.OilAvgRecyclerAdapter
 import org.techtown.find_gas_station.presentation.ui.oilavginfo.OilAvgViewModel
 
-class OilAvgViewCreated {
+object OilAvgViewCreated {
 
     fun setupOilChartAndRecycler(
         oilKind: String,
@@ -28,11 +29,8 @@ class OilAvgViewCreated {
         oilCode: String,
         viewLifecycleOwner: LifecycleOwner
     ) {
-
         binding.oilKind.text = oilKind
-
         oilAvgViewModel.fetchOilAvg(oilCode)
-
         viewLifecycleOwner.lifecycleScope.launch {
 
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {

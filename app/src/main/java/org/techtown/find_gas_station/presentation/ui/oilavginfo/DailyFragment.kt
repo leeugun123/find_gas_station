@@ -1,8 +1,12 @@
 package org.techtown.find_gas_station.presentation.ui.oilavginfo
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 import org.techtown.find_gas_station.R
 import org.techtown.find_gas_station.databinding.FragmentDailyBinding
 import org.techtown.find_gas_station.presentation.common.base.BaseFragment
@@ -12,7 +16,10 @@ import org.techtown.find_gas_station.presentation.ui.oilavginfo.childFragment.Ga
 import org.techtown.find_gas_station.presentation.ui.oilavginfo.childFragment.HighGasolineFragment
 import org.techtown.find_gas_station.presentation.ui.oilavginfo.childFragment.KeroseneFragment
 
+@AndroidEntryPoint
 class DailyFragment : BaseFragment<FragmentDailyBinding>(R.layout.fragment_daily) {
+
+    private val oilAvgViewModel : OilAvgViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -25,11 +32,11 @@ class DailyFragment : BaseFragment<FragmentDailyBinding>(R.layout.fragment_daily
             childFragmentManager,
             lifecycle,
             listOf(
-                GasolineFragment(),
-                DieselFragment(),
-                HighGasolineFragment(),
-                KeroseneFragment(),
-                ButaneFragment()
+                GasolineFragment(oilAvgViewModel),
+                DieselFragment(oilAvgViewModel),
+                HighGasolineFragment(oilAvgViewModel),
+                KeroseneFragment(oilAvgViewModel),
+                ButaneFragment(oilAvgViewModel)
             )
         )
     }
