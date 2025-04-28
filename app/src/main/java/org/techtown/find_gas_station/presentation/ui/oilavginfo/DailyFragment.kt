@@ -1,10 +1,7 @@
 package org.techtown.find_gas_station.presentation.ui.oilavginfo
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import androidx.activity.viewModels
-import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import org.techtown.find_gas_station.R
@@ -18,9 +15,6 @@ import org.techtown.find_gas_station.presentation.ui.oilavginfo.childFragment.Ke
 
 @AndroidEntryPoint
 class DailyFragment : BaseFragment<FragmentDailyBinding>(R.layout.fragment_daily) {
-
-    private val oilAvgViewModel : OilAvgViewModel by viewModels()
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         connectPagerAdapter()
@@ -32,11 +26,11 @@ class DailyFragment : BaseFragment<FragmentDailyBinding>(R.layout.fragment_daily
             childFragmentManager,
             lifecycle,
             listOf(
-                GasolineFragment(oilAvgViewModel),
-                DieselFragment(oilAvgViewModel),
-                HighGasolineFragment(oilAvgViewModel),
-                KeroseneFragment(oilAvgViewModel),
-                ButaneFragment(oilAvgViewModel)
+                GasolineFragment(),
+                DieselFragment(),
+                HighGasolineFragment(),
+                KeroseneFragment(),
+                ButaneFragment()
             )
         )
     }
@@ -45,10 +39,10 @@ class DailyFragment : BaseFragment<FragmentDailyBinding>(R.layout.fragment_daily
         TabLayoutMediator(binding.oilAvgtabs, binding.oilAvgViewPager) { tab, position ->
             tab.text = when (position) {
                 0 -> requireContext().getString(R.string.gasoline)
-                1 -> requireContext().getString(R.string.diesel_oil)
-                2 -> requireContext().getString(R.string.premium_gasoline)
-                3 -> requireContext().getString(R.string.indoor_kerosene)
-                4 -> requireContext().getString(R.string.car_butane)
+                1 -> requireContext().getString(R.string.diesel)
+                2 -> requireContext().getString(R.string.high_gasoline)
+                3 -> requireContext().getString(R.string.kerosene)
+                4 -> requireContext().getString(R.string.butane)
                 else -> throw IllegalArgumentException("Invalid position")
             }
         }.attach()

@@ -51,12 +51,12 @@
 
 
     <string name="gasoline">휘발유</string>
-    <string name="diesel_oil">경유</string>
-    <string name="premium_gasoline_line">고급\n휘발유</string>
-    <string name="premium_gasoline">고급 휘발유</string>
-    <string name="indoor_kerosene">실내 등유</string>
-    <string name="car_butane_line">자동차\n부탄</string>
-    <string name="car_butane">자동차 부탄</string>
+    <string name="diesel">경유</string>
+    <string name="high_gasoline_line">고급\n휘발유</string>
+    <string name="high_gasoline">고급 휘발유</string>
+    <string name="kerosene">실내 등유</string>
+    <string name="butane_line">자동차\n부탄</string>
+    <string name="butane">자동차 부탄</string>
     <string name="won">원</string>
 
     <string name="gas_station_price">주유소 가격</string>
@@ -85,10 +85,10 @@
     <string name="skg">SKG</string>
 
     <string name="gasoline_code">B027</string>
-    <string name="diesel_oil_code">D047</string>
-    <string name="premium_gasoline_code">B034</string>
-    <string name="indoor_kerosene_code">C004</string>
-    <string name="car_butane_code">K015</string>
+    <string name="diesel_code">D047</string>
+    <string name="high_gasoline_code">B034</string>
+    <string name="kerosene_code">C004</string>
+    <string name="butane_code">K015</string>
 
     <!-- SettingFragment -->
     <string name="one_km">1km</string>

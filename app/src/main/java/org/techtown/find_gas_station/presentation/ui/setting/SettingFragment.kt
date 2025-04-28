@@ -73,17 +73,17 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
                     requireContext().getString(R.string.gasoline) -> stationInfoViewModel.oilCondition.oilKind =
                         requireContext().getString(R.string.gasoline_code)
 
-                    requireContext().getString(R.string.diesel_oil) -> stationInfoViewModel.oilCondition.oilKind =
-                        requireContext().getString(R.string.diesel_oil_code)
+                    requireContext().getString(R.string.diesel) -> stationInfoViewModel.oilCondition.oilKind =
+                        requireContext().getString(R.string.diesel_code)
 
-                    requireContext().getString(R.string.premium_gasoline) -> stationInfoViewModel.oilCondition.oilKind =
-                requireContext().getString(R.string.premium_gasoline_code)
+                    requireContext().getString(R.string.high_gasoline) -> stationInfoViewModel.oilCondition.oilKind =
+                requireContext().getString(R.string.high_gasoline_code)
 
-            requireContext().getString(R.string.indoor_kerosene) -> stationInfoViewModel.oilCondition.oilKind =
-                requireContext().getString(R.string.indoor_kerosene_code)
+            requireContext().getString(R.string.kerosene) -> stationInfoViewModel.oilCondition.oilKind =
+                requireContext().getString(R.string.kerosene_code)
 
-            requireContext().getString(R.string.car_butane) -> stationInfoViewModel.oilCondition.oilKind =
-                requireContext().getString(R.string.car_butane_code)
+            requireContext().getString(R.string.butane) -> stationInfoViewModel.oilCondition.oilKind =
+                requireContext().getString(R.string.butane_code)
 
             requireContext().getString(R.string.one_km) -> stationInfoViewModel.oilCondition.radius =
                 requireContext().getString(R.string.one_km_number)
@@ -127,10 +127,10 @@ class SettingFragment() : BaseFragment<FragmentSettingBinding>(R.layout.fragment
     private fun setOilKindAdapterSelection() {
         when (stationInfoViewModel.oilCondition.oilKind) {
             requireContext().getString(R.string.gasoline_code) -> binding.typeSpinner.setSelection(0)
-            requireContext().getString(R.string.diesel_oil_code) -> binding.typeSpinner.setSelection(1)
-            requireContext().getString(R.string.premium_gasoline_code) -> binding.typeSpinner.setSelection(2)
-            requireContext().getString(R.string.indoor_kerosene_code) -> binding.typeSpinner.setSelection(3)
-            requireContext().getString(R.string.car_butane_code) -> binding.typeSpinner.setSelection(4)
+            requireContext().getString(R.string.diesel_code) -> binding.typeSpinner.setSelection(1)
+            requireContext().getString(R.string.high_gasoline_code) -> binding.typeSpinner.setSelection(2)
+            requireContext().getString(R.string.kerosene_code) -> binding.typeSpinner.setSelection(3)
+            requireContext().getString(R.string.butane_code) -> binding.typeSpinner.setSelection(4)
         }
     }
 
