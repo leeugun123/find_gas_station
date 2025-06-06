@@ -2,6 +2,7 @@ package org.techtown.find_gas_station.presentation.ui.oilavginfo.childFragment
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -30,7 +31,7 @@ class KeroseneFragment : BaseFragment<FragmentOilAvgBinding>(R.layout.fragment_o
     private val oilAvgViewModel: OilAvgViewModel by viewModels()
     @Inject
     lateinit var dateConverter: DateConverterUtil
-    private val oilAvgAdapter by lazy { OilAvgRecyclerAdapter(emptyList()) }
+    private val oilAvgAdapter by lazy { OilAvgRecyclerAdapter(mutableListOf()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -57,8 +58,7 @@ class KeroseneFragment : BaseFragment<FragmentOilAvgBinding>(R.layout.fragment_o
                 oilAvgViewModel.oilAvgList.collect { oilAvgPriceInfoList ->
                     updateChart(oilAvgPriceInfoList)
                     updateCurrentPrice(oilAvgPriceInfoList)
-                    binding.oilAvgRecyclerView.adapter =
-                        OilAvgRecyclerAdapter(oilAvgPriceInfoList.reversed())
+                    oilAvgAdapter.setItems(oilAvgPriceInfoList.reversed())
                 }
             }
         }

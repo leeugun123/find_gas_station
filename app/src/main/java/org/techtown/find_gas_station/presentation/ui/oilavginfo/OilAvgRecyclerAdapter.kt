@@ -12,7 +12,7 @@ import org.techtown.find_gas_station.presentation.common.util.convertor.RidRound
 import java.text.ParseException
 import java.text.SimpleDateFormat
 
-class OilAvgRecyclerAdapter(private val oilAvgList: List<OilAveragePriceInfo>) :
+class OilAvgRecyclerAdapter(private val oilAvgList: MutableList<OilAveragePriceInfo>) :
     RecyclerView.Adapter<OilAvgRecyclerAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: OilavgBinding) : RecyclerView.ViewHolder(binding.root)
@@ -59,6 +59,11 @@ class OilAvgRecyclerAdapter(private val oilAvgList: List<OilAveragePriceInfo>) :
         }
     }
 
+    fun setItems(newItems: List<OilAveragePriceInfo>) {
+        oilAvgList.clear()
+        oilAvgList.addAll(newItems)
+        notifyDataSetChanged()
+    }
 
     private fun priceGap(pos: Int) =
         roundStringToInteger(oilAvgList[pos].oilPrice) - roundStringToInteger(oilAvgList[pos - 1].oilPrice)
