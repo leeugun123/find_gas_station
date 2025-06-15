@@ -2,61 +2,52 @@ package org.techtown.find_gas_station.presentation.ui.oilroundinfo
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import org.techtown.find_gas_station.data.remote.model.station.TotalOilInfo
-import org.techtown.find_gas_station.presentation.di.RepositoryModule
+import org.techtown.find_gas_station.domain.model.OilCondition
+import org.techtown.find_gas_station.domain.model.StationDetailInfo
+import org.techtown.find_gas_station.domain.usecase.RequestStationListUseCase
+import javax.inject.Inject
 
-class StationInfoViewModel : ViewModel() {
+@HiltViewModel
+class StationInfoViewModel @Inject constructor(
+    private val requestStationUseCase: RequestStationListUseCase
+) : ViewModel() {
 
-    val isLoading = MutableStateFlow(false)
+    val loadingState = MutableStateFlow(LoadingState.INIT)
     val isEmpty = MutableStateFlow(false)
 
-    private val _stationList = MutableStateFlow<List<TotalOilInfo>>(emptyList())
-    val stationList: StateFlow<List<TotalOilInfo>> get() = _stationList
-
     var sortText = ""
-
     var isConditionChange = false
+
     var oilCondition = OilCondition("1000", "1", "D047")
     var afterOilCondition = OilCondition("", "", "")
 
-    var localGasStationList: List<TotalOilInfo> = emptyList()
+    var localGasStationList: List<StationDetailInfo> = emptyList()
 
-    private val stationInfoRepository = RepositoryModule.provideStationInfoRepository()
+    private val _stationList = MutableStateFlow<List<StationDetailInfo>>(emptyList())
+    val stationList: StateFlow<List<StationDetailInfo>> get() = _stationList
 
-    fun requestOilList(
+    fun requestStationList(
         wgsX: String, wgsY: String, katecX: String, katecY: String
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            syncLoading(LoadingState.LOADING)
-            stationInfoRepository.requestStationList(
+            loadingState.value = LoadingState.LOADING
+
+            requestStationUseCase.invoke(
                 wgsX,
                 wgsY,
                 katecX,
                 katecY,
-                oilCondition.radius,
-                oilCondition.sort,
-                oilCondition.oilKind
+                oilCondition
             ).collect { listData ->
                 _stationList.value = listData
-                syncIsEmpty(listData.size)
-                syncLoading(LoadingState.COMPLETE)
+                isEmpty.value = listData.isEmpty()
+                loadingState.value = LoadingState.COMPLETE
             }
         }
-    }
-
-    private fun syncLoading(loadingState: LoadingState) {
-        when (loadingState) {
-            LoadingState.LOADING -> isLoading.value = true
-            LoadingState.COMPLETE -> isLoading.value = false
-        }
-    }
-
-    private fun syncIsEmpty(size: Int) {
-        isEmpty.value = size == 0
     }
 }

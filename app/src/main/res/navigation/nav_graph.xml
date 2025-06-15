@@ -27,11 +27,10 @@
             app:popEnterAnim="@anim/slide_up" />
 
         <action
-            android:id="@+id/action_mainFragment_to_stationDetailFragment"
+            android:id="@+id/action_mainFragment_to_StationDetailFragment"
             app:destination="@id/stationDetailFragment"
             app:enterAnim="@anim/slide_up"
             app:popEnterAnim="@anim/slide_up" />
-
     </fragment>
 
     <fragment
@@ -45,9 +44,11 @@
         android:name="org.techtown.find_gas_station.presentation.ui.oilroundinfo.gasdetailinfo.StationDetailFragment"
         android:label="StationDetailFragment"
         tools:layout="@layout/fragment_station_detail">
+
         <argument
             android:name="stationInfoArg"
-            app:argType="org.techtown.find_gas_station.data.remote.model.station.TotalOilInfo" />
+            app:argType="org.techtown.find_gas_station.presentation.common.TotalOilInfoParcelDTO" />
+
     </fragment>
 
 </navigation>

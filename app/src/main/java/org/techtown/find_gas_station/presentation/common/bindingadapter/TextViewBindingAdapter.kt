@@ -3,28 +3,28 @@ package org.techtown.find_gas_station.presentation.common.bindingadapter
 import android.graphics.Color
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import org.techtown.find_gas_station.data.remote.model.station.TotalOilInfo
+import org.techtown.find_gas_station.presentation.common.TotalOilInfoParcelDTO
 
-@BindingAdapter("sort", "totalOilInfo")
-fun TextView.setDistanceText(sort: String, totalOilInfo: TotalOilInfo) {
+@BindingAdapter("sort", "stationDetailInfo")
+fun TextView.setDistanceText(sort: String, stationDetailInfo: TotalOilInfoParcelDTO) {
 
     var distanceText = ""
 
     when (sort) {
 
         "3" -> {
-            if (totalOilInfo.actDistance.isNotEmpty())
-                distanceText = changeKm(totalOilInfo.actDistance) + "km"
+            if (stationDetailInfo.actualDistance.isNotEmpty())
+                distanceText = changeKm(stationDetailInfo.actualDistance) + "km"
         }
 
         "4" -> {
-            if(totalOilInfo.spendTime.isNotEmpty())
-                distanceText = formatSeconds(totalOilInfo.spendTime.toInt())
+            if(stationDetailInfo.spendTime.isNotEmpty())
+                distanceText = formatSeconds(stationDetailInfo.spendTime.toInt())
         }
 
         else -> {
-            if (totalOilInfo.distance.isNotEmpty())
-                distanceText = changeKm(totalOilInfo.distance) + "km"
+            if (stationDetailInfo.directDistance.isNotEmpty())
+                distanceText = changeKm(stationDetailInfo.directDistance) + "km"
         }
     }
 
@@ -40,11 +40,11 @@ private fun formatSeconds(seconds: Int): String {
     val leftSeconds = seconds % 60
 
     return if (minutes == 0) {
-        "$leftSeconds 초"
+        "$leftSeconds" + "초"
     } else if (leftSeconds == 0) {
-        "$minutes 분"
+        "$minutes" + "분"
     } else {
-        "$minutes 분 $leftSeconds 초"
+        "$minutes" +"분" + " " + "$leftSeconds" + "초"
     }
 }
 

@@ -3,17 +3,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        jcenter() // Warning: this repository is going to shut down soon
-        maven {
-            url 'http://devrepo.kakao.com:8088/nexus/content/groups/public/'
-            allowInsecureProtocol = true //add this line
-
-        }
-        maven {
-            url "https://jitpack.io"
-        }
-
+        maven { url "https://devrepo.kakaomobility.com/repository/kakao-mobility-android-knsdk-public/"}
+        maven { url "https://www.jitpack.io" }
     }
 }
 rootProject.name = "find_gas_station"
 include ':app'
+include ':domain'

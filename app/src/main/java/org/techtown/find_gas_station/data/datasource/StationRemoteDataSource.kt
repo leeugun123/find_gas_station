@@ -1,18 +1,20 @@
 package org.techtown.find_gas_station.data.datasource
 
 import org.techtown.find_gas_station.BuildConfig
-import org.techtown.find_gas_station.data.remote.model.station.GasStationInfoResult
-import org.techtown.find_gas_station.data.remote.model.station.kakao.request.Destination
-import org.techtown.find_gas_station.data.remote.model.station.kakao.request.DirectionRequest
-import org.techtown.find_gas_station.data.remote.model.station.kakao.request.Origin
-import org.techtown.find_gas_station.data.remote.model.station.kakao.response.DirectionResponse
-import org.techtown.find_gas_station.data.remote.model.station.oilDetail.GasStationDetailInfoResult
-import org.techtown.find_gas_station.presentation.di.ApiModule
+import org.techtown.find_gas_station.data.remote.api.KakaoApi
+import org.techtown.find_gas_station.data.remote.api.OpinetApi
+import org.techtown.find_gas_station.data.remote.model.station.detail.GasStationDetailInfoResult
+import org.techtown.find_gas_station.data.remote.model.station.infomation.GasStationInfoResult
+import org.techtown.find_gas_station.data.remote.model.station.kakao.Destination
+import org.techtown.find_gas_station.data.remote.model.station.kakao.DirectionRequest
+import org.techtown.find_gas_station.data.remote.model.station.kakao.DirectionResponse
+import org.techtown.find_gas_station.data.remote.model.station.kakao.Origin
+import javax.inject.Inject
 
-class StationRemoteDataSource {
-
-    private val opinetApiService = ApiModule.provideOpinetApi()
-    private val kakaoApiService = ApiModule.provideKakaoApi()
+class StationRemoteDataSource @Inject constructor(
+    private val opinetApiService: OpinetApi,
+    private val kakaoApiService: KakaoApi
+){
 
     suspend fun fetchStationList(
         katecX: String,
@@ -31,6 +33,7 @@ class StationRemoteDataSource {
             oilKind,
             sort
         )
+
         return if (response.isSuccessful) response.body() else null
     }
 

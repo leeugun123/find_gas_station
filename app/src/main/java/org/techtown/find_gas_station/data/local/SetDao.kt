@@ -5,20 +5,20 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import org.techtown.find_gas_station.data.local.model.OilData
+import org.techtown.find_gas_station.data.datasource.OilAvgRemoteDataSource
+import org.techtown.find_gas_station.data.local.model.OilConditionEntity
 
 @Dao
 interface SetDao {
-
-    @Query("SELECT * FROM OilData")
-    suspend fun getOilLocalData(): OilData
+    @Query("SELECT * FROM OilConditionEntity")
+    suspend fun getOilLocalData(): OilConditionEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(oilData: OilData)
+    suspend fun insert(oilData: OilConditionEntity)
 
-    @Query("DELETE FROM OilData")
+    @Query("DELETE FROM OilConditionEntity")
     suspend fun deleteAll()
 
     @Update
-    suspend fun update(oilData: OilData)
+    suspend fun update(oilData: OilConditionEntity)
 }

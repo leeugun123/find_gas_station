@@ -11,18 +11,19 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import org.techtown.find_gas_station.data.remote.model.station.TotalOilInfo
+import org.techtown.find_gas_station.domain.model.StationDetailInfo
+import org.techtown.find_gas_station.presentation.common.TotalOilInfoParcelDTO
 
 class StationInfoAdapter(
-    private val oilInfoList: List<TotalOilInfo>,
+    private val oilInfoList: List<StationDetailInfo>,
     private val googleMap: GoogleMap,
     private val sort: String,
-    private val totalOilInfoClick: (totalOilInfo: TotalOilInfo) -> Unit,
+    private val totalOilInfoClick: (stationDetailInfo: TotalOilInfoParcelDTO) -> Unit,
 ) : RecyclerView.Adapter<StationInfoViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
-    ): StationInfoViewHolder = StationInfoViewHolder(parent , totalOilInfoClick = totalOilInfoClick)
+    ): StationInfoViewHolder = StationInfoViewHolder(parent, totalOilInfoClick = totalOilInfoClick)
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: StationInfoViewHolder, position: Int) {
@@ -38,7 +39,7 @@ class StationInfoAdapter(
         }
     }
 
-    private fun addMarkerToMap(oilInfo: TotalOilInfo, holder: StationInfoViewHolder) {
+    private fun addMarkerToMap(oilInfo: StationDetailInfo, holder: StationInfoViewHolder) {
 
         val pos = LatLng(oilInfo.wgs84Y.toDouble(), oilInfo.wgs84X.toDouble())
         val bitmapDraw =
@@ -48,7 +49,7 @@ class StationInfoAdapter(
 
         markerOptions.position(pos)
             .title(oilInfo.name)
-            .snippet("현 위치로부터 거리 " + oilInfo.distance + "m")
+            .snippet("현 위치로부터 거리 " + oilInfo.directDistance + "m")
             .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
 
         googleMap.addMarker(markerOptions)

@@ -15,25 +15,27 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import dagger.hilt.android.AndroidEntryPoint
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.data.remote.model.station.TotalOilInfo
 import org.techtown.find_gas_station.databinding.FragmentStationDetailBinding
+import org.techtown.find_gas_station.presentation.common.TotalOilInfoParcelDTO
 import org.techtown.find_gas_station.presentation.common.base.BaseFragment
 import org.techtown.find_gas_station.presentation.ui.oilroundinfo.StationInfoViewModel
 
+@AndroidEntryPoint
 class StationDetailFragment :
     BaseFragment<FragmentStationDetailBinding>(R.layout.fragment_station_detail),
     OnMapReadyCallback {
 
     private lateinit var detailMap: GoogleMap
-    private val stationInfo: TotalOilInfo by lazy { requireArguments().getParcelable("stationInfo")!! }
     private val stationInfoViewModel: StationInfoViewModel by activityViewModels()
+    private val stationInfo: TotalOilInfoParcelDTO by lazy { requireArguments().getParcelable("stationInfo")!! }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        stationInfoViewModel.isConditionChange = false
         initBinding()
         initMapFragment()
+        stationInfoViewModel.isConditionChange = false
     }
 
     private fun initBinding() {
@@ -75,7 +77,7 @@ class StationDetailFragment :
 
         markerOptions.position(pos)
             .title(stationInfo.name)
-            .snippet("현 위치로부터 거리 " + stationInfo.distance + "m")
+            .snippet("현 위치로부터 거리 " + stationInfo.directDistance + "m")
             .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
 
         detailMap.addMarker(markerOptions)

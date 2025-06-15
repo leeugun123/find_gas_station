@@ -1,6 +1,7 @@
 package org.techtown.find_gas_station.presentation.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.addCallback
@@ -11,14 +12,14 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import kotlinx.coroutines.flow.collect
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import org.techtown.find_gas_station.R
-import org.techtown.find_gas_station.data.local.model.OilData
 import org.techtown.find_gas_station.databinding.ActivityMainBinding
+import org.techtown.find_gas_station.domain.model.OilCondition
 import org.techtown.find_gas_station.presentation.ui.oilroundinfo.StationInfoViewModel
 
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private val binding: ActivityMainBinding by lazy {
@@ -33,8 +34,8 @@ class MainActivity : AppCompatActivity() {
 
     private var backPressedTime: Long = 0
 
-    private val setViewModel: SetViewModel by viewModels()
     private val stationInfoViewModel: StationInfoViewModel by viewModels()
+    private val setViewModel: SetViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,11 +87,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateOilCondition() {
-        setViewModel.updateData(
-            OilData(
-                stationInfoViewModel.oilCondition.oilKind,
-                stationInfoViewModel.oilCondition.radius,
-                stationInfoViewModel.oilCondition.sort,
+        setViewModel.updateLocalOilCondition(
+            OilCondition(
+                radius = stationInfoViewModel.oilCondition.radius,
+                sort = stationInfoViewModel.oilCondition.sort,
+                oilKind = stationInfoViewModel.oilCondition.oilKind,
             )
         )
     }
@@ -98,9 +99,9 @@ class MainActivity : AppCompatActivity() {
     private fun observeLocalData() {
         lifecycleScope.launch {
             setViewModel.roomDbOilCondition.collect { oilData->
-                    stationInfoViewModel.oilCondition.radius = oilData.oilRad.toString()
-                    stationInfoViewModel.oilCondition.sort = oilData.oilSort.toString()
-                    stationInfoViewModel.oilCondition.oilKind = oilData.oilName.toString()
+                    stationInfoViewModel.oilCondition.radius = oilData.radius
+                    stationInfoViewModel.oilCondition.sort = oilData.sort
+                    stationInfoViewModel.oilCondition.oilKind = oilData.oilKind
             }
         }
     }
